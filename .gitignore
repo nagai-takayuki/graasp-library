@@ -45,3 +45,7 @@ cypress
 
 # exclude local database
 db.json
+
+# ignore package lock as we use yarn
+package-lock.json
+
