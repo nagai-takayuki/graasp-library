@@ -34,7 +34,7 @@ function Items({ items }) {
       ) : (
         <Grid container spacing={2}>
           {items.map((item) => (
-            <Grid item xs={12} sm={4} md={3} lg={3} xl={2}>
+            <Grid key={item.id} item xs={12} sm={4} md={3} lg={3} xl={2}>
               <Item item={item} />
             </Grid>
           ))}
