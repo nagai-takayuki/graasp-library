@@ -47,6 +47,6 @@ You can leave this file empty.
 
 ### Running Locally
 
-Navigate to the cloned or forked project directory using the command line, then type `yarn start`.
+Navigate to the cloned or forked project directory using the command-line, then type `yarn start`.
 The app will automatically run on `localhost:3000`. Any changes you make should be automatically
 rendered in the browser.
