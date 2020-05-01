@@ -26,7 +26,7 @@
 ## Getting Started
 
 To run this app locally you need to have [Node](https://nodejs.org) and
-[NPM](https://www.npmjs.com) installed in your operating system. We strongly recommend that you
+[NPM](https://www.npmjs.com) installed on your operating system. We strongly recommend that you
 also have [Yarn](https://yarnpkg.com/). All the commands that you will see here use `yarn`,
 but they have an `npm` equivalent.
 
@@ -47,6 +47,6 @@ You can leave this file empty.
 
 ### Running Locally
 
-Navigate to the cloned or forked project directory using the command line, type `yarn start`.
+Navigate to the cloned or forked project directory using the command-line, then type `yarn start`.
 The app will automatically run on `localhost:3000`. Any changes you make should be automatically
 rendered in the browser.
