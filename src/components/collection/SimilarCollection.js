@@ -73,15 +73,6 @@ export const SimilarCollection = ({ similarCollection }) => {
 };
 
 SimilarCollection.propTypes = {
-  classes: PropTypes.shape({
-    avatar: PropTypes.string.isRequired,
-    root: PropTypes.string.isRequired,
-    media: PropTypes.string.isRequired,
-  }).isRequired,
-  space: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-  }).isRequired,
   similarCollection: PropTypes.shape({
     name: PropTypes.string,
     image: PropTypes.string,
