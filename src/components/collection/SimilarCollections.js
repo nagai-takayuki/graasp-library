@@ -28,7 +28,7 @@ function SimilarCollections({ similarCollections }) {
       {!similarCollections.length ? (
         <div className="Main">
           <Typography variant="h5" color="inherit">
-            {t('This collection is empty.')}
+            {t('There are no similar collections available.')}
           </Typography>
         </div>
       ) : (
@@ -52,20 +52,20 @@ function SimilarCollections({ similarCollections }) {
   );
 }
 
-// Items.propTypes = {
-//   items: PropTypes.arrayOf(
-//     PropTypes.shape({
-//       image: PropTypes.string,
-//       description: PropTypes.string,
-//       viewLink: PropTypes.func,
-//       id: PropTypes.string,
-//       name: PropTypes.string,
-//     }),
-//   ),
-// };
+SimilarCollections.propTypes = {
+  similarCollections: PropTypes.arrayOf(
+    PropTypes.shape({
+      image: PropTypes.string,
+      description: PropTypes.string,
+      viewLink: PropTypes.func,
+      id: PropTypes.string,
+      name: PropTypes.string,
+    }),
+  ),
+};
 
-// Items.defaultProps = {
-//   items: [],
-// };
+SimilarCollections.defaultProps = {
+  similarCollections: [],
+};
 
 export default SimilarCollections;

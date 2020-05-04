@@ -1,16 +1,10 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Badge from '@material-ui/core/Badge';
-import {
-  Favorite,
-  Visibility,
-  Email,
-  Facebook,
-  Twitter,
-} from '@material-ui/icons';
+import { Favorite, Visibility } from '@material-ui/icons';
 import { Rating } from '@material-ui/lab';
 import PropTypes from 'prop-types';
-import { Grid, IconButton } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   badges: {

@@ -149,8 +149,7 @@ export const comments = [
   },
 ];
 
-//Similar Collections
-
+// similar collections
 export const similarCollections = [
   {
     id: 1,
