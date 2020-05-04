@@ -37,21 +37,25 @@ export const SimilarCollection = ({ similarCollection }) => {
   } = similarCollection;
   const classes = useStyles();
 
+  const avatar = (
+    <Avatar
+      aria-label={creator.name}
+      src={creator.avatar}
+      title={creator.name}
+    />
+  );
+
+  const action = (
+    <IconButton aria-label="settings">
+      <MoreVertIcon />
+    </IconButton>
+  );
+
   return (
     <Card className={classes.root}>
       <CardHeader
-        avatar={
-          <Avatar
-            aria-label={creator.name}
-            src={creator.avatar}
-            title={creator.name}
-          />
-        }
-        action={
-          <IconButton aria-label="settings">
-            <MoreVertIcon />
-          </IconButton>
-        }
+        avatar={avatar}
+        action={action}
         title={name}
         subheader={`a collection by ${creator.name}`}
       />
