@@ -11,6 +11,8 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import { red } from '@material-ui/core/colors';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 import SimilarCollectionBadges from './SimilarCollectionBadges';
 
 const useStyles = makeStyles(() => ({
@@ -36,6 +38,13 @@ export const SimilarCollection = ({ similarCollection }) => {
     rating,
   } = similarCollection;
   const classes = useStyles();
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   const avatar = (
     <Avatar
@@ -46,8 +55,18 @@ export const SimilarCollection = ({ similarCollection }) => {
   );
 
   const action = (
-    <IconButton aria-label="settings">
-      <MoreVertIcon />
+    <IconButton aria-label="actions">
+      <MoreVertIcon onClick={handleClick} />
+      <Menu
+        id="actions-menu"
+        anchorEl={anchorEl}
+        keepMounted
+        open={Boolean(anchorEl)}
+        onClose={handleClose}
+      >
+        <MenuItem onClick={handleClose}>Save Collection</MenuItem>
+        <MenuItem onClick={handleClose}>Copy link</MenuItem>
+      </Menu>
     </IconButton>
   );
 
@@ -81,8 +100,8 @@ SimilarCollection.propTypes = {
       name: PropTypes.string,
       avatar: PropTypes.string,
     }),
-    views: PropTypes.number,
     likes: PropTypes.number,
+    views: PropTypes.number,
     rating: PropTypes.shape({
       value: PropTypes.number,
       count: PropTypes.number,

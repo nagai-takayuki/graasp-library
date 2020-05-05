@@ -51,8 +51,8 @@ function SimilarCollectionBadges({ views, likes, rating }) {
 }
 
 SimilarCollectionBadges.propTypes = {
-  views: PropTypes.number,
   likes: PropTypes.number,
+  views: PropTypes.number,
   rating: PropTypes.shape({
     count: PropTypes.number,
     value: PropTypes.number,

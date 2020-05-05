@@ -55,11 +55,20 @@ function SimilarCollections({ similarCollections }) {
 SimilarCollections.propTypes = {
   similarCollections: PropTypes.arrayOf(
     PropTypes.shape({
+      id: PropTypes.number,
+      name: PropTypes.string,
       image: PropTypes.string,
       description: PropTypes.string,
-      viewLink: PropTypes.func,
-      id: PropTypes.string,
-      name: PropTypes.string,
+      creator: PropTypes.shape({
+        name: PropTypes.string,
+        avatar: PropTypes.string,
+      }),
+      likes: PropTypes.number,
+      views: PropTypes.number,
+      rating: PropTypes.shape({
+        value: PropTypes.number,
+        count: PropTypes.number,
+      }),
     }),
   ),
 };
