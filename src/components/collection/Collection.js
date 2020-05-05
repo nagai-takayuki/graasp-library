@@ -5,6 +5,7 @@ import { Divider } from '@material-ui/core';
 import Summary from './Summary';
 import Items from './Items';
 import Comments from './Comments';
+import SimilarCollections from './SimilarCollections';
 import {
   comments,
   contributors,
@@ -15,6 +16,7 @@ import {
   likes,
   name,
   rating,
+  similarCollections,
   views,
 } from '../../data/sample';
 
@@ -48,6 +50,8 @@ function Collection() {
       <Items items={items} />
       <Divider className={classes.divider} />
       <Comments comments={comments} />
+      <Divider className={classes.divider} />
+      <SimilarCollections similarCollections={similarCollections} />
     </div>
   );
 }

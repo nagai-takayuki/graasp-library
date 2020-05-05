@@ -148,3 +148,135 @@ export const comments = [
     date: '02 Apr 2020 20:31',
   },
 ];
+
+// similar collections
+export const similarCollections = [
+  {
+    id: 1,
+    name: 'Capitalism',
+    image:
+      'https://images.unsplash.com/photo-1516937941344-00b4e0337589?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80',
+    description:
+      'Capitalism is an economic system based on the private ownership of the means of production and their operation for profit. Characteristics central to capitalism include private property, capital accumulation, wage labor, voluntary exchange, a price system and competitive markets.',
+    creator: {
+      name: 'Ernie Brady',
+      avatar: 'https://api.adorable.io/avatars/130.png',
+    },
+    contributors: [
+      {
+        name: 'Cleopatra Snow',
+        avatar: 'https://api.adorable.io/avatars/66',
+      },
+      {
+        name: 'Ira Isabel',
+        avatar: 'https://api.adorable.io/avatars/177',
+      },
+      {
+        name: 'Maxim Eugene',
+        avatar: 'https://api.adorable.io/avatars/114',
+      },
+    ],
+    views: 29192,
+    likes: 55,
+    rating: {
+      value: 4,
+      count: 100,
+    },
+  },
+  {
+    id: 2,
+    name: 'The Anthropocene',
+    image:
+      'https://images.unsplash.com/photo-1528642474498-1af0c17fd8c3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80',
+    description:
+      "The Anthropocene is a geological epoch dating from the commencement of significant human impact on Earth's geology and ecosystems, including anthropogenic climate change. Various start dates for the Anthropocene have been proposed, ranging from 12,000–15,000 years ago to as recently as the 1960s.",
+    creator: {
+      name: 'Waverley Crosby',
+      avatar: 'https://api.adorable.io/avatars/156',
+    },
+    contributors: [
+      {
+        name: 'Brevin Dax',
+        avatar: 'https://api.adorable.io/avatars/45',
+      },
+      {
+        name: 'Zayne Paolo',
+        avatar: 'https://api.adorable.io/avatars/100',
+      },
+      {
+        name: 'Anthea Dixie',
+        avatar: 'https://api.adorable.io/avatars/22',
+      },
+    ],
+    views: 19019,
+    likes: 89,
+    rating: {
+      value: 5,
+      count: 157,
+    },
+  },
+  {
+    id: 3,
+    name: 'Fossil Fuels',
+    image:
+      'https://images.unsplash.com/photo-1546289917-e018604f4afa?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80',
+    description:
+      'A fossil fuel is a fuel formed by natural processes, such as anaerobic decomposition of buried dead organisms, containing organic molecules originating in ancient photosynthesis that release energy in combustion. The burning of fossil fuels raises serious environmental concerns, due to its release of carbon dioxide (CO2).',
+    creator: {
+      name: 'Nanette Miriam',
+      avatar: 'https://api.adorable.io/avatars/310',
+    },
+    contributors: [
+      {
+        name: 'Elsa Jo',
+        avatar: 'https://api.adorable.io/avatars/212',
+      },
+      {
+        name: 'Quentin Wyatt',
+        avatar: 'https://api.adorable.io/avatars/223',
+      },
+      {
+        name: 'Vladimir Ulysses',
+        avatar: 'https://api.adorable.io/avatars/12',
+      },
+    ],
+    views: 10101,
+    likes: 67,
+    rating: {
+      value: 4,
+      count: 90,
+    },
+  },
+  {
+    id: 4,
+    name: 'Age of Enlightenment',
+    image:
+      'https://images.unsplash.com/photo-1521587760476-6c12a4b040da?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80',
+    description:
+      'The Age of Enlightenment was an intellectual and philosophical movement that dominated the world of ideas in Europe during the 17th to 19th centuries. The Enlightenment included a range of ideas centered on the sovereignty of reason and the evidence of the senses as the primary sources of knowledge.',
+    creator: {
+      name: 'Emily Emmett',
+      avatar: 'https://api.adorable.io/avatars/114',
+    },
+    contributors: [
+      {
+        name: 'Aubreanna Alexis',
+        avatar: 'https://api.adorable.io/avatars/99',
+      },
+      {
+        name: 'Chanel Thompson',
+        avatar: 'https://api.adorable.io/avatars/250',
+      },
+      {
+        name: 'Kristoff Wolfgang',
+        avatar: 'https://api.adorable.io/avatars/33',
+      },
+    ],
+    views: 28912,
+    likes: 155,
+    rating: {
+      value: 5,
+      count: 240,
+    },
+  },
+];

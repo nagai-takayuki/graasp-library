@@ -86,18 +86,6 @@ export const Item = ({ item }) => {
 };
 
 Item.propTypes = {
-  classes: PropTypes.shape({
-    media: PropTypes.string.isRequired,
-    card: PropTypes.string.isRequired,
-    cardDescription: PropTypes.string.isRequired,
-    cardDescriptionText: PropTypes.string.isRequired,
-    expand: PropTypes.string.isRequired,
-    expandOpen: PropTypes.string.isRequired,
-  }).isRequired,
-  space: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-  }).isRequired,
   item: PropTypes.shape({
     image: PropTypes.string,
     description: PropTypes.string,
