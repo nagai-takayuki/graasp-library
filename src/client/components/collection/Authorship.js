@@ -31,7 +31,7 @@ function Authorship({ author, contributors }) {
             <Avatar alt={authorName} src={authorAvatar} />
           </Grid>
           <Grid item className={classes.authorName}>
-            {authorName}
+            <Typography variant="body1">{authorName}</Typography>
           </Grid>
         </Grid>
       </Grid>

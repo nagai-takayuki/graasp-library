@@ -1,11 +1,13 @@
 import React from 'react';
+// todo: make dynamic
 // import { useParams } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { Divider } from '@material-ui/core';
 import Summary from './Summary';
 import Items from './Items';
 import Comments from './Comments';
-import SimilarCollections from './SimilarCollections';
+// todo: get similar collections in same call
+// import SimilarCollections from './SimilarCollections';
 import {
   comments,
   contributors,
@@ -16,7 +18,8 @@ import {
   likes,
   name,
   rating,
-  similarCollections,
+  // todo: get similar collections in same call
+  // similarCollections,
   views,
 } from '../../data/sample';
 
@@ -30,6 +33,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Collection() {
+  // todo: make dynamic
   // const { id } = useParams();
 
   const classes = useStyles();
@@ -50,8 +54,6 @@ function Collection() {
       <Items items={items} />
       <Divider className={classes.divider} />
       <Comments comments={comments} />
-      <Divider className={classes.divider} />
-      <SimilarCollections similarCollections={similarCollections} />
     </div>
   );
 }

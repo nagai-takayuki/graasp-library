@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import Home from './home/Home';
 import Collection from './collection/Collection';
@@ -13,7 +13,7 @@ const useStyles = makeStyles(() => ({
 function App() {
   const classes = useStyles();
   return (
-    <Router>
+    <>
       <Header />
       <main className={classes.main}>
         <Switch>
@@ -26,7 +26,7 @@ function App() {
         </Switch>
       </main>
       <Footer />
-    </Router>
+    </>
   );
 }
 

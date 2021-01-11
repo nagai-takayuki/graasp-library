@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ReactQuill from 'react-quill';
+import GraaspQuill from './GraaspQuill';
 import { hasMath, renderMath } from '../../utils/math';
 
 const modules = {
@@ -29,7 +29,7 @@ export const Text = ({ content, style, className, id }) => {
   }
   return (
     <div style={style} id={id}>
-      <ReactQuill
+      <GraaspQuill
         className={className}
         value={parsedContent}
         modules={modules}

@@ -9,13 +9,10 @@ import {
   INLINE_MATH_REGEX,
 } from '../config/constants';
 
-const hasMath = (input = '') => {
-  return (
-    _.isString(input) &&
-    (input.includes(BLOCK_MATH_INDICATOR) ||
-      input.includes(INLINE_MATH_INDICATOR))
-  );
-};
+const hasMath = (input = '') =>
+  _.isString(input) &&
+  (input.includes(BLOCK_MATH_INDICATOR) ||
+    input.includes(INLINE_MATH_INDICATOR));
 
 const renderToString = (input = '', indicator, regex, div) => {
   let output = input;
