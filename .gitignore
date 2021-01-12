@@ -14,7 +14,6 @@ jspm_packages
 # misc
 .DS_Store
 .env.*
-env*
 
 # include encrypted environment variables
 !.env*.encrypted
