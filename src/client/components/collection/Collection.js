@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 // todo: make dynamic
 // import { useParams } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
@@ -6,22 +6,9 @@ import { Divider } from '@material-ui/core';
 import Summary from './Summary';
 import Items from './Items';
 import Comments from './Comments';
+import { CollectionContext } from '../CollectionProvider';
 // todo: get similar collections in same call
 // import SimilarCollections from './SimilarCollections';
-import {
-  comments,
-  contributors,
-  creator,
-  description,
-  image,
-  items,
-  likes,
-  name,
-  rating,
-  // todo: get similar collections in same call
-  // similarCollections,
-  views,
-} from '../../data/sample';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,6 +22,21 @@ const useStyles = makeStyles((theme) => ({
 function Collection() {
   // todo: make dynamic
   // const { id } = useParams();
+
+  const {
+    comments,
+    contributors,
+    creator,
+    description,
+    image,
+    items,
+    likes,
+    name,
+    rating,
+    // todo: get similar collections in same call
+    // similarCollections,
+    views,
+  } = useContext(CollectionContext);
 
   const classes = useStyles();
 
