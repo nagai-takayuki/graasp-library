@@ -14,6 +14,8 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Text from '../common/Text';
 import ITEM_DEFAULT_IMAGE from '../../resources/icon.png';
 import { ITEM_TYPES, MIME_TYPES } from '../../config/constants';
+import { openInNewTab } from '../../config/helpers';
+import { buildSpaceRoute } from '../../config/routes';
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -71,11 +73,27 @@ export const Item = ({ item }) => {
     setExpanded(!expanded);
   };
 
+  const handleItemClick = () => {
+    switch (category) {
+      case ITEM_TYPES.SPACE: {
+        const spaceUrl = buildSpaceRoute(id);
+        openInNewTab(spaceUrl);
+        break;
+      }
+      case ITEM_TYPES.APPLICATION:
+      case ITEM_TYPES.RESOURCE:
+      default:
+        if (url) {
+          openInNewTab(url);
+        }
+    }
+  };
+
   const imageUrl = getImageUrlForItem({ url, image, category, mimeType });
 
   return (
     <Card id={id} className={classes.card}>
-      <CardActionArea>
+      <CardActionArea onClick={handleItemClick}>
         <CardMedia className={classes.media} image={imageUrl} title={name} />
 
         <CardContent>
@@ -119,6 +137,7 @@ Item.propTypes = {
     url: PropTypes.string,
     mimeType: PropTypes.string,
     category: PropTypes.oneOf(Object.values(ITEM_TYPES)).isRequired,
+    type: PropTypes.string,
   }).isRequired,
 };
 
