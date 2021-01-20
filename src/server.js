@@ -1,9 +1,10 @@
 import React from 'react';
 import { StaticRouter } from 'react-router-dom';
 import express from 'express';
+import ObjectId from 'bson-objectid';
 import { renderToString } from 'react-dom/server';
 import Root from './client/components/Root';
-import { getCollection } from './api/collection';
+import { getCollection, getCollections } from './api/collection';
 import { CollectionProvider } from './client/components/CollectionProvider';
 
 // eslint-disable-next-line import/no-dynamic-require
@@ -57,8 +58,15 @@ const handleRender = (req, res, data) => {
   }
 };
 
+const handleAllCollectionsRender = (req, res) => {
+  getCollections((collection) => handleRender(req, res, collection));
+};
+
 const handleCollectionRender = (req, res) => {
   const id = req.path.split('/')[2];
+  if (!ObjectId.isValid(id)) {
+    throw new Error(`id '${id}' is not valid`);
+  }
   getCollection(id, (collection) => handleRender(req, res, collection));
 };
 
@@ -67,6 +75,6 @@ server
   .disable('x-powered-by')
   .use(express.static(process.env.RAZZLE_PUBLIC_DIR))
   .get('/collections/*', handleCollectionRender)
-  .get('/*', handleRender);
+  .get('/*', handleAllCollectionsRender);
 
 export default server;
