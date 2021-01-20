@@ -16,7 +16,7 @@ class CollectionProvider extends React.Component {
 
   state = (() => {
     const { data } = this.props;
-    return { ...data };
+    return data;
   })();
 
   render() {

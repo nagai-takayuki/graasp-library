@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import CardMedia from '@material-ui/core/CardMedia';
 import Card from '@material-ui/core/Card';
 import Authorship from './Authorship';
+import ITEM_DEFAULT_IMAGE from '../../resources/icon.png';
 import Badges from './Badges';
 
 const useStyles = makeStyles((theme) => ({
@@ -33,7 +34,6 @@ function Summary({
   contributors,
   likes,
   views,
-  rating,
 }) {
   const classes = useStyles();
   return (
@@ -41,14 +41,18 @@ function Summary({
       <Grid container spacing={2}>
         <Grid item sm={12} md={6} className={classes.centeredGridItem}>
           <Card className={classes.card}>
-            <CardMedia className={classes.media} image={image} title={name} />
+            <CardMedia
+              className={classes.media}
+              image={image?.thumbnailUrl || ITEM_DEFAULT_IMAGE}
+              title={name}
+            />
           </Card>
         </Grid>
         <Grid item sm={12} md={6}>
           <Typography variant="h1" gutterBottom>
             {name}
           </Typography>
-          <Badges views={views} likes={likes} rating={rating} />
+          <Badges views={views} likes={likes} />
           <Typography variant="body1" gutterBottom>
             {description}
           </Typography>
