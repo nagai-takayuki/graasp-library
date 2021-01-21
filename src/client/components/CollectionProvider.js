@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 
 const CollectionContext = React.createContext();
 
+const DEFAULT_STATE = { collections: [], current: {} };
+
 // eslint-disable-next-line react/prefer-stateless-function
 class CollectionProvider extends React.Component {
   static propTypes = {
@@ -17,7 +19,7 @@ class CollectionProvider extends React.Component {
   render() {
     const { children, data } = this.props;
     return (
-      <CollectionContext.Provider value={data}>
+      <CollectionContext.Provider value={{ ...DEFAULT_STATE, ...data }}>
         {children}
       </CollectionContext.Provider>
     );

@@ -2,7 +2,6 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Badge from '@material-ui/core/Badge';
 import { Favorite, Visibility } from '@material-ui/icons';
-import { Rating } from '@material-ui/lab';
 import PropTypes from 'prop-types';
 import { Grid } from '@material-ui/core';
 
@@ -20,10 +19,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function SimilarCollectionBadges({ views, likes, rating }) {
+function SimilarCollectionBadges({ views, voteScore }) {
   const classes = useStyles();
-
-  const { count, value } = rating;
 
   return (
     <Grid container className={classes.root}>
@@ -35,15 +32,16 @@ function SimilarCollectionBadges({ views, likes, rating }) {
         alignItems="center"
       >
         <div className={classes.badges}>
-          <Badge badgeContent={count} color="secondary" max={999}>
-            <Rating value={value} />
-          </Badge>
-          <Badge badgeContent={likes} color="secondary" max={999}>
-            <Favorite color="primary" />
-          </Badge>
-          <Badge badgeContent={views} color="secondary" max={999}>
-            <Visibility color="primary" />
-          </Badge>
+          {Boolean(voteScore) && (
+            <Badge badgeContent={voteScore} color="secondary" max={999}>
+              <Favorite color="primary" />
+            </Badge>
+          )}
+          {views && (
+            <Badge badgeContent={views} color="secondary" max={999}>
+              <Visibility color="primary" />
+            </Badge>
+          )}
         </div>
       </Grid>
     </Grid>
@@ -51,7 +49,7 @@ function SimilarCollectionBadges({ views, likes, rating }) {
 }
 
 SimilarCollectionBadges.propTypes = {
-  likes: PropTypes.number,
+  voteScore: PropTypes.number,
   views: PropTypes.number,
   rating: PropTypes.shape({
     count: PropTypes.number,
@@ -61,7 +59,7 @@ SimilarCollectionBadges.propTypes = {
 
 SimilarCollectionBadges.defaultProps = {
   views: 0,
-  likes: 0,
+  voteScore: 0,
   rating: {
     count: 0,
     value: 0,

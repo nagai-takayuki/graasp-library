@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
+import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import Avatar from '@material-ui/core/Avatar';
@@ -14,6 +15,10 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import SimilarCollectionBadges from './SimilarCollectionBadges';
+import DEFAULT_COLLECTION_IMAGE from '../../resources/icon.png';
+import { getAvatar } from '../../utils/layout';
+import { buildCollectionRoute } from '../../config/routes';
+import { openInNewTab } from '../../config/helpers';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -24,17 +29,17 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-export const SimilarCollection = ({ similarCollection }) => {
+export const CollectionCard = ({ collection = {} }) => {
   const { t } = useTranslation();
   const {
     name,
-    image,
+    id,
+    image = {},
     description,
-    creator,
+    author = {},
     views,
-    likes,
-    rating,
-  } = similarCollection;
+    voteScore,
+  } = collection;
   const classes = useStyles();
   const [actionsMenuAnchor, setActionsMenuAnchor] = React.useState(null);
   const handleClick = (event) => {
@@ -44,11 +49,16 @@ export const SimilarCollection = ({ similarCollection }) => {
     setActionsMenuAnchor(null);
   };
 
+  const handleCollectionClick = () => {
+    const spaceUrl = buildCollectionRoute(id);
+    openInNewTab(spaceUrl);
+  };
+
   const avatar = (
     <Avatar
-      aria-label={creator.name}
-      src={creator.avatar}
-      title={creator.name}
+      aria-label={author.name}
+      src={getAvatar(author.image)}
+      title={author.name}
     />
   );
 
@@ -68,43 +78,49 @@ export const SimilarCollection = ({ similarCollection }) => {
     </IconButton>
   );
 
+  const { thumbnailUrl = DEFAULT_COLLECTION_IMAGE } = image;
+
   return (
     <Card className={classes.root}>
       <CardHeader
         avatar={avatar}
         action={action}
         title={name}
-        subheader={`${t('a collection by')} ${creator.name}`}
+        subheader={`${t('a collection by')} ${author.name}`}
       />
-      <CardMedia className={classes.media} image={image} title={name} />
+      <CardActionArea onClick={handleCollectionClick}>
+        <CardMedia
+          className={classes.media}
+          image={thumbnailUrl}
+          title={name}
+          component="img"
+        />
+      </CardActionArea>
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">
           {description}
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <SimilarCollectionBadges views={views} likes={likes} rating={rating} />
+        <SimilarCollectionBadges views={views} voteScore={voteScore} />
       </CardActions>
     </Card>
   );
 };
 
-SimilarCollection.propTypes = {
-  similarCollection: PropTypes.shape({
+CollectionCard.propTypes = {
+  collection: PropTypes.shape({
     name: PropTypes.string,
+    id: PropTypes.string.isRequired,
     image: PropTypes.string,
     description: PropTypes.string,
-    creator: PropTypes.shape({
+    author: PropTypes.shape({
       name: PropTypes.string,
-      avatar: PropTypes.string,
+      image: PropTypes.shape({}),
     }),
-    likes: PropTypes.number,
+    voteScore: PropTypes.number,
     views: PropTypes.number,
-    rating: PropTypes.shape({
-      value: PropTypes.number,
-      count: PropTypes.number,
-    }),
   }).isRequired,
 };
 
-export default SimilarCollection;
+export default CollectionCard;

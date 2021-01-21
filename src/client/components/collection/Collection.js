@@ -25,17 +25,19 @@ function Collection() {
   // const { id } = useParams();
 
   const {
-    id,
-    comments,
-    description,
-    image,
-    subitems: items,
-    voteScore: likes,
-    name,
-    // todo: get similar collections in same call
-    // similarCollections,
-    views,
-    members,
+    current: {
+      id,
+      comments,
+      description,
+      image,
+      subitems: items,
+      voteScore: likes,
+      name,
+      // todo: get similar collections in same call
+      // similarCollections,
+      views,
+      members,
+    },
   } = useContext(CollectionContext);
 
   const creator = members.find(({ type }) => type === MEMBER_TYPES.OWNER);

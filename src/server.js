@@ -8,8 +8,9 @@ import Root from './client/components/Root';
 import { getCollection, getCollections } from './api/collection';
 import { CollectionProvider } from './client/components/CollectionProvider';
 import {
+  buildCollectionRoute,
   buildSpaceRoute,
-  COLLECTION_ROUTE,
+  COLLECTIONS_ROUTE,
   HOME_ROUTE,
 } from './client/config/routes';
 
@@ -75,7 +76,7 @@ const handleSpaceRender = (req, res) => {
 };
 
 const handleAllCollectionsRender = (req, res) => {
-  getCollections((collection) => handleRender(req, res, collection));
+  getCollections((collections) => handleRender(req, res, { collections }));
 };
 
 const handleCollectionRender = (req, res) => {
@@ -83,14 +84,17 @@ const handleCollectionRender = (req, res) => {
   if (!ObjectId.isValid(id)) {
     throw new Error(`id '${id}' is not valid`);
   }
-  getCollection(id, (collection) => handleRender(req, res, collection));
+  getCollection(id, (collection) =>
+    handleRender(req, res, { current: collection }),
+  );
 };
 
 const server = express();
 server
   .disable('x-powered-by')
   .use(express.static(process.env.RAZZLE_PUBLIC_DIR))
-  .get(COLLECTION_ROUTE, handleCollectionRender)
+  .get(COLLECTIONS_ROUTE, handleAllCollectionsRender)
+  .get(buildCollectionRoute(), handleCollectionRender)
   .get(buildSpaceRoute(), handleSpaceRender)
   .get(HOME_ROUTE, handleAllCollectionsRender);
 
