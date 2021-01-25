@@ -13,6 +13,7 @@
   },
   "parser": "babel-eslint",
   "rules": {
+    "curly": "error",
     "no-underscore-dangle": [
       "error",
       {
