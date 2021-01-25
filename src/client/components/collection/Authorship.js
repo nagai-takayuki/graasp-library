@@ -5,6 +5,7 @@ import AvatarGroup from '@material-ui/lab/AvatarGroup';
 import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
+import { getAvatar } from '../../utils/layout';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -18,7 +19,9 @@ const useStyles = makeStyles((theme) => ({
 function Authorship({ author, contributors }) {
   const { t } = useTranslation();
   const classes = useStyles();
-  const { avatar: authorAvatar, name: authorName } = author;
+  const { image, name: authorName } = author;
+
+  const authorAvatar = getAvatar(image);
 
   return (
     <Grid container className={classes.root}>
@@ -35,20 +38,23 @@ function Authorship({ author, contributors }) {
           </Grid>
         </Grid>
       </Grid>
-      <Grid item xs={12} sm={6}>
-        <Typography variant="h5" gutterBottom>
-          {t('Contributors')}
-        </Typography>
-        <AvatarGroup max={12}>
-          {contributors.map((contributor) => {
-            const {
-              name: contributorName,
-              avatar: contributorAvatar,
-            } = contributor;
-            return <Avatar alt={contributorName} src={contributorAvatar} />;
-          })}
-        </AvatarGroup>
-      </Grid>
+      {Boolean(contributors.length) && (
+        <Grid item xs={12} sm={6}>
+          <Typography variant="h5" gutterBottom>
+            {t('Contributors')}
+          </Typography>
+          <AvatarGroup max={12}>
+            {contributors.map((contributor) => {
+              const {
+                name: contributorName,
+                image: contributorAvatar,
+              } = contributor;
+              const avatar = getAvatar(contributorAvatar);
+              return <Avatar alt={contributorName} src={avatar} />;
+            })}
+          </AvatarGroup>
+        </Grid>
+      )}
     </Grid>
   );
 }
@@ -56,12 +62,12 @@ function Authorship({ author, contributors }) {
 Authorship.propTypes = {
   author: PropTypes.shape({
     name: PropTypes.string,
-    avatar: PropTypes.string,
+    image: PropTypes.string,
   }).isRequired,
   contributors: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string,
-      avatar: PropTypes.string,
+      image: PropTypes.string,
     }),
   ),
 };

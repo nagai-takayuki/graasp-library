@@ -12,6 +12,8 @@ import Collapse from '@material-ui/core/Collapse';
 import IconButton from '@material-ui/core/IconButton';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Text from '../common/Text';
+import ITEM_DEFAULT_IMAGE from '../../resources/icon.png';
+import { ITEM_TYPES, MIME_TYPES } from '../../config/constants';
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -21,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
   cardDescriptionText: {
     '& p': {
       fontSize: 'large',
+      fontFamily: theme.typography.fontFamily,
     },
   },
   media: {
@@ -41,18 +44,39 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const getImageUrlForItem = ({ image, category, mimeType }) => {
+  switch (category) {
+    case ITEM_TYPES.APPLICATION:
+    case ITEM_TYPES.SPACE:
+      return image?.thumbnailUrl || ITEM_DEFAULT_IMAGE;
+
+    case ITEM_TYPES.RESOURCE:
+      switch (mimeType) {
+        case MIME_TYPES.TEXT:
+        case MIME_TYPES.HTML:
+          return image?.thumbnailUrl || ITEM_DEFAULT_IMAGE;
+        default:
+          return ITEM_DEFAULT_IMAGE;
+      }
+    default:
+      return ITEM_DEFAULT_IMAGE;
+  }
+};
+
 export const Item = ({ item }) => {
-  const { image, description, viewLink, name } = item;
+  const { description, name, url, id, image, category, mimeType } = item;
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
 
+  const imageUrl = getImageUrlForItem({ url, image, category, mimeType });
+
   return (
-    <Card className={classes.card}>
-      <CardActionArea onClick={viewLink}>
-        <CardMedia className={classes.media} image={image} title={name} />
+    <Card id={id} className={classes.card}>
+      <CardActionArea>
+        <CardMedia className={classes.media} image={imageUrl} title={name} />
 
         <CardContent>
           <Typography variant="h5" component="h2" noWrap>
@@ -92,6 +116,9 @@ Item.propTypes = {
     viewLink: PropTypes.func,
     id: PropTypes.string,
     name: PropTypes.string,
+    url: PropTypes.string,
+    mimeType: PropTypes.string,
+    category: PropTypes.oneOf(Object.values(ITEM_TYPES)).isRequired,
   }).isRequired,
 };
 

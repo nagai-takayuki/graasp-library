@@ -19,6 +19,10 @@ const useStyles = makeStyles((theme) => ({
 function Comments({ comments }) {
   const classes = useStyles();
 
+  if (!comments || !comments.length) {
+    return null;
+  }
+
   return (
     <>
       <CommentsHeader />
@@ -26,8 +30,8 @@ function Comments({ comments }) {
         <Grid item xs={12}>
           <List className={classes.root}>
             {comments.map((comment) => {
-              const { id } = comment;
-              return <Comment key={id} comment={comment} />;
+              const { published } = comment;
+              return <Comment key={published} comment={comment} />;
             })}
           </List>
         </Grid>
