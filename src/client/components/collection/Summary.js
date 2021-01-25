@@ -35,6 +35,7 @@ function Summary({
   likes,
   views,
 }) {
+  console.log(description);
   const classes = useStyles();
   return (
     <div className={classes.root}>
@@ -53,8 +54,8 @@ function Summary({
             {name}
           </Typography>
           <Badges views={views} likes={likes} />
-          <Typography variant="body1" gutterBottom>
-            {description}
+          <Typography variant="body1" gutterBottom component="p">
+            <div dangerouslySetInnerHTML={{ __html: description }} />
           </Typography>
           <Authorship author={creator} contributors={contributors} />
         </Grid>
