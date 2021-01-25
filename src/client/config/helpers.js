@@ -1,7 +1,8 @@
 const openInNewTab = (url) => {
-  console.log('url: ', url);
   const newWindow = window.open(url, '_blank', 'noopener,noreferrer');
-  if (newWindow) newWindow.opener = null;
+  if (newWindow) {
+    newWindow.opener = null;
+  }
 };
 
 export {

@@ -65,7 +65,7 @@ const handleRender = (req, res, data) => {
 };
 
 const handleSpaceRender = (req, res) => {
-  const id = req.path.split('/')[2];
+  const { id } = req.params;
   if (!ObjectId.isValid(id)) {
     throw new Error(`id '${id}' is not valid`);
   }
@@ -79,7 +79,7 @@ const handleAllCollectionsRender = (req, res) => {
 };
 
 const handleCollectionRender = (req, res) => {
-  const id = req.path.split('/')[2];
+  const { id } = req.params;
   if (!ObjectId.isValid(id)) {
     throw new Error(`id '${id}' is not valid`);
   }
