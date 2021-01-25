@@ -94,7 +94,12 @@ export const Item = ({ item }) => {
   return (
     <Card id={id} className={classes.card}>
       <CardActionArea onClick={handleItemClick}>
-        <CardMedia className={classes.media} image={imageUrl} title={name} />
+        <CardMedia
+          className={classes.media}
+          image={imageUrl}
+          title={name}
+          component="img"
+        />
 
         <CardContent>
           <Typography variant="h5" component="h2" noWrap>

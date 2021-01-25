@@ -4,6 +4,7 @@ import i18n from 'i18next';
 import express from 'express';
 import ObjectId from 'bson-objectid';
 import { renderToString } from 'react-dom/server';
+import { ServerStyleSheets } from '@material-ui/core/styles';
 import Root from './client/components/Root';
 import { getCollection, getCollections } from './api/collection';
 import { CollectionProvider } from './client/components/CollectionProvider';
@@ -18,13 +19,17 @@ import {
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
 
 const handleRender = (req, res, data) => {
+  const sheets = new ServerStyleSheets();
   const context = {};
+  const css = sheets.toString();
   const markup = renderToString(
-    <CollectionProvider data={data}>
-      <StaticRouter context={context} location={req.url}>
-        <Root />
-      </StaticRouter>
-    </CollectionProvider>,
+    sheets.collect(
+      <CollectionProvider data={data}>
+        <StaticRouter context={context} location={req.url}>
+          <Root />
+        </StaticRouter>
+      </CollectionProvider>,
+    ),
   );
 
   if (context.url) {
@@ -38,6 +43,7 @@ const handleRender = (req, res, data) => {
       <meta charset="utf-8" />
       <title>Graasp</title>
       <meta name="viewport" content="width=device-width, initial-scale=1">
+      ${css ? `<style id="jss-server-side">${css}</style>` : ''}
       ${
         assets.client.css
           ? `<link rel="stylesheet" href="${assets.client.css}">`
