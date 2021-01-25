@@ -28,3 +28,6 @@ export const MEMBER_TYPES = {
   OWNER: 'owner',
   CONTRIBUTOR: 'contributor',
 };
+
+export const LOGIN_POP_UP_WIDTH = 450;
+export const LOGIN_POP_UP_HEIGHT = 450;

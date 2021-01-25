@@ -1,6 +1,5 @@
 import React from 'react';
 import { StaticRouter } from 'react-router-dom';
-import i18n from 'i18next';
 import express from 'express';
 import ObjectId from 'bson-objectid';
 import { renderToString } from 'react-dom/server';
@@ -13,7 +12,16 @@ import {
   buildSpaceRoute,
   COLLECTIONS_ROUTE,
   HOME_ROUTE,
+  IS_AUTHENTICATED_ROUTE,
+  buildResourceRoute,
+  LOGIN_ROUTE,
 } from './client/config/routes';
+import { isAuthenticated } from './api/authentication';
+import {
+  buildResourceEndpoint,
+  buildSpaceEndpoint,
+  LOGIN_ENDPOINT,
+} from './api/endpoints';
 
 // eslint-disable-next-line import/no-dynamic-require
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
@@ -76,9 +84,22 @@ const handleSpaceRender = (req, res) => {
   if (!ObjectId.isValid(id)) {
     throw new Error(`id '${id}' is not valid`);
   }
-  res.redirect(
-    `${process.env.REACT_APP_GRAASP_EU}/${i18n.language}/pages/${id}`,
-  );
+  res.redirect(buildSpaceEndpoint(id));
+};
+
+const handleIsAuthenticatedEndpoint = (req, res) => {
+  isAuthenticated().then((value) => {
+    res.status(200).send(value);
+  });
+};
+
+const handleResourceRoute = (req, res) => {
+  const { id } = req.params;
+  res.redirect(buildResourceEndpoint(id));
+};
+
+const handleLoginRoute = (req, res) => {
+  res.redirect(LOGIN_ENDPOINT);
 };
 
 const handleAllCollectionsRender = (req, res) => {
@@ -102,6 +123,9 @@ server
   .get(COLLECTIONS_ROUTE, handleAllCollectionsRender)
   .get(buildCollectionRoute(), handleCollectionRender)
   .get(buildSpaceRoute(), handleSpaceRender)
+  .get(LOGIN_ROUTE, handleLoginRoute)
+  .get(IS_AUTHENTICATED_ROUTE, handleIsAuthenticatedEndpoint)
+  .get(buildResourceRoute(), handleResourceRoute)
   .get(HOME_ROUTE, handleAllCollectionsRender);
 
 export default server;

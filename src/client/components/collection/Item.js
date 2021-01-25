@@ -13,9 +13,10 @@ import IconButton from '@material-ui/core/IconButton';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Text from '../common/Text';
 import ITEM_DEFAULT_IMAGE from '../../resources/icon.png';
-import { ITEM_TYPES, MIME_TYPES } from '../../config/constants';
+import { ITEM_TYPES } from '../../config/constants';
 import { openInNewTab } from '../../config/helpers';
 import { buildSpaceRoute } from '../../config/routes';
+import CopyButton from './CopyButton';
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -46,27 +47,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const getImageUrlForItem = ({ image, category, mimeType }) => {
-  switch (category) {
-    case ITEM_TYPES.APPLICATION:
-    case ITEM_TYPES.SPACE:
-      return image?.thumbnailUrl || ITEM_DEFAULT_IMAGE;
-
-    case ITEM_TYPES.RESOURCE:
-      switch (mimeType) {
-        case MIME_TYPES.TEXT:
-        case MIME_TYPES.HTML:
-          return image?.thumbnailUrl || ITEM_DEFAULT_IMAGE;
-        default:
-          return ITEM_DEFAULT_IMAGE;
-      }
-    default:
-      return ITEM_DEFAULT_IMAGE;
-  }
-};
-
 export const Item = ({ item }) => {
-  const { description, name, url, id, image, category, mimeType } = item;
+  const { description, name, url, id, image, category } = item;
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
   const handleExpandClick = () => {
@@ -89,7 +71,7 @@ export const Item = ({ item }) => {
     }
   };
 
-  const imageUrl = getImageUrlForItem({ url, image, category, mimeType });
+  const imageUrl = image?.thumbnailUrl || ITEM_DEFAULT_IMAGE;
 
   return (
     <Card id={id} className={classes.card}>
@@ -115,6 +97,7 @@ export const Item = ({ item }) => {
       </Collapse>
 
       <CardActions disableSpacing>
+        <CopyButton id={id} />
         {description && (
           <IconButton
             className={clsx(classes.expand, {

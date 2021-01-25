@@ -1,9 +1,12 @@
 import fetch from 'node-fetch';
 import { DEFAULT_GET } from './common';
-import { buildGetCollectionRoute, GET_COLLECTIONS_ROUTE } from './routes';
+import {
+  buildGetCollectionEndpoint,
+  GET_COLLECTIONS_ENDPOINT,
+} from './endpoints';
 
 export const getCollections = async (callback) => {
-  const res = await fetch(GET_COLLECTIONS_ROUTE, DEFAULT_GET);
+  const res = await fetch(GET_COLLECTIONS_ENDPOINT, DEFAULT_GET);
   if (!res.ok) {
     throw new Error(`An unexpected error occured when fetching collections`);
   }
@@ -11,7 +14,7 @@ export const getCollections = async (callback) => {
 };
 
 export const getCollection = async (id, callback) => {
-  const res = await fetch(buildGetCollectionRoute(id), DEFAULT_GET);
+  const res = await fetch(buildGetCollectionEndpoint(id), DEFAULT_GET);
   if (!res.ok) {
     throw new Error(
       `An unexpected error occured when fetching the collection id '${id}'`,
