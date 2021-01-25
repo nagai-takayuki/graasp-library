@@ -14,15 +14,10 @@ class CollectionProvider extends React.Component {
     children: null,
   };
 
-  state = (() => {
-    const { data } = this.props;
-    return data;
-  })();
-
   render() {
-    const { children } = this.props;
+    const { children, data } = this.props;
     return (
-      <CollectionContext.Provider value={this.state}>
+      <CollectionContext.Provider value={data}>
         {children}
       </CollectionContext.Provider>
     );

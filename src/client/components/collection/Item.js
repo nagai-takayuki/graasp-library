@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
   cardDescriptionText: {
     '& p': {
       fontSize: 'large',
-      fontFamily: 'arial',
+      fontFamily: theme.typography.fontFamily,
     },
   },
   media: {

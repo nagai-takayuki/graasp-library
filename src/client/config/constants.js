@@ -1,3 +1,5 @@
+import i18n from 'i18next';
+
 export const MIN_CARD_WIDTH = 345;
 
 // math
@@ -20,7 +22,7 @@ export const MIME_TYPES = {
 };
 
 export const DEFAULT_LOCALE = 'en';
-export const DEFAULT_MEMBER_NAME = 'Guest';
+export const DEFAULT_MEMBER_NAME = i18n.t('Guest');
 
 export const MEMBER_TYPES = {
   OWNER: 'owner',

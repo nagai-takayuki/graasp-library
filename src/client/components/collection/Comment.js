@@ -9,7 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import { makeStyles } from '@material-ui/core/styles';
 import { Tooltip } from '@material-ui/core';
-import { toDate } from '../../utils/date';
+import { formatDate } from '../../utils/date';
 import { DEFAULT_MEMBER_NAME } from '../../config/constants';
 import { CollectionContext } from '../CollectionProvider';
 import DEFAULT_MEMBER_THUMBNAIL from '../../resources/defaultAvatar.png';
@@ -49,7 +49,7 @@ function Comment({ comment }) {
         className={classes.inline}
         color="textSecondary"
       >
-        {toDate(published)}
+        {formatDate(published)}
       </Typography>
     </>
   );
