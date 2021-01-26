@@ -14,7 +14,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Text from '../common/Text';
 import ITEM_DEFAULT_IMAGE from '../../resources/icon.png';
 import { ITEM_TYPES } from '../../config/constants';
-import { openInNewTab } from '../../config/helpers';
+import { openContentInNewTab, openInNewTab } from '../../config/helpers';
 import { buildSpaceRoute } from '../../config/routes';
 import CopyButton from './CopyButton';
 
@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const Item = ({ item }) => {
-  const { description, name, url, id, image, category } = item;
+  const { description, name, url, content, id, image, category } = item;
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
   const handleExpandClick = () => {
@@ -67,6 +67,8 @@ export const Item = ({ item }) => {
       default:
         if (url) {
           openInNewTab(url);
+        } else if (content) {
+          openContentInNewTab(content);
         }
     }
   };
@@ -117,13 +119,15 @@ export const Item = ({ item }) => {
 
 Item.propTypes = {
   item: PropTypes.shape({
-    image: PropTypes.string,
+    image: PropTypes.shape({
+      thumbnailUrl: PropTypes.string,
+    }),
     description: PropTypes.string,
     viewLink: PropTypes.func,
     id: PropTypes.string,
     name: PropTypes.string,
     url: PropTypes.string,
-    mimeType: PropTypes.string,
+    content: PropTypes.string,
     category: PropTypes.oneOf(Object.values(ITEM_TYPES)).isRequired,
     type: PropTypes.string,
   }).isRequired,
