@@ -15,9 +15,9 @@ import pink from '@material-ui/core/colors/pink';
 import 'react-toastify/dist/ReactToastify.css';
 import i18nConfig from '../config/i18n';
 import App from './App';
-import { REACT_APP_GOOGLE_ANALYTICS_ID } from '../config/env';
+import { GOOGLE_ANALYTICS_ID } from '../config/env';
 
-ReactGa.initialize(REACT_APP_GOOGLE_ANALYTICS_ID);
+ReactGa.initialize(GOOGLE_ANALYTICS_ID);
 
 const styles = {
   body: {

@@ -1,2 +1,5 @@
-// eslint-disable-next-line import/prefer-default-export
-export const { REACT_APP_GOOGLE_ANALYTICS_ID } = process.env;
+export const {
+  RAZZLE_GOOGLE_ANALYTICS_ID: GOOGLE_ANALYTICS_ID,
+  RAZZLE_API_HOST: API_HOST,
+  RAZZLE_GRAASP_EU: GRAASP_HOST,
+} = process.env;
