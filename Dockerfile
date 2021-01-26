@@ -1,14 +1,20 @@
 FROM node:alpine
 
-ENV NODE_ENV production
-
 # ENV RAZZLE_CUSTOM_VARIABLE x
 
-# Bundle APP files
-COPY build .
-COPY package.json .
-COPY build/public public
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
 
-RUN yarn install --production
+# install app dependencies
+COPY package.json /usr/src/app/
+RUN yarn install
 
-CMD [ "node", "./server.js" ]
+# bundle app source
+COPY . /usr/src/app
+
+# build with babel
+RUN yarn build --prod
+
+EXPOSE 3000
+
+CMD ["yarn", "start:prod"]

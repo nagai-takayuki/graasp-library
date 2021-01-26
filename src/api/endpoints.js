@@ -1,5 +1,5 @@
 import i18n from 'i18next';
-import { API_HOST, GRAASP_HOST } from '../client/config/env';
+import { API_HOST, GRAASP_HOST } from './env';
 
 export const GET_COLLECTIONS_ENDPOINT = `${API_HOST}/spaces/collections`;
 

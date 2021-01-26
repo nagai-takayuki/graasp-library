@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import ReactGa from 'react-ga';
 import { I18nextProvider } from 'react-i18next';
 import {
   MuiThemeProvider,
@@ -15,9 +14,6 @@ import pink from '@material-ui/core/colors/pink';
 import 'react-toastify/dist/ReactToastify.css';
 import i18nConfig from '../config/i18n';
 import App from './App';
-import { GOOGLE_ANALYTICS_ID } from '../config/env';
-
-ReactGa.initialize(GOOGLE_ANALYTICS_ID);
 
 const styles = {
   body: {
