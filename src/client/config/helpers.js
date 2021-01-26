@@ -7,6 +7,11 @@ const openInNewTab = (url) => {
   }
 };
 
+const openContentInNewTab = (content) => {
+  const newWindow = window.open('', '_blank');
+  newWindow.document.write(content);
+};
+
 const openInNewWindow = ({ url, title }) => {
   const w = LOGIN_POP_UP_WIDTH;
   const h = LOGIN_POP_UP_HEIGHT;
@@ -59,4 +64,4 @@ const openInNewWindow = ({ url, title }) => {
     </script>`);
 };
 
-export { openInNewTab, openInNewWindow };
+export { openInNewTab, openContentInNewTab, openInNewWindow };
