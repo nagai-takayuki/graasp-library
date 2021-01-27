@@ -59,10 +59,10 @@ function Badges({ views, likes, name }) {
       >
         <div className={classes.badges}>
           <Badge badgeContent={likes} color="secondary" max={999}>
-            <Favorite color="primary" />
+            <Favorite color="primary" fontSize="large" />
           </Badge>
           <Badge badgeContent={views} color="secondary" max={999}>
-            <Visibility color="primary" />
+            <Visibility color="primary" fontSize="large" />
           </Badge>
         </div>
       </Grid>
@@ -74,14 +74,14 @@ function Badges({ views, likes, name }) {
         alignItems="center"
       >
         <IconButton color="primary" onClick={shareOnFacebook}>
-          <Facebook />
+          <Facebook fontSize="large" />
         </IconButton>
         <IconButton color="primary" onClick={shareOnTwitter}>
-          <Twitter />
+          <Twitter fontSize="large" />
         </IconButton>
         <a href={mailString}>
           <IconButton color="primary">
-            <Email />
+            <Email fontSize="large" />
           </IconButton>
         </a>
       </Grid>
