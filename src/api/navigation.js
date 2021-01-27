@@ -1,12 +1,12 @@
 import fetch from 'node-fetch';
 import { DEFAULT_GET, formatCookies } from './common';
-import { IS_AUTHENTICATED_ENDPOINT } from './endpoints';
+import { GET_NAV_TREE_ENDPOINT } from './endpoints';
 
 // eslint-disable-next-line import/prefer-default-export
-export const isAuthenticated = async (cookies) => {
+export const getNavTree = async (cookies) => {
   const cookie = formatCookies(cookies);
 
-  const res = await fetch(IS_AUTHENTICATED_ENDPOINT, {
+  const res = await fetch(GET_NAV_TREE_ENDPOINT, {
     ...DEFAULT_GET,
     headers: {
       cookie,
@@ -15,7 +15,7 @@ export const isAuthenticated = async (cookies) => {
 
   if (!res.ok) {
     console.error(res);
-    return false;
+    return [];
   }
   return res.json();
 };

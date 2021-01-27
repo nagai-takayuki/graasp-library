@@ -1,6 +1,7 @@
 import fetch from 'node-fetch';
-import { DEFAULT_GET } from './common';
+import { DEFAULT_GET, DEFAULT_POST, formatCookies } from './common';
 import {
+  buildCopyEndpoint,
   buildGetCollectionEndpoint,
   GET_COLLECTIONS_ENDPOINT,
 } from './endpoints';
@@ -21,4 +22,27 @@ export const getCollection = async (id, callback) => {
     );
   }
   callback(await res.json());
+};
+
+export const copyItem = async ({ cookies, body }) => {
+  // suppose only one element is copied at a time
+  const id = body.items[0];
+  const cookie = formatCookies(cookies);
+  const res = await fetch(buildCopyEndpoint(id), {
+    ...DEFAULT_POST,
+    body: JSON.stringify(body),
+    headers: {
+      ...DEFAULT_POST.headers,
+      cookie,
+    },
+  });
+
+  // error if the !res.ok
+  // or redirect the request to the login page
+  if (!res.ok || res.url?.includes('/login')) {
+    console.error(res);
+    return false;
+  }
+
+  return res.json();
 };

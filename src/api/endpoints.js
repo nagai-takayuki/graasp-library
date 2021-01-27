@@ -10,7 +10,12 @@ export const IS_AUTHENTICATED_ENDPOINT = `${API_HOST}/users/me`;
 
 export const buildResourceEndpoint = (id) => `${API_HOST}/resources/${id}`;
 
-export const buildSpaceEndpoint = (id) =>
+export const buildSpaceViewerEndpoint = (id) =>
   `${GRAASP_HOST}/${i18n.language}/pages/${id}`;
 
-export const LOGIN_ENDPOINT = `${API_HOST}/login`;
+export const buildSpaceEndpoint = (id) => `${API_HOST}/spaces/${id}`;
+
+export const SIGN_IN_ENDPOINT = `${API_HOST}/login`;
+export const SIGN_UP_ENDPOINT = `${API_HOST}/signup`;
+export const GET_NAV_TREE_ENDPOINT = `${API_HOST}/spaces/joined-spaces/navtree`;
+export const buildCopyEndpoint = (id) => `${API_HOST}/items/${id}/copy`;

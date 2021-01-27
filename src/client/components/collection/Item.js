@@ -15,7 +15,7 @@ import Text from '../common/Text';
 import ITEM_DEFAULT_IMAGE from '../../resources/icon.png';
 import { ITEM_TYPES } from '../../config/constants';
 import { openContentInNewTab, openInNewTab } from '../../config/helpers';
-import { buildSpaceRoute } from '../../config/routes';
+import { buildSpaceViewerRoute } from '../../config/routes';
 import CopyButton from './CopyButton';
 
 const useStyles = makeStyles((theme) => ({
@@ -58,7 +58,7 @@ export const Item = ({ item }) => {
   const handleItemClick = () => {
     switch (category) {
       case ITEM_TYPES.SPACE: {
-        const spaceUrl = buildSpaceRoute(id);
+        const spaceUrl = buildSpaceViewerRoute(id);
         openInNewTab(spaceUrl);
         break;
       }
@@ -99,7 +99,7 @@ export const Item = ({ item }) => {
       </Collapse>
 
       <CardActions disableSpacing>
-        <CopyButton id={id} />
+        {category === ITEM_TYPES.SPACE && <CopyButton id={id} />}
         {description && (
           <IconButton
             className={clsx(classes.expand, {

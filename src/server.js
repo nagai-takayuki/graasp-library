@@ -3,9 +3,10 @@ import { StaticRouter } from 'react-router-dom';
 import express from 'express';
 import ObjectId from 'bson-objectid';
 import { renderToString } from 'react-dom/server';
+import cookieParser from 'cookie-parser';
 import { ServerStyleSheets } from '@material-ui/core/styles';
 import Root from './client/components/Root';
-import { getCollection, getCollections } from './api/collection';
+import { copyItem, getCollection, getCollections } from './api/collection';
 import { CollectionProvider } from './client/components/CollectionProvider';
 import {
   buildCollectionRoute,
@@ -14,14 +15,23 @@ import {
   HOME_ROUTE,
   IS_AUTHENTICATED_ROUTE,
   buildResourceRoute,
-  LOGIN_ROUTE,
+  SIGN_IN_ROUTE,
+  buildSpaceViewerRoute,
+  SIGN_UP_ROUTE,
+  GET_NAV_TREE_ROUTE,
+  COPY_ROUTE,
 } from './client/config/routes';
 import { isAuthenticated } from './api/authentication';
 import {
   buildResourceEndpoint,
   buildSpaceEndpoint,
-  LOGIN_ENDPOINT,
+  SIGN_UP_ENDPOINT,
+  SIGN_IN_ENDPOINT,
+  buildSpaceViewerEndpoint,
 } from './api/endpoints';
+import { getNavTree } from './api/navigation';
+import { cloneDeep } from './client/utils/common';
+import { ERROR_CODE, SUCCESS_CODE } from './client/config/constants';
 
 // eslint-disable-next-line import/no-dynamic-require
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
@@ -79,16 +89,25 @@ const handleRender = (req, res, data) => {
   }
 };
 
+const handleSpaceVieverRender = (req, res) => {
+  const { id } = req.params;
+  if (!ObjectId.isValid(id)) {
+    throw new Error(`id '${id}' is not valid`);
+  }
+  return res.redirect(buildSpaceViewerEndpoint(id));
+};
+
 const handleSpaceRender = (req, res) => {
   const { id } = req.params;
   if (!ObjectId.isValid(id)) {
     throw new Error(`id '${id}' is not valid`);
   }
-  res.redirect(buildSpaceEndpoint(id));
+  return res.redirect(buildSpaceEndpoint(id));
 };
 
 const handleIsAuthenticatedEndpoint = (req, res) => {
-  isAuthenticated().then((value) => {
+  const cookies = cookieParser.JSONCookies(req.cookies);
+  isAuthenticated(cookies).then((value) => {
     res.status(200).send(value);
   });
 };
@@ -98,12 +117,24 @@ const handleResourceRoute = (req, res) => {
   res.redirect(buildResourceEndpoint(id));
 };
 
-const handleLoginRoute = (req, res) => {
-  res.redirect(LOGIN_ENDPOINT);
+const handleSignInRoute = (req, res) => {
+  res.redirect(SIGN_IN_ENDPOINT);
+};
+
+const handleSignUpRoute = (req, res) => {
+  res.redirect(SIGN_UP_ENDPOINT);
 };
 
 const handleAllCollectionsRender = (req, res) => {
   getCollections((collections) => handleRender(req, res, { collections }));
+};
+
+const handleNavTreeEndpoint = (req, res) => {
+  const cookies = cookieParser.JSONCookies(req.cookies);
+  getNavTree(cookies).then((value) => {
+    const statusCode = value ? 200 : ERROR_CODE;
+    res.status(statusCode).send(value);
+  });
 };
 
 const handleCollectionRender = (req, res) => {
@@ -116,16 +147,31 @@ const handleCollectionRender = (req, res) => {
   );
 };
 
+const handleCopyEndpoint = (req, res) => {
+  const cookies = cookieParser.JSONCookies(req.cookies);
+  const body = cloneDeep(req.body);
+  copyItem({ cookies, body }).then((value) => {
+    const statusCode = value ? SUCCESS_CODE : ERROR_CODE;
+    res.status(statusCode).send(value);
+  });
+};
+
 const server = express();
 server
+  .use(cookieParser())
+  .use(express.json())
   .disable('x-powered-by')
   .use(express.static(process.env.RAZZLE_PUBLIC_DIR))
   .get(COLLECTIONS_ROUTE, handleAllCollectionsRender)
   .get(buildCollectionRoute(), handleCollectionRender)
+  .get(buildSpaceViewerRoute(), handleSpaceVieverRender)
   .get(buildSpaceRoute(), handleSpaceRender)
-  .get(LOGIN_ROUTE, handleLoginRoute)
+  .get(SIGN_IN_ROUTE, handleSignInRoute)
+  .get(SIGN_UP_ROUTE, handleSignUpRoute)
   .get(IS_AUTHENTICATED_ROUTE, handleIsAuthenticatedEndpoint)
   .get(buildResourceRoute(), handleResourceRoute)
+  .get(GET_NAV_TREE_ROUTE, handleNavTreeEndpoint)
+  .post(COPY_ROUTE, handleCopyEndpoint)
   .get(HOME_ROUTE, handleAllCollectionsRender);
 
 export default server;

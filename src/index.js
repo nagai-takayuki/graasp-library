@@ -4,6 +4,7 @@ let app = require('./server').default;
 
 if (module.hot) {
   module.hot.accept('./server', () => {
+    // eslint-disable-next-line no-console
     console.log('🔁  HMR Reloading `./server`...');
     try {
       // eslint-disable-next-line global-require
@@ -12,6 +13,7 @@ if (module.hot) {
       console.error(error);
     }
   });
+  // eslint-disable-next-line no-console
   console.info('✅  Server-side HMR Enabled!');
 }
 
@@ -24,5 +26,6 @@ export default express()
       console.error(err);
       return;
     }
+    // eslint-disable-next-line no-console
     console.log(`> Started on port ${port}`);
   });
