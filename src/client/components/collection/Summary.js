@@ -53,7 +53,7 @@ function Summary({
           <Typography variant="h1" gutterBottom>
             {name}
           </Typography>
-          <Badges views={views} likes={likes} />
+          <Badges name={name} views={views} likes={likes} />
           <Typography variant="body1" gutterBottom component="p">
             <div dangerouslySetInnerHTML={{ __html: description }} />
           </Typography>
