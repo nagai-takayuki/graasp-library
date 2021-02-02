@@ -23,7 +23,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Comment({ comment }) {
-  const { members } = useContext(CollectionContext);
+  const {
+    current: { members },
+  } = useContext(CollectionContext);
   const { content, author, published } = comment;
   const classes = useStyles();
   const { t } = useTranslation();
