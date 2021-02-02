@@ -29,12 +29,9 @@ export const MEMBER_TYPES = {
   CONTRIBUTOR: 'contributor',
 };
 
-export const LOGIN_POP_UP_WIDTH = 450;
-export const LOGIN_POP_UP_HEIGHT = 450;
-
 export const ROOT_ID = 'ROOT';
 export const TREE_VIEW_HEIGHT = 300;
 export const TREE_VIEW_MIN_WIDTH = 350;
 
-export const ERROR_CODE = 404;
-export const SUCCESS_CODE = 200;
+export const DEFAULT_ERROR_CODE = 404;
+export const DEFAULT_SUCCESS_CODE = 200;

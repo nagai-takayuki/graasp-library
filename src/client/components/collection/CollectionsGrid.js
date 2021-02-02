@@ -9,11 +9,9 @@ function CollectionsGrid({ collections }) {
   const { t } = useTranslation();
 
   return !collections.length ? (
-    <div className="Main">
-      <Typography variant="h5" color="inherit">
-        {t('There are no collections available.')}
-      </Typography>
-    </div>
+    <Typography variant="h5" color="inherit">
+      {t('There are no collections available.')}
+    </Typography>
   ) : (
     <Grid container spacing={2}>
       {collections.map((similarCollection) => (

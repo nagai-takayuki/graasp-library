@@ -3,6 +3,7 @@ import { StaticRouter } from 'react-router-dom';
 import express from 'express';
 import ObjectId from 'bson-objectid';
 import { renderToString } from 'react-dom/server';
+import { cloneDeep } from 'lodash';
 import cookieParser from 'cookie-parser';
 import { ServerStyleSheets } from '@material-ui/core/styles';
 import Root from './client/components/Root';
@@ -30,8 +31,10 @@ import {
   buildSpaceViewerEndpoint,
 } from './api/endpoints';
 import { getNavTree } from './api/navigation';
-import { cloneDeep } from './client/utils/common';
-import { ERROR_CODE, SUCCESS_CODE } from './client/config/constants';
+import {
+  DEFAULT_SUCCESS_CODE,
+  DEFAULT_ERROR_CODE,
+} from './client/config/constants';
 
 // eslint-disable-next-line import/no-dynamic-require
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
@@ -89,7 +92,7 @@ const handleRender = (req, res, data) => {
   }
 };
 
-const handleSpaceVieverRender = (req, res) => {
+const handleSpaceViewerRender = (req, res) => {
   const { id } = req.params;
   if (!ObjectId.isValid(id)) {
     throw new Error(`id '${id}' is not valid`);
@@ -132,7 +135,7 @@ const handleAllCollectionsRender = (req, res) => {
 const handleNavTreeEndpoint = (req, res) => {
   const cookies = cookieParser.JSONCookies(req.cookies);
   getNavTree(cookies).then((value) => {
-    const statusCode = value ? 200 : ERROR_CODE;
+    const statusCode = value ? DEFAULT_SUCCESS_CODE : DEFAULT_ERROR_CODE;
     res.status(statusCode).send(value);
   });
 };
@@ -151,7 +154,8 @@ const handleCopyEndpoint = (req, res) => {
   const cookies = cookieParser.JSONCookies(req.cookies);
   const body = cloneDeep(req.body);
   copyItem({ cookies, body }).then((value) => {
-    const statusCode = value ? SUCCESS_CODE : ERROR_CODE;
+    // check return value, on error it is the statusCode
+    const statusCode = value ? DEFAULT_SUCCESS_CODE : DEFAULT_ERROR_CODE;
     res.status(statusCode).send(value);
   });
 };
@@ -164,7 +168,7 @@ server
   .use(express.static(process.env.RAZZLE_PUBLIC_DIR))
   .get(COLLECTIONS_ROUTE, handleAllCollectionsRender)
   .get(buildCollectionRoute(), handleCollectionRender)
-  .get(buildSpaceViewerRoute(), handleSpaceVieverRender)
+  .get(buildSpaceViewerRoute(), handleSpaceViewerRender)
   .get(buildSpaceRoute(), handleSpaceRender)
   .get(SIGN_IN_ROUTE, handleSignInRoute)
   .get(SIGN_UP_ROUTE, handleSignUpRoute)

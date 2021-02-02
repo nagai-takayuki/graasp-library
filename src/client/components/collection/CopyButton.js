@@ -1,35 +1,18 @@
 import React, { useContext, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import IconButton from '@material-ui/core/IconButton';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
 import Tooltip from '@material-ui/core/Tooltip';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { makeStyles } from '@material-ui/core';
-import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
-import {
-  COPY_ROUTE,
-  IS_AUTHENTICATED_ROUTE,
-  buildSpaceRoute,
-} from '../../config/routes';
-import { DEFAULT_GET, DEFAULT_POST } from '../../../api/common';
 import LoginModal from './LoginModal';
 import TreeModal from './TreeModal';
 import { CollectionContext } from '../CollectionProvider';
-
-const useStyles = makeStyles((theme) => ({
-  successLink: {
-    display: 'block',
-    fontStyle: 'italic',
-    color: 'inherit',
-    paddingTop: theme.spacing(0.5),
-  },
-}));
+import { copyItem } from '../../actions/item';
+import { isAuthenticated } from '../../actions/user';
 
 const CopyButton = ({ id }) => {
   const { t } = useTranslation();
-  const classes = useStyles();
   const {
     current: { id: collectionId },
   } = useContext(CollectionContext);
@@ -39,17 +22,20 @@ const CopyButton = ({ id }) => {
   const [copying, setCopying] = useState(false);
 
   const checkUserIsSignedIn = async () => {
-    const res = await (await fetch(IS_AUTHENTICATED_ROUTE, DEFAULT_GET)).json();
+    const res = await isAuthenticated();
     setIsSignedIn(res);
   };
 
-  useEffect(async () => {
+  useEffect(() => {
     checkUserIsSignedIn();
+    // check whether user is signed in each time
+    // the user switch to explore tab
     window.onfocus = checkUserIsSignedIn;
   }, []);
 
-  // on sign in, open tree modal instead of login modal
   useEffect(() => {
+    // if the user signs while the login modal is open
+    // switch to copy modal
     if (showLoginModal) {
       setShowLoginModal(false);
       setShowTreeModal(true);
@@ -57,13 +43,12 @@ const CopyButton = ({ id }) => {
   }, [isSignedIn]);
 
   const onClick = async () => {
+    // display sign in modal if the user is not signed in
     if (!isSignedIn) {
       setShowLoginModal(true);
     } else {
       setShowTreeModal(true);
     }
-
-    setShowTreeModal(true);
   };
 
   const copy = async ({ id: toSpace }) => {
@@ -75,31 +60,11 @@ const CopyButton = ({ id }) => {
       toSpace,
     };
 
+    // set loading icon
     setCopying(true);
 
-    fetch(COPY_ROUTE, { ...DEFAULT_POST, body: JSON.stringify(body) }).then(
-      async (copiedElement) => {
-        setCopying(false);
-        const res = await copiedElement.json();
-
-        if (res) {
-          const { _id: newItemId } = res;
-          const link = buildSpaceRoute(newItemId);
-          toast.success(
-            <div>
-              {t('The item was copied successfully')}
-              <Link className={classes.successLink} target="_blank" to={link}>
-                {t('Click here to open the item on Graasp.')}
-              </Link>
-            </div>,
-          );
-        } else {
-          toast.error(t('An error occured while copying the item'), {
-            variant: 'error',
-          });
-        }
-      },
-    );
+    // remove loading icon on callback
+    copyItem({ body }, () => setCopying(false));
   };
 
   const renderButton = () => {

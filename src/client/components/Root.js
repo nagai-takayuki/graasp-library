@@ -54,8 +54,9 @@ theme = responsiveFontSizes(theme);
 
 const Root = ({ classes }) => {
   useEffect(() => {
+    // removes default padding and margin of the html body
     document.body.className = classes.body;
-  });
+  }, []);
 
   return (
     <div className={classes.root}>

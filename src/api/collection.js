@@ -4,6 +4,7 @@ import {
   buildCopyEndpoint,
   buildGetCollectionEndpoint,
   GET_COLLECTIONS_ENDPOINT,
+  SIGN_IN_ENDPOINT,
 } from './endpoints';
 
 export const getCollections = async (callback) => {
@@ -39,7 +40,7 @@ export const copyItem = async ({ cookies, body }) => {
 
   // error if the !res.ok
   // or redirect the request to the login page
-  if (!res.ok || res.url?.includes('/login')) {
+  if (!res.ok || res.url?.includes(SIGN_IN_ENDPOINT)) {
     console.error(res);
     return false;
   }
