@@ -35,7 +35,6 @@ function Summary({
   likes,
   views,
 }) {
-  console.log(description);
   const classes = useStyles();
   return (
     <div className={classes.root}>
