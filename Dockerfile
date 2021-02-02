@@ -2,15 +2,15 @@ FROM node:alpine
 
 # ENV RAZZLE_CUSTOM_VARIABLE x
 
-RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
+RUN mkdir -p .
 
 # install app dependencies
-COPY package.json /usr/src/app/
+COPY package.json .
 RUN yarn install
 
 # bundle app source
-COPY . /usr/src/app
+COPY . .
 
 # build with babel
 RUN yarn build --prod
