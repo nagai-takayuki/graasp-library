@@ -51,6 +51,7 @@ class TreeModal extends Component {
   async componentDidUpdate({ open: prevOpen }) {
     const { open } = this.props;
     if (!prevOpen && open) {
+      // fetch root spaces
       const newSpaces = await (
         await fetch(GET_NAV_TREE_ROUTE, DEFAULT_GET)
       ).json();

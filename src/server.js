@@ -31,10 +31,6 @@ import {
   buildSpaceViewerEndpoint,
 } from './api/endpoints';
 import { getNavTree } from './api/navigation';
-import {
-  DEFAULT_SUCCESS_CODE,
-  DEFAULT_ERROR_CODE,
-} from './client/config/constants';
 
 // eslint-disable-next-line import/no-dynamic-require
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
@@ -92,6 +88,7 @@ const handleRender = (req, res, data) => {
   }
 };
 
+// redirect to viewer mode of the space
 const handleSpaceViewerRender = (req, res) => {
   const { id } = req.params;
   if (!ObjectId.isValid(id)) {
@@ -100,6 +97,7 @@ const handleSpaceViewerRender = (req, res) => {
   return res.redirect(buildSpaceViewerEndpoint(id));
 };
 
+// redirect to edition mode of the space
 const handleSpaceRender = (req, res) => {
   const { id } = req.params;
   if (!ObjectId.isValid(id)) {
@@ -109,9 +107,10 @@ const handleSpaceRender = (req, res) => {
 };
 
 const handleIsAuthenticatedEndpoint = (req, res) => {
+  // copy cookie to forward them to the next request
   const cookies = cookieParser.JSONCookies(req.cookies);
-  isAuthenticated(cookies).then((value) => {
-    res.status(200).send(value);
+  isAuthenticated(cookies).then(({ status, value }) => {
+    res.status(status).send(value);
   });
 };
 
@@ -133,10 +132,10 @@ const handleAllCollectionsRender = (req, res) => {
 };
 
 const handleNavTreeEndpoint = (req, res) => {
+  // copy cookie to forward them to the next request
   const cookies = cookieParser.JSONCookies(req.cookies);
-  getNavTree(cookies).then((value) => {
-    const statusCode = value ? DEFAULT_SUCCESS_CODE : DEFAULT_ERROR_CODE;
-    res.status(statusCode).send(value);
+  getNavTree(cookies).then(({ status, value }) => {
+    res.status(status).send(value);
   });
 };
 
@@ -151,12 +150,12 @@ const handleCollectionRender = (req, res) => {
 };
 
 const handleCopyEndpoint = (req, res) => {
+  // copy cookie to forward them to the next request
   const cookies = cookieParser.JSONCookies(req.cookies);
+  // copy body to forward it to the next request
   const body = cloneDeep(req.body);
-  copyItem({ cookies, body }).then((value) => {
-    // check return value, on error it is the statusCode
-    const statusCode = value ? DEFAULT_SUCCESS_CODE : DEFAULT_ERROR_CODE;
-    res.status(statusCode).send(value);
+  copyItem({ cookies, body }).then(({ status, value }) => {
+    res.status(status).send(value);
   });
 };
 

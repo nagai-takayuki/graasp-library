@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect, useLayoutEffect } from 'react';
 import PropTypes from 'prop-types';
 import IconButton from '@material-ui/core/IconButton';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
@@ -30,19 +30,25 @@ const CopyButton = ({ id }) => {
     checkUserIsSignedIn();
     // check whether user is signed in each time
     // the user switch to explore tab
-    window.onfocus = checkUserIsSignedIn;
+    window.addEventListener('focus', checkUserIsSignedIn);
   }, []);
 
-  useEffect(() => {
-    // if the user signs while the login modal is open
+  useLayoutEffect(() => {
+    // if the user signs in while the login modal is open
     // switch to copy modal
-    if (showLoginModal) {
+    if (showLoginModal && isSignedIn) {
       setShowLoginModal(false);
       setShowTreeModal(true);
     }
+    // if user signs out while copying
+    // show login modal instead
+    else if (showTreeModal && !isSignedIn) {
+      setShowLoginModal(true);
+      setShowTreeModal(false);
+    }
   }, [isSignedIn]);
 
-  const onClick = async () => {
+  const onClick = () => {
     // display sign in modal if the user is not signed in
     if (!isSignedIn) {
       setShowLoginModal(true);
@@ -51,7 +57,7 @@ const CopyButton = ({ id }) => {
     }
   };
 
-  const copy = async ({ id: toSpace }) => {
+  const copy = ({ id: toSpace }) => {
     const body = {
       fromSpace: collectionId,
       inheritMemberships: false,

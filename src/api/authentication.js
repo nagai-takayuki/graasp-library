@@ -1,4 +1,5 @@
 import fetch from 'node-fetch';
+import { DEFAULT_ERROR_CODE } from '../client/config/constants';
 import { DEFAULT_GET, formatCookies } from './common';
 import { IS_AUTHENTICATED_ENDPOINT } from './endpoints';
 
@@ -15,7 +16,7 @@ export const isAuthenticated = async (cookies) => {
 
   if (!res.ok) {
     console.error(res);
-    return false;
+    return { status: DEFAULT_ERROR_CODE, value: false };
   }
-  return res.json();
+  return { status: res.status, value: await res.json() };
 };

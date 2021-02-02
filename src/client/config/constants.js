@@ -34,4 +34,3 @@ export const TREE_VIEW_HEIGHT = 300;
 export const TREE_VIEW_MIN_WIDTH = 350;
 
 export const DEFAULT_ERROR_CODE = 404;
-export const DEFAULT_SUCCESS_CODE = 200;

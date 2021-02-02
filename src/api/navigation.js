@@ -1,4 +1,5 @@
 import fetch from 'node-fetch';
+import { DEFAULT_ERROR_CODE } from '../client/config/constants';
 import { DEFAULT_GET, formatCookies } from './common';
 import { GET_NAV_TREE_ENDPOINT } from './endpoints';
 
@@ -15,7 +16,7 @@ export const getNavTree = async (cookies) => {
 
   if (!res.ok) {
     console.error(res);
-    return [];
+    return { status: DEFAULT_ERROR_CODE, value: [] };
   }
-  return res.json();
+  return { status: res.status, value: await res.json() };
 };

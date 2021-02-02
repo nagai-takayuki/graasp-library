@@ -8,13 +8,11 @@ import { buildSpaceRoute, COPY_ROUTE } from '../config/routes';
 // eslint-disable-next-line import/prefer-default-export
 export const copyItem = ({ body }, callback) =>
   fetch(COPY_ROUTE, { ...DEFAULT_POST, body: JSON.stringify(body) }).then(
-    async (copiedElement) => {
+    async (response) => {
       callback?.();
 
-      const res = await copiedElement.json();
-
-      if (res) {
-        const { _id: newItemId } = res;
+      if (response.ok) {
+        const { _id: newItemId } = await response.json();
         const link = buildSpaceRoute(newItemId);
         toast.success(
           <ToastrWithLink
