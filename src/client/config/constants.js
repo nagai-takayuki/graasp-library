@@ -28,3 +28,7 @@ export const MEMBER_TYPES = {
   OWNER: 'owner',
   CONTRIBUTOR: 'contributor',
 };
+
+export const ROOT_ID = 'ROOT';
+export const TREE_VIEW_HEIGHT = 300;
+export const TREE_VIEW_MIN_WIDTH = 350;

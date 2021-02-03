@@ -13,9 +13,10 @@ import IconButton from '@material-ui/core/IconButton';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Text from '../common/Text';
 import ITEM_DEFAULT_IMAGE from '../../resources/icon.png';
-import { ITEM_TYPES, MIME_TYPES } from '../../config/constants';
-import { openInNewTab } from '../../config/helpers';
-import { buildSpaceRoute } from '../../config/routes';
+import { ITEM_TYPES } from '../../config/constants';
+import { openContentInNewTab, openInNewTab } from '../../config/helpers';
+import { buildSpaceViewerRoute } from '../../config/routes';
+import CopyButton from './CopyButton';
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -46,27 +47,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const getImageUrlForItem = ({ image, category, mimeType }) => {
-  switch (category) {
-    case ITEM_TYPES.APPLICATION:
-    case ITEM_TYPES.SPACE:
-      return image?.thumbnailUrl || ITEM_DEFAULT_IMAGE;
-
-    case ITEM_TYPES.RESOURCE:
-      switch (mimeType) {
-        case MIME_TYPES.TEXT:
-        case MIME_TYPES.HTML:
-          return image?.thumbnailUrl || ITEM_DEFAULT_IMAGE;
-        default:
-          return ITEM_DEFAULT_IMAGE;
-      }
-    default:
-      return ITEM_DEFAULT_IMAGE;
-  }
-};
-
 export const Item = ({ item }) => {
-  const { description, name, url, id, image, category, mimeType } = item;
+  const { description, name, url, content, id, image, category } = item;
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
   const handleExpandClick = () => {
@@ -76,7 +58,7 @@ export const Item = ({ item }) => {
   const handleItemClick = () => {
     switch (category) {
       case ITEM_TYPES.SPACE: {
-        const spaceUrl = buildSpaceRoute(id);
+        const spaceUrl = buildSpaceViewerRoute(id);
         openInNewTab(spaceUrl);
         break;
       }
@@ -85,16 +67,23 @@ export const Item = ({ item }) => {
       default:
         if (url) {
           openInNewTab(url);
+        } else if (content) {
+          openContentInNewTab(content);
         }
     }
   };
 
-  const imageUrl = getImageUrlForItem({ url, image, category, mimeType });
+  const imageUrl = image?.thumbnailUrl || ITEM_DEFAULT_IMAGE;
 
   return (
     <Card id={id} className={classes.card}>
       <CardActionArea onClick={handleItemClick}>
-        <CardMedia className={classes.media} image={imageUrl} title={name} />
+        <CardMedia
+          className={classes.media}
+          image={imageUrl}
+          title={name}
+          component="img"
+        />
 
         <CardContent>
           <Typography variant="h5" component="h2" noWrap>
@@ -110,6 +99,7 @@ export const Item = ({ item }) => {
       </Collapse>
 
       <CardActions disableSpacing>
+        {category === ITEM_TYPES.SPACE && <CopyButton id={id} />}
         {description && (
           <IconButton
             className={clsx(classes.expand, {
@@ -129,13 +119,15 @@ export const Item = ({ item }) => {
 
 Item.propTypes = {
   item: PropTypes.shape({
-    image: PropTypes.string,
+    image: PropTypes.shape({
+      thumbnailUrl: PropTypes.string,
+    }),
     description: PropTypes.string,
     viewLink: PropTypes.func,
     id: PropTypes.string,
     name: PropTypes.string,
     url: PropTypes.string,
-    mimeType: PropTypes.string,
+    content: PropTypes.string,
     category: PropTypes.oneOf(Object.values(ITEM_TYPES)).isRequired,
     type: PropTypes.string,
   }).isRequired,

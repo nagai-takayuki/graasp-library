@@ -45,6 +45,7 @@ function Summary({
               className={classes.media}
               image={image?.thumbnailUrl || ITEM_DEFAULT_IMAGE}
               title={name}
+              component="img"
             />
           </Card>
         </Grid>

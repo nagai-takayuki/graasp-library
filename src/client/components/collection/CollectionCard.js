@@ -25,7 +25,7 @@ const useStyles = makeStyles(() => ({
     maxWidth: 345,
   },
   media: {
-    paddingTop: '56.25%', // 16:9
+    height: 300,
   },
 }));
 
@@ -98,7 +98,7 @@ export const CollectionCard = ({ collection = {} }) => {
       </CardActionArea>
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">
-          {description}
+          <p dangerouslySetInnerHTML={{ __html: description }} />
         </Typography>
       </CardContent>
       <CardActions disableSpacing>

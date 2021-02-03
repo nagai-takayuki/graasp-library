@@ -1,16 +1,20 @@
 FROM node:alpine
 
-ENV NODE_ENV production
-ENV HOST 0.0.0.0
-ENV PORT 80
-
 # ENV RAZZLE_CUSTOM_VARIABLE x
 
-# Bundle APP files
-COPY build .
+WORKDIR /usr/src/app
+RUN mkdir -p .
+
+# install app dependencies
 COPY package.json .
-COPY build/public public
+RUN yarn install
 
-RUN yarn install --production
+# bundle app source
+COPY . .
 
-CMD [ "node", "./server.js" ]
+# build with babel
+RUN yarn build --prod
+
+EXPOSE 3000
+
+CMD ["yarn", "start:prod"]

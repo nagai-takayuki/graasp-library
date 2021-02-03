@@ -5,7 +5,9 @@ const openInNewTab = (url) => {
   }
 };
 
-export {
-  // eslint-disable-next-line import/prefer-default-export
-  openInNewTab,
+const openContentInNewTab = (content) => {
+  const newWindow = window.open('', '_blank');
+  newWindow.document.write(content);
 };
+
+export { openInNewTab, openContentInNewTab };
