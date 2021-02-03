@@ -1,8 +1,9 @@
 import fetch from 'node-fetch';
-import { DEFAULT_ERROR_CODE } from '../client/config/constants';
+import { StatusCodes } from 'http-status-codes';
 import { DEFAULT_GET, formatCookies } from './common';
 import { GET_NAV_TREE_ENDPOINT } from './endpoints';
 
+// fetch the first level of spaces owned and shared with the user
 // eslint-disable-next-line import/prefer-default-export
 export const getNavTree = async (cookies) => {
   const cookie = formatCookies(cookies);
@@ -16,7 +17,7 @@ export const getNavTree = async (cookies) => {
 
   if (!res.ok) {
     console.error(res);
-    return { status: DEFAULT_ERROR_CODE, value: [] };
+    return { status: StatusCodes.METHOD_NOT_ALLOWED, value: [] };
   }
   return { status: res.status, value: await res.json() };
 };

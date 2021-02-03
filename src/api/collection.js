@@ -1,5 +1,5 @@
 import fetch from 'node-fetch';
-import { DEFAULT_ERROR_CODE } from '../client/config/constants';
+import { StatusCodes } from 'http-status-codes';
 import { DEFAULT_GET, DEFAULT_POST, formatCookies } from './common';
 import {
   buildCopyEndpoint,
@@ -43,7 +43,7 @@ export const copyItem = async ({ cookies, body }) => {
   // or redirect the request to the login page
   if (!res.ok || res.url?.includes(SIGN_IN_ENDPOINT)) {
     console.error(res);
-    return { status: DEFAULT_ERROR_CODE, value: false };
+    return { status: StatusCodes.METHOD_NOT_ALLOWED, value: false };
   }
 
   return { status: res.status, value: await res.json() };

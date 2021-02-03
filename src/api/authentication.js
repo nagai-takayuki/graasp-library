@@ -1,8 +1,9 @@
 import fetch from 'node-fetch';
-import { DEFAULT_ERROR_CODE } from '../client/config/constants';
+import { StatusCodes } from 'http-status-codes';
 import { DEFAULT_GET, formatCookies } from './common';
 import { IS_AUTHENTICATED_ENDPOINT } from './endpoints';
 
+// return whether the user is connected to graasp
 // eslint-disable-next-line import/prefer-default-export
 export const isAuthenticated = async (cookies) => {
   const cookie = formatCookies(cookies);
@@ -16,7 +17,7 @@ export const isAuthenticated = async (cookies) => {
 
   if (!res.ok) {
     console.error(res);
-    return { status: DEFAULT_ERROR_CODE, value: false };
+    return { status: StatusCodes.BAD_REQUEST, value: false };
   }
   return { status: res.status, value: await res.json() };
 };
