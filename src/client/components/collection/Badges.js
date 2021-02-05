@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
 import Badge from '@material-ui/core/Badge';
 import {
@@ -28,6 +29,7 @@ const useStyles = makeStyles((theme) => ({
 
 function Badges({ views, likes, name }) {
   const classes = useStyles();
+  const { t } = useTranslation();
   const [pageLocation, setPageLocation] = useState(null);
 
   useEffect(() => {
@@ -35,8 +37,10 @@ function Badges({ views, likes, name }) {
   });
 
   const shareOnTwitter = () => {
-    const textToShare = `${name} ${pageLocation}`;
-    openInNewTab(`https://twitter.com/intent/tweet?text=${textToShare}`);
+    const message = `${t('Check out this collection on Graasp', {
+      name,
+    })} ${pageLocation}`;
+    openInNewTab(`https://twitter.com/intent/tweet?text=${message}`);
   };
 
   const shareOnFacebook = () => {
@@ -44,8 +48,10 @@ function Badges({ views, likes, name }) {
     openInNewTab(`https://www.facebook.com/sharer/sharer.php?u=${link}`);
   };
 
-  const subject = name;
-  const message = pageLocation;
+  const subject = `${t('Check out this collection on Graasp', { name })}`;
+  const message = `${t('Check out this collection on Graasp', {
+    name,
+  })} ${pageLocation}`;
   const mailString = `mailto:?subject=${subject}&body=${message}`;
 
   return (
