@@ -1,5 +1,6 @@
 import React from 'react';
 import { StaticRouter } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 import express from 'express';
 import ObjectId from 'bson-objectid';
 import { renderToString } from 'react-dom/server';
@@ -31,6 +32,7 @@ import {
   buildSpaceViewerEndpoint,
 } from './api/endpoints';
 import { getNavTree } from './api/navigation';
+import { DEFAULT_LANG } from './client/config/constants';
 
 // eslint-disable-next-line import/no-dynamic-require
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
@@ -49,17 +51,27 @@ const handleRender = (req, res, data) => {
     ),
   );
 
+  /**
+   * Add helmet here
+   * So that we can extract on our HTML template below
+   * Notice on HTML below that we extract helmet
+   * (title, meta, link and others) to string
+   */
+  const helmet = Helmet.renderStatic();
+
   if (context.url) {
     res.redirect(context.url);
   } else {
     res.status(200).send(
       `<!doctype html>
-  <html lang="">
+  <html lang="${DEFAULT_LANG}" ${helmet.htmlAttributes.toString()}>
   <head>
       <meta http-equiv="X-UA-Compatible" content="IE=edge" />
       <meta charset="utf-8" />
-      <title>Graasp</title>
+      ${helmet.title.toString()}
       <meta name="viewport" content="width=device-width, initial-scale=1">
+      ${helmet.meta.toString()} 
+      ${helmet.link.toString()} 
       ${css ? `<style id="jss-server-side">${css}</style>` : ''}
       ${
         assets.client.css
@@ -72,7 +84,7 @@ const handleRender = (req, res, data) => {
           : `<script src="${assets.client.js}" defer crossorigin></script>`
       }
   </head>
-  <body>
+  <body ${helmet.bodyAttributes.toString()}>
       <div id="root">${markup}</div>
       <script>
         // WARNING: See the following for security issues around embedding JSON in HTML:

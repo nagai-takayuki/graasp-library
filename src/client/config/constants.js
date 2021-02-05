@@ -1,4 +1,11 @@
-import i18n from 'i18next';
+import i18n from './i18n';
+
+export const APP_NAME = 'Graasp Explore';
+export const APP_DESCRIPTION =
+  'Graasp Explore is an open source platform providing learning resources as collections.';
+export const APP_KEYWORDS = ['graasp', 'explore'];
+export const APP_AUTHOR = 'Graasp';
+export const DEFAULT_LANG = 'en';
 
 export const MIN_CARD_WIDTH = 345;
 
