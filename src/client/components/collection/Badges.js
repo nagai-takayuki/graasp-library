@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import _ from 'lodash';
 import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
 import Badge from '@material-ui/core/Badge';
@@ -12,6 +13,11 @@ import {
 import PropTypes from 'prop-types';
 import { Grid, IconButton } from '@material-ui/core';
 import { openInNewTab } from '../../config/helpers';
+import {
+  MAIL_BREAK_LINE,
+  TWITTER_MESSAGE_MAX_LENGTH,
+} from '../../config/constants';
+import { removeTagsFromString } from '../../utils/text';
 
 const useStyles = makeStyles((theme) => ({
   badges: {
@@ -27,19 +33,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Badges({ views, likes, name }) {
+function Badges({ views, likes, name, description }) {
   const classes = useStyles();
   const { t } = useTranslation();
   const [pageLocation, setPageLocation] = useState(null);
+
+  const parsedDescription = removeTagsFromString(description);
 
   useEffect(() => {
     setPageLocation(window?.location.href);
   });
 
   const shareOnTwitter = () => {
-    const message = `${t('Check out this collection on Graasp', {
-      name,
-    })} ${pageLocation}`;
+    const message = _.truncate(
+      `${t('Check out this collection on Graasp', {
+        name,
+      })} ${pageLocation} : ${parsedDescription}`,
+      { length: TWITTER_MESSAGE_MAX_LENGTH },
+    );
     openInNewTab(`https://twitter.com/intent/tweet?text=${message}`);
   };
 
@@ -51,7 +62,7 @@ function Badges({ views, likes, name }) {
   const subject = `${t('Check out this collection on Graasp', { name })}`;
   const message = `${t('Check out this collection on Graasp', {
     name,
-  })} ${pageLocation}`;
+  })} ${pageLocation}${MAIL_BREAK_LINE}${MAIL_BREAK_LINE}${parsedDescription}`;
   const mailString = `mailto:?subject=${subject}&body=${message}`;
 
   return (
@@ -99,6 +110,7 @@ Badges.propTypes = {
   views: PropTypes.number,
   likes: PropTypes.number,
   name: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
 };
 
 Badges.defaultProps = {
