@@ -49,7 +49,7 @@ function Badges({ views, likes, name, description }) {
       `${t('Check out this collection on Graasp', {
         name,
       })} ${pageLocation} : ${parsedDescription}`,
-      { length: TWITTER_MESSAGE_MAX_LENGTH },
+      { length: TWITTER_MESSAGE_MAX_LENGTH, separator: /,? +/ },
     );
     openInNewTab(`https://twitter.com/intent/tweet?text=${message}`);
   };

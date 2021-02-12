@@ -40,5 +40,5 @@ export const ROOT_ID = 'ROOT';
 export const TREE_VIEW_HEIGHT = 300;
 export const TREE_VIEW_MIN_WIDTH = 350;
 
-export const TWITTER_MESSAGE_MAX_LENGTH = 100;
+export const TWITTER_MESSAGE_MAX_LENGTH = 270;
 export const MAIL_BREAK_LINE = '%0D%0A';
