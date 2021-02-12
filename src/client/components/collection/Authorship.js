@@ -43,7 +43,7 @@ function Authorship({ author, contributors }) {
           <Typography variant="h5" gutterBottom>
             {t('Contributors')}
           </Typography>
-          <AvatarGroup max={12}>
+          <AvatarGroup max={8}>
             {contributors.map((contributor) => {
               const {
                 name: contributorName,
