@@ -51,7 +51,6 @@ Seo.defaultProps = {
 };
 
 Seo.propTypes = {
-  //   url: PropTypes.string.isRequired,
   lang: PropTypes.string,
   image: PropTypes.shape({
     src: PropTypes.string.isRequired,
