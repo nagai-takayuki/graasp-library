@@ -24,6 +24,9 @@ const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
   },
+  title: {
+    fontSize: '4em',
+  },
 }));
 
 function Summary({
@@ -50,7 +53,7 @@ function Summary({
           </Card>
         </Grid>
         <Grid item sm={12} md={8}>
-          <Typography variant="h1" gutterBottom>
+          <Typography variant="h1" gutterBottom className={classes.title}>
             {name}
           </Typography>
           <Badges

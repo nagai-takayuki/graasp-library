@@ -93,7 +93,7 @@ export const Item = ({ item }) => {
         />
 
         <CardContent>
-          <Typography variant="h5" component="h2" noWrap>
+          <Typography variant="h6" component="h2">
             {name}
           </Typography>
         </CardContent>

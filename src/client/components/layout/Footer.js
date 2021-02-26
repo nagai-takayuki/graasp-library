@@ -9,6 +9,12 @@ const useStyles = makeStyles(() => ({
     top: 'auto',
     bottom: 0,
   },
+  content: {
+    // fix: typography is strong on first render
+    '& strong': {
+      fontWeight: 400,
+    },
+  },
 }));
 
 function Footer() {
@@ -18,7 +24,9 @@ function Footer() {
     <footer>
       <AppBar position="static" color="primary" className={classes.appBar}>
         <Toolbar>
-          <Typography>© 2020 Graasp Association</Typography>
+          <Typography variant="subtitle1" className={classes.content}>
+            © 2020 Graasp Association
+          </Typography>
         </Toolbar>
       </AppBar>
     </footer>
