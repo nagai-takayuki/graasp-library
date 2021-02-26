@@ -127,7 +127,7 @@ export const Item = ({ item }) => {
 Item.propTypes = {
   item: PropTypes.shape({
     image: PropTypes.shape({
-      pictureId: PropTypes.number.isRequired,
+      pictureId: PropTypes.string.isRequired,
       thumbnailUrl: PropTypes.string,
     }),
     description: PropTypes.string,

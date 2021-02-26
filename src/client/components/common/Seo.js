@@ -52,14 +52,10 @@ Seo.defaultProps = {
 
 Seo.propTypes = {
   lang: PropTypes.string,
-  image: PropTypes.shape({
-    src: PropTypes.string.isRequired,
-    height: PropTypes.number.isRequired,
-    width: PropTypes.number.isRequired,
-  }).isRequired,
+  image: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
-  author: PropTypes.shape({ name: PropTypes.string.isRequired }).isRequired,
+  author: PropTypes.string.isRequired,
 };
 
 export default Seo;

@@ -24,8 +24,8 @@ function Authorship({ author, contributors }) {
 
   const authorAvatar = getAvatar(image);
 
-  // the wrapper div is necessary for grid to apply
   return (
+    // wrapper div is necessary for grid to apply
     <div>
       <Grid container>
         <Grid item xs={12} sm={6}>
@@ -66,12 +66,12 @@ function Authorship({ author, contributors }) {
 Authorship.propTypes = {
   author: PropTypes.shape({
     name: PropTypes.string,
-    image: PropTypes.string,
+    image: PropTypes.shape({}),
   }).isRequired,
   contributors: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string,
-      image: PropTypes.string,
+      image: PropTypes.shape({}),
     }),
   ),
 };

@@ -47,7 +47,6 @@ function Items({ items }) {
 Items.propTypes = {
   items: PropTypes.arrayOf(
     PropTypes.shape({
-      image: PropTypes.string,
       description: PropTypes.string,
       viewLink: PropTypes.func,
       id: PropTypes.string,

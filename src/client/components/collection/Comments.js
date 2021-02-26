@@ -44,10 +44,7 @@ Comments.propTypes = {
   comments: PropTypes.arrayOf(
     PropTypes.shape({
       text: PropTypes.string,
-      author: PropTypes.shape({
-        name: PropTypes.string,
-        avatar: PropTypes.string,
-      }),
+      author: PropTypes.string.isRequired,
       date: PropTypes.string,
     }),
   ),

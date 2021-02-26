@@ -20,8 +20,8 @@ function SimilarCollectionsHeader() {
   const classes = useStyles();
   return (
     <div className={classes.root}>
-      <Grid container spacing={0}>
-        <Grid item xs={6} justify="flex-start">
+      <Grid container spacing={0} justify="space-between">
+        <Grid item>
           <Typography
             variant="h3"
             color="inherit"
@@ -31,13 +31,7 @@ function SimilarCollectionsHeader() {
             {t('Similar Collections')}
           </Typography>
         </Grid>
-        <Grid
-          item
-          xs={6}
-          justify="flex-end"
-          alignItems="center"
-          className={classes.cell}
-        >
+        <Grid item alignItems="center" className={classes.cell}>
           <Tooltip title={t('These are similar collections.')}>
             <Info color="primary" />
           </Tooltip>

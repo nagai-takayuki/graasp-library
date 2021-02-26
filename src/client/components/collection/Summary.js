@@ -62,7 +62,7 @@ function Summary({
             likes={likes}
             description={description}
           />
-          <Typography variant="body1" gutterBottom component="p">
+          <Typography variant="body1" gutterBottom component="div">
             <div dangerouslySetInnerHTML={{ __html: description }} />
           </Typography>
           <Authorship author={creator} contributors={contributors} />
