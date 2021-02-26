@@ -22,6 +22,10 @@ import { buildImageUrl } from '../../utils/image';
 const useStyles = makeStyles((theme) => ({
   card: {
     width: '100%',
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
   },
   cardDescription: { margin: 0, paddingTop: 0, paddingBottom: 0 },
   cardDescriptionText: {

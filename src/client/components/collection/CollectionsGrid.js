@@ -13,7 +13,7 @@ function CollectionsGrid({ collections }) {
       {t('There are no collections available.')}
     </Typography>
   ) : (
-    <Grid container spacing={2}>
+    <Grid container spacing={2} alignItems="stretch">
       {collections.map((similarCollection) => (
         <Grid
           key={similarCollection.id}

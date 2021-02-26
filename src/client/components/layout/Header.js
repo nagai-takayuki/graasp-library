@@ -30,7 +30,7 @@ function Header() {
 
   return (
     <header>
-      <AppBar position="static">
+      <AppBar position="absolute">
         <Toolbar>
           <a href={HOME_ROUTE} className={classes.link}>
             <Logo className={classes.logo} />

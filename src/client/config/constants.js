@@ -42,3 +42,6 @@ export const TREE_VIEW_MIN_WIDTH = 350;
 
 export const TWITTER_MESSAGE_MAX_LENGTH = 270;
 export const MAIL_BREAK_LINE = '%0D%0A';
+
+export const CARD_DESCRITPION_MAX_LENGTH = 100;
+export const HEADER_HEIGHT = 65;

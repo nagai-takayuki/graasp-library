@@ -5,9 +5,18 @@ import Home from './home/Home';
 import Collection from './collection/Collection';
 import Header from './layout/Header';
 import Footer from './layout/Footer';
+import { HEADER_HEIGHT } from '../config/constants';
 
 const useStyles = makeStyles(() => ({
-  main: {},
+  main: {
+    paddingTop: HEADER_HEIGHT,
+  },
+  wrapper: {
+    display: 'flex',
+    flexDirection: 'column',
+    minHeight: '100vh',
+    justifyContent: 'space-between',
+  },
 }));
 
 function App() {
@@ -15,17 +24,19 @@ function App() {
   return (
     <>
       <Header />
-      <main className={classes.main}>
-        <Switch>
-          <Route path="/collections/:id">
-            <Collection />
-          </Route>
-          <Route path="/">
-            <Home />
-          </Route>
-        </Switch>
-      </main>
-      <Footer />
+      <div className={classes.wrapper}>
+        <main className={classes.main}>
+          <Switch>
+            <Route path="/collections/:id">
+              <Collection />
+            </Route>
+            <Route path="/">
+              <Home />
+            </Route>
+          </Switch>
+        </main>
+        <Footer />
+      </div>
     </>
   );
 }

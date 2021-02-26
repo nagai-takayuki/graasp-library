@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -19,14 +20,20 @@ import DEFAULT_COLLECTION_IMAGE from '../../resources/icon.png';
 import { getAvatar } from '../../utils/layout';
 import { buildCollectionRoute } from '../../config/routes';
 import { openInNewTab } from '../../config/helpers';
+import { CARD_DESCRITPION_MAX_LENGTH } from '../../config/constants';
 
 const useStyles = makeStyles(() => ({
   root: {
     maxWidth: 345,
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
   },
   media: {
     height: 300,
   },
+  header: {},
 }));
 
 export const CollectionCard = ({ collection = {} }) => {
@@ -98,7 +105,14 @@ export const CollectionCard = ({ collection = {} }) => {
       </CardActionArea>
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">
-          <p dangerouslySetInnerHTML={{ __html: description }} />
+          <p
+            dangerouslySetInnerHTML={{
+              __html: _.truncate(description, {
+                length: CARD_DESCRITPION_MAX_LENGTH,
+                separator: /,? +/,
+              }),
+            }}
+          />
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
