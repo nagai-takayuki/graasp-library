@@ -10,6 +10,7 @@ import { getAvatar } from '../../utils/layout';
 const useStyles = makeStyles((theme) => ({
   root: {
     marginTop: theme.spacing(),
+    display: 'flex',
   },
   authorName: {
     marginLeft: theme.spacing(),
@@ -23,39 +24,42 @@ function Authorship({ author, contributors }) {
 
   const authorAvatar = getAvatar(image);
 
+  // the wrapper div is necessary for grid to apply
   return (
-    <Grid container className={classes.root}>
-      <Grid item xs={12} sm={6}>
-        <Typography variant="h5" gutterBottom>
-          {t('Author')}
-        </Typography>
-        <Grid container alignItems="center" justify="flex-start">
-          <Grid item>
-            <Avatar alt={authorName} src={authorAvatar} />
-          </Grid>
-          <Grid item className={classes.authorName}>
-            <Typography variant="body1">{authorName}</Typography>
-          </Grid>
-        </Grid>
-      </Grid>
-      {Boolean(contributors.length) && (
+    <div>
+      <Grid container>
         <Grid item xs={12} sm={6}>
           <Typography variant="h5" gutterBottom>
-            {t('Contributors')}
+            {t('Author')}
           </Typography>
-          <AvatarGroup max={8}>
-            {contributors.map((contributor) => {
-              const {
-                name: contributorName,
-                image: contributorAvatar,
-              } = contributor;
-              const avatar = getAvatar(contributorAvatar);
-              return <Avatar alt={contributorName} src={avatar} />;
-            })}
-          </AvatarGroup>
+          <Grid container alignItems="center" justify="flex-start">
+            <Grid item>
+              <Avatar alt={authorName} src={authorAvatar} />
+            </Grid>
+            <Grid item className={classes.authorName}>
+              <Typography variant="body1">{authorName}</Typography>
+            </Grid>
+          </Grid>
         </Grid>
-      )}
-    </Grid>
+        {Boolean(contributors.length) && (
+          <Grid item xs={12} sm={6}>
+            <Typography variant="h5" gutterBottom>
+              {t('Contributors')}
+            </Typography>
+            <AvatarGroup max={8}>
+              {contributors.map((contributor) => {
+                const {
+                  name: contributorName,
+                  image: contributorAvatar,
+                } = contributor;
+                const avatar = getAvatar(contributorAvatar);
+                return <Avatar alt={contributorName} src={avatar} />;
+              })}
+            </AvatarGroup>
+          </Grid>
+        )}
+      </Grid>
+    </div>
   );
 }
 

@@ -17,6 +17,7 @@ import { ITEM_TYPES } from '../../config/constants';
 import { openContentInNewTab, openInNewTab } from '../../config/helpers';
 import { buildSpaceViewerRoute } from '../../config/routes';
 import CopyButton from './CopyButton';
+import { buildImageUrl } from '../../utils/image';
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -48,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const Item = ({ item }) => {
-  const { description, name, url, content, id, image, category } = item;
+  const { description, name, url, content, id, image = {}, category } = item;
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
   const handleExpandClick = () => {
@@ -73,7 +74,9 @@ export const Item = ({ item }) => {
     }
   };
 
-  const imageUrl = image?.thumbnailUrl || ITEM_DEFAULT_IMAGE;
+  const { pictureId } = image;
+  const imageUrl =
+    buildImageUrl({ id, pictureId, quality: 'large' }) || ITEM_DEFAULT_IMAGE;
 
   return (
     <Card id={id} className={classes.card}>
@@ -120,6 +123,7 @@ export const Item = ({ item }) => {
 Item.propTypes = {
   item: PropTypes.shape({
     image: PropTypes.shape({
+      pictureId: PropTypes.number.isRequired,
       thumbnailUrl: PropTypes.string,
     }),
     description: PropTypes.string,

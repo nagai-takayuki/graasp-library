@@ -11,6 +11,7 @@ import { MEMBER_TYPES } from '../../config/constants';
 import Seo from '../common/Seo';
 import ITEM_DEFAULT_IMAGE from '../../resources/icon.png';
 import { removeTagsFromString } from '../../utils/text';
+import { buildImageUrl } from '../../utils/image';
 // todo: get similar collections in same call
 // import SimilarCollections from './SimilarCollections';
 
@@ -32,7 +33,7 @@ function Collection() {
       id,
       comments,
       description,
-      image,
+      image = {},
       subitems: items,
       voteScore: likes,
       name,
@@ -43,9 +44,11 @@ function Collection() {
     },
   } = useContext(CollectionContext);
 
+  const { pictureId } = image;
   const creator = members.find(({ type }) => type === MEMBER_TYPES.OWNER);
   const contributors = members.filter(({ id: mId }) => mId !== creator.id);
-  const imageUrl = image?.thumbnailUrl || ITEM_DEFAULT_IMAGE;
+  const imageUrl =
+    buildImageUrl({ id, pictureId, quality: 'large' }) || ITEM_DEFAULT_IMAGE;
 
   const classes = useStyles();
 
