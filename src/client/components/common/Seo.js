@@ -4,13 +4,7 @@ import PropTypes from 'prop-types';
 import { APP_KEYWORDS, DEFAULT_LANG } from '../../config/constants';
 import ITEM_DEFAULT_IMAGE from '../../resources/icon.png';
 
-const Seo = ({
-  lang,
-  title,
-  description,
-  author,
-  image = ITEM_DEFAULT_IMAGE,
-}) => {
+const Seo = ({ lang, title, description, author, image }) => {
   const keywords = APP_KEYWORDS;
 
   // todo: default to env variable
@@ -48,11 +42,12 @@ const Seo = ({
 
 Seo.defaultProps = {
   lang: DEFAULT_LANG,
+  image: ITEM_DEFAULT_IMAGE,
 };
 
 Seo.propTypes = {
   lang: PropTypes.string,
-  image: PropTypes.string.isRequired,
+  image: PropTypes.string,
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   author: PropTypes.string.isRequired,

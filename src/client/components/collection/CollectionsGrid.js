@@ -5,12 +5,6 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import CollectionCard from './CollectionCard';
 
-// const useStyles = makeStyles(theme => ({
-//   cardLg: {
-
-//   }
-// }))
-
 function CollectionsGrid({ collections }) {
   const { t } = useTranslation();
 
@@ -22,7 +16,6 @@ function CollectionsGrid({ collections }) {
     <Grid container spacing={2} alignItems="stretch">
       {collections.map((similarCollection) => (
         <Grid
-          // className={{lg: classes.cardLg}}
           key={similarCollection.id}
           item
           xs={12}
@@ -41,9 +34,9 @@ function CollectionsGrid({ collections }) {
 CollectionsGrid.propTypes = {
   collections: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.number,
+      id: PropTypes.string,
       name: PropTypes.string,
-      image: PropTypes.string,
+      image: PropTypes.shape({}),
       description: PropTypes.string,
       creator: PropTypes.shape({
         name: PropTypes.string,

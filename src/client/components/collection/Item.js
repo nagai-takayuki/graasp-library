@@ -13,7 +13,7 @@ import IconButton from '@material-ui/core/IconButton';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Text from '../common/Text';
 import ITEM_DEFAULT_IMAGE from '../../resources/icon.png';
-import { ITEM_TYPES } from '../../config/constants';
+import { DEFAULT_PICTURE_QUALITY, ITEM_TYPES } from '../../config/constants';
 import { openContentInNewTab, openInNewTab } from '../../config/helpers';
 import { buildSpaceViewerRoute } from '../../config/routes';
 import CopyButton from './CopyButton';
@@ -80,7 +80,8 @@ export const Item = ({ item }) => {
 
   const { pictureId } = image;
   const imageUrl =
-    buildImageUrl({ id, pictureId, quality: 'large' }) || ITEM_DEFAULT_IMAGE;
+    buildImageUrl({ id, pictureId, quality: DEFAULT_PICTURE_QUALITY }) ||
+    ITEM_DEFAULT_IMAGE;
 
   return (
     <Card id={id} className={classes.card}>

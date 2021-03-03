@@ -7,7 +7,7 @@ import Summary from './Summary';
 import Items from './Items';
 import Comments from './Comments';
 import { CollectionContext } from '../CollectionProvider';
-import { MEMBER_TYPES } from '../../config/constants';
+import { DEFAULT_PICTURE_QUALITY, MEMBER_TYPES } from '../../config/constants';
 import Seo from '../common/Seo';
 import ITEM_DEFAULT_IMAGE from '../../resources/icon.png';
 import { removeTagsFromString } from '../../utils/text';
@@ -48,7 +48,8 @@ function Collection() {
   const creator = members.find(({ type }) => type === MEMBER_TYPES.OWNER);
   const contributors = members.filter(({ id: mId }) => mId !== creator.id);
   const imageUrl =
-    buildImageUrl({ id, pictureId, quality: 'large' }) || ITEM_DEFAULT_IMAGE;
+    buildImageUrl({ id, pictureId, quality: DEFAULT_PICTURE_QUALITY }) ||
+    ITEM_DEFAULT_IMAGE;
 
   const classes = useStyles();
 

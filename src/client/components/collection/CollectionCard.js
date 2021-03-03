@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
 import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -20,20 +19,50 @@ import DEFAULT_COLLECTION_IMAGE from '../../resources/icon.png';
 import { getAvatar } from '../../utils/layout';
 import { buildCollectionRoute } from '../../config/routes';
 import { openInNewTab } from '../../config/helpers';
-import { CARD_DESCRITPION_MAX_LENGTH } from '../../config/constants';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 345,
     height: '100%',
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'space-between',
   },
   media: {
     height: 300,
   },
-  header: {},
+  header: {
+    height: 60,
+    position: 'relative',
+  },
+  content: {
+    width: '65%',
+  },
+  title: {
+    overflow: 'hidden',
+    'text-overflow': 'ellipsis',
+    display: '-webkit-box',
+    '-webkit-line-clamp': '2' /* number of lines to show */,
+    '-webkit-box-orient': 'vertical',
+  },
+  actions: {
+    marginTop: 'auto',
+  },
+  subheader: {
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
+    whiteSpace: 'nowrap',
+  },
+  description: {
+    margin: theme.spacing(1, 0),
+    overflow: 'hidden',
+    'text-overflow': 'ellipsis',
+    display: '-webkit-box',
+    '-webkit-line-clamp': '2' /* number of lines to show */,
+    '-webkit-box-orient': 'vertical',
+    '& p': {
+      margin: theme.spacing(0),
+    },
+  },
 }));
 
 export const CollectionCard = ({ collection = {} }) => {
@@ -70,8 +99,8 @@ export const CollectionCard = ({ collection = {} }) => {
   );
 
   const action = (
-    <IconButton aria-label="actions">
-      <MoreVertIcon onClick={handleClick} />
+    <IconButton aria-label="actions" onClick={handleClick}>
+      <MoreVertIcon />
       <Menu
         id="actions-menu"
         anchorEl={actionsMenuAnchor}
@@ -93,7 +122,13 @@ export const CollectionCard = ({ collection = {} }) => {
         avatar={avatar}
         action={action}
         title={name}
-        subheader={`${t('a collection by')} ${author.name}`}
+        subheader={author.name}
+        classes={{
+          root: classes.header,
+          title: classes.title,
+          subheader: classes.subheader,
+          content: classes.content,
+        }}
       />
       <CardActionArea onClick={handleCollectionClick}>
         <CardMedia
@@ -106,16 +141,14 @@ export const CollectionCard = ({ collection = {} }) => {
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">
           <p
+            className={classes.description}
             dangerouslySetInnerHTML={{
-              __html: _.truncate(description, {
-                length: CARD_DESCRITPION_MAX_LENGTH,
-                separator: /,? +/,
-              }),
+              __html: description,
             }}
           />
         </Typography>
       </CardContent>
-      <CardActions disableSpacing>
+      <CardActions disableSpacing className={classes.actions}>
         <SimilarCollectionBadges views={views} voteScore={voteScore} />
       </CardActions>
     </Card>
@@ -126,7 +159,7 @@ CollectionCard.propTypes = {
   collection: PropTypes.shape({
     name: PropTypes.string,
     id: PropTypes.string.isRequired,
-    image: PropTypes.string,
+    image: PropTypes.shape({}),
     description: PropTypes.string,
     author: PropTypes.shape({
       name: PropTypes.string,

@@ -7,9 +7,9 @@ import CollectionsGrid from '../collection/CollectionsGrid';
 import { CollectionContext } from '../CollectionProvider';
 import Seo from '../common/Seo';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   wrapper: {
-    padding: theme.spacing(5),
+    padding: '4vw',
   },
 }));
 

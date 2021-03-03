@@ -25,7 +25,7 @@ function Footer() {
       <AppBar position="static" color="primary" className={classes.appBar}>
         <Toolbar>
           <Typography variant="subtitle1" className={classes.content}>
-            © 2020 Graasp Association
+            {`© ${new Date().getFullYear()} Graasp Association`}
           </Typography>
         </Toolbar>
       </AppBar>
