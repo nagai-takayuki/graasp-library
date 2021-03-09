@@ -46,7 +46,7 @@ let theme = createMuiTheme({
   typography: {
     useNextVariants: true,
     fontFamily: ['SuisseIntl', 'Helvetica', 'Arial', 'sans-serif'].join(','),
-    fontSize: 12,
+    fontSize: 14,
   },
 });
 

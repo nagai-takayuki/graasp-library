@@ -66,14 +66,13 @@ function Badges({ views, likes, name, description }) {
   const mailString = `mailto:?subject=${subject}&body=${message}`;
 
   return (
-    <Grid container className={classes.root}>
-      <Grid
-        item
-        xs={6}
-        className={classes.cell}
-        justify="flex-start"
-        alignItems="center"
-      >
+    <Grid
+      container
+      justify="space-between"
+      alignItems="center"
+      className={classes.root}
+    >
+      <Grid item className={classes.cell}>
         <div className={classes.badges}>
           <Badge badgeContent={likes} color="secondary" max={999}>
             <Favorite color="primary" fontSize="large" />
@@ -83,13 +82,7 @@ function Badges({ views, likes, name, description }) {
           </Badge>
         </div>
       </Grid>
-      <Grid
-        item
-        xs={6}
-        className={classes.cell}
-        justify="flex-end"
-        alignItems="center"
-      >
+      <Grid item className={classes.cell}>
         <IconButton color="primary" onClick={shareOnFacebook}>
           <Facebook fontSize="large" />
         </IconButton>

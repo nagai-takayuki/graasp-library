@@ -19,10 +19,13 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(2),
   },
   media: {
-    minHeight: 450,
+    minHeight: 350,
   },
   root: {
     flexGrow: 1,
+  },
+  title: {
+    fontSize: '4em',
   },
 }));
 
@@ -38,19 +41,19 @@ function Summary({
   const classes = useStyles();
   return (
     <div className={classes.root}>
-      <Grid container spacing={2}>
-        <Grid item sm={12} md={6} className={classes.centeredGridItem}>
+      <Grid container spacing={2} alignItems="flex-start">
+        <Grid item sm={12} md={4} className={classes.centeredGridItem}>
           <Card className={classes.card}>
             <CardMedia
               className={classes.media}
-              image={image?.thumbnailUrl || ITEM_DEFAULT_IMAGE}
+              image={image || ITEM_DEFAULT_IMAGE}
               title={name}
               component="img"
             />
           </Card>
         </Grid>
-        <Grid item sm={12} md={6}>
-          <Typography variant="h1" gutterBottom>
+        <Grid item sm={12} md={8}>
+          <Typography variant="h1" gutterBottom className={classes.title}>
             {name}
           </Typography>
           <Badges
@@ -59,7 +62,7 @@ function Summary({
             likes={likes}
             description={description}
           />
-          <Typography variant="body1" gutterBottom component="p">
+          <Typography variant="body1" gutterBottom component="div">
             <div dangerouslySetInnerHTML={{ __html: description }} />
           </Typography>
           <Authorship author={creator} contributors={contributors} />

@@ -13,14 +13,19 @@ import IconButton from '@material-ui/core/IconButton';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Text from '../common/Text';
 import ITEM_DEFAULT_IMAGE from '../../resources/icon.png';
-import { ITEM_TYPES } from '../../config/constants';
+import { DEFAULT_PICTURE_QUALITY, ITEM_TYPES } from '../../config/constants';
 import { openContentInNewTab, openInNewTab } from '../../config/helpers';
 import { buildSpaceViewerRoute } from '../../config/routes';
 import CopyButton from './CopyButton';
+import { buildImageUrl } from '../../utils/image';
 
 const useStyles = makeStyles((theme) => ({
   card: {
     width: '100%',
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
   },
   cardDescription: { margin: 0, paddingTop: 0, paddingBottom: 0 },
   cardDescriptionText: {
@@ -48,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const Item = ({ item }) => {
-  const { description, name, url, content, id, image, category } = item;
+  const { description, name, url, content, id, image = {}, category } = item;
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
   const handleExpandClick = () => {
@@ -73,7 +78,10 @@ export const Item = ({ item }) => {
     }
   };
 
-  const imageUrl = image?.thumbnailUrl || ITEM_DEFAULT_IMAGE;
+  const { pictureId } = image;
+  const imageUrl =
+    buildImageUrl({ id, pictureId, quality: DEFAULT_PICTURE_QUALITY }) ||
+    ITEM_DEFAULT_IMAGE;
 
   return (
     <Card id={id} className={classes.card}>
@@ -86,7 +94,7 @@ export const Item = ({ item }) => {
         />
 
         <CardContent>
-          <Typography variant="h5" component="h2" noWrap>
+          <Typography variant="h6" component="h2">
             {name}
           </Typography>
         </CardContent>
@@ -120,6 +128,7 @@ export const Item = ({ item }) => {
 Item.propTypes = {
   item: PropTypes.shape({
     image: PropTypes.shape({
+      pictureId: PropTypes.string.isRequired,
       thumbnailUrl: PropTypes.string,
     }),
     description: PropTypes.string,
