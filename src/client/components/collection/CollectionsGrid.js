@@ -36,7 +36,10 @@ CollectionsGrid.propTypes = {
     PropTypes.shape({
       id: PropTypes.string,
       name: PropTypes.string,
-      image: PropTypes.shape({}),
+      image: PropTypes.shape({
+        pictureId: PropTypes.string.isRequired,
+        thumbnailUrl: PropTypes.string,
+      }),
       description: PropTypes.string,
       creator: PropTypes.shape({
         name: PropTypes.string,

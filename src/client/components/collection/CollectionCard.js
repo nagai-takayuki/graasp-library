@@ -41,7 +41,8 @@ const useStyles = makeStyles((theme) => ({
     overflow: 'hidden',
     'text-overflow': 'ellipsis',
     display: '-webkit-box',
-    '-webkit-line-clamp': '2' /* number of lines to show */,
+    // number of lines to show
+    '-webkit-line-clamp': '2',
     '-webkit-box-orient': 'vertical',
   },
   actions: {
@@ -57,7 +58,8 @@ const useStyles = makeStyles((theme) => ({
     overflow: 'hidden',
     'text-overflow': 'ellipsis',
     display: '-webkit-box',
-    '-webkit-line-clamp': '2' /* number of lines to show */,
+    // number of lines to show
+    '-webkit-line-clamp': '2',
     '-webkit-box-orient': 'vertical',
     '& p': {
       margin: theme.spacing(0),
@@ -159,11 +161,17 @@ CollectionCard.propTypes = {
   collection: PropTypes.shape({
     name: PropTypes.string,
     id: PropTypes.string.isRequired,
-    image: PropTypes.shape({}),
+    image: PropTypes.shape({
+      pictureId: PropTypes.string.isRequired,
+      thumbnailUrl: PropTypes.string,
+    }),
     description: PropTypes.string,
     author: PropTypes.shape({
       name: PropTypes.string,
-      image: PropTypes.shape({}),
+      image: PropTypes.shape({
+        gravatarUrl: PropTypes.string,
+        thumbnailUrl: PropTypes.string,
+      }),
     }),
     voteScore: PropTypes.number,
     views: PropTypes.number,

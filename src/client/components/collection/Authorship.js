@@ -66,12 +66,18 @@ function Authorship({ author, contributors }) {
 Authorship.propTypes = {
   author: PropTypes.shape({
     name: PropTypes.string,
-    image: PropTypes.shape({}),
+    image: PropTypes.shape({
+      gravatarUrl: PropTypes.string,
+      thumbnailUrl: PropTypes.string,
+    }),
   }).isRequired,
   contributors: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string,
-      image: PropTypes.shape({}),
+      image: PropTypes.shape({
+        gravatarUrl: PropTypes.string,
+        thumbnailUrl: PropTypes.string,
+      }),
     }),
   ),
 };
