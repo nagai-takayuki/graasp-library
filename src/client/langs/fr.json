@@ -1,3 +1,21 @@
 {
-  "translations": {}
+  "translations": {
+    "Copy Link": "Copier le lien",
+    "Explore": "Explore",
+    "Home": "Accueil",
+    "Guest": "Invité",
+    "Author": "Auteur",
+    "This collection is empty.": "Cette collection est vide.",
+    "Items": "Eléments",
+    "These are the items in this collection.": "Ce sont les éléments de cette collection.",
+    "Login": "Se Connecter",
+    "Create an Account": "Créer un compte",
+    "Copy Item": "Copier un Elément",
+    "Login Required": "Connexion Nécessaire",
+    "In order to proceed, you need to login to Graasp.": "Pour continuer, vous devez vous connecter à Graasp.",
+    "Cancel": "Annuler",
+    "Confirm": "Confirmer",
+    "Copy": "Copier",
+    "Select one space from the list below": "Selectionnez un espace dans la liste ci-dessous"
+  }
 }
