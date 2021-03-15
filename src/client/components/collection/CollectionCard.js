@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
+import { toast } from 'react-toastify';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardActionArea from '@material-ui/core/CardActionArea';
@@ -64,6 +65,10 @@ const useStyles = makeStyles((theme) => ({
     '& p': {
       margin: theme.spacing(0),
     },
+    // hide long descriptions splitted in multiple paragraphs
+    '& p:nth-child(1n+2)': {
+      display: 'none',
+    },
   },
 }));
 
@@ -92,6 +97,16 @@ export const CollectionCard = ({ collection = {} }) => {
     openInNewTab(spaceUrl);
   };
 
+  const handleCopyLink = () => {
+    // copy collection url to clipboard
+    const collectionUrl = `${window.location.hostname}${buildCollectionRoute(
+      id,
+    )}`;
+    navigator.clipboard.writeText(collectionUrl);
+    handleClose();
+    toast.success(t('Collection link is copied to your clipboard.'));
+  };
+
   const avatar = (
     <Avatar
       aria-label={author.name}
@@ -101,8 +116,10 @@ export const CollectionCard = ({ collection = {} }) => {
   );
 
   const action = (
-    <IconButton aria-label="actions" onClick={handleClick}>
-      <MoreVertIcon />
+    <>
+      <IconButton aria-label="actions" onClick={handleClick}>
+        <MoreVertIcon />
+      </IconButton>
       <Menu
         id="actions-menu"
         anchorEl={actionsMenuAnchor}
@@ -110,10 +127,9 @@ export const CollectionCard = ({ collection = {} }) => {
         open={Boolean(actionsMenuAnchor)}
         onClose={handleClose}
       >
-        <MenuItem onClick={handleClose}>{t('Save Collection')}</MenuItem>
-        <MenuItem onClick={handleClose}>{t('Copy Link')}</MenuItem>
+        <MenuItem onClick={handleCopyLink}>{t('Copy Link')}</MenuItem>
       </Menu>
-    </IconButton>
+    </>
   );
 
   const { thumbnailUrl = DEFAULT_COLLECTION_IMAGE } = image;
@@ -125,6 +141,7 @@ export const CollectionCard = ({ collection = {} }) => {
         action={action}
         title={name}
         subheader={author.name}
+        titleTypographyProps={{ title: name }}
         classes={{
           root: classes.header,
           title: classes.title,
