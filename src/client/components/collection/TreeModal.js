@@ -26,12 +26,16 @@ const styles = () => ({
     flexGrow: 1,
     minWidth: TREE_VIEW_MIN_WIDTH,
   },
+  cancelButton: {
+    color: '#f44336',
+  },
 });
 
 class TreeModal extends Component {
   static propTypes = {
     open: PropTypes.bool.isRequired,
     classes: PropTypes.shape({
+      cancelButton: PropTypes.string.isRequired,
       root: PropTypes.string.isRequired,
     }).isRequired,
     onConfirm: PropTypes.func.isRequired,
@@ -127,6 +131,9 @@ class TreeModal extends Component {
         </DialogTitle>
         <DialogContent>{tree}</DialogContent>
         <DialogActions>
+          <Button onClick={this.handleClose} className={classes.cancelButton}>
+            {t('Cancel')}
+          </Button>
           <Button onClick={this.submit} color="primary" disabled={!selectedId}>
             {t('Confirm')}
           </Button>
