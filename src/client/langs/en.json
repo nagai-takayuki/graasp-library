@@ -1,5 +1,22 @@
 {
   "translations": {
-    "Check out this collection on Graasp": "Check out {{name}} on Graasp"
+    "Check out this collection on Graasp": "Check out {{name}} on Graasp",
+    "Copy Link": "Copy Link",
+    "Explore": "Explore",
+    "Home": "Home",
+    "Guest": "Guest",
+    "Author": "Author",
+    "This collection is empty.": "This collection is empty.",
+    "Items": "Items",
+    "These are the items in this collection.": "These are the items in this collection.",
+    "Login": "Login",
+    "Create an Account": "Create an Account",
+    "Copy Item": "Copy Item",
+    "Login Required": "Login Required",
+    "In order to proceed, you need to login to Graasp.": "In order to proceed, you need to login to Graasp.",
+    "Cancel": "Cancel",
+    "Confirm": "Confirm",
+    "Copy": "Copy",
+    "Select one space from the list below": "Select one space from the list below"
   }
 }

@@ -1,4 +1,5 @@
 import React from 'react';
+import _ from 'lodash';
 import PropTypes from 'prop-types';
 import { Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -7,6 +8,7 @@ import Card from '@material-ui/core/Card';
 import Authorship from './Authorship';
 import ITEM_DEFAULT_IMAGE from '../../resources/icon.png';
 import Badges from './Badges';
+import { MAX_COLLECTION_NAME_LENGTH } from '../../config/constants';
 
 const useStyles = makeStyles((theme) => ({
   centeredGridItem: {
@@ -38,6 +40,10 @@ function Summary({
   likes,
   views,
 }) {
+  const truncatedName = _.truncate(name, {
+    length: MAX_COLLECTION_NAME_LENGTH,
+    separator: /,? +/,
+  });
   const classes = useStyles();
   return (
     <div className={classes.root}>
@@ -54,7 +60,7 @@ function Summary({
         </Grid>
         <Grid item sm={12} md={8}>
           <Typography variant="h1" gutterBottom className={classes.title}>
-            {name}
+            {truncatedName}
           </Typography>
           <Badges
             name={name}
