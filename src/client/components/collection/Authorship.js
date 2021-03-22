@@ -1,6 +1,7 @@
 import React from 'react';
 import { Grid, Typography } from '@material-ui/core';
 import Avatar from '@material-ui/core/Avatar';
+import Skeleton from '@material-ui/lab/Skeleton';
 import AvatarGroup from '@material-ui/lab/AvatarGroup';
 import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
@@ -17,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Authorship({ author, contributors }) {
+function Authorship({ author, contributors, isLoading }) {
   const { t } = useTranslation();
   const classes = useStyles();
   const { image, name: authorName } = author;
@@ -34,7 +35,9 @@ function Authorship({ author, contributors }) {
           </Typography>
           <Grid container alignItems="center" justify="flex-start">
             <Grid item>
-              <Avatar alt={authorName} src={authorAvatar} />
+              {isLoading ?
+                <Skeleton><Avatar /></Skeleton>:
+                <Avatar alt={authorName} src={authorAvatar} />}
             </Grid>
             <Grid item className={classes.authorName}>
               <Typography variant="body1">{authorName}</Typography>
@@ -80,6 +83,7 @@ Authorship.propTypes = {
       }),
     }),
   ),
+  isLoading: PropTypes.bool.isRequired,
 };
 
 Authorship.defaultProps = {

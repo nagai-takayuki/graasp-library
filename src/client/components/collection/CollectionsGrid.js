@@ -5,7 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import CollectionCard from './CollectionCard';
 
-function CollectionsGrid({ collections }) {
+function CollectionsGrid({ collections, isLoading }) {
   const { t } = useTranslation();
 
   return !collections.length ? (
@@ -24,7 +24,7 @@ function CollectionsGrid({ collections }) {
           lg={3}
           xl={3}
         >
-          <CollectionCard collection={similarCollection} />
+          <CollectionCard collection={similarCollection} isLoading={isLoading} />
         </Grid>
       ))}
     </Grid>

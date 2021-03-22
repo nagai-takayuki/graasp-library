@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import ListItem from '@material-ui/core/ListItem';
@@ -11,7 +11,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Tooltip } from '@material-ui/core';
 import { formatDate } from '../../utils/date';
 import { DEFAULT_MEMBER_NAME } from '../../config/constants';
-import { CollectionContext } from '../CollectionProvider';
 import DEFAULT_MEMBER_THUMBNAIL from '../../resources/defaultAvatar.png';
 
 const useStyles = makeStyles((theme) => ({
@@ -22,10 +21,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Comment({ comment }) {
-  const {
-    current: { members },
-  } = useContext(CollectionContext);
+function Comment({ comment, members }) {
   const { content, author, published } = comment;
   const classes = useStyles();
   const { t } = useTranslation();
@@ -77,6 +73,17 @@ Comment.propTypes = {
     author: PropTypes.string.isRequired,
     published: PropTypes.string,
   }).isRequired,
+  members: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+      image: PropTypes.shape({
+        pictureId: PropTypes.string,
+        thumbnailUrl: PropTypes.string,
+      }),
+      name: PropTypes.string,
+      type: PropTypes.string,
+    }),
+  ).isRequired,
 };
 
 export default Comment;

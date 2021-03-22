@@ -1,18 +1,28 @@
 import { BrowserRouter } from 'react-router-dom';
+import { Hydrate } from 'react-query/hydration';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import React from 'react';
-import { hydrate } from 'react-dom';
+import ReactDOM from 'react-dom';
 import Root from './client/components/Root';
-import { CollectionProvider } from './client/components/CollectionProvider';
 
-// Grab the state from a global variable injected into the server-generated HTML
-const preloadedState = window.PRELOADED_STATE;
+const dehydratedState = window.PRELOADED_STATE;
 
-hydrate(
-  <CollectionProvider data={preloadedState}>
-    <BrowserRouter>
-      <Root />
-    </BrowserRouter>
-  </CollectionProvider>,
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+    },
+  },
+});
+
+ReactDOM.render(
+  <BrowserRouter>
+    <QueryClientProvider client={queryClient}>
+      <Hydrate state={dehydratedState}>
+        <Root />
+      </Hydrate>
+    </QueryClientProvider>
+  </BrowserRouter>,
   document.getElementById('root'),
 );
 
