@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Home from './home/Home';
 import Collection from './collection/Collection';
+import Error from './common/Error';
 import Header from './layout/Header';
 import Footer from './layout/Footer';
 import { HEADER_HEIGHT } from '../config/constants';
@@ -12,6 +13,10 @@ const useStyles = makeStyles(() => ({
   main: {
     paddingTop: HEADER_HEIGHT,
     fontSize: '12w',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    minHeight: '80vh',
   },
   wrapper: {
     display: 'flex',
@@ -33,8 +38,11 @@ function App() {
               <Route path="/collections/:id">
                 <Collection />
               </Route>
-              <Route path="/">
+              <Route exact path="/">
                 <Home />
+              </Route>
+              <Route>
+                <Error />
               </Route>
             </Switch>
           </Container>
