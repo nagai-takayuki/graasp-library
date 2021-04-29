@@ -1,5 +1,10 @@
 import i18n from 'i18next';
-import { API_HOST, GRAASP_HOST } from './env';
+import runtimeConfig from './env';
+
+const {
+  API_HOST,
+  GRAASP_HOST,
+} = runtimeConfig;
 
 export const GET_COLLECTIONS_ENDPOINT = `${API_HOST}/spaces/collections`;
 
@@ -19,3 +24,4 @@ export const SIGN_IN_ENDPOINT = `${API_HOST}/login`;
 export const SIGN_UP_ENDPOINT = `${API_HOST}/signup`;
 export const GET_NAV_TREE_ENDPOINT = `${API_HOST}/spaces/joined-spaces/navtree`;
 export const buildCopyEndpoint = (id) => `${API_HOST}/items/${id}/copy`;
+

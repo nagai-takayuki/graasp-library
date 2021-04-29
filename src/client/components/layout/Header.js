@@ -1,5 +1,6 @@
 import React from 'react';
 import { AppBar, Typography, Toolbar } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { AccountCircle } from '@material-ui/icons';
 import IconButton from '@material-ui/core/IconButton';
@@ -32,12 +33,12 @@ function Header() {
     <header>
       <AppBar position="absolute">
         <Toolbar>
-          <a href={HOME_ROUTE} className={classes.link}>
+          <Link to={HOME_ROUTE} className={classes.link}>
             <Logo className={classes.logo} />
             <Typography variant="h6" color="inherit">
               {t('Explore')}
             </Typography>
-          </a>
+          </Link>
           <IconButton
             edge="end"
             aria-label="Account"

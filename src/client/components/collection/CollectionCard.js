@@ -6,7 +6,7 @@ import Card from '@material-ui/core/Card';
 import { toast } from 'react-toastify';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
-import CardActionArea from '@material-ui/core/CardActionArea';
+import { Link } from 'react-router-dom';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import Avatar from '@material-ui/core/Avatar';
@@ -15,11 +15,11 @@ import Typography from '@material-ui/core/Typography';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import { Skeleton } from '@material-ui/lab';
 import SimilarCollectionBadges from './SimilarCollectionBadges';
 import DEFAULT_COLLECTION_IMAGE from '../../resources/icon.png';
 import { getAvatar } from '../../utils/layout';
 import { buildCollectionRoute } from '../../config/routes';
-import { openInNewTab } from '../../config/helpers';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -72,7 +72,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const CollectionCard = ({ collection = {} }) => {
+export const CollectionCard = ({ collection = {}, isLoading }) => {
   const { t } = useTranslation();
   const {
     name,
@@ -92,11 +92,6 @@ export const CollectionCard = ({ collection = {} }) => {
     setActionsMenuAnchor(null);
   };
 
-  const handleCollectionClick = () => {
-    const spaceUrl = buildCollectionRoute(id);
-    openInNewTab(spaceUrl);
-  };
-
   const handleCopyLink = () => {
     // copy collection url to clipboard
     const collectionUrl = `${window.location.hostname}${buildCollectionRoute(
@@ -107,13 +102,22 @@ export const CollectionCard = ({ collection = {} }) => {
     toast.success(t('Collection link is copied to your clipboard.'));
   };
 
-  const avatar = (
-    <Avatar
-      aria-label={author.name}
-      src={getAvatar(author.image)}
-      title={author.name}
-    />
-  );
+  const avatar = () => {
+    if (isLoading) {
+      return (
+        <Skeleton>
+          <Avatar />
+        </Skeleton>
+      );
+    }
+    return (
+      <Avatar
+        aria-label={author.name}
+        src={getAvatar(author.image)}
+        title={author.name}
+      />
+    );
+  };
 
   const action = (
     <>
@@ -149,14 +153,25 @@ export const CollectionCard = ({ collection = {} }) => {
           content: classes.content,
         }}
       />
-      <CardActionArea onClick={handleCollectionClick}>
-        <CardMedia
-          className={classes.media}
-          image={thumbnailUrl}
-          title={name}
-          component="img"
-        />
-      </CardActionArea>
+      <Link to={buildCollectionRoute(id)}>
+        {isLoading ? (
+          <Skeleton>
+            <CardMedia
+              className={classes.media}
+              image={thumbnailUrl}
+              title={name}
+              component="img"
+            />
+          </Skeleton>
+        ) : (
+          <CardMedia
+            className={classes.media}
+            image={thumbnailUrl}
+            title={name}
+            component="img"
+          />
+        )}
+      </Link>
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">
           <p

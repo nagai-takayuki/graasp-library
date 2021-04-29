@@ -1,15 +1,18 @@
 import React from 'react';
 import { StaticRouter } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
+import { QueryClient, QueryClientProvider } from 'react-query'
+import { dehydrate, Hydrate } from 'react-query/hydration'
 import express from 'express';
 import ObjectId from 'bson-objectid';
 import { renderToString } from 'react-dom/server';
 import { cloneDeep } from 'lodash';
 import cookieParser from 'cookie-parser';
 import { ServerStyleSheets } from '@material-ui/core/styles';
+import serialize from 'serialize-javascript';
 import Root from './client/components/Root';
+import runtimeConfig from './api/env';
 import { copyItem, getCollection, getCollections } from './api/collection';
-import { CollectionProvider } from './client/components/CollectionProvider';
 import {
   buildCollectionRoute,
   buildSpaceRoute,
@@ -37,17 +40,21 @@ import { DEFAULT_LANG } from './client/config/constants';
 // eslint-disable-next-line import/no-dynamic-require
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
 
-const handleRender = (req, res, data) => {
+
+const handleRender = (req, res, queryClient) => {
+  const dehydratedState = dehydrate(queryClient)
   const sheets = new ServerStyleSheets();
   const context = {};
   const css = sheets.toString();
   const markup = renderToString(
     sheets.collect(
-      <CollectionProvider data={data}>
-        <StaticRouter context={context} location={req.url}>
-          <Root />
-        </StaticRouter>
-      </CollectionProvider>,
+      <QueryClientProvider client={queryClient}>
+        <Hydrate state={dehydratedState}>
+          <StaticRouter context={context} location={req.url}>
+            <Root />
+          </StaticRouter>
+        </Hydrate>
+      </QueryClientProvider>,
     ),
   );
 
@@ -86,13 +93,11 @@ const handleRender = (req, res, data) => {
   </head>
   <body ${helmet.bodyAttributes.toString()}>
       <div id="root">${markup}</div>
+      <script>window.env = ${serialize(runtimeConfig, { isJson: true })};</script>
       <script>
         // WARNING: See the following for security issues around embedding JSON in HTML:
         // https://redux.js.org/recipes/server-rendering/#security-considerations
-        window.PRELOADED_STATE = ${JSON.stringify(data)?.replace(
-          /</g,
-          '\\u003c',
-        )}
+        window.PRELOADED_STATE = ${serialize(dehydratedState, { isJson: true })}
       </script>
   </body>
 </html>`,
@@ -139,8 +144,10 @@ const handleSignUpRoute = (req, res) => {
   res.redirect(SIGN_UP_ENDPOINT);
 };
 
-const handleAllCollectionsRender = (req, res) => {
-  getCollections((collections) => handleRender(req, res, { collections }));
+const handleAllCollectionsRender = async (req, res) => {
+  const queryClient = new QueryClient();
+  await queryClient.prefetchQuery('collections', () => getCollections().then(data => data));
+  handleRender(req, res, queryClient);
 };
 
 const handleNavTreeEndpoint = (req, res) => {
@@ -151,14 +158,14 @@ const handleNavTreeEndpoint = (req, res) => {
   });
 };
 
-const handleCollectionRender = (req, res) => {
+const handleCollectionRender = async (req, res) => {
   const { id } = req.params;
   if (!ObjectId.isValid(id)) {
     throw new Error(`id '${id}' is not valid`);
   }
-  getCollection(id, (collection) =>
-    handleRender(req, res, { current: collection }),
-  );
+  const queryClient = new QueryClient();
+  await queryClient.prefetchQuery(['collections', id], () => getCollection(id).then(data => data));
+  handleRender(req, res, queryClient);
 };
 
 const handleCopyEndpoint = (req, res) => {

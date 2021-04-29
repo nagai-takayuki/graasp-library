@@ -9,6 +9,7 @@ import Authorship from './Authorship';
 import ITEM_DEFAULT_IMAGE from '../../resources/icon.png';
 import Badges from './Badges';
 import { MAX_COLLECTION_NAME_LENGTH } from '../../config/constants';
+import Skeleton from '@material-ui/lab/Skeleton';
 
 const useStyles = makeStyles((theme) => ({
   centeredGridItem: {
@@ -39,6 +40,7 @@ function Summary({
   contributors,
   likes,
   views,
+  isLoading,
 }) {
   const truncatedName = _.truncate(name, {
     length: MAX_COLLECTION_NAME_LENGTH,
@@ -50,12 +52,23 @@ function Summary({
       <Grid container spacing={2} alignItems="flex-start">
         <Grid item sm={12} md={4} className={classes.centeredGridItem}>
           <Card className={classes.card}>
-            <CardMedia
-              className={classes.media}
-              image={image || ITEM_DEFAULT_IMAGE}
-              title={name}
-              component="img"
-            />
+            {isLoading ? (
+              <Skeleton variant="rect" width="100%">
+                <CardMedia
+                  className={classes.media}
+                  image={image || ITEM_DEFAULT_IMAGE}
+                  title={name}
+                  component="img"
+                />
+              </Skeleton>
+              ) : (
+                <CardMedia
+                  className={classes.media}
+                  image={image || ITEM_DEFAULT_IMAGE}
+                  title={name}
+                  component="img"
+                />
+            )}
           </Card>
         </Grid>
         <Grid item sm={12} md={8}>
@@ -71,7 +84,7 @@ function Summary({
           <Typography variant="body1" gutterBottom component="div">
             <div dangerouslySetInnerHTML={{ __html: description }} />
           </Typography>
-          <Authorship author={creator} contributors={contributors} />
+          <Authorship author={creator} contributors={contributors} isLoading={isLoading} />
         </Grid>
       </Grid>
     </div>
@@ -98,6 +111,7 @@ Summary.propTypes = {
     value: PropTypes.number,
     count: PropTypes.number,
   }),
+  isLoading: PropTypes.bool.isRequired,
 };
 
 Summary.defaultProps = {

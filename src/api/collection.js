@@ -8,22 +8,28 @@ import {
   SIGN_IN_ENDPOINT,
 } from './endpoints';
 
-export const getCollections = async (callback) => {
+export const getCollections = async () => {
   const res = await fetch(GET_COLLECTIONS_ENDPOINT, DEFAULT_GET);
+  const data = await res.json();
   if (!res.ok) {
-    throw new Error(`An unexpected error occured when fetching collections`);
-  }
-  callback(await res.json());
-};
-
-export const getCollection = async (id, callback) => {
-  const res = await fetch(buildGetCollectionEndpoint(id), DEFAULT_GET);
-  if (!res.ok) {
-    throw new Error(
-      `An unexpected error occured when fetching the collection id '${id}'`,
+    return Promise.reject(
+      new Error(`An unexpected error occured when fetching collections`),
     );
   }
-  callback(await res.json());
+  return data;
+};
+
+export const getCollection = async (id) => {
+  const res = await fetch(buildGetCollectionEndpoint(id), DEFAULT_GET);
+  const data = await res.json();
+  if (!res.ok) {
+    return Promise.reject(
+      new Error(
+        `An unexpected error occured when fetching the collection id '${id}`,
+      ),
+    );
+  }
+  return data;
 };
 
 export const copyItem = async ({ cookies, body }) => {
