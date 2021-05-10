@@ -26,7 +26,7 @@ function Footer() {
         <Toolbar>
           <Typography variant="subtitle1" className={classes.content}>
             &copy;
-            {` ${new Date().getFullYear()} Graasp Association`}
+            {`${new Date().getFullYear()} Graasp Association`}
           </Typography>
         </Toolbar>
       </AppBar>

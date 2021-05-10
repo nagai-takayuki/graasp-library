@@ -1,17 +1,9 @@
-import React from 'react';
-import { StaticRouter } from 'react-router-dom';
-import { Helmet } from 'react-helmet';
-import { QueryClient, QueryClientProvider } from 'react-query'
-import { dehydrate, Hydrate } from 'react-query/hydration'
+import { QueryClient } from 'react-query';
+import * as Sentry from '@sentry/node';
 import express from 'express';
 import ObjectId from 'bson-objectid';
-import { renderToString } from 'react-dom/server';
 import { cloneDeep } from 'lodash';
 import cookieParser from 'cookie-parser';
-import { ServerStyleSheets } from '@material-ui/core/styles';
-import serialize from 'serialize-javascript';
-import Root from './client/components/Root';
-import runtimeConfig from './api/env';
 import { copyItem, getCollection, getCollections } from './api/collection';
 import {
   buildCollectionRoute,
@@ -25,6 +17,7 @@ import {
   SIGN_UP_ROUTE,
   GET_NAV_TREE_ROUTE,
   COPY_ROUTE,
+  ERROR_ROUTE,
 } from './client/config/routes';
 import { isAuthenticated } from './api/authentication';
 import {
@@ -35,90 +28,33 @@ import {
   buildSpaceViewerEndpoint,
 } from './api/endpoints';
 import { getNavTree } from './api/navigation';
-import { DEFAULT_LANG } from './client/config/constants';
+import { clientErrorHandler, logErrors, errorHandler } from './middlewares';
+import { handleRender } from './render';
 
-// eslint-disable-next-line import/no-dynamic-require
-const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
+// only set up sentry if dsn is provided
+const { SENTRY_DSN } = process.env;
+if (SENTRY_DSN) {
+  Sentry.init({ dsn: SENTRY_DSN });
+}
 
-
-const handleRender = (req, res, queryClient) => {
-  const dehydratedState = dehydrate(queryClient)
-  const sheets = new ServerStyleSheets();
-  const context = {};
-  const css = sheets.toString();
-  const markup = renderToString(
-    sheets.collect(
-      <QueryClientProvider client={queryClient}>
-        <Hydrate state={dehydratedState}>
-          <StaticRouter context={context} location={req.url}>
-            <Root />
-          </StaticRouter>
-        </Hydrate>
-      </QueryClientProvider>,
-    ),
-  );
-
-  /**
-   * Add helmet here
-   * So that we can extract on our HTML template below
-   * Notice on HTML below that we extract helmet
-   * (title, meta, link and others) to string
-   */
-  const helmet = Helmet.renderStatic();
-
-  if (context.url) {
-    res.redirect(context.url);
-  } else {
-    res.status(200).send(
-      `<!doctype html>
-  <html lang="${DEFAULT_LANG}" ${helmet.htmlAttributes.toString()}>
-  <head>
-      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-      <meta charset="utf-8" />
-      ${helmet.title.toString()}
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      ${helmet.meta.toString()} 
-      ${helmet.link.toString()} 
-      ${css ? `<style id="jss-server-side">${css}</style>` : ''}
-      ${
-        assets.client.css
-          ? `<link rel="stylesheet" href="${assets.client.css}">`
-          : ''
-      }
-      ${
-        process.env.NODE_ENV === 'production'
-          ? `<script src="${assets.client.js}" defer></script>`
-          : `<script src="${assets.client.js}" defer crossorigin></script>`
-      }
-  </head>
-  <body ${helmet.bodyAttributes.toString()}>
-      <div id="root">${markup}</div>
-      <script>window.env = ${serialize(runtimeConfig, { isJson: true })};</script>
-      <script>
-        // WARNING: See the following for security issues around embedding JSON in HTML:
-        // https://redux.js.org/recipes/server-rendering/#security-considerations
-        window.PRELOADED_STATE = ${serialize(dehydratedState, { isJson: true })}
-      </script>
-  </body>
-</html>`,
-    );
-  }
+const handleErrorRender = (req, res) => {
+  handleRender(req, res, new QueryClient());
 };
 
 // redirect to viewer mode of the space
-const handleSpaceViewerRender = (req, res) => {
+const handleSpaceViewerRender = (req, res, next) => {
   const { id } = req.params;
   if (!ObjectId.isValid(id)) {
-    throw new Error(`id '${id}' is not valid`);
+    return next(new Error(`id '${id}' is not valid`));
   }
   return res.redirect(buildSpaceViewerEndpoint(id));
 };
 
 // redirect to edition mode of the space
-const handleSpaceRender = (req, res) => {
+const handleSpaceRender = (req, res, next) => {
   const { id } = req.params;
   if (!ObjectId.isValid(id)) {
-    throw new Error(`id '${id}' is not valid`);
+    return next(new Error(`id '${id}' is not valid`));
   }
   return res.redirect(buildSpaceEndpoint(id));
 };
@@ -144,9 +80,13 @@ const handleSignUpRoute = (req, res) => {
   res.redirect(SIGN_UP_ENDPOINT);
 };
 
-const handleAllCollectionsRender = async (req, res) => {
+const handleAllCollectionsRender = async (req, res, next) => {
   const queryClient = new QueryClient();
-  await queryClient.prefetchQuery('collections', () => getCollections().then(data => data));
+  await queryClient.prefetchQuery('collections', () =>
+    getCollections()
+      .then((data) => data)
+      .catch((e) => next(e)),
+  );
   handleRender(req, res, queryClient);
 };
 
@@ -158,14 +98,21 @@ const handleNavTreeEndpoint = (req, res) => {
   });
 };
 
-const handleCollectionRender = async (req, res) => {
+const handleCollectionRender = async (req, res, next) => {
   const { id } = req.params;
+
   if (!ObjectId.isValid(id)) {
-    throw new Error(`id '${id}' is not valid`);
+    next(new Error(`id '${id}' is not valid`));
+    return handleErrorRender(req, res);
   }
+
   const queryClient = new QueryClient();
-  await queryClient.prefetchQuery(['collections', id], () => getCollection(id).then(data => data));
-  handleRender(req, res, queryClient);
+  await queryClient.prefetchQuery(['collections', id], () =>
+    getCollection(id)
+      .then((data) => data)
+      .catch((e) => next(e)),
+  );
+  return handleRender(req, res, queryClient);
 };
 
 const handleCopyEndpoint = (req, res) => {
@@ -179,6 +126,10 @@ const handleCopyEndpoint = (req, res) => {
 };
 
 const server = express();
+
+// The request handler must be the first middleware on the app
+server.use(Sentry.Handlers.requestHandler());
+
 server
   .use(cookieParser())
   .use(express.json())
@@ -194,6 +145,16 @@ server
   .get(buildResourceRoute(), handleResourceRoute)
   .get(GET_NAV_TREE_ROUTE, handleNavTreeEndpoint)
   .post(COPY_ROUTE, handleCopyEndpoint)
-  .get(HOME_ROUTE, handleAllCollectionsRender);
+  .get(HOME_ROUTE, handleAllCollectionsRender)
+  .get(ERROR_ROUTE, handleErrorRender)
+  .all('*', handleErrorRender);
+
+// The error handler must be before any other error middleware and after all controllers
+server.use(Sentry.Handlers.errorHandler());
+
+// error handlers
+server.use(logErrors);
+server.use(clientErrorHandler);
+server.use(errorHandler);
 
 export default server;

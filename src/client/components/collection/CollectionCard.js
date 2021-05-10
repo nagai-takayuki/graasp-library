@@ -9,13 +9,13 @@ import CardMedia from '@material-ui/core/CardMedia';
 import { Link } from 'react-router-dom';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
+import Skeleton from '@material-ui/lab/Skeleton';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import { Skeleton } from '@material-ui/lab';
 import SimilarCollectionBadges from './SimilarCollectionBadges';
 import DEFAULT_COLLECTION_IMAGE from '../../resources/icon.png';
 import { getAvatar } from '../../utils/layout';
@@ -102,22 +102,17 @@ export const CollectionCard = ({ collection = {}, isLoading }) => {
     toast.success(t('Collection link is copied to your clipboard.'));
   };
 
-  const avatar = () => {
-    if (isLoading) {
-      return (
-        <Skeleton>
-          <Avatar />
-        </Skeleton>
-      );
-    }
-    return (
-      <Avatar
-        aria-label={author.name}
-        src={getAvatar(author.image)}
-        title={author.name}
-      />
-    );
-  };
+  const avatar = isLoading ? (
+    <Skeleton>
+      <Avatar />
+    </Skeleton>
+  ) : (
+    <Avatar
+      aria-label={author.name}
+      src={getAvatar(author.image)}
+      title={author.name}
+    />
+  );
 
   const action = (
     <>
@@ -176,6 +171,7 @@ export const CollectionCard = ({ collection = {}, isLoading }) => {
         <Typography variant="body2" color="textSecondary" component="p">
           <p
             className={classes.description}
+            // eslint-disable-next-line react/no-danger
             dangerouslySetInnerHTML={{
               __html: description,
             }}

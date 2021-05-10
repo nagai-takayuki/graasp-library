@@ -1,7 +1,10 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
+import ObjectID from 'bson-objectid';
 import { makeStyles } from '@material-ui/core/styles';
+import { useTranslation } from 'react-i18next';
 import { Divider } from '@material-ui/core';
+import Error from '../common/Error';
 import Summary from './Summary';
 import Items from './Items';
 import Comments from './Comments';
@@ -41,6 +44,10 @@ function Collection() {
     members,
     loadingCollection,
   } = collection;
+
+  if (!id || !ObjectID.isValid(id)) {
+    return <Error />;
+  }
 
   const { pictureId } = image;
   const creator = members.find(({ type }) => type === MEMBER_TYPES.OWNER);

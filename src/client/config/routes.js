@@ -9,3 +9,4 @@ export const buildResourceRoute = (id = ':id') => `/resources/${id}`;
 export const SIGN_UP_ROUTE = '/signUp';
 export const GET_NAV_TREE_ROUTE = '/navtree';
 export const COPY_ROUTE = '/copy';
+export const ERROR_ROUTE = '/error';

@@ -21,14 +21,12 @@ export const getCollections = async () => {
 
 export const getCollection = async (id) => {
   const res = await fetch(buildGetCollectionEndpoint(id), DEFAULT_GET);
-  const data = await res.json();
   if (!res.ok) {
-    return Promise.reject(
-      new Error(
-        `An unexpected error occured when fetching the collection id '${id}`,
-      ),
+    throw new Error(
+      `An unexpected error occured when fetching the collection id '${id}'`,
     );
   }
+  const data = await res.json();
   return data;
 };
 
