@@ -57,6 +57,7 @@ export const MAX_COLLECTION_NAME_LENGTH = 100;
 
 // Cache Keys
 export const COLLECTIONS_KEY = 'collections';
+export const USER_KEY = 'user';
 
 // React Query Configs
 export const STALE_TIME_MILLISECONDS = 1000 * 60 * 60;

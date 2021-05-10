@@ -7,10 +7,12 @@ import {
   STALE_TIME_MILLISECONDS,
 } from '../config/constants';
 
-const collectionQueryConfig = {
+export const DEFAULT_QUERY_CONFIG = {
   staleTime: STALE_TIME_MILLISECONDS, // time until data in cache considered stale if cache not invalidated
   cacheTime: CACHE_TIME_MILLISECONDS, // time before cache labeled as inactive to be garbage collected
 };
+
+const collectionQueryConfig = DEFAULT_QUERY_CONFIG;
 
 // fallback collection
 const loadingCollection = {

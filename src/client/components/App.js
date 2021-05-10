@@ -9,6 +9,7 @@ import Header from './layout/Header';
 import Footer from './layout/Footer';
 import { HEADER_HEIGHT } from '../config/constants';
 import { ERROR_PAGE_NOT_FOUND_CODE } from '../config/messages';
+import { LoginModalProvider } from './common/LoginModalContext';
 
 const useStyles = makeStyles(() => ({
   main: {
@@ -30,7 +31,7 @@ const useStyles = makeStyles(() => ({
 function App() {
   const classes = useStyles();
   return (
-    <>
+    <LoginModalProvider>
       <Header />
       <div className={classes.wrapper}>
         <main className={classes.main}>
@@ -50,7 +51,7 @@ function App() {
         </main>
         <Footer />
       </div>
-    </>
+    </LoginModalProvider>
   );
 }
 

@@ -2,11 +2,10 @@ import React from 'react';
 import { AppBar, Typography, Toolbar } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { AccountCircle } from '@material-ui/icons';
-import IconButton from '@material-ui/core/IconButton';
 import { makeStyles } from '@material-ui/core/styles';
 import Logo from '../common/Logo';
 import { HOME_ROUTE } from '../../config/routes';
+import UserHeader from './UserHeader';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -39,15 +38,7 @@ function Header() {
               {t('Explore')}
             </Typography>
           </Link>
-          <IconButton
-            edge="end"
-            aria-label="Account"
-            aria-haspopup="true"
-            onClick={() => {}}
-            color="inherit"
-          >
-            <AccountCircle />
-          </IconButton>
+          <UserHeader />
         </Toolbar>
       </AppBar>
     </header>

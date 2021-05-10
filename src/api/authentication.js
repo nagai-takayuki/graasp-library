@@ -8,6 +8,7 @@ import { IS_AUTHENTICATED_ENDPOINT } from './endpoints';
 export const isAuthenticated = async (cookies) => {
   const cookie = formatCookies(cookies);
 
+  // payload: {email, username, _id}
   const res = await fetch(IS_AUTHENTICATED_ENDPOINT, {
     ...DEFAULT_GET,
     headers: {

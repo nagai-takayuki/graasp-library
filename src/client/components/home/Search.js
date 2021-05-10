@@ -61,10 +61,6 @@ function Search({ handleSearch, isLoading }) {
 }
 
 Search.propTypes = {
-  classes: PropTypes.shape({
-    root: PropTypes.string,
-    body: PropTypes.string.isRequired,
-  }).isRequired,
   handleSearch: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
 };

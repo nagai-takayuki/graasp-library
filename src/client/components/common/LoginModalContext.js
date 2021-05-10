@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
@@ -26,6 +26,8 @@ const styles = (theme) => ({
   },
 });
 
+const LoginModalContext = React.createContext();
+
 const DialogTitle = withStyles(styles)((props) => {
   const { children, classes, onClose } = props;
   return (
@@ -51,8 +53,9 @@ const DialogActions = withStyles((theme) => ({
   },
 }))(MuiDialogActions);
 
-const LoginModal = ({ open, setOpen }) => {
+const LoginModalProvider = ({ children }) => {
   const { t } = useTranslation();
+  const [open, setOpen] = useState(false);
 
   const handleClose = () => {
     setOpen(false);
@@ -66,7 +69,7 @@ const LoginModal = ({ open, setOpen }) => {
     openInNewTab(SIGN_UP_ROUTE);
   };
 
-  return (
+  const renderModal = () => (
     <div>
       <Dialog
         onClose={handleClose}
@@ -97,13 +100,21 @@ const LoginModal = ({ open, setOpen }) => {
       </Dialog>
     </div>
   );
+
+  return (
+    <LoginModalContext.Provider value={{ setOpen, open }}>
+      {renderModal()}
+      {children}
+    </LoginModalContext.Provider>
+  );
 };
 
-LoginModal.propTypes = {
-  open: PropTypes.bool.isRequired,
-  setOpen: PropTypes.func.isRequired,
+LoginModalProvider.propTypes = {
+  children: PropTypes.node,
 };
 
-LoginModal.defaultProps = {};
+LoginModalProvider.defaultProps = {
+  children: null,
+};
 
-export default LoginModal;
+export { LoginModalProvider, LoginModalContext };
