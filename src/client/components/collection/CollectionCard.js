@@ -204,6 +204,7 @@ CollectionCard.propTypes = {
     voteScore: PropTypes.number,
     views: PropTypes.number,
   }).isRequired,
+  isLoading: PropTypes.bool.isRequired,
 };
 
 export default CollectionCard;

@@ -2,7 +2,6 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import ObjectID from 'bson-objectid';
 import { makeStyles } from '@material-ui/core/styles';
-import { useTranslation } from 'react-i18next';
 import { Divider } from '@material-ui/core';
 import Error from '../common/Error';
 import Summary from './Summary';
@@ -10,6 +9,10 @@ import Items from './Items';
 import Comments from './Comments';
 import { DEFAULT_PICTURE_QUALITY, MEMBER_TYPES } from '../../config/constants';
 import Seo from '../common/Seo';
+import {
+  ERROR_INVALID_COLLECTION_ID_CODE,
+  ERROR_UNEXPECTED_ERROR_CODE,
+} from '../../config/messages';
 import ITEM_DEFAULT_IMAGE from '../../resources/icon.png';
 import { removeTagsFromString } from '../../utils/text';
 import { buildImageUrl } from '../../utils/image';
@@ -28,8 +31,8 @@ const useStyles = makeStyles((theme) => ({
 
 function Collection() {
   const { id } = useParams();
-
-  const { collection, isLoading } = useCollection(id);
+  const classes = useStyles();
+  const { collection, isLoading, isError } = useCollection(id);
 
   const {
     comments,
@@ -46,7 +49,11 @@ function Collection() {
   } = collection;
 
   if (!id || !ObjectID.isValid(id)) {
-    return <Error />;
+    return <Error code={ERROR_INVALID_COLLECTION_ID_CODE} />;
+  }
+
+  if (isError) {
+    return <Error code={ERROR_UNEXPECTED_ERROR_CODE} />;
   }
 
   const { pictureId } = image;
@@ -56,8 +63,6 @@ function Collection() {
     ? image.thumbnailUrl
     : buildImageUrl({ id, pictureId, quality: DEFAULT_PICTURE_QUALITY }) ||
       ITEM_DEFAULT_IMAGE;
-
-  const classes = useStyles();
 
   return (
     <>

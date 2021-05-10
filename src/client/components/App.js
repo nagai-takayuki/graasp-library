@@ -8,6 +8,7 @@ import Error from './common/Error';
 import Header from './layout/Header';
 import Footer from './layout/Footer';
 import { HEADER_HEIGHT } from '../config/constants';
+import { ERROR_PAGE_NOT_FOUND_CODE } from '../config/messages';
 
 const useStyles = makeStyles(() => ({
   main: {
@@ -42,7 +43,7 @@ function App() {
                 <Home />
               </Route>
               <Route>
-                <Error />
+                <Error code={ERROR_PAGE_NOT_FOUND_CODE} />
               </Route>
             </Switch>
           </Container>

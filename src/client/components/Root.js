@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { I18nextProvider } from 'react-i18next';
+import { I18nextProvider, useTranslation } from 'react-i18next';
 import { ErrorBoundary } from '@sentry/react';
 import {
   MuiThemeProvider,
@@ -55,13 +55,14 @@ let theme = createMuiTheme({
 theme = responsiveFontSizes(theme);
 
 const Root = ({ classes }) => {
+  const { t } = useTranslation();
   useEffect(() => {
     // removes default padding and margin of the html body
     document.body.className = classes.body;
   }, []);
 
   return (
-    <ErrorBoundary fallback={SENTRY_FALLBACK_MESSAGE}>
+    <ErrorBoundary fallback={t(SENTRY_FALLBACK_MESSAGE)}>
       <div className={classes.root}>
         <MuiThemeProvider theme={theme}>
           <I18nextProvider i18n={i18nConfig}>

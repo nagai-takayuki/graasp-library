@@ -5,11 +5,11 @@ import { Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import CardMedia from '@material-ui/core/CardMedia';
 import Card from '@material-ui/core/Card';
+import Skeleton from '@material-ui/lab/Skeleton';
 import Authorship from './Authorship';
 import ITEM_DEFAULT_IMAGE from '../../resources/icon.png';
 import Badges from './Badges';
 import { MAX_COLLECTION_NAME_LENGTH } from '../../config/constants';
-import Skeleton from '@material-ui/lab/Skeleton';
 
 const useStyles = makeStyles((theme) => ({
   centeredGridItem: {
@@ -61,13 +61,13 @@ function Summary({
                   component="img"
                 />
               </Skeleton>
-              ) : (
-                <CardMedia
-                  className={classes.media}
-                  image={image || ITEM_DEFAULT_IMAGE}
-                  title={name}
-                  component="img"
-                />
+            ) : (
+              <CardMedia
+                className={classes.media}
+                image={image || ITEM_DEFAULT_IMAGE}
+                title={name}
+                component="img"
+              />
             )}
           </Card>
         </Grid>
@@ -82,9 +82,16 @@ function Summary({
             description={description}
           />
           <Typography variant="body1" gutterBottom component="div">
-            <div dangerouslySetInnerHTML={{ __html: description }} />
+            <div
+              // eslint-disable-next-line react/no-danger
+              dangerouslySetInnerHTML={{ __html: description }}
+            />
           </Typography>
-          <Authorship author={creator} contributors={contributors} isLoading={isLoading} />
+          <Authorship
+            author={creator}
+            contributors={contributors}
+            isLoading={isLoading}
+          />
         </Grid>
       </Grid>
     </div>

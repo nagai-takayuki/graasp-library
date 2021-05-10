@@ -24,7 +24,10 @@ function CollectionsGrid({ collections, isLoading }) {
           lg={3}
           xl={3}
         >
-          <CollectionCard collection={similarCollection} isLoading={isLoading} />
+          <CollectionCard
+            collection={similarCollection}
+            isLoading={isLoading}
+          />
         </Grid>
       ))}
     </Grid>
@@ -53,6 +56,7 @@ CollectionsGrid.propTypes = {
       }),
     }),
   ),
+  isLoading: PropTypes.bool.isRequired,
 };
 
 CollectionsGrid.defaultProps = {

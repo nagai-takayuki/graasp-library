@@ -55,12 +55,12 @@ const loadingCollections = Array.from({ length: 10 }, (v, index) => ({
 }));
 
 function useCollection(collectionId) {
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, isError } = useQuery({
     queryKey: [COLLECTIONS_KEY, collectionId], // cache key for collection detailes
     queryFn: () => getCollection(collectionId).then((datas) => datas),
     ...collectionQueryConfig,
   });
-  return { collection: data ?? loadingCollection, isLoading };
+  return { collection: data ?? loadingCollection, isLoading, isError };
 }
 
 function useCollections() {

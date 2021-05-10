@@ -1,7 +1,7 @@
 import { BrowserRouter } from 'react-router-dom';
 import { Hydrate } from 'react-query/hydration';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import ReactGA from 'react-ga';
+import ReactGa from 'react-ga';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import * as Sentry from '@sentry/react';
@@ -29,8 +29,8 @@ Sentry.init({
 });
 
 // set up google analytics
-ReactGA.initialize(GOOGLE_ANALYTICS_ID);
-ReactGA.pageview(window.location.href);
+ReactGa.initialize(GOOGLE_ANALYTICS_ID);
+ReactGa.pageview(window.location.href);
 
 const queryClient = new QueryClient({
   defaultOptions: {
