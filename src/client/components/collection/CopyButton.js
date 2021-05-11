@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useLayoutEffect, useContext } from 'react';
+import React, { useState, useLayoutEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
 import IconButton from '@material-ui/core/IconButton';
@@ -10,8 +10,6 @@ import TreeModal from './TreeModal';
 import { copyItem } from '../../actions/item';
 import { LoginModalContext } from '../common/LoginModalContext';
 import { useUser } from '../../utils/user';
-import { USER_KEY } from '../../config/constants';
-import queryClient from '../../config/queryClient';
 
 const CopyButton = ({ id }) => {
   const { t } = useTranslation();
@@ -22,14 +20,6 @@ const CopyButton = ({ id }) => {
   const { setOpen: openLoginModal, open: showLoginModal } = useContext(
     LoginModalContext,
   );
-
-  useEffect(() => {
-    // check whether user is signed in each time
-    // the user switch to explore tab
-    window.addEventListener('focus', () => {
-      queryClient.invalidateQueries(USER_KEY);
-    });
-  }, []);
 
   useLayoutEffect(() => {
     // if the user signs in while the login modal is open

@@ -11,10 +11,12 @@ const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
   },
-  link: {
+  headerLeft: {
     flexGrow: 1,
     display: 'flex',
     alignItems: 'center',
+  },
+  link: {
     textDecoration: 'none',
     color: '#fff',
   },
@@ -32,12 +34,14 @@ function Header() {
     <header>
       <AppBar position="absolute">
         <Toolbar>
-          <Link to={HOME_ROUTE} className={classes.link}>
+          <div className={classes.headerLeft}>
             <Logo className={classes.logo} />
-            <Typography variant="h6" color="inherit">
-              {t('Explore')}
-            </Typography>
-          </Link>
+            <Link to={HOME_ROUTE} className={classes.link}>
+              <Typography variant="h6" color="inherit">
+                {t('Explore')}
+              </Typography>
+            </Link>
+          </div>
           <UserHeader />
         </Toolbar>
       </AppBar>
