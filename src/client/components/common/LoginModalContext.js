@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
@@ -12,6 +12,9 @@ import Typography from '@material-ui/core/Typography';
 import { useTranslation } from 'react-i18next';
 import { SIGN_IN_ROUTE, SIGN_UP_ROUTE } from '../../config/routes';
 import { openInNewTab } from '../../config/helpers';
+import { USER_KEY } from '../../config/constants';
+import queryClient from '../../config/queryClient';
+import { useUser } from '../../utils/user';
 
 const styles = (theme) => ({
   root: {
@@ -25,6 +28,8 @@ const styles = (theme) => ({
     color: theme.palette.grey[500],
   },
 });
+
+const LoginModalContext = React.createContext();
 
 const DialogTitle = withStyles(styles)((props) => {
   const { children, classes, onClose } = props;
@@ -51,8 +56,25 @@ const DialogActions = withStyles((theme) => ({
   },
 }))(MuiDialogActions);
 
-const LoginModal = ({ open, setOpen }) => {
+const LoginModalProvider = ({ children }) => {
   const { t } = useTranslation();
+  const [open, setOpen] = useState(false);
+  const { data: user } = useUser();
+
+  useEffect(() => {
+    // check whether user is signed in each time
+    // the user switch to explore tab
+    window.addEventListener('focus', () => {
+      queryClient.invalidateQueries(USER_KEY);
+    });
+  }, []);
+
+  useEffect(() => {
+    // close modal if user is signed in
+    if (user) {
+      setOpen(false);
+    }
+  }, [user]);
 
   const handleClose = () => {
     setOpen(false);
@@ -66,7 +88,7 @@ const LoginModal = ({ open, setOpen }) => {
     openInNewTab(SIGN_UP_ROUTE);
   };
 
-  return (
+  const renderModal = () => (
     <div>
       <Dialog
         onClose={handleClose}
@@ -97,13 +119,21 @@ const LoginModal = ({ open, setOpen }) => {
       </Dialog>
     </div>
   );
+
+  return (
+    <LoginModalContext.Provider value={{ setOpen, open }}>
+      {renderModal()}
+      {children}
+    </LoginModalContext.Provider>
+  );
 };
 
-LoginModal.propTypes = {
-  open: PropTypes.bool.isRequired,
-  setOpen: PropTypes.func.isRequired,
+LoginModalProvider.propTypes = {
+  children: PropTypes.node,
 };
 
-LoginModal.defaultProps = {};
+LoginModalProvider.defaultProps = {
+  children: null,
+};
 
-export default LoginModal;
+export { LoginModalProvider, LoginModalContext };

@@ -14,17 +14,9 @@ function CollectionsGrid({ collections, isLoading }) {
     </Typography>
   ) : (
     <Grid container spacing={2} alignItems="stretch">
-      {collections.map((similarCollection) => (
-        <Grid
-          key={similarCollection.id}
-          item
-          xs={12}
-          sm={6}
-          md={4}
-          lg={3}
-          xl={3}
-        >
-          <CollectionCard collection={similarCollection} isLoading={isLoading} />
+      {collections.map((collection) => (
+        <Grid key={collection.id} item xs={12} sm={6} md={4} lg={3} xl={3}>
+          <CollectionCard collection={collection} isLoading={isLoading} />
         </Grid>
       ))}
     </Grid>
@@ -53,6 +45,7 @@ CollectionsGrid.propTypes = {
       }),
     }),
   ),
+  isLoading: PropTypes.bool.isRequired,
 };
 
 CollectionsGrid.defaultProps = {

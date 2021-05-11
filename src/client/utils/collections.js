@@ -7,10 +7,12 @@ import {
   STALE_TIME_MILLISECONDS,
 } from '../config/constants';
 
-const collectionQueryConfig = {
+export const DEFAULT_QUERY_CONFIG = {
   staleTime: STALE_TIME_MILLISECONDS, // time until data in cache considered stale if cache not invalidated
   cacheTime: CACHE_TIME_MILLISECONDS, // time before cache labeled as inactive to be garbage collected
 };
+
+const collectionQueryConfig = DEFAULT_QUERY_CONFIG;
 
 // fallback collection
 const loadingCollection = {
@@ -55,12 +57,12 @@ const loadingCollections = Array.from({ length: 10 }, (v, index) => ({
 }));
 
 function useCollection(collectionId) {
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, isError } = useQuery({
     queryKey: [COLLECTIONS_KEY, collectionId], // cache key for collection detailes
     queryFn: () => getCollection(collectionId).then((datas) => datas),
     ...collectionQueryConfig,
   });
-  return { collection: data ?? loadingCollection, isLoading };
+  return { collection: data ?? loadingCollection, isLoading, isError };
 }
 
 function useCollections() {

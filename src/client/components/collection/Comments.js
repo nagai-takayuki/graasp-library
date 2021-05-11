@@ -50,10 +50,17 @@ Comments.propTypes = {
       date: PropTypes.string,
     }),
   ),
+  members: PropTypes.shape(
+    PropTypes.shape({
+      id: PropTypes.string,
+      name: PropTypes.string.isRequired,
+    }),
+  ),
 };
 
 Comments.defaultProps = {
   comments: [],
+  members: [],
 };
 
 export default Comments;

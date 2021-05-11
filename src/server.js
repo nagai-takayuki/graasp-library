@@ -82,12 +82,12 @@ const handleSignUpRoute = (req, res) => {
 
 const handleAllCollectionsRender = async (req, res, next) => {
   const queryClient = new QueryClient();
-  await queryClient.prefetchQuery('collections', () =>
-    getCollections()
-      .then((data) => data)
-      .catch((e) => next(e)),
-  );
-  handleRender(req, res, queryClient);
+  queryClient
+    .fetchQuery('collections', () => getCollections().then((data) => data))
+    .catch((e) => {
+      next(e);
+    })
+    .finally(() => handleRender(req, res, queryClient));
 };
 
 const handleNavTreeEndpoint = (req, res) => {
@@ -103,16 +103,18 @@ const handleCollectionRender = async (req, res, next) => {
 
   if (!ObjectId.isValid(id)) {
     next(new Error(`id '${id}' is not valid`));
-    return handleErrorRender(req, res);
+    handleErrorRender(req, res);
+  } else {
+    const queryClient = new QueryClient();
+    queryClient
+      .fetchQuery(['collections', id], () =>
+        getCollection(id).then((data) => data),
+      )
+      .catch((e) => {
+        next(e);
+      })
+      .finally(() => handleRender(req, res, queryClient));
   }
-
-  const queryClient = new QueryClient();
-  await queryClient.prefetchQuery(['collections', id], () =>
-    getCollection(id)
-      .then((data) => data)
-      .catch((e) => next(e)),
-  );
-  return handleRender(req, res, queryClient);
 };
 
 const handleCopyEndpoint = (req, res) => {
