@@ -29,7 +29,7 @@ function Comment({ comment, members }) {
   const {
     name: authorName = t(DEFAULT_MEMBER_NAME),
     avatar = DEFAULT_MEMBER_THUMBNAIL,
-  } = members.find(({ id }) => id === author);
+  } = members.find(({ id }) => id === author) || {};
 
   const PrimaryText = (
     <>
@@ -60,7 +60,10 @@ function Comment({ comment, members }) {
             <Avatar alt={authorName} src={avatar} />
           </Tooltip>
         </ListItemAvatar>
-        <ListItemText primary={PrimaryText} secondary={content} />
+        <ListItemText
+          primary={PrimaryText}
+          secondary={content || t('The comment was deleted.')}
+        />
       </ListItem>
       <Divider variant="inset" component="li" />
     </>
