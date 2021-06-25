@@ -11,7 +11,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Tooltip } from '@material-ui/core';
 import { formatDate } from '../../utils/date';
 import { DEFAULT_MEMBER_NAME } from '../../config/constants';
-import DEFAULT_MEMBER_THUMBNAIL from '../../resources/defaultAvatar.png';
+import { getAvatar } from '../../utils/layout';
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -26,10 +26,10 @@ function Comment({ comment, members }) {
   const classes = useStyles();
   const { t } = useTranslation();
 
-  const {
-    name: authorName = t(DEFAULT_MEMBER_NAME),
-    avatar = DEFAULT_MEMBER_THUMBNAIL,
-  } = members.find(({ id }) => id === author) || {};
+  const { name: authorName = t(DEFAULT_MEMBER_NAME), image } =
+    members.find(({ id }) => id === author) || {};
+
+  const avatar = getAvatar(image);
 
   const PrimaryText = (
     <>
