@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import ObjectID from 'bson-objectid';
 import { makeStyles } from '@material-ui/core/styles';
 import { Divider } from '@material-ui/core';
+import { ErrorBoundary } from '@sentry/react';
 import Error from '../common/Error';
 import Summary from './Summary';
 import Items from './Items';
@@ -65,7 +66,7 @@ function Collection() {
       ITEM_DEFAULT_IMAGE;
 
   return (
-    <>
+    <ErrorBoundary>
       <Seo
         title={name}
         description={removeTagsFromString(description)}
@@ -88,7 +89,7 @@ function Collection() {
         <Divider className={classes.divider} />
         <Comments comments={comments} members={members} />
       </div>
-    </>
+    </ErrorBoundary>
   );
 }
 
