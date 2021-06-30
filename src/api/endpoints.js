@@ -13,7 +13,7 @@ export const IS_AUTHENTICATED_ENDPOINT = `${API_HOST}/users/me`;
 export const buildResourceEndpoint = (id) => `${API_HOST}/resources/${id}`;
 
 export const buildSpaceViewerEndpoint = (id) =>
-  `${GRAASP_HOST}/${i18n.language}/pages/${id}`;
+  `${GRAASP_HOST}/${i18n.language}/pages/${id}?previewing=true`;
 
 export const buildSpaceEndpoint = (id) => `${API_HOST}/spaces/${id}`;
 
