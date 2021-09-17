@@ -37,7 +37,6 @@ function Badges({ views, likes, name, description }) {
   const classes = useStyles();
   const { t } = useTranslation();
   const [pageLocation, setPageLocation] = useState(null);
-
   const parsedDescription = removeTagsFromString(description);
 
   useEffect(() => {

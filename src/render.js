@@ -3,10 +3,10 @@ import { StaticRouter } from 'react-router-dom';
 import { dehydrate, Hydrate } from 'react-query/hydration';
 import { Helmet } from 'react-helmet';
 import serialize from 'serialize-javascript';
-import { QueryClientProvider } from 'react-query';
 import { renderToString } from 'react-dom/server';
 import { ServerStyleSheets } from '@material-ui/core/styles';
 import Root from './client/components/Root';
+import { QueryClientProvider } from './client/components/QueryClientContext';
 import { DEFAULT_LANG } from './client/config/constants';
 import runtimeConfig from './api/env';
 
@@ -14,14 +14,14 @@ import runtimeConfig from './api/env';
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
 
 // eslint-disable-next-line import/prefer-default-export
-export const handleRender = (req, res, queryClient) => {
-  const dehydratedState = dehydrate(queryClient);
+export const handleRender = (req, res, queryClientData) => {
+  const dehydratedState = dehydrate(queryClientData.queryClient);
   const sheets = new ServerStyleSheets();
   const context = {};
   const css = sheets.toString();
   const markup = renderToString(
     sheets.collect(
-      <QueryClientProvider client={queryClient}>
+      <QueryClientProvider queryClientData={queryClientData}>
         <Hydrate state={dehydratedState}>
           <StaticRouter context={context} location={req.url}>
             <Root />

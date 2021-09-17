@@ -1,6 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
+import { Map } from 'immutable';
 import { Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import CardMedia from '@material-ui/core/CardMedia';
@@ -33,6 +34,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Summary({
+  itemId,
   name,
   creator,
   image,
@@ -88,6 +90,7 @@ function Summary({
             />
           </Typography>
           <Authorship
+            itemId={itemId}
             author={creator}
             contributors={contributors}
             isLoading={isLoading}
@@ -102,10 +105,7 @@ Summary.propTypes = {
   name: PropTypes.string,
   image: PropTypes.string,
   description: PropTypes.string,
-  creator: PropTypes.shape({
-    name: PropTypes.string,
-    avatar: PropTypes.string,
-  }).isRequired,
+  creator: PropTypes.instanceOf(Map),
   contributors: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string,
@@ -119,6 +119,7 @@ Summary.propTypes = {
     count: PropTypes.number,
   }),
   isLoading: PropTypes.bool.isRequired,
+  itemId: PropTypes.string.isRequired,
 };
 
 Summary.defaultProps = {
@@ -132,6 +133,7 @@ Summary.defaultProps = {
     count: 0,
     value: 0,
   },
+  creator: null,
 };
 
 export default Summary;

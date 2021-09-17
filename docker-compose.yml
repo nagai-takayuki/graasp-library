@@ -5,6 +5,6 @@ services:
     env_file:
       - .env.production
     ports:
-      - '3000:3000'
+      - '3001:3001'
     volumes:
       - ./src:/usr/src/app/src

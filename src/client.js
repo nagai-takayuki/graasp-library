@@ -1,15 +1,15 @@
 import { BrowserRouter } from 'react-router-dom';
 import { Hydrate } from 'react-query/hydration';
-import { QueryClientProvider } from 'react-query';
 import ReactGa from 'react-ga';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import * as Sentry from '@sentry/react';
+import configureQueryClient from '@graasp/query-client';
 import WHITELISTED_ERRORS from './client/config/errors';
 import config from './api/env';
-import { APP_NAME } from './client/config/constants';
+import { APP_NAME, QUERY_CLIENT_OPTIONS } from './client/config/constants';
 import Root from './client/components/Root';
-import queryClient from './client/config/queryClient';
+import { QueryClientProvider } from './client/components/QueryClientContext';
 
 const dehydratedState = window.PRELOADED_STATE;
 
@@ -33,9 +33,11 @@ Sentry.init({
 ReactGa.initialize(GOOGLE_ANALYTICS_ID);
 ReactGa.pageview(window.location.href);
 
+const queryClientData = configureQueryClient(QUERY_CLIENT_OPTIONS);
+
 ReactDOM.render(
   <BrowserRouter>
-    <QueryClientProvider client={queryClient}>
+    <QueryClientProvider queryClientData={queryClientData}>
       <Hydrate state={dehydratedState}>
         <Root />
       </Hydrate>

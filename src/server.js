@@ -1,75 +1,51 @@
-import { QueryClient } from 'react-query';
 import * as Sentry from '@sentry/node';
 import express from 'express';
-import ObjectId from 'bson-objectid';
-import { cloneDeep } from 'lodash';
+import { Set, Map } from 'immutable';
+import queryClientPackage from '@graasp/query-client';
+import { validate } from 'uuid';
 import cookieParser from 'cookie-parser';
-import { copyItem, getCollection, getCollections } from './api/collection';
 import {
   buildCollectionRoute,
-  buildSpaceRoute,
   COLLECTIONS_ROUTE,
   HOME_ROUTE,
-  IS_AUTHENTICATED_ROUTE,
-  buildResourceRoute,
   SIGN_IN_ROUTE,
-  buildSpaceViewerRoute,
   SIGN_UP_ROUTE,
-  GET_NAV_TREE_ROUTE,
-  COPY_ROUTE,
   ERROR_ROUTE,
+  buildPerformViewItemRoute,
 } from './client/config/routes';
-import { isAuthenticated } from './api/authentication';
 import {
-  buildResourceEndpoint,
-  buildSpaceEndpoint,
   SIGN_UP_ENDPOINT,
   SIGN_IN_ENDPOINT,
-  buildSpaceViewerEndpoint,
+  buildPeformViewEndpoint,
 } from './api/endpoints';
-import { getNavTree } from './api/navigation';
 import { clientErrorHandler, logErrors, errorHandler } from './middlewares';
 import { handleRender } from './render';
+import {
+  buildCollectionKey,
+  COLLECTIONS_KEY,
+  QUERY_CLIENT_OPTIONS,
+} from './client/config/constants';
+
+const { default: configureQueryClient, Api } = queryClientPackage;
 
 // only set up sentry if dsn is provided
-const { SENTRY_DSN } = process.env;
+const { SENTRY_DSN, RAZZLE_PUBLISHED_TAG_ID } = process.env;
 if (SENTRY_DSN) {
   Sentry.init({ dsn: SENTRY_DSN });
 }
 
 const handleErrorRender = (req, res) => {
-  handleRender(req, res, new QueryClient());
+  const queryClientData = configureQueryClient(QUERY_CLIENT_OPTIONS);
+  handleRender(req, res, queryClientData);
 };
 
-// redirect to viewer mode of the space
-const handleSpaceViewerRender = (req, res, next) => {
+// redirect to viewer mode of the item
+const handlePeformViewerRender = (req, res, next) => {
   const { id } = req.params;
-  if (!ObjectId.isValid(id)) {
+  if (!validate(id)) {
     return next(new Error(`id '${id}' is not valid`));
   }
-  return res.redirect(buildSpaceViewerEndpoint(id));
-};
-
-// redirect to edition mode of the space
-const handleSpaceRender = (req, res, next) => {
-  const { id } = req.params;
-  if (!ObjectId.isValid(id)) {
-    return next(new Error(`id '${id}' is not valid`));
-  }
-  return res.redirect(buildSpaceEndpoint(id));
-};
-
-const handleIsAuthenticatedEndpoint = (req, res) => {
-  // copy cookie to forward them to the next request
-  const cookies = cookieParser.JSONCookies(req.cookies);
-  isAuthenticated(cookies).then(({ status, value }) => {
-    res.status(status).send(value);
-  });
-};
-
-const handleResourceRoute = (req, res) => {
-  const { id } = req.params;
-  res.redirect(buildResourceEndpoint(id));
+  return res.redirect(buildPeformViewEndpoint(id));
 };
 
 const handleSignInRoute = (req, res) => {
@@ -81,50 +57,37 @@ const handleSignUpRoute = (req, res) => {
 };
 
 const handleAllCollectionsRender = async (req, res, next) => {
-  const queryClient = new QueryClient();
-  queryClient
-    .fetchQuery('collections', () => getCollections().then((data) => data))
+  const queryClientData = configureQueryClient(QUERY_CLIENT_OPTIONS);
+  queryClientData.queryClient
+    .fetchQuery(COLLECTIONS_KEY, () =>
+      Api.getPublicItemsWithTag(
+        RAZZLE_PUBLISHED_TAG_ID,
+        QUERY_CLIENT_OPTIONS,
+      ).then((data) => Set(data)),
+    )
     .catch((e) => {
       next(e);
     })
-    .finally(() => handleRender(req, res, queryClient));
-};
-
-const handleNavTreeEndpoint = (req, res) => {
-  // copy cookie to forward them to the next request
-  const cookies = cookieParser.JSONCookies(req.cookies);
-  getNavTree(cookies).then(({ status, value }) => {
-    res.status(status).send(value);
-  });
+    .finally(() => handleRender(req, res, queryClientData));
 };
 
 const handleCollectionRender = async (req, res, next) => {
   const { id } = req.params;
 
-  if (!ObjectId.isValid(id)) {
+  if (!validate(id)) {
     next(new Error(`id '${id}' is not valid`));
     handleErrorRender(req, res);
   } else {
-    const queryClient = new QueryClient();
-    queryClient
-      .fetchQuery(['collections', id], () =>
-        getCollection(id).then((data) => data),
+    const queryClientData = configureQueryClient(QUERY_CLIENT_OPTIONS);
+    queryClientData.queryClient
+      .fetchQuery(buildCollectionKey(id), () =>
+        Api.getItem(id, QUERY_CLIENT_OPTIONS).then((data) => Map(data)),
       )
       .catch((e) => {
         next(e);
       })
-      .finally(() => handleRender(req, res, queryClient));
+      .finally(() => handleRender(req, res, queryClientData));
   }
-};
-
-const handleCopyEndpoint = (req, res) => {
-  // copy cookie to forward them to the next request
-  const cookies = cookieParser.JSONCookies(req.cookies);
-  // copy body to forward it to the next request
-  const body = cloneDeep(req.body);
-  copyItem({ cookies, body }).then(({ status, value }) => {
-    res.status(status).send(value);
-  });
 };
 
 const server = express();
@@ -139,14 +102,9 @@ server
   .use(express.static(process.env.RAZZLE_PUBLIC_DIR))
   .get(COLLECTIONS_ROUTE, handleAllCollectionsRender)
   .get(buildCollectionRoute(), handleCollectionRender)
-  .get(buildSpaceViewerRoute(), handleSpaceViewerRender)
-  .get(buildSpaceRoute(), handleSpaceRender)
+  .get(buildPerformViewItemRoute(), handlePeformViewerRender)
   .get(SIGN_IN_ROUTE, handleSignInRoute)
   .get(SIGN_UP_ROUTE, handleSignUpRoute)
-  .get(IS_AUTHENTICATED_ROUTE, handleIsAuthenticatedEndpoint)
-  .get(buildResourceRoute(), handleResourceRoute)
-  .get(GET_NAV_TREE_ROUTE, handleNavTreeEndpoint)
-  .post(COPY_ROUTE, handleCopyEndpoint)
   .get(HOME_ROUTE, handleAllCollectionsRender)
   .get(ERROR_ROUTE, handleErrorRender)
   .all('*', handleErrorRender);

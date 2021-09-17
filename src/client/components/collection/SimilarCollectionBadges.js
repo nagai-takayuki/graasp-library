@@ -22,6 +22,18 @@ const useStyles = makeStyles((theme) => ({
 function SimilarCollectionBadges({ views, voteScore }) {
   const classes = useStyles();
 
+  const voteScoreBadge = voteScore ? (
+    <Badge badgeContent={voteScore} color="secondary" max={999}>
+      <Favorite color="primary" />
+    </Badge>
+  ) : null;
+
+  const viewBadge = views ? (
+    <Badge badgeContent={views} color="secondary" max={999}>
+      <Visibility color="primary" />
+    </Badge>
+  ) : null;
+
   return (
     <Grid container className={classes.root}>
       <Grid
@@ -32,16 +44,8 @@ function SimilarCollectionBadges({ views, voteScore }) {
         alignItems="center"
       >
         <div className={classes.badges}>
-          {Boolean(voteScore) && (
-            <Badge badgeContent={voteScore} color="secondary" max={999}>
-              <Favorite color="primary" />
-            </Badge>
-          )}
-          {views && (
-            <Badge badgeContent={views} color="secondary" max={999}>
-              <Visibility color="primary" />
-            </Badge>
-          )}
+          {voteScoreBadge}
+          {viewBadge}
         </div>
       </Grid>
     </Grid>

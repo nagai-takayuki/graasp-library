@@ -4,8 +4,8 @@ import { AccountCircle } from '@material-ui/icons';
 import Avatar from '@material-ui/core/Avatar';
 import { grey } from '@material-ui/core/colors';
 import { makeStyles, Typography } from '@material-ui/core';
-import { useUser } from '../../utils/user';
 import { LoginModalContext } from '../common/LoginModalContext';
+import { QueryClientContext } from '../QueryClientContext';
 
 const useStyles = makeStyles((theme) => ({
   username: {
@@ -18,7 +18,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const UserHeader = () => {
-  const { data: user, isLoading } = useUser();
+  const { hooks } = useContext(QueryClientContext);
+  const { data: user, isLoading } = hooks.useCurrentMember();
   const classes = useStyles();
   const { setOpen: openLoginModal } = useContext(LoginModalContext);
 
@@ -40,7 +41,7 @@ const UserHeader = () => {
     );
   }
 
-  const username = user?.username;
+  const username = user?.get('name');
   // necessary broken image to display avatar with letter
   const imageLink = '/broken-image.jpg';
   return (

@@ -1,13 +1,16 @@
 import { makeStyles } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { APP_AUTHOR, APP_DESCRIPTION, APP_NAME } from '../../config/constants';
 import CollectionsGrid from '../collection/CollectionsGrid';
 import Seo from '../common/Seo';
-import { useCollections } from '../../utils/collections';
 import Loader from '../common/Loader';
 import Search from './Search';
+import { QueryClientContext } from '../QueryClientContext';
+import runtimeConfig from '../../../api/env';
+
+const { PUBLISHED_TAG_ID } = runtimeConfig;
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -38,8 +41,19 @@ const useStyles = makeStyles((theme) => ({
 
 function Home() {
   const { t } = useTranslation();
+  const classes = useStyles();
   const [searchResults, setSearchResults] = useState(null);
-  const { collections, isLoading } = useCollections();
+  const { hooks } = useContext(QueryClientContext);
+  const { data: collections, isLoading } = hooks.usePublicItemsWithTag(
+    PUBLISHED_TAG_ID,
+  );
+  const { data: members, isLoading: isMemberLoading } = hooks.useMembers(
+    collections?.map(({ creator }) => creator),
+  );
+
+  if (isLoading || isMemberLoading) {
+    return 'Loading...';
+  }
 
   const handleSearch = (event) => {
     const query = event.target.value.trim().toLowerCase();
@@ -48,12 +62,14 @@ function Home() {
         collections.filter(
           (collection) =>
             collection.name.toLowerCase().includes(query) ||
-            collection.author?.name.toLowerCase().includes(query),
+            members
+              ?.find(({ id }) => collection.creator === id)
+              ?.name.toLowerCase()
+              .includes(query),
         ),
       );
     }
   };
-  const classes = useStyles();
 
   const renderResults = () => {
     if (!searchResults) {
@@ -64,7 +80,7 @@ function Home() {
         <Typography variant="h3" className={classes.typographyMargin}>
           {t('Search Results')}
         </Typography>
-        {searchResults.length > 0 ? (
+        {searchResults.size > 0 ? (
           <CollectionsGrid collections={searchResults} />
         ) : (
           <Typography variant="body1" className={classes.typographyMargin}>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
@@ -13,8 +13,7 @@ import { useTranslation } from 'react-i18next';
 import { SIGN_IN_ROUTE, SIGN_UP_ROUTE } from '../../config/routes';
 import { openInNewTab } from '../../config/helpers';
 import { USER_KEY } from '../../config/constants';
-import queryClient from '../../config/queryClient';
-import { useUser } from '../../utils/user';
+import { QueryClientContext } from '../QueryClientContext';
 
 const styles = (theme) => ({
   root: {
@@ -59,7 +58,9 @@ const DialogActions = withStyles((theme) => ({
 const LoginModalProvider = ({ children }) => {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
-  const { data: user } = useUser();
+  const { hooks } = useContext(QueryClientContext);
+  const { data: user, isLoading } = hooks.useCurrentMember();
+  const { queryClient } = useContext(QueryClientContext);
 
   useEffect(() => {
     // check whether user is signed in each time
@@ -75,6 +76,10 @@ const LoginModalProvider = ({ children }) => {
       setOpen(false);
     }
   }, [user]);
+
+  if (isLoading) {
+    return 'Loading...';
+  }
 
   const handleClose = () => {
     setOpen(false);

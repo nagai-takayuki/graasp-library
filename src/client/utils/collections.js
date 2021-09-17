@@ -1,18 +1,4 @@
-import { useQuery } from 'react-query';
 import collectionPlaceholderPng from '../resources/icon.png';
-import { getCollection, getCollections } from '../../api/collection';
-import {
-  CACHE_TIME_MILLISECONDS,
-  COLLECTIONS_KEY,
-  STALE_TIME_MILLISECONDS,
-} from '../config/constants';
-
-export const DEFAULT_QUERY_CONFIG = {
-  staleTime: STALE_TIME_MILLISECONDS, // time until data in cache considered stale if cache not invalidated
-  cacheTime: CACHE_TIME_MILLISECONDS, // time before cache labeled as inactive to be garbage collected
-};
-
-const collectionQueryConfig = DEFAULT_QUERY_CONFIG;
 
 // fallback collection
 const loadingCollection = {
@@ -51,30 +37,8 @@ const loadingCollection = {
   ],
 };
 
+// eslint-disable-next-line no-unused-vars
 const loadingCollections = Array.from({ length: 10 }, (v, index) => ({
   id: `loading-collection-${index}`,
   ...loadingCollection,
 }));
-
-function useCollection(collectionId) {
-  const { data, isLoading, isError } = useQuery({
-    queryKey: [COLLECTIONS_KEY, collectionId], // cache key for collection detailes
-    queryFn: () => getCollection(collectionId).then((datas) => datas),
-    ...collectionQueryConfig,
-  });
-  return { collection: data ?? loadingCollection, isLoading, isError };
-}
-
-function useCollections() {
-  const results = useQuery({
-    queryKey: COLLECTIONS_KEY, // cache key for collections
-    queryFn: () => getCollections().then((datas) => datas),
-    ...collectionQueryConfig,
-  });
-  return {
-    collections: results.data ?? loadingCollections,
-    ...results,
-  };
-}
-
-export { useCollection, useCollections };

@@ -1,4 +1,15 @@
 import i18n from './i18n';
+import runtimeConfig from '../../api/env';
+import notifier from './notifier';
+
+export const QUERY_CLIENT_OPTIONS = {
+  API_HOST: runtimeConfig.API_HOST,
+  enableWebsocket: false,
+  keepPreviousData: true,
+  // avoid refetching when same data are closely fetched
+  staleTime: 1000, // ms
+  notifier,
+};
 
 export const APP_NAME = 'Graasp Explore';
 export const APP_DESCRIPTION =
@@ -19,7 +30,7 @@ export const INLINE_MATH_REGEX = /(\\\((.*?)\\\))/g;
 
 export const ITEM_TYPES = {
   APPLICATION: 'Application',
-  SPACE: 'Space',
+  FOLDER: 'folder',
   RESOURCE: 'Resource',
 };
 
@@ -57,11 +68,8 @@ export const MAX_COLLECTION_NAME_LENGTH = 100;
 
 // Cache Keys
 export const COLLECTIONS_KEY = 'collections';
+export const buildCollectionKey = (id) => ['collections', id];
 export const USER_KEY = 'user';
-
-// React Query Configs
-export const STALE_TIME_MILLISECONDS = 1000 * 60 * 60;
-export const CACHE_TIME_MILLISECONDS = 1000 * 60 * 60;
 
 export const SENTRY_FALLBACK_MESSAGE = 'An error has occurred';
 

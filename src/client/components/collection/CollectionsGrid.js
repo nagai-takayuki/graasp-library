@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Set } from 'immutable';
 import { useTranslation } from 'react-i18next';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
@@ -8,7 +9,7 @@ import CollectionCard from './CollectionCard';
 function CollectionsGrid({ collections, isLoading }) {
   const { t } = useTranslation();
 
-  return !collections.length ? (
+  return !collections.size ? (
     <Typography variant="h5" color="inherit">
       {t('There are no collections available.')}
     </Typography>
@@ -24,27 +25,7 @@ function CollectionsGrid({ collections, isLoading }) {
 }
 
 CollectionsGrid.propTypes = {
-  collections: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string,
-      name: PropTypes.string,
-      image: PropTypes.shape({
-        pictureId: PropTypes.string.isRequired,
-        thumbnailUrl: PropTypes.string,
-      }),
-      description: PropTypes.string,
-      creator: PropTypes.shape({
-        name: PropTypes.string,
-        avatar: PropTypes.string,
-      }),
-      likes: PropTypes.number,
-      views: PropTypes.number,
-      rating: PropTypes.shape({
-        value: PropTypes.number,
-        count: PropTypes.number,
-      }),
-    }),
-  ),
+  collections: PropTypes.instanceOf(Set),
   isLoading: PropTypes.bool.isRequired,
 };
 

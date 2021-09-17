@@ -13,11 +13,10 @@ import IconButton from '@material-ui/core/IconButton';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Text from '../common/Text';
 import ITEM_DEFAULT_IMAGE from '../../resources/icon.png';
-import { DEFAULT_PICTURE_QUALITY, ITEM_TYPES } from '../../config/constants';
-import { openContentInNewTab, openInNewTab } from '../../config/helpers';
-import { buildSpaceViewerRoute } from '../../config/routes';
+import { ITEM_TYPES } from '../../config/constants';
+import { openInNewTab } from '../../config/helpers';
+import { buildPerformViewItemRoute } from '../../config/routes';
 import CopyButton from './CopyButton';
-import { buildImageUrl } from '../../utils/image';
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -53,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const Item = ({ item }) => {
-  const { description, name, url, content, id, image = {}, category } = item;
+  const { description, name, id, type } = item;
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
   const handleExpandClick = () => {
@@ -61,27 +60,10 @@ export const Item = ({ item }) => {
   };
 
   const handleItemClick = () => {
-    switch (category) {
-      case ITEM_TYPES.SPACE: {
-        const spaceUrl = buildSpaceViewerRoute(id);
-        openInNewTab(spaceUrl);
-        break;
-      }
-      case ITEM_TYPES.APPLICATION:
-      case ITEM_TYPES.RESOURCE:
-      default:
-        if (url) {
-          openInNewTab(url);
-        } else if (content) {
-          openContentInNewTab(content);
-        }
-    }
+    openInNewTab(buildPerformViewItemRoute(id));
   };
 
-  const { pictureId } = image;
-  const imageUrl =
-    buildImageUrl({ id, pictureId, quality: DEFAULT_PICTURE_QUALITY }) ||
-    ITEM_DEFAULT_IMAGE;
+  const imageUrl = ITEM_DEFAULT_IMAGE;
 
   return (
     <Card id={id} className={classes.card}>
@@ -107,7 +89,7 @@ export const Item = ({ item }) => {
       </Collapse>
 
       <CardActions disableSpacing>
-        {category === ITEM_TYPES.SPACE && <CopyButton id={id} />}
+        {type === ITEM_TYPES.FOLDER && <CopyButton id={id} />}
         {description && (
           <IconButton
             className={clsx(classes.expand, {
@@ -127,18 +109,11 @@ export const Item = ({ item }) => {
 
 Item.propTypes = {
   item: PropTypes.shape({
-    image: PropTypes.shape({
-      pictureId: PropTypes.string.isRequired,
-      thumbnailUrl: PropTypes.string,
-    }),
     description: PropTypes.string,
-    viewLink: PropTypes.func,
     id: PropTypes.string,
     name: PropTypes.string,
-    url: PropTypes.string,
-    content: PropTypes.string,
-    category: PropTypes.oneOf(Object.values(ITEM_TYPES)).isRequired,
     type: PropTypes.string,
+    extra: PropTypes.shape({}),
   }).isRequired,
 };
 
