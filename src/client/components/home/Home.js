@@ -9,6 +9,7 @@ import Loader from '../common/Loader';
 import Search from './Search';
 import { QueryClientContext } from '../QueryClientContext';
 import runtimeConfig from '../../../api/env';
+import { PLACEHOLDER_COLLECTIONS } from '../../utils/collections';
 
 const { PUBLISHED_TAG_ID } = runtimeConfig;
 
@@ -46,14 +47,13 @@ function Home() {
   const { hooks } = useContext(QueryClientContext);
   const { data: collections, isLoading } = hooks.usePublicItemsWithTag(
     PUBLISHED_TAG_ID,
+    {
+      placeholderData: PLACEHOLDER_COLLECTIONS,
+    },
   );
-  const { data: members, isLoading: isMemberLoading } = hooks.useMembers(
+  const { data: members } = hooks.useMembers(
     collections?.map(({ creator }) => creator),
   );
-
-  if (isLoading || isMemberLoading) {
-    return 'Loading...';
-  }
 
   const handleSearch = (event) => {
     const query = event.target.value.trim().toLowerCase();

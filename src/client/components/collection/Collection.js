@@ -15,6 +15,7 @@ import {
 import ITEM_DEFAULT_IMAGE from '../../resources/icon.png';
 import { removeTagsFromString } from '../../utils/text';
 import { QueryClientContext } from '../QueryClientContext';
+import { PLACEHOLDER_COLLECTION } from '../../utils/collections';
 
 // todo: get similar collections in same call
 // import SimilarCollections from './SimilarCollections';
@@ -32,16 +33,12 @@ function Collection() {
   const { id } = useParams();
   const classes = useStyles();
   const { hooks } = useContext(QueryClientContext);
-  const { data: collection, isLoading, isError } = hooks.useItem(id);
-  const {
-    data: member,
-    isLoading: memberIsLoading,
-    isError: memberIsError,
-  } = hooks.useMember(collection?.get('creator'));
-
-  if (isLoading || memberIsLoading) {
-    return 'Loading...';
-  }
+  const { data: collection, isLoading, isError } = hooks.useItem(id, {
+    placeholderData: PLACEHOLDER_COLLECTION,
+  });
+  const { data: member, isError: memberIsError } = hooks.useMember(
+    collection?.get('creator'),
+  );
 
   if (!id || !validate(id)) {
     return <Error code={ERROR_INVALID_COLLECTION_ID_CODE} />;

@@ -23,10 +23,6 @@ function Authorship({ itemId, author, isLoading }) {
   const { t } = useTranslation();
   const classes = useStyles();
 
-  if (isLoading) {
-    return 'Loading...';
-  }
-
   if (!author) {
     console.error('author is undefined');
     return null;

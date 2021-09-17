@@ -59,7 +59,7 @@ const handleSignUpRoute = (req, res) => {
 const handleAllCollectionsRender = async (req, res, next) => {
   const queryClientData = configureQueryClient(QUERY_CLIENT_OPTIONS);
   queryClientData.queryClient
-    .fetchQuery(COLLECTIONS_KEY, () =>
+    .prefetchQuery(COLLECTIONS_KEY, () =>
       Api.getPublicItemsWithTag(
         RAZZLE_PUBLISHED_TAG_ID,
         QUERY_CLIENT_OPTIONS,
@@ -80,7 +80,7 @@ const handleCollectionRender = async (req, res, next) => {
   } else {
     const queryClientData = configureQueryClient(QUERY_CLIENT_OPTIONS);
     queryClientData.queryClient
-      .fetchQuery(buildCollectionKey(id), () =>
+      .prefetchQuery(buildCollectionKey(id), () =>
         Api.getItem(id, QUERY_CLIENT_OPTIONS).then((data) => Map(data)),
       )
       .catch((e) => {

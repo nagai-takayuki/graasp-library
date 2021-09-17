@@ -6,6 +6,7 @@ import TreeView from '@material-ui/lab/TreeView';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import TreeItem from '@material-ui/lab/TreeItem';
+import Skeleton from '@material-ui/lab/Skeleton';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 import Button from '@material-ui/core/Button';
@@ -43,10 +44,6 @@ const TreeModal = ({
   const { hooks } = useContext(QueryClientContext);
   const { data: ownItems, isLoading } = hooks.useOwnItems();
 
-  if (isLoading) {
-    return 'Loading...';
-  }
-
   const handleClose = () => {
     onClose();
   };
@@ -61,6 +58,16 @@ const TreeModal = ({
   };
 
   const renderOwnItems = () => {
+    if (isLoading) {
+      return (
+        <>
+          <Skeleton />
+          <Skeleton />
+          <Skeleton />
+        </>
+      );
+    }
+
     if (!ownItems || !ownItems.size) {
       return null;
     }

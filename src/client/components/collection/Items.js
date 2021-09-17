@@ -1,12 +1,14 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
+import { List } from 'immutable';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import Item from './Item';
 import ItemsHeader from './ItemsHeader';
 import { QueryClientContext } from '../QueryClientContext';
+import { PLACEHOLDER_COLLECTION } from '../../utils/collections';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,11 +25,9 @@ function Items({ parentId }) {
   const { t } = useTranslation();
   const classes = useStyles();
   const { hooks } = useContext(QueryClientContext);
-  const { data: items, isLoading } = hooks.useChildren(parentId);
-
-  if (isLoading) {
-    return 'Loading...';
-  }
+  const { data: items } = hooks.useChildren(parentId, {
+    placeholderData: List(PLACEHOLDER_COLLECTION.children),
+  });
 
   return (
     <div className={classes.root}>

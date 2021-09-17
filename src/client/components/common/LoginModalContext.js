@@ -59,7 +59,7 @@ const LoginModalProvider = ({ children }) => {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const { hooks } = useContext(QueryClientContext);
-  const { data: user, isLoading } = hooks.useCurrentMember();
+  const { data: user } = hooks.useCurrentMember();
   const { queryClient } = useContext(QueryClientContext);
 
   useEffect(() => {
@@ -76,10 +76,6 @@ const LoginModalProvider = ({ children }) => {
       setOpen(false);
     }
   }, [user]);
-
-  if (isLoading) {
-    return 'Loading...';
-  }
 
   const handleClose = () => {
     setOpen(false);

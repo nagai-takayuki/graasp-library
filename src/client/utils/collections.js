@@ -1,44 +1,16 @@
-import collectionPlaceholderPng from '../resources/icon.png';
+import { List } from 'immutable';
 
 // fallback collection
-const loadingCollection = {
+export const PLACEHOLDER_COLLECTION = {
   name: 'Loading...',
   description: 'loading...',
-  loadingCollection: true,
-  comments: [],
-  subitems: [],
-  voteScore: 0,
-  views: 0,
-  image: {
-    backgroundUrl: collectionPlaceholderPng,
-    pictureId: collectionPlaceholderPng,
-    thumbnailUrl: collectionPlaceholderPng,
-  },
-  author: {
-    id: '1',
-    name: 'Loading...',
-    image: {
-      pictureId: collectionPlaceholderPng,
-      thumbnailUrl: collectionPlaceholderPng,
-      gravatarUrl: collectionPlaceholderPng,
-    },
-  },
-  members: [
-    {
-      id: '1',
-      name: 'Loading ...',
-      type: 'owner',
-      image: {
-        pictureId: collectionPlaceholderPng,
-        thumbnailUrl: collectionPlaceholderPng,
-        gravatarUrl: collectionPlaceholderPng,
-      },
-    },
-  ],
+  children: [],
+  creator: null,
 };
 
-// eslint-disable-next-line no-unused-vars
-const loadingCollections = Array.from({ length: 10 }, (v, index) => ({
-  id: `loading-collection-${index}`,
-  ...loadingCollection,
-}));
+export const PLACEHOLDER_COLLECTIONS = List(
+  Array.from({ length: 10 }, (v, index) => ({
+    id: `loading-collection-${index}`,
+    ...PLACEHOLDER_COLLECTION,
+  })),
+);
