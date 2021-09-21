@@ -1970,38 +1970,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@graasp/query-client@git://github.com/graasp/graasp-query-client.git":
+"@graasp/query-client@git://github.com/graasp/graasp-query-client.git#71/getItemsByTag":
   version: 0.1.0
-  resolution: "@graasp/query-client@git://github.com/graasp/graasp-query-client.git#commit=f1692dec837bcaa5f73baf4374ee64edb9596ccd"
+  resolution: "@graasp/query-client@git://github.com/graasp/graasp-query-client.git#commit=3581501647b5837374cf7e7c756f7f79e710b02b"
   dependencies:
+    axios: 0.21.4
     http-status-codes: 2.1.4
     immutable: 4.0.0-rc.12
     js-cookie: 3.0.0
-    node-fetch: 2.6.1
     qs: 6.10.1
     react-query: 3.16.0
     uuid: 8.3.2
   peerDependencies:
     react: ^17.0.0
-  checksum: 9576f88f4a24f84f131a4d853b8dc1b112c7293be1dcffa63b7395790fd01dc087d6d86597953ab80aaf05e56ce217fa1f014e873f6a2aa73c8f22a472eecda1
-  languageName: node
-  linkType: hard
-
-"@graasp/ui@git://github.com/graasp/graasp-ui.git":
-  version: 0.2.0
-  resolution: "@graasp/ui@git://github.com/graasp/graasp-ui.git#commit=ac52dbaa0b6e79c9aa098e9614632387773d3524"
-  dependencies:
-    clsx: 1.1.1
-    immutable: 4.0.0-rc.12
-    katex: 0.13.11
-    react-quill: 1.3.5
-  peerDependencies:
-    "@material-ui/core": 4.11.0
-    "@material-ui/icons": 4.9.1
-    "@material-ui/lab": 4.0.0-alpha.58
-    react: ^16.13.1
-    react-dom: 16.13.1
-  checksum: 4ca71e509d667933e71bec8dc4a967261ddf10afcb61612274ac45dd39e8c9bd57f926501d2640556d67d7bec4c5aa7275a9613594aaeb07aeb2f1bd54dec6d4
+  checksum: a895e670d0b7edf85ae9e677439a25ca27d2613fa31ae7dba22a1958e05744e85c3d1e3e8c0a2d26a28b88a162c92274a67bba374aab2790079830e2275d2f7f
   languageName: node
   linkType: hard
 
@@ -6366,13 +6348,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"commander@npm:^6.0.0":
-  version: 6.2.1
-  resolution: "commander@npm:6.2.1"
-  checksum: d7090410c0de6bc5c67d3ca41c41760d6d268f3c799e530aafb73b7437d1826bbf0d2a3edac33f8b57cc9887b4a986dce307fa5557e109be40eadb7c43b21742
-  languageName: node
-  linkType: hard
-
 "common-tags@npm:^1.8.0":
   version: 1.8.0
   resolution: "common-tags@npm:1.8.0"
@@ -10279,8 +10254,7 @@ fsevents@~2.1.2:
   dependencies:
     "@commitlint/cli": 11.0.0
     "@commitlint/config-conventional": 11.0.0
-    "@graasp/query-client": "git://github.com/graasp/graasp-query-client.git"
-    "@graasp/ui": "git://github.com/graasp/graasp-ui.git"
+    "@graasp/query-client": "git://github.com/graasp/graasp-query-client.git#71/getItemsByTag"
     "@material-ui/core": 4.11.2
     "@material-ui/icons": 4.11.2
     "@material-ui/lab": 4.0.0-alpha.57
@@ -10289,7 +10263,6 @@ fsevents@~2.1.2:
     "@testing-library/jest-dom": 5.11.8
     "@testing-library/react": 11.2.3
     "@testing-library/user-event": 12.6.0
-    axios: 0.21.4
     babel-plugin-styled-components: 1.12.0
     babel-preset-razzle: 3.3.11
     clsx: 1.1.1
@@ -13305,17 +13278,6 @@ fsevents@~2.1.2:
   bin:
     katex: cli.js
   checksum: f424c90b2b43034163cee37dd75f7c1f93206580cbaea07703a322010b615c32249d4648974d58f7345ad113431a43c2e8ae2118aed3a06fe37ad46dfdcf6d10
-  languageName: node
-  linkType: hard
-
-"katex@npm:0.13.11":
-  version: 0.13.11
-  resolution: "katex@npm:0.13.11"
-  dependencies:
-    commander: ^6.0.0
-  bin:
-    katex: cli.js
-  checksum: 701fa3de8912584b6f4dec3daceb19eef4bdde41375e77d9eeb7557df78a6f15c52e838d4249704d611b52ba425377ea87a5c4957d8aff4362fc7b452db6edf8
   languageName: node
   linkType: hard
 

@@ -29,16 +29,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Collection() {
+const Collection = () => {
   const { id } = useParams();
   const classes = useStyles();
   const { hooks } = useContext(QueryClientContext);
-  const { data: collection, isLoading, isError } = hooks.useItem(id, {
-    placeholderData: PLACEHOLDER_COLLECTION,
-  });
-  const { data: member, isError: memberIsError } = hooks.useMember(
-    collection?.get('creator'),
+  const { data: collection, isLoading: isLoadingItem, isError } = hooks.useItem(
+    id,
+    {
+      placeholderData: PLACEHOLDER_COLLECTION,
+      withMemberships: true,
+    },
   );
+  const {
+    data: member,
+    isError: memberIsError,
+    isLoading: isLoadingMember,
+  } = hooks.useMember(collection?.get('creator'));
 
   if (!id || !validate(id)) {
     return <Error code={ERROR_INVALID_COLLECTION_ID_CODE} />;
@@ -48,7 +54,9 @@ function Collection() {
     return <Error code={ERROR_UNEXPECTED_ERROR_CODE} />;
   }
 
-  const name = collection.get('name');
+  const isLoading = isLoadingItem || isLoadingMember;
+
+  const name = collection?.get('name');
   // todo: handle image
   // const { pictureId } = collection.get('image');
   // const imageUrl = collection.get('loadingCollection')
@@ -57,11 +65,13 @@ function Collection() {
   //     ITEM_DEFAULT_IMAGE;
   const imageUrl = ITEM_DEFAULT_IMAGE;
 
-  const parsedDescription = removeTagsFromString(collection.get('description'));
+  const parsedDescription = removeTagsFromString(
+    collection?.get('description'),
+  );
 
   // todo: views and likes don't exist
-  const views = collection.get('views');
-  const likes = collection.get('likes');
+  const views = collection?.get('views');
+  const likes = collection?.get('likes');
   return (
     <ErrorBoundary>
       <Seo
@@ -88,6 +98,6 @@ function Collection() {
       </div>
     </ErrorBoundary>
   );
-}
+};
 
 export default Collection;

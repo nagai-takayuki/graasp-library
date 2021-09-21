@@ -1,31 +1,15 @@
-import React, { useContext } from 'react';
-import { Typography } from '@material-ui/core';
+import React from 'react';
+import { Avatar, Typography } from '@material-ui/core';
+import { List } from 'immutable';
 import AvatarGroup from '@material-ui/lab/AvatarGroup';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
-import { QueryClientContext } from '../QueryClientContext';
+import { getAvatar } from '../../utils/layout';
 
-function Contributors({ itemId, authorId }) {
-  const { hooks } = useContext(QueryClientContext);
-  const { data: memberships, isLoading } = hooks.useItemMemberships(itemId);
-  const membersId = memberships
-    ?.filter(
-      ({ permission, memberId }) =>
-        (permission === 'write' || permission === 'admin') &&
-        memberId !== authorId,
-    )
-    ?.map(({ memberId }) => memberId)
-    ?.toArray();
-  const { data: members, isLoading: isLoadingMembers } = hooks.useMembers(
-    membersId,
-  );
+function Contributors({ contributors }) {
   const { t } = useTranslation();
 
-  if (isLoading || isLoadingMembers) {
-    return 'Loading...';
-  }
-
-  if (!members || members.isEmpty()) {
+  if (!contributors || contributors.isEmpty()) {
     return null;
   }
 
@@ -35,22 +19,25 @@ function Contributors({ itemId, authorId }) {
         {t('Contributors')}
       </Typography>
       <AvatarGroup max={8}>
-        {/* {contributors.map((contributor) => {
+        {contributors.map((contributor) => {
           const {
             name: contributorName,
             image: contributorAvatar,
           } = contributor;
           const avatar = getAvatar(contributorAvatar);
           return <Avatar alt={contributorName} src={avatar} />;
-        })} */}
+        })}
       </AvatarGroup>
     </>
   );
 }
 
 Contributors.propTypes = {
-  itemId: PropTypes.string.isRequired,
-  authorId: PropTypes.string.isRequired,
+  contributors: PropTypes.instanceOf(List),
+};
+
+Contributors.defaultProps = {
+  contributors: List(),
 };
 
 export default Contributors;

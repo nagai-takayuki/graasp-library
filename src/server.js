@@ -1,7 +1,7 @@
 import * as Sentry from '@sentry/node';
 import express from 'express';
 import { Set, Map } from 'immutable';
-import queryClientPackage from '@graasp/query-client';
+import { configureQueryClient, Api } from '@graasp/query-client';
 import { validate } from 'uuid';
 import cookieParser from 'cookie-parser';
 import {
@@ -25,8 +25,6 @@ import {
   COLLECTIONS_KEY,
   QUERY_CLIENT_OPTIONS,
 } from './client/config/constants';
-
-const { default: configureQueryClient, Api } = queryClientPackage;
 
 // only set up sentry if dsn is provided
 const { SENTRY_DSN, RAZZLE_PUBLISHED_TAG_ID } = process.env;
@@ -61,7 +59,7 @@ const handleAllCollectionsRender = async (req, res, next) => {
   queryClientData.queryClient
     .prefetchQuery(COLLECTIONS_KEY, () =>
       Api.getPublicItemsWithTag(
-        RAZZLE_PUBLISHED_TAG_ID,
+        { tagId: RAZZLE_PUBLISHED_TAG_ID, withMemberships: true },
         QUERY_CLIENT_OPTIONS,
       ).then((data) => Set(data)),
     )
@@ -81,7 +79,11 @@ const handleCollectionRender = async (req, res, next) => {
     const queryClientData = configureQueryClient(QUERY_CLIENT_OPTIONS);
     queryClientData.queryClient
       .prefetchQuery(buildCollectionKey(id), () =>
-        Api.getItem(id, QUERY_CLIENT_OPTIONS).then((data) => Map(data)),
+        Api.getItem(
+          id,
+          { withMemberships: true },
+          QUERY_CLIENT_OPTIONS,
+        ).then((data) => Map(data)),
       )
       .catch((e) => {
         next(e);

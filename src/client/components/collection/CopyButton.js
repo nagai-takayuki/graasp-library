@@ -75,14 +75,16 @@ const CopyButton = ({ id }) => {
   return (
     <>
       {renderButton()}
-      <TreeModal
-        description={t('Select one space from the list below')}
-        title={t('Copy Item')}
-        open={showTreeModal}
-        onConfirm={copy}
-        itemId={id}
-        onClose={() => setShowTreeModal(false)}
-      />
+      {!user?.isEmpty() && (
+        <TreeModal
+          description={t('Select one space from the list below')}
+          title={t('Copy Item')}
+          open={showTreeModal}
+          onConfirm={copy}
+          itemId={id}
+          onClose={() => setShowTreeModal(false)}
+        />
+      )}
     </>
   );
 };

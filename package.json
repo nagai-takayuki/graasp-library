@@ -18,8 +18,7 @@
     "release": "git add CHANGELOG.md && standard-version -a"
   },
   "dependencies": {
-    "@graasp/query-client": "git://github.com/graasp/graasp-query-client.git",
-    "@graasp/ui": "git://github.com/graasp/graasp-ui.git",
+    "@graasp/query-client": "git://github.com/graasp/graasp-query-client.git#71/getItemsByTag",
     "@material-ui/core": "4.11.2",
     "@material-ui/icons": "4.11.2",
     "@material-ui/lab": "4.0.0-alpha.57",
@@ -28,7 +27,6 @@
     "@testing-library/jest-dom": "5.11.8",
     "@testing-library/react": "11.2.3",
     "@testing-library/user-event": "12.6.0",
-    "axios": "0.21.4",
     "clsx": "1.1.1",
     "cookie-parser": "1.4.5",
     "express": "4.17.1",

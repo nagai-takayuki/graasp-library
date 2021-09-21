@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
@@ -20,6 +20,7 @@ import SimilarCollectionBadges from './SimilarCollectionBadges';
 import DEFAULT_COLLECTION_IMAGE from '../../resources/icon.png';
 import { getAvatar } from '../../utils/layout';
 import { buildCollectionRoute } from '../../config/routes';
+import { QueryClientContext } from '../QueryClientContext';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -74,17 +75,11 @@ const useStyles = makeStyles((theme) => ({
 
 export const CollectionCard = ({ collection = {}, isLoading }) => {
   const { t } = useTranslation();
-  const {
-    name,
-    id,
-    image = {},
-    description,
-    author = {},
-    views,
-    voteScore,
-  } = collection;
+  const { name, id, description, creator, views, voteScore } = collection;
   const classes = useStyles();
   const [actionsMenuAnchor, setActionsMenuAnchor] = React.useState(null);
+  const { hooks } = useContext(QueryClientContext);
+  const { data: author } = hooks.useMember(creator);
   const handleClick = (event) => {
     setActionsMenuAnchor(event.currentTarget);
   };
@@ -108,9 +103,9 @@ export const CollectionCard = ({ collection = {}, isLoading }) => {
     </Skeleton>
   ) : (
     <Avatar
-      aria-label={author.name}
-      src={getAvatar(author.image)}
-      title={author.name}
+      aria-label={author?.get('name')}
+      src={getAvatar(author?.get('image'))}
+      title={author?.get('name')}
     />
   );
 
@@ -131,7 +126,7 @@ export const CollectionCard = ({ collection = {}, isLoading }) => {
     </>
   );
 
-  const { thumbnailUrl = DEFAULT_COLLECTION_IMAGE } = image;
+  const thumbnailUrl = DEFAULT_COLLECTION_IMAGE;
 
   return (
     <Card className={classes.root}>
@@ -139,7 +134,7 @@ export const CollectionCard = ({ collection = {}, isLoading }) => {
         avatar={avatar}
         action={action}
         title={name}
-        subheader={author.name}
+        subheader={author?.get('name')}
         titleTypographyProps={{ title: name }}
         classes={{
           root: classes.header,

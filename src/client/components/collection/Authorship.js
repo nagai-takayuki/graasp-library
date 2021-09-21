@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Grid, Typography } from '@material-ui/core';
 import Avatar from '@material-ui/core/Avatar';
 import { Map } from 'immutable';
@@ -8,6 +8,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import { getAvatar } from '../../utils/layout';
 import Contributors from './Contributors';
+import { QueryClientContext } from '../QueryClientContext';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,17 +20,42 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Authorship({ itemId, author, isLoading }) {
+const Authorship = ({ itemId, author, isLoading }) => {
   const { t } = useTranslation();
   const classes = useStyles();
+  const { hooks } = useContext(QueryClientContext);
+  const { data: item, isLoading: isLoadingItem } = hooks.useItem(itemId, {
+    withMemberships: true,
+  });
+  const memberIds = [
+    ...new Set(
+      item
+        ?.get('itemMemberships')
+        ?.filter(
+          ({ permission, memberId }) =>
+            (permission === 'read' || permission === 'admin') &&
+            memberId !== author?.get('id'),
+        )
+        ?.map(({ memberId }) => memberId),
+    ),
+  ];
+  const {
+    data: contributors,
+    isLoading: isLoadingContributors,
+  } = hooks.useMembers(memberIds);
 
-  if (!author) {
-    console.error('author is undefined');
+  const isAnyLoading = isLoadingItem || isLoading || isLoadingContributors;
+
+  if (isAnyLoading) {
+    return <Skeleton variant="rectangular" height={50} />;
+  }
+
+  if (!author && !isLoading) {
     return null;
   }
 
-  const authorAvatar = getAvatar(author.get('image'));
-  const authorName = author.get('name');
+  const authorAvatar = getAvatar(author?.get('image'));
+  const authorName = author?.get('name');
 
   return (
     // wrapper div is necessary for grid to apply
@@ -55,12 +81,12 @@ function Authorship({ itemId, author, isLoading }) {
           </Grid>
         </Grid>
         <Grid item xs={12} sm={6}>
-          <Contributors itemId={itemId} authorId={author.get('id')} />
+          <Contributors contributors={contributors} />
         </Grid>
       </Grid>
     </div>
   );
-}
+};
 
 Authorship.propTypes = {
   author: PropTypes.instanceOf(Map),

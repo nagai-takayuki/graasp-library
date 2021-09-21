@@ -45,14 +45,18 @@ function Home() {
   const classes = useStyles();
   const [searchResults, setSearchResults] = useState(null);
   const { hooks } = useContext(QueryClientContext);
-  const { data: collections, isLoading } = hooks.usePublicItemsWithTag(
-    PUBLISHED_TAG_ID,
-    {
-      placeholderData: PLACEHOLDER_COLLECTIONS,
-    },
-  );
+  const {
+    data: collections,
+    isLoading,
+    isPlaceholderData,
+  } = hooks.usePublicItemsWithTag(PUBLISHED_TAG_ID, {
+    placeholderData: PLACEHOLDER_COLLECTIONS,
+    withMemberships: true,
+  });
   const { data: members } = hooks.useMembers(
-    collections?.map(({ creator }) => creator),
+    isPlaceholderData
+      ? null
+      : [...new Set(collections?.map(({ creator }) => creator).toArray())],
   );
 
   const handleSearch = (event) => {

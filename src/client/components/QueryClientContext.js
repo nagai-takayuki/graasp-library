@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import configureQueryClient from '@graasp/query-client';
+import { configureQueryClient } from '@graasp/query-client';
 import { QUERY_CLIENT_OPTIONS } from '../config/constants';
 
 const QueryClientContext = React.createContext();

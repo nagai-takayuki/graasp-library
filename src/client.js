@@ -4,7 +4,7 @@ import ReactGa from 'react-ga';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import * as Sentry from '@sentry/react';
-import configureQueryClient from '@graasp/query-client';
+import { configureQueryClient } from '@graasp/query-client';
 import WHITELISTED_ERRORS from './client/config/errors';
 import config from './api/env';
 import { APP_NAME, QUERY_CLIENT_OPTIONS } from './client/config/constants';

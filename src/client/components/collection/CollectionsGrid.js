@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Set } from 'immutable';
+import { List } from 'immutable';
 import { useTranslation } from 'react-i18next';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
@@ -25,7 +25,7 @@ function CollectionsGrid({ collections, isLoading }) {
 }
 
 CollectionsGrid.propTypes = {
-  collections: PropTypes.instanceOf(Set),
+  collections: PropTypes.instanceOf(List),
   isLoading: PropTypes.bool.isRequired,
 };
 

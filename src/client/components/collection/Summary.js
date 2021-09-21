@@ -84,10 +84,14 @@ function Summary({
             description={description}
           />
           <Typography variant="body1" gutterBottom component="div">
-            <div
-              // eslint-disable-next-line react/no-danger
-              dangerouslySetInnerHTML={{ __html: description }}
-            />
+            {isLoading ? (
+              <Skeleton />
+            ) : (
+              <div
+                // eslint-disable-next-line react/no-danger
+                dangerouslySetInnerHTML={{ __html: description }}
+              />
+            )}
           </Typography>
           <Authorship
             itemId={itemId}
