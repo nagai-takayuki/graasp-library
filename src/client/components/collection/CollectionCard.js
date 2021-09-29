@@ -20,7 +20,9 @@ import SimilarCollectionBadges from './SimilarCollectionBadges';
 import DEFAULT_COLLECTION_IMAGE from '../../resources/icon.png';
 import { getAvatar } from '../../utils/layout';
 import { buildCollectionRoute } from '../../config/routes';
+import { ITEM_TYPES } from '../../config/constants';
 import { QueryClientContext } from '../QueryClientContext';
+import { buildPeformViewEndpoint } from '../../../api/endpoints';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -75,7 +77,7 @@ const useStyles = makeStyles((theme) => ({
 
 export const CollectionCard = ({ collection = {}, isLoading }) => {
   const { t } = useTranslation();
-  const { name, id, description, creator, views, voteScore } = collection;
+  const { name, id, description, creator, views, voteScore, type } = collection;
   const classes = useStyles();
   const [actionsMenuAnchor, setActionsMenuAnchor] = React.useState(null);
   const { hooks } = useContext(QueryClientContext);
@@ -128,6 +130,19 @@ export const CollectionCard = ({ collection = {}, isLoading }) => {
 
   const thumbnailUrl = DEFAULT_COLLECTION_IMAGE;
 
+  // redirect to perform view directly if the item is not a folder
+  const LinkComponent = ({ children }) =>
+    type === ITEM_TYPES.FOLDER ? (
+      <Link to={buildCollectionRoute(id)}>{children}</Link>
+    ) : (
+      <a target="_blank" rel="noreferrer" href={buildPeformViewEndpoint(id)}>
+        {children}
+      </a>
+    );
+  LinkComponent.propTypes = {
+    children: PropTypes.element.isRequired,
+  };
+
   return (
     <Card className={classes.root}>
       <CardHeader
@@ -143,7 +158,7 @@ export const CollectionCard = ({ collection = {}, isLoading }) => {
           content: classes.content,
         }}
       />
-      <Link to={buildCollectionRoute(id)}>
+      <LinkComponent>
         {isLoading ? (
           <Skeleton>
             <CardMedia
@@ -161,7 +176,7 @@ export const CollectionCard = ({ collection = {}, isLoading }) => {
             component="img"
           />
         )}
-      </Link>
+      </LinkComponent>
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">
           <p
