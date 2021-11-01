@@ -13,7 +13,6 @@ import IconButton from '@material-ui/core/IconButton';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Text from '../common/Text';
 import ITEM_DEFAULT_IMAGE from '../../resources/icon.png';
-import { ITEM_TYPES } from '../../config/constants';
 import { openInNewTab } from '../../config/helpers';
 import { buildPerformViewItemRoute } from '../../config/routes';
 import CopyButton from './CopyButton';
@@ -52,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const Item = ({ item }) => {
-  const { description, name, id, type } = item;
+  const { description, name, id } = item;
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
   const handleExpandClick = () => {
@@ -89,7 +88,7 @@ export const Item = ({ item }) => {
       </Collapse>
 
       <CardActions disableSpacing>
-        {type === ITEM_TYPES.FOLDER && <CopyButton id={id} />}
+        {<CopyButton id={id} />}
         {description && (
           <IconButton
             className={clsx(classes.expand, {

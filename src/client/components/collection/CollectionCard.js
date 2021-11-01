@@ -23,6 +23,7 @@ import { buildCollectionRoute } from '../../config/routes';
 import { ITEM_TYPES } from '../../config/constants';
 import { QueryClientContext } from '../QueryClientContext';
 import { buildPeformViewEndpoint } from '../../../api/endpoints';
+import CopyButton from './CopyButton';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -189,6 +190,7 @@ export const CollectionCard = ({ collection = {}, isLoading }) => {
         </Typography>
       </CardContent>
       <CardActions disableSpacing className={classes.actions}>
+        <CopyButton id={id} />
         <SimilarCollectionBadges views={views} voteScore={voteScore} />
       </CardActions>
     </Card>
