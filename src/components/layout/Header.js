@@ -1,21 +1,15 @@
 import React from 'react';
 import { AppBar, Typography, Toolbar } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import dynamic from 'next/dynamic';
-import Link from 'next/link';
 import { makeStyles } from '@material-ui/core/styles';
-import { HOME_ROUTE } from '../../config/routes';
-import UserHeader from './UserHeader';
+import Logo from '../common/Logo';
 import {
-  APP_NAME,
-  HEADER_HEIGHT,
-  HEADER_LOGO_HEIGHT,
-} from '../../config/constants';
-
-const GraaspLogo = dynamic(
-  () => import('@graasp/ui').then((mod) => mod.GraaspLogo),
-  { ssr: false },
-);
+  ALL_COLLECTION_ROUTE,
+  HOME_ROUTE,
+  MY_LIST_ROUTE,
+} from '../../config/routes';
+import UserHeader from './UserHeader';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -29,18 +23,11 @@ const useStyles = makeStyles((theme) => ({
   link: {
     textDecoration: 'none',
     color: '#fff',
+    marginLeft: 30,
   },
   logo: {
-    fill: '#fff',
-  },
-  title: {
-    marginLeft: theme.spacing(2),
-    '&:hover': {
-      cursor: 'pointer',
-    },
-  },
-  spacing: {
-    height: HEADER_HEIGHT,
+    height: '48px',
+    marginRight: theme.spacing(2),
   },
 }));
 
@@ -49,31 +36,31 @@ function Header() {
   const { t } = useTranslation();
 
   return (
-    <>
-      <header>
-        <AppBar position="absolute">
-          <Toolbar>
-            <div className={classes.headerLeft}>
-              <GraaspLogo
-                height={HEADER_LOGO_HEIGHT}
-                className={classes.logo}
-              />
-              <Link href={HOME_ROUTE} className={classes.link}>
-                <Typography
-                  variant="h6"
-                  color="inherit"
-                  className={classes.title}
-                >
-                  {t(APP_NAME)}
-                </Typography>
-              </Link>
-            </div>
-            <UserHeader />
-          </Toolbar>
-        </AppBar>
-      </header>
-      <div className={classes.spacing} />
-    </>
+    <header>
+      <AppBar position="absolute">
+        <Toolbar>
+          <div className={classes.headerLeft}>
+            <Logo className={classes.logo} />
+            <Link to={HOME_ROUTE} className={classes.link}>
+              <Typography variant="h6" color="inherit" useStyles>
+                {t('Explore')}
+              </Typography>
+            </Link>
+            <Link to={ALL_COLLECTION_ROUTE} className={classes.link}>
+              <Typography variant="h6" color="inherit">
+                {t('All Collections')}
+              </Typography>
+            </Link>
+            <Link to={MY_LIST_ROUTE} className={classes.link}>
+              <Typography variant="h6" color="inherit">
+                {t('My Lists')}
+              </Typography>
+            </Link>
+          </div>
+          <UserHeader />
+        </Toolbar>
+      </AppBar>
+    </header>
   );
 }
 
