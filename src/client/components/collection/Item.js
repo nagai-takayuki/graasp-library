@@ -88,7 +88,7 @@ export const Item = ({ item }) => {
       </Collapse>
 
       <CardActions disableSpacing>
-        {<CopyButton id={id} />}
+        <CopyButton id={id} />
         {description && (
           <IconButton
             className={clsx(classes.expand, {
