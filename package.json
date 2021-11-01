@@ -18,7 +18,7 @@
     "release": "git add CHANGELOG.md && standard-version -a"
   },
   "dependencies": {
-    "@graasp/query-client": "git://github.com/graasp/graasp-query-client.git#71/getItemsByTag",
+    "@graasp/query-client": "git://github.com/graasp/graasp-query-client.git",
     "@material-ui/core": "4.11.2",
     "@material-ui/icons": "4.11.2",
     "@material-ui/lab": "4.0.0-alpha.57",
@@ -77,5 +77,5 @@
     "webpack": "5.12.3",
     "webpack-dev-server": "3.11.1"
   },
-  "packageManager": "yarn@3.1.0-rc.5"
+  "packageManager": "yarn@3.2.0-rc.2"
 }
