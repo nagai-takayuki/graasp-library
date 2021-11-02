@@ -1,5 +1,7 @@
 import { makeStyles } from '@material-ui/core';
+import { CssBaseline } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
+import Drawer from '@material-ui/core/Drawer';
 import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { APP_AUTHOR, APP_DESCRIPTION, APP_NAME } from '../../config/constants';
@@ -10,13 +12,18 @@ import Search from './Search';
 import { QueryClientContext } from '../QueryClientContext';
 import runtimeConfig from '../../../api/env';
 import { PLACEHOLDER_COLLECTIONS } from '../../utils/collections';
-import SideBar from '../layout/SideBar';
+import MainMenu from '../layout/MainMenu';
+import { HEADER_HEIGHT, LEFT_MENU_WIDTH } from '../../config/constants';
+import Header from '../layout/Header';
 
 const { PUBLISHED_TAG_ID } = runtimeConfig;
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
     padding: '4vw',
+  },
+  flex: {
+    display: 'flex',
   },
   root: {
     padding: theme.spacing(0.25, 0.5),
@@ -38,6 +45,25 @@ const useStyles = makeStyles((theme) => ({
   },
   typographyMargin: {
     margin: theme.spacing(1.5, 0),
+  },
+  drawer: {
+    position: 'inherit',
+    width: LEFT_MENU_WIDTH,
+    flexShrink: 0,
+  },
+  drawerPaper: {
+    width: LEFT_MENU_WIDTH,
+  },
+  drawerHeader: {
+    display: 'flex',
+    alignItems: 'center',
+    padding: theme.spacing(0, 1),
+    // necessary for content to be below app bar
+    ...theme.mixins.toolbar,
+    justifyContent: 'flex-end',
+  },
+  appBarBlank: {
+    height: HEADER_HEIGHT,
   },
 }));
 
@@ -99,32 +125,49 @@ function AllCollections() {
   return (
     <>
       <Seo title={APP_NAME} description={APP_DESCRIPTION} author={APP_AUTHOR} />
-      <SideBar />
-      <div className={classes.wrapper}>
-        <Typography variant="h3" align="center">
-          {t('Graasp Collections Directory')}
-        </Typography>
-        <Search handleSearch={handleSearch} isLoading={isLoading} />
-        {isLoading ? <Loader /> : renderResults()}
-        <Typography variant="h3" className={classes.typographyMargin}>
-          {t('Math')}
-        </Typography>
-        <Typography variant="h3" className={classes.typographyMargin}>
-          {t('Literature')}
-        </Typography>
-        <Typography variant="h3" className={classes.typographyMargin}>
-          {t('Language')}
-        </Typography>
-        <Typography variant="h3" className={classes.typographyMargin}>
-          {t('Natural Science')}
-        </Typography>
-        <Typography variant="h3" className={classes.typographyMargin}>
-          {t('Social Science')}
-        </Typography>
-        <Typography variant="h3" className={classes.typographyMargin}>
-          {t('Other')}
-        </Typography>
-        <CollectionsGrid collections={collections} isLoading={isLoading} />
+      <div className={classes.flex}>
+        <CssBaseline />
+        <Header />
+        <Drawer
+          className={classes.drawer}
+          variant="persistent"
+          position="inherit"
+          open={true}
+          classes={{
+            paper: classes.drawerPaper,
+          }}
+        >
+          <div className={classes.appBarBlank} />
+          <div role="presentation" className={classes.list}>
+            <MainMenu />
+          </div>
+        </Drawer>
+        <div className={classes.wrapper}>
+          <Typography variant="h3" align="center">
+            {t('Graasp Collections Directory')}
+          </Typography>
+          <Search handleSearch={handleSearch} isLoading={isLoading} />
+          {isLoading ? <Loader /> : renderResults()}
+          <Typography variant="h3" className={classes.typographyMargin}>
+            {t('Math')}
+          </Typography>
+          <Typography variant="h3" className={classes.typographyMargin}>
+            {t('Literature')}
+          </Typography>
+          <Typography variant="h3" className={classes.typographyMargin}>
+            {t('Language')}
+          </Typography>
+          <Typography variant="h3" className={classes.typographyMargin}>
+            {t('Natural Science')}
+          </Typography>
+          <Typography variant="h3" className={classes.typographyMargin}>
+            {t('Social Science')}
+          </Typography>
+          <Typography variant="h3" className={classes.typographyMargin}>
+            {t('Other')}
+          </Typography>
+          <CollectionsGrid collections={collections} isLoading={isLoading} />
+        </div>
       </div>
     </>
   );
