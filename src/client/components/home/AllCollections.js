@@ -10,6 +10,7 @@ import Search from './Search';
 import { QueryClientContext } from '../QueryClientContext';
 import runtimeConfig from '../../../api/env';
 import { PLACEHOLDER_COLLECTIONS } from '../../utils/collections';
+import SideBar from '../layout/SideBar';
 
 const { PUBLISHED_TAG_ID } = runtimeConfig;
 
@@ -98,6 +99,7 @@ function AllCollections() {
   return (
     <>
       <Seo title={APP_NAME} description={APP_DESCRIPTION} author={APP_AUTHOR} />
+      <SideBar />
       <div className={classes.wrapper}>
         <Typography variant="h3" align="center">
           {t('Graasp Collections Directory')}
