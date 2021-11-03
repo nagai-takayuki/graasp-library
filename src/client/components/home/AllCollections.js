@@ -1,36 +1,62 @@
-import { makeStyles } from '@material-ui/core';
-import { CssBaseline } from '@material-ui/core';
+import { makeStyles, Button } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
-import Drawer from '@material-ui/core/Drawer';
 import React, { useContext, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { APP_AUTHOR, APP_DESCRIPTION, APP_NAME } from '../../config/constants';
-import CollectionsGrid from '../collection/CollectionsGrid';
+import Drawer from '@material-ui/core/Drawer';
+import AppBar from '@material-ui/core/AppBar';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import List from '@material-ui/core/List';
+import Divider from '@material-ui/core/Divider';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import BookmarkIcon from '@material-ui/icons/Bookmark';
 import Seo from '../common/Seo';
 import Loader from '../common/Loader';
+import { APP_AUTHOR, APP_DESCRIPTION, APP_NAME } from '../../config/constants';
 import Search from './Search';
+import CollectionsGrid from '../collection/CollectionsGrid';
 import { QueryClientContext } from '../QueryClientContext';
 import runtimeConfig from '../../../api/env';
 import { PLACEHOLDER_COLLECTIONS } from '../../utils/collections';
-import MainMenu from '../layout/MainMenu';
-import { HEADER_HEIGHT, LEFT_MENU_WIDTH } from '../../config/constants';
 import Header from '../layout/Header';
+import Footer from '../layout/Footer';
 
 const { PUBLISHED_TAG_ID } = runtimeConfig;
 
+const drawerWidth = 240;
+
 const useStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+  },
+  appBar: {
+    zIndex: theme.zIndex.drawer + 1,
+  },
+  appBarBot: {
+    top: 'auto',
+    bottom: 0,
+    zIndex: theme.zIndex.drawer + 1,
+  },
+  drawer: {
+    width: drawerWidth,
+    flexShrink: 0,
+  },
+  drawerPaper: {
+    width: drawerWidth,
+  },
+  content: {
+    flexGrow: 1,
+    padding: theme.spacing.unit * 3,
+  },
+  toolbar: theme.mixins.toolbar,
+  list: {
+    marginTop: 20,
+    marginBottom: 20,
+  },
   wrapper: {
     padding: '4vw',
-  },
-  flex: {
-    display: 'flex',
-  },
-  root: {
-    padding: theme.spacing(0.25, 0.5),
-    margin: theme.spacing(12.5, 0),
-    display: 'flex',
-    alignItems: 'center',
-    width: '100%',
   },
   input: {
     marginLeft: theme.spacing(2.5),
@@ -46,24 +72,8 @@ const useStyles = makeStyles((theme) => ({
   typographyMargin: {
     margin: theme.spacing(1.5, 0),
   },
-  drawer: {
-    position: 'inherit',
-    width: LEFT_MENU_WIDTH,
-    flexShrink: 0,
-  },
-  drawerPaper: {
-    width: LEFT_MENU_WIDTH,
-  },
-  drawerHeader: {
-    display: 'flex',
-    alignItems: 'center',
-    padding: theme.spacing(0, 1),
-    // necessary for content to be below app bar
-    ...theme.mixins.toolbar,
-    justifyContent: 'flex-end',
-  },
-  appBarBlank: {
-    height: HEADER_HEIGHT,
+  link: {
+    textDecoration: 'none',
   },
 }));
 
@@ -122,26 +132,61 @@ function AllCollections() {
     );
   };
 
+  const GOTO_LIST = ['/myList', '/grade1to8', '/highSchool', '/college'];
+
   return (
-    <>
-      <Seo title={APP_NAME} description={APP_DESCRIPTION} author={APP_AUTHOR} />
-      <div className={classes.flex}>
-        <CssBaseline />
+    <div className={classes.root}>
+      <CssBaseline />
+      <AppBar position="fixed" className={classes.appBar}>
         <Header />
-        <Drawer
-          className={classes.drawer}
-          variant="persistent"
-          position="inherit"
-          open={true}
-          classes={{
-            paper: classes.drawerPaper,
-          }}
+      </AppBar>
+      <Drawer
+        className={classes.drawer}
+        variant="permanent"
+        classes={{
+          paper: classes.drawerPaper,
+        }}
+      >
+        <div className={classes.toolbar} />
+        <List className={classes.list}>
+          {['Pre-School', 'Grade 1-8', 'High School', 'College'].map(
+            (text, index) => (
+              <Link to={GOTO_LIST[index]} className={classes.link}>
+                <ListItem button key={text}>
+                  <ListItemIcon>
+                    <BookmarkIcon />
+                  </ListItemIcon>
+                  <ListItemText primary={text} />
+                </ListItem>
+              </Link>
+            ),
+          )}
+        </List>
+        <Divider />
+        <List className={classes.list}>
+          {['Test Prep', 'Post Grad'].map((text) => (
+            <ListItem button key={text}>
+              <ListItemIcon>
+                <BookmarkIcon />
+              </ListItemIcon>
+              <ListItemText primary={text} />
+            </ListItem>
+          ))}
+        </List>
+        <Divider />
+        <Button
+          variant="contained"
+          onClick={() => "location.href = 'graasp.com';"}
         >
-          <div className={classes.appBarBlank} />
-          <div role="presentation" className={classes.list}>
-            <MainMenu />
-          </div>
-        </Drawer>
+          Create Your Own
+        </Button>
+      </Drawer>
+      <main className={classes.content}>
+        <Seo
+          title={APP_NAME}
+          description={APP_DESCRIPTION}
+          author={APP_AUTHOR}
+        />
         <div className={classes.wrapper}>
           <Typography variant="h3" align="center">
             {t('Graasp Collections Directory')}
@@ -168,8 +213,11 @@ function AllCollections() {
           </Typography>
           <CollectionsGrid collections={collections} isLoading={isLoading} />
         </div>
-      </div>
-    </>
+      </main>
+      <AppBar position="fixed" color="primary" className={classes.appBarBot}>
+        <Footer />
+      </AppBar>
+    </div>
   );
 }
 
