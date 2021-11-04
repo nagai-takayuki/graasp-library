@@ -106,7 +106,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function AllCollections() {
+function College() {
   const { t } = useTranslation();
   const classes = useStyles();
   const theme = useTheme();
@@ -258,8 +258,8 @@ function AllCollections() {
           author={APP_AUTHOR}
         />
         <div>
-          <Typography variant="h3" align="center">
-            {t('Graasp Collections Directory')}
+          <Typography variant="h4" align="center">
+            {t('College Collections')}
           </Typography>
           <Search handleSearch={handleSearch} isLoading={isLoading} />
           {isLoading ? <Loader /> : renderResults()}
@@ -267,16 +267,28 @@ function AllCollections() {
             {t('Math')}
           </Typography>
           <Typography variant="h3" className={classes.typographyMargin}>
-            {t('Literature')}
+            {t('Computer Science')}
           </Typography>
           <Typography variant="h3" className={classes.typographyMargin}>
-            {t('Language')}
+            {t('Business and Finance')}
+          </Typography>
+          <Typography variant="h3" className={classes.typographyMargin}>
+            {t('Social Science')}
+          </Typography>
+          <Typography variant="h3" className={classes.typographyMargin}>
+            {t('Engineering')}
           </Typography>
           <Typography variant="h3" className={classes.typographyMargin}>
             {t('Natural Science')}
           </Typography>
           <Typography variant="h3" className={classes.typographyMargin}>
-            {t('Social Science')}
+            {t('Language')}
+          </Typography>
+          <Typography variant="h3" className={classes.typographyMargin}>
+            {t('Medicine')}
+          </Typography>
+          <Typography variant="h3" className={classes.typographyMargin}>
+            {t('Arts')}
           </Typography>
           <Typography variant="h3" className={classes.typographyMargin}>
             {t('Other')}
@@ -291,4 +303,4 @@ function AllCollections() {
   );
 }
 
-export default AllCollections;
+export default College;

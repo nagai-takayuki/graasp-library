@@ -106,7 +106,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function AllCollections() {
+function PreSchool() {
   const { t } = useTranslation();
   const classes = useStyles();
   const theme = useTheme();
@@ -258,25 +258,13 @@ function AllCollections() {
           author={APP_AUTHOR}
         />
         <div>
-          <Typography variant="h3" align="center">
-            {t('Graasp Collections Directory')}
+          <Typography variant="h4" align="center">
+            {t('Pre-School Collections')}
           </Typography>
           <Search handleSearch={handleSearch} isLoading={isLoading} />
           {isLoading ? <Loader /> : renderResults()}
           <Typography variant="h3" className={classes.typographyMargin}>
-            {t('Math')}
-          </Typography>
-          <Typography variant="h3" className={classes.typographyMargin}>
-            {t('Literature')}
-          </Typography>
-          <Typography variant="h3" className={classes.typographyMargin}>
             {t('Language')}
-          </Typography>
-          <Typography variant="h3" className={classes.typographyMargin}>
-            {t('Natural Science')}
-          </Typography>
-          <Typography variant="h3" className={classes.typographyMargin}>
-            {t('Social Science')}
           </Typography>
           <Typography variant="h3" className={classes.typographyMargin}>
             {t('Other')}
@@ -291,4 +279,4 @@ function AllCollections() {
   );
 }
 
-export default AllCollections;
+export default PreSchool;

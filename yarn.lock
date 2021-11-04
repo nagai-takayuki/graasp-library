@@ -2133,7 +2133,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@material-ui/styles@npm:^4.11.2":
+"@material-ui/styles@npm:4.11.4, @material-ui/styles@npm:^4.11.2":
   version: 4.11.4
   resolution: "@material-ui/styles@npm:4.11.4"
   dependencies:
@@ -2164,7 +2164,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@material-ui/system@npm:^4.11.2":
+"@material-ui/system@npm:4.12.1, @material-ui/system@npm:^4.11.2":
   version: 4.12.1
   resolution: "@material-ui/system@npm:4.12.1"
   dependencies:
@@ -8930,6 +8930,8 @@ __metadata:
     "@material-ui/core": 4.11.2
     "@material-ui/icons": 4.11.2
     "@material-ui/lab": 4.0.0-alpha.57
+    "@material-ui/styles": 4.11.4
+    "@material-ui/system": 4.12.1
     "@sentry/node": 6.2.3
     "@sentry/react": 6.2.3
     "@testing-library/jest-dom": 5.11.8

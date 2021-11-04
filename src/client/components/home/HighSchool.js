@@ -106,7 +106,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function AllCollections() {
+function HighSchool() {
   const { t } = useTranslation();
   const classes = useStyles();
   const theme = useTheme();
@@ -258,8 +258,8 @@ function AllCollections() {
           author={APP_AUTHOR}
         />
         <div>
-          <Typography variant="h3" align="center">
-            {t('Graasp Collections Directory')}
+          <Typography variant="h4" align="center">
+            {t('High School Collections')}
           </Typography>
           <Search handleSearch={handleSearch} isLoading={isLoading} />
           {isLoading ? <Loader /> : renderResults()}
@@ -291,4 +291,4 @@ function AllCollections() {
   );
 }
 
-export default AllCollections;
+export default HighSchool;

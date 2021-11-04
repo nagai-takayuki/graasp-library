@@ -106,7 +106,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function AllCollections() {
+function Grade1to8() {
   const { t } = useTranslation();
   const classes = useStyles();
   const theme = useTheme();
@@ -258,25 +258,19 @@ function AllCollections() {
           author={APP_AUTHOR}
         />
         <div>
-          <Typography variant="h3" align="center">
-            {t('Graasp Collections Directory')}
+          <Typography variant="h4" align="center">
+            {t('Collections for Grade 1 to 8')}
           </Typography>
           <Search handleSearch={handleSearch} isLoading={isLoading} />
           {isLoading ? <Loader /> : renderResults()}
           <Typography variant="h3" className={classes.typographyMargin}>
-            {t('Math')}
-          </Typography>
-          <Typography variant="h3" className={classes.typographyMargin}>
-            {t('Literature')}
-          </Typography>
-          <Typography variant="h3" className={classes.typographyMargin}>
             {t('Language')}
           </Typography>
           <Typography variant="h3" className={classes.typographyMargin}>
-            {t('Natural Science')}
+            {t('Science')}
           </Typography>
           <Typography variant="h3" className={classes.typographyMargin}>
-            {t('Social Science')}
+            {t('Math')}
           </Typography>
           <Typography variant="h3" className={classes.typographyMargin}>
             {t('Other')}
@@ -291,4 +285,4 @@ function AllCollections() {
   );
 }
 
-export default AllCollections;
+export default Grade1to8;

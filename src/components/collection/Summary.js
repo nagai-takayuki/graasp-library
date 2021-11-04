@@ -2,7 +2,7 @@ import React from 'react';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
 import { Map } from 'immutable';
-import { Grid, Typography } from '@material-ui/core';
+import { Grid, Typography, Chip } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import Skeleton from '@material-ui/lab/Skeleton';
@@ -47,6 +47,10 @@ function Summary({
     separator: /,? +/,
   });
   const classes = useStyles();
+  //  TODO: Retreive the category & tags of collection
+  const ageRange = 'test_age_range';
+  const discipline = 'test_discipline';
+  const tags = ['test_tag1', 'test_tag2', 'test_tag3'];
   return (
     <div className={classes.root}>
       <Grid container spacing={2} alignItems="flex-start">
@@ -87,6 +91,19 @@ function Summary({
             contributors={contributors}
             isLoading={isLoading}
           />
+          <Typography variant="h6">
+            Category
+            <br />
+            <Chip label={ageRange} />
+            <Chip label={discipline} />
+          </Typography>
+          <Typography variant="h6">
+            Tags
+            <br />
+            {tags.map((text) => (
+              <Chip label={text} />
+            ))}
+          </Typography>
         </Grid>
       </Grid>
     </div>

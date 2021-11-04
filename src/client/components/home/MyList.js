@@ -95,7 +95,7 @@ function MyList() {
         <div className={classes.toolbar} />
         <List className={classes.link}>
           {['My favorites', 'My uploads', 'Saved Collections'].map((text) => (
-            <ListItem button key={text}>
+            <ListItem button key={text} disabled>
               <ListItemIcon>
                 <StarBorderIcon />
               </ListItemIcon>
