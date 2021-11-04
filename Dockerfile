@@ -22,4 +22,4 @@ RUN yarn build
 
 EXPOSE 3005
 
-CMD ["yarn", "start:prod"]
+CMD ["yarn", "start:next"]

@@ -1,9 +1,9 @@
-import { PUBLISHED_TAG_ID } from './env';
+import { PUBLISHED_TAG_ID, GRAASP_API_HOST } from './env';
 import i18n from './i18n';
 import notifier from './notifier';
 
 export const QUERY_CLIENT_OPTIONS = {
-  API_HOST: process.env.NEXT_PUBLIC_API_HOST,
+  API_HOST: GRAASP_API_HOST,
   enableWebsocket: false,
   keepPreviousData: true,
   // avoid refetching when same data are closely fetched

@@ -47,7 +47,7 @@ const Authorship = ({ itemId, author, isLoading }) => {
   const isAnyLoading = isLoadingItem || isLoading || isLoadingContributors;
 
   if (isAnyLoading) {
-    return <Skeleton variant="rectangular" height={50} />;
+    return <Skeleton variant="rect" height={50} />;
   }
 
   if (!author && !isLoading) {

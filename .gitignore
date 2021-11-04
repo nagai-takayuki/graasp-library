@@ -64,4 +64,5 @@ build/*
 !.yarn/sdks
 !.yarn/versions
 
+# nextjs
 .next

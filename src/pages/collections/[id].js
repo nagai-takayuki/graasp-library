@@ -42,7 +42,11 @@ export async function getServerSideProps({ params }) {
         id: author,
       },
       QUERY_CLIENT_OPTIONS,
-    ).then((data) => data),
+    )
+      .then((data) => data)
+      .catch(
+        () => ({}), // do not fail on fetch error, set empty member
+      ),
   );
 
   // Pass data to the page via props

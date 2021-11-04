@@ -12,7 +12,7 @@ import IconButton from '@material-ui/core/IconButton';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import CardMedia from '../common/CardMediaComponent';
 import Text from '../common/Text';
-import { openInNewTab } from '../../config/helpers';
+import { openInNewTab } from '../../utils/helpers';
 import { buildPerformViewItemRoute } from '../../config/routes';
 import CopyButton from './CopyButton';
 

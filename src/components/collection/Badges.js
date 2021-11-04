@@ -12,7 +12,7 @@ import {
 } from '@material-ui/icons';
 import PropTypes from 'prop-types';
 import { Grid, IconButton } from '@material-ui/core';
-import { openInNewTab } from '../../config/helpers';
+import { openInNewTab } from '../../utils/helpers';
 import {
   MAIL_BREAK_LINE,
   TWITTER_MESSAGE_MAX_LENGTH,

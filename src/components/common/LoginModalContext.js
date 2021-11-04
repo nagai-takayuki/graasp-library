@@ -11,7 +11,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
 import { useTranslation } from 'react-i18next';
 import { SIGN_IN_ROUTE, SIGN_UP_ROUTE } from '../../config/routes';
-import { openInNewTab } from '../../config/helpers';
+import { openInNewTab } from '../../utils/helpers';
 import { USER_KEY } from '../../config/constants';
 import { QueryClientContext } from '../QueryClientContext';
 

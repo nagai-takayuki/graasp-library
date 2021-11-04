@@ -27,7 +27,7 @@ const UserHeader = () => {
     openLoginModal(true);
   };
 
-  if (isLoading || !user) {
+  if (isLoading || user.isEmpty()) {
     return (
       <IconButton
         edge="end"

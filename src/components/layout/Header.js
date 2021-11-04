@@ -25,10 +25,6 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     display: 'flex',
     alignItems: 'center',
-
-    '&:hover': {
-      cursor: 'pointer',
-    },
   },
   link: {
     textDecoration: 'none',
@@ -39,6 +35,9 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     marginLeft: theme.spacing(2),
+    '&:hover': {
+      cursor: 'pointer',
+    },
   },
   spacing: {
     height: HEADER_HEIGHT,

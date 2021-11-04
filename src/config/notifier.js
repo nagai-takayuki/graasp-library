@@ -5,7 +5,7 @@ import i18n from './i18n';
 import ToastrWithLink from '../components/common/ToastrWithLink';
 import { buildPerformViewItemRoute } from './routes';
 
-export default ({ type, payload }) => {
+const notifier = ({ type, payload }) => {
   switch (type) {
     case routines.copyItemRoutine.FAILURE:
       toast.error(i18n.t('An error occured while copying the item'), {
@@ -24,3 +24,4 @@ export default ({ type, payload }) => {
     default:
   }
 };
+export default notifier;

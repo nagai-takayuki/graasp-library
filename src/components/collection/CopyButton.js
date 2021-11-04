@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import IconButton from '@material-ui/core/IconButton';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
@@ -22,7 +22,7 @@ const CopyButton = ({ id }) => {
     LoginModalContext,
   );
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     // if the user signs in while the login modal is open
     // switch to copy modal
     if (showLoginModal && !user?.isEmpty()) {

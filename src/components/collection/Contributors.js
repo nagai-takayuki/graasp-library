@@ -25,7 +25,9 @@ function Contributors({ contributors }) {
             image: contributorAvatar,
           } = contributor;
           const avatar = getAvatar(contributorAvatar);
-          return <Avatar alt={contributorName} src={avatar} />;
+          return (
+            <Avatar key={contributorName} alt={contributorName} src={avatar} />
+          );
         })}
       </AvatarGroup>
     </>

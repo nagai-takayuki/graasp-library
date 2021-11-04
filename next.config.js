@@ -1,5 +1,12 @@
-// const withTM = require('next-transpile-modules')(['@graasp/query-client']);
-
 module.exports = {
-  images: {},
+  publicRuntimeConfig: {
+    NEXT_PUBLIC_API_HOST: process.env.NEXT_PUBLIC_API_HOST,
+    NEXT_PUBLIC_GOOGLE_ANALYTICS_ID:
+      process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID,
+    NEXT_PUBLIC_PUBLISHED_TAG_ID: process.env.NEXT_PUBLIC_PUBLISHED_TAG_ID,
+    NEXT_PUBLIC_GRAASP_AUTH_HOST: process.env.NEXT_PUBLIC_GRAASP_AUTH_HOST,
+    NEXT_PUBLIC_GRAASP_PERFORM_HOST:
+      process.env.NEXT_PUBLIC_GRAASP_PERFORM_HOST,
+    NODE_ENV: process.env.NODE_ENV,
+  },
 };
