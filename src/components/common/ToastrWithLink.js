@@ -1,5 +1,4 @@
 import React from 'react';
-import Link from 'next/link';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core';
 
@@ -18,9 +17,14 @@ const ToastrWithLink = ({ link, text, linkText }) => {
   return (
     <div>
       {text}
-      <Link className={classes.successLink} target="_blank" to={link}>
+      <a
+        target="_blank"
+        rel="noreferrer"
+        href={link}
+        className={classes.successLink}
+      >
         {linkText}
-      </Link>
+      </a>
     </div>
   );
 };

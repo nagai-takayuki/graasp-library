@@ -73,9 +73,9 @@ const TreeModal = ({
       return null;
     }
 
-    return ownItems.map(({ name, id }) => (
-      <TreeItem key={id} nodeId={id} label={name} />
-    ));
+    return ownItems
+      .filter((i) => i.type === ITEM_TYPES.FOLDER)
+      .map(({ name, id }) => <TreeItem key={id} nodeId={id} label={name} />);
   };
 
   const renderDescription = () => {
@@ -87,13 +87,13 @@ const TreeModal = ({
   };
 
   // compute tree only when the modal is open
+  // todo: use graasp-ui tree modal
   const tree = !open ? null : (
     <TreeView
       className={classes.root}
       defaultCollapseIcon={<ExpandMoreIcon />}
       defaultExpandIcon={<ChevronRightIcon />}
       onNodeSelect={onSelect}
-      showItemFilter={(i) => i.get('type') === ITEM_TYPES.FOLDER}
     >
       <TreeItem nodeId={ROOT_ID} label={t('My Items')}>
         {renderOwnItems()}
