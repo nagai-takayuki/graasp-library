@@ -33,7 +33,7 @@ if (typeof window !== 'undefined') {
   ReactGa.pageview(window.location.href);
 }
 
-export default function MyApp(props) {
+export default function GraaspExplorerApp(props) {
   const { Component, pageProps } = props;
 
   // Remove the server-side injected CSS.
@@ -65,7 +65,7 @@ export default function MyApp(props) {
   );
 }
 
-MyApp.propTypes = {
+GraaspExplorerApp.propTypes = {
   Component: PropTypes.elementType.isRequired,
   pageProps: PropTypes.shape({}).isRequired,
 };
