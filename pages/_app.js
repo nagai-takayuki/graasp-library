@@ -7,11 +7,15 @@ import { ToastContainer } from 'react-toastify';
 import * as Sentry from '@sentry/react';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import { APP_VERSION, SENTRY_DSN, GOOGLE_ANALYTICS_ID } from '../config/env';
-import i18nConfig from '../config/i18n';
-import WHITELISTED_ERRORS from '../config/errors';
-import { APP_NAME } from '../config/constants';
-import theme from '../config/theme';
+import {
+  APP_VERSION,
+  SENTRY_DSN,
+  GOOGLE_ANALYTICS_ID,
+} from '../src/config/env';
+import i18nConfig from '../src/config/i18n';
+import WHITELISTED_ERRORS from '../src/config/errors';
+import { APP_NAME } from '../src/config/constants';
+import theme from '../src/config/theme';
 
 // set up sentry
 Sentry.init({

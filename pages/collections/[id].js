@@ -6,9 +6,9 @@ import {
   buildCollectionKey,
   buildMemberKey,
   QUERY_CLIENT_OPTIONS,
-} from '../../config/constants';
-import Collection from '../../components/collection/Collection';
-import Wrapper from '../../components/common/Wrapper';
+} from '../../src/config/constants';
+import Collection from '../../src/components/collection/Collection';
+import Wrapper from '../../src/components/common/Wrapper';
 
 const CollectionPage = ({ dehydratedState, id }) => (
   <Wrapper dehydratedState={dehydratedState}>

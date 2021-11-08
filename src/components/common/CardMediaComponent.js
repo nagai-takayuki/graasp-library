@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import Link from 'next/link';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
-import Image from 'next/image';
 import CardMedia from '@material-ui/core/CardMedia';
 import { DEFAULT_ITEM_IMAGE_PATH } from '../../config/constants';
 
@@ -37,10 +36,11 @@ const CardMediaComponent = ({ image, className, name, link }) => {
           position: 'relative',
           width: '100%',
           height: '100%',
+          overflow: 'hidden',
         }}
       >
         <LinkComponent>
-          <Image src={image} layout="fill" objectFit="cover" />
+          <img src={image} layout="fill" width="100%" alt={name} />
         </LinkComponent>
       </div>
     </CardMedia>

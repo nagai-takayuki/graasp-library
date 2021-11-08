@@ -1,8 +1,8 @@
 import React from 'react';
 import Document, { Html, Head, Main, NextScript } from 'next/document';
 import { ServerStyleSheets } from '@material-ui/core/styles';
-import theme from '../config/theme';
-import { DEFAULT_LANG } from '../config/constants';
+import theme from '../src/config/theme';
+import { DEFAULT_LANG } from '../src/config/constants';
 
 export default class GraaspExplorerDocument extends Document {
   render() {

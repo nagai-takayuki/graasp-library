@@ -2,9 +2,12 @@ import * as React from 'react';
 import { configureQueryClient, Api } from '@graasp/query-client';
 import getConfig from 'next/config';
 import PropTypes from 'prop-types';
-import { PUBLISHED_ITEMS_KEY, QUERY_CLIENT_OPTIONS } from '../config/constants';
-import Home from '../components/home/Home';
-import Wrapper from '../components/common/Wrapper';
+import {
+  PUBLISHED_ITEMS_KEY,
+  QUERY_CLIENT_OPTIONS,
+} from '../src/config/constants';
+import Home from '../src/components/home/Home';
+import Wrapper from '../src/components/common/Wrapper';
 
 function HomePage({ dehydratedState }) {
   return (
@@ -18,10 +21,10 @@ HomePage.propTypes = {
   dehydratedState: PropTypes.shape({}).isRequired,
 };
 
-// This gets called on every request
 export async function getServerSideProps() {
   const { publicRuntimeConfig } = getConfig();
   const { queryClient, dehydrate } = configureQueryClient(QUERY_CLIENT_OPTIONS);
+
   await queryClient.prefetchQuery(PUBLISHED_ITEMS_KEY, () =>
     Api.getPublicItemsWithTag(
       {

@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
 
 const UserHeader = () => {
   const { hooks } = useContext(QueryClientContext);
-  const { data: user, isLoading } = hooks.useCurrentMember();
+  const { data: user, isLoading, isError } = hooks.useCurrentMember();
   const classes = useStyles();
   const { setOpen: openLoginModal } = useContext(LoginModalContext);
 
@@ -27,7 +27,7 @@ const UserHeader = () => {
     openLoginModal(true);
   };
 
-  if (isLoading || user.isEmpty()) {
+  if (isLoading || isError || user.isEmpty()) {
     return (
       <IconButton
         edge="end"
