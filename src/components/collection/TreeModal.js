@@ -14,6 +14,7 @@ import Typography from '@material-ui/core/Typography';
 import DialogActions from '@material-ui/core/DialogActions';
 import Dialog from '@material-ui/core/Dialog';
 import {
+  ITEM_TYPES,
   ROOT_ID,
   TREE_VIEW_HEIGHT,
   TREE_VIEW_MIN_WIDTH,
@@ -92,6 +93,7 @@ const TreeModal = ({
       defaultCollapseIcon={<ExpandMoreIcon />}
       defaultExpandIcon={<ChevronRightIcon />}
       onNodeSelect={onSelect}
+      showItemFilter={(i) => i.get('type') === ITEM_TYPES.FOLDER}
     >
       <TreeItem nodeId={ROOT_ID} label={t('My Items')}>
         {renderOwnItems()}

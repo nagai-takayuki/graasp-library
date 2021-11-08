@@ -1783,9 +1783,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@graasp/query-client@git://github.com/graasp/graasp-query-client.git#ssr":
+"@graasp/query-client@git://github.com/graasp/graasp-query-client.git#87/ssr":
   version: 0.1.0
-  resolution: "@graasp/query-client@git://github.com/graasp/graasp-query-client.git#commit=0596081733069eef2945ac840da81e56bfe1a58d"
+  resolution: "@graasp/query-client@git://github.com/graasp/graasp-query-client.git#commit=ea838d1ba570b5c7fb9c4ec42aa7ccafad1929e1"
   dependencies:
     axios: 0.21.4
     http-status-codes: 2.1.4
@@ -1796,13 +1796,13 @@ __metadata:
     uuid: 8.3.2
   peerDependencies:
     react: ^17.0.0
-  checksum: bb900bd07740f63392e323df8bd2386f235fd6472a73d1dafbdb55988ae3ff05e6193c6734ec1cc63d19230c3c7218999511c0e409daea20f56156dff62f41b2
+  checksum: 2edd55e9e5d37e5123f57fc43658efa0ded0d1fb81c22824f0d0b7d2c32dacf0b8d7cc5cfcf47bd5fbda3ff196bafaa461dac3ec0b5770a10422e61ea56f2dad
   languageName: node
   linkType: hard
 
-"@graasp/ui@git://github.com/graasp/graasp-ui.git#cjs":
+"@graasp/ui@git://github.com/graasp/graasp-ui.git#50/cjs":
   version: 0.2.0
-  resolution: "@graasp/ui@git://github.com/graasp/graasp-ui.git#commit=aceeaf6f35ecfe7c56d4feaf147c351cf93f7917"
+  resolution: "@graasp/ui@git://github.com/graasp/graasp-ui.git#commit=d0234a6afcbe0e4525bddfca0cbb89b63e3db9bc"
   dependencies:
     clsx: 1.1.1
     http-status-codes: 2.1.4
@@ -1819,7 +1819,7 @@ __metadata:
     i18next: 21.3.1
     react: ^16.13.1
     react-dom: 16.13.1
-  checksum: a0785e95a713ddcce7c8940a99feda560d51d0f04d10b7dc3de7b828d8eeccb8897fc934aee6b955f4c03cd04e8de734c658dc09db2760486b72d70516992922
+  checksum: f8721bf93f81c328cf199e92d1196a035aac0205ae0312e7e8b1b69cee08dedd0d9d815816465ef2c52a8b7ab832b6f964458fe5a6d31011978e11a7ee171322
   languageName: node
   linkType: hard
 
@@ -8903,8 +8903,8 @@ __metadata:
     "@babel/preset-react": 7.16.0
     "@commitlint/cli": 11.0.0
     "@commitlint/config-conventional": 11.0.0
-    "@graasp/query-client": "git://github.com/graasp/graasp-query-client.git#ssr"
-    "@graasp/ui": "git://github.com/graasp/graasp-ui.git#cjs"
+    "@graasp/query-client": "git://github.com/graasp/graasp-query-client.git#87/ssr"
+    "@graasp/ui": "git://github.com/graasp/graasp-ui.git#50/cjs"
     "@material-ui/core": 4.11.2
     "@material-ui/icons": 4.11.2
     "@material-ui/lab": 4.0.0-alpha.57
