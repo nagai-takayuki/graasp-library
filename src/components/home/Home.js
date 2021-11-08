@@ -3,7 +3,7 @@ import Typography from '@material-ui/core/Typography';
 import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { APP_AUTHOR, APP_DESCRIPTION, APP_NAME } from '../../config/constants';
-import { PUBLISHED_TAG_ID } from '../../config/env';
+import { PUBLISHED_TAG_ID, GRAASPER_ID } from '../../config/env';
 import CollectionsGrid from '../collection/CollectionsGrid';
 import Seo from '../common/Seo';
 import Loader from '../common/Loader';
@@ -58,8 +58,7 @@ function Home() {
       : [...new Set(collections?.map(({ creator }) => creator).toArray())],
   );
   const collectionsGraasper = collections.filter(
-    (collection) =>
-      collection.creator == 'e890a236-3d45-4042-8a95-c91120f4db73',
+    (collection) => collection.creator === GRAASPER_ID,
   );
 
   const handleSearch = (event) => {

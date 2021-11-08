@@ -8,5 +8,6 @@ module.exports = {
     NEXT_PUBLIC_GRAASP_PERFORM_HOST:
       process.env.NEXT_PUBLIC_GRAASP_PERFORM_HOST,
     NODE_ENV: process.env.NODE_ENV,
+    GRAASPER_ID: process.env.GRAASPER_ID,
   },
 };
