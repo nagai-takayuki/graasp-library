@@ -15,4 +15,5 @@ export const GRAASP_PERFORM_HOST =
   publicRuntimeConfig.NEXT_PUBLIC_GRAASP_PERFORM_HOST;
 export const APP_VERSION = publicRuntimeConfig.APP_VERSION;
 export const NODE_ENV = publicRuntimeConfig.NODE_ENV;
-export const GRAASPER_ID = publicRuntimeConfig.GRAASPER_ID;
+export const NEXT_PUBLIC_GRAASPER_ID =
+  publicRuntimeConfig.NEXT_PUBLIC_GRAASPER_ID;
