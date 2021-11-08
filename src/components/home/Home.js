@@ -57,6 +57,10 @@ function Home() {
       ? null
       : [...new Set(collections?.map(({ creator }) => creator).toArray())],
   );
+  const collectionsGraasper = collections.filter(
+    (collection) =>
+      collection.creator == 'e890a236-3d45-4042-8a95-c91120f4db73',
+  );
 
   const handleSearch = (event) => {
     const query = event.target.value.trim().toLowerCase();
@@ -103,6 +107,13 @@ function Home() {
         </Typography>
         <Search handleSearch={handleSearch} isLoading={isLoading} />
         {isLoading ? <Loader /> : renderResults()}
+        <Typography variant="h3" className={classes.typographyMargin}>
+          {t('Graasp Selection')}
+        </Typography>
+        <CollectionsGrid
+          collections={collectionsGraasper}
+          isLoading={isLoading}
+        />
         <Typography variant="h3" className={classes.typographyMargin}>
           {t('Discover')}
         </Typography>
