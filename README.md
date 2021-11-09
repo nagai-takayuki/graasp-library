@@ -4,7 +4,7 @@
   </a>
 </p>
 
-<h1 align="center">Graasp Explore</h1>
+<h1 align="center">Graasp Explorer</h1>
 
 <p align="center">
   <a href="https://conventionalcommits.org">
@@ -39,7 +39,11 @@ Inside the project directory, run `yarn` to install the project dependencies.
 You will also need to create a file called `.env.local` with the following contents.
 
 ```dotenv
-REACT_APP_GOOGLE_ANALYTICS_ID=
+NEXT_PUBLIC_GOOGLE_ANALYTICS_ID=<value>
+NEXT_PUBLIC_PUBLISHED_TAG_ID=<value>
+NEXT_PUBLIC_API_HOST=<value>
+NEXT_PUBLIC_GRAASP_AUTH_HOST=<value>
+NEXT_PUBLIC_GRAASP_PERFORM_HOST=<value>
 ```
 
 In order to ensure that you can contribute and test, also create a file called `.env.test`.

@@ -1,7 +1,5 @@
 FROM node:14-alpine
 
-# ENV RAZZLE_CUSTOM_VARIABLE x
-
 # install git, necessary for github dependencies
 RUN apk add --no-cache git
 
@@ -22,4 +20,4 @@ RUN yarn build
 
 EXPOSE 3005
 
-CMD ["yarn", "start:prod"]
+CMD ["yarn", "start:next"]
