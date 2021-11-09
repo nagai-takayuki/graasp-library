@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next';
 import TreeModal from './TreeModal';
 import { LoginModalContext } from '../common/LoginModalContext';
 import { QueryClientContext } from '../QueryClientContext';
+import { ROOT_ID } from '../../config/constants';
 
 const CopyButton = ({ id }) => {
   const { t } = useTranslation();
@@ -53,7 +54,8 @@ const CopyButton = ({ id }) => {
   // todo: set notifier for copy
   const copy = ({ id: toSpace }) => {
     // remove loading icon on callback
-    copyItem({ id, to: toSpace });
+    // do not set parent if it is root
+    copyItem({ id, to: toSpace === ROOT_ID ? undefined : toSpace });
   };
 
   const renderButton = () => {
