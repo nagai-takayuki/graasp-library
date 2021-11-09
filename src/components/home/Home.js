@@ -3,7 +3,7 @@ import Typography from '@material-ui/core/Typography';
 import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { APP_AUTHOR, APP_DESCRIPTION, APP_NAME } from '../../config/constants';
-import { PUBLISHED_TAG_ID } from '../../config/env';
+import { PUBLISHED_TAG_ID, NEXT_PUBLIC_GRAASPER_ID } from '../../config/env';
 import CollectionsGrid from '../collection/CollectionsGrid';
 import Seo from '../common/Seo';
 import Loader from '../common/Loader';
@@ -57,6 +57,9 @@ function Home() {
       ? null
       : [...new Set(collections?.map(({ creator }) => creator).toArray())],
   );
+  const collectionsGraasper = collections.filter(
+    (collection) => collection.creator === NEXT_PUBLIC_GRAASPER_ID,
+  );
 
   const handleSearch = (event) => {
     const query = event.target.value.trim().toLowerCase();
@@ -103,6 +106,13 @@ function Home() {
         </Typography>
         <Search handleSearch={handleSearch} isLoading={isLoading} />
         {isLoading ? <Loader /> : renderResults()}
+        <Typography variant="h3" className={classes.typographyMargin}>
+          {t('Graasp Selection')}
+        </Typography>
+        <CollectionsGrid
+          collections={collectionsGraasper}
+          isLoading={isLoading}
+        />
         <Typography variant="h3" className={classes.typographyMargin}>
           {t('Discover')}
         </Typography>
