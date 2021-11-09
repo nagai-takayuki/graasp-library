@@ -1783,9 +1783,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@graasp/query-client@git://github.com/graasp/graasp-query-client.git#87/ssr":
+"@graasp/query-client@git://github.com/graasp/graasp-query-client.git":
   version: 0.1.0
-  resolution: "@graasp/query-client@git://github.com/graasp/graasp-query-client.git#commit=93a109d9f42959b14ae629b47386a8ad455e4575"
+  resolution: "@graasp/query-client@git://github.com/graasp/graasp-query-client.git#commit=9b0685ba3908d261e803c459b50840b783516ebe"
   dependencies:
     axios: 0.21.4
     http-status-codes: 2.1.4
@@ -1796,13 +1796,13 @@ __metadata:
     uuid: 8.3.2
   peerDependencies:
     react: ^17.0.0
-  checksum: afb41ecc9db0889f381aa6308b5575fc50f86173b0cd82c040d8abcfc07f8d30560c106c29710817bb3c6dc8433c8ba70b2210f8fc495b7650dcddc5ce750be5
+  checksum: 89769f421d2c9ad19b0cb4fa8cc8233cf22017a5b2ab2ce964518550ea03ed65080b7bd10bd451802ebccfddfaa2b388e9904a0c3e490c758a4d13c9e488d9de
   languageName: node
   linkType: hard
 
-"@graasp/ui@git://github.com/graasp/graasp-ui.git#50/cjs":
+"@graasp/ui@git://github.com/graasp/graasp-ui.git":
   version: 0.2.0
-  resolution: "@graasp/ui@git://github.com/graasp/graasp-ui.git#commit=d0234a6afcbe0e4525bddfca0cbb89b63e3db9bc"
+  resolution: "@graasp/ui@git://github.com/graasp/graasp-ui.git#commit=11cba0f355ec7efc763b7568dc44ea43904d5edd"
   dependencies:
     clsx: 1.1.1
     http-status-codes: 2.1.4
@@ -8903,8 +8903,8 @@ __metadata:
     "@babel/preset-react": 7.16.0
     "@commitlint/cli": 11.0.0
     "@commitlint/config-conventional": 11.0.0
-    "@graasp/query-client": "git://github.com/graasp/graasp-query-client.git#87/ssr"
-    "@graasp/ui": "git://github.com/graasp/graasp-ui.git#50/cjs"
+    "@graasp/query-client": "git://github.com/graasp/graasp-query-client.git"
+    "@graasp/ui": "git://github.com/graasp/graasp-ui.git"
     "@material-ui/core": 4.11.2
     "@material-ui/icons": 4.11.2
     "@material-ui/lab": 4.0.0-alpha.57
