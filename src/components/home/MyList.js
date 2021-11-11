@@ -12,12 +12,10 @@ import ListItemText from '@material-ui/core/ListItemText';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
 import CollectionsGrid from '../collection/CollectionsGrid';
 import { QueryClientContext } from '../QueryClientContext';
-import runtimeConfig from '../../../api/env';
+import { PUBLISHED_TAG_ID } from '../../config/env';
 import { PLACEHOLDER_COLLECTIONS } from '../../utils/collections';
 import Header from '../layout/Header';
 import Footer from '../layout/Footer';
-
-const { PUBLISHED_TAG_ID } = runtimeConfig;
 
 const drawerWidth = 240;
 

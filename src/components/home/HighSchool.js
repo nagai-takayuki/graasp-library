@@ -2,7 +2,7 @@ import { makeStyles, Button, IconButton } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import React, { useContext, useState } from 'react';
 import clsx from 'clsx';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { useTranslation } from 'react-i18next';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
@@ -23,12 +23,10 @@ import { APP_AUTHOR, APP_DESCRIPTION, APP_NAME } from '../../config/constants';
 import Search from './Search';
 import CollectionsGrid from '../collection/CollectionsGrid';
 import { QueryClientContext } from '../QueryClientContext';
-import runtimeConfig from '../../../api/env';
+import { PUBLISHED_TAG_ID } from '../../config/env';
 import { PLACEHOLDER_COLLECTIONS } from '../../utils/collections';
 import Header from '../layout/Header';
 import Footer from '../layout/Footer';
-
-const { PUBLISHED_TAG_ID } = runtimeConfig;
 
 const drawerWidth = 240;
 
@@ -106,7 +104,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Grade1to8() {
+function HighSchool() {
   const { t } = useTranslation();
   const classes = useStyles();
   const theme = useTheme();
@@ -208,7 +206,7 @@ function Grade1to8() {
         <List className={classes.list}>
           {['All', 'Pre-School', 'Grade 1-8', 'High School', 'College'].map(
             (text, index) => (
-              <Link to={GOTO_LIST[index]} className={classes.link}>
+              <Link href={GOTO_LIST[index]} className={classes.link}>
                 <ListItem button key={text}>
                   <ListItemIcon>
                     <BookmarkIcon />
@@ -259,18 +257,24 @@ function Grade1to8() {
         />
         <div>
           <Typography variant="h4" align="center">
-            {t('Collections for Grade 1 to 8')}
+            {t('High School Collections')}
           </Typography>
           <Search handleSearch={handleSearch} isLoading={isLoading} />
           {isLoading ? <Loader /> : renderResults()}
           <Typography variant="h3" className={classes.typographyMargin}>
+            {t('Math')}
+          </Typography>
+          <Typography variant="h3" className={classes.typographyMargin}>
+            {t('Literature')}
+          </Typography>
+          <Typography variant="h3" className={classes.typographyMargin}>
             {t('Language')}
           </Typography>
           <Typography variant="h3" className={classes.typographyMargin}>
-            {t('Science')}
+            {t('Natural Science')}
           </Typography>
           <Typography variant="h3" className={classes.typographyMargin}>
-            {t('Math')}
+            {t('Social Science')}
           </Typography>
           <Typography variant="h3" className={classes.typographyMargin}>
             {t('Other')}
@@ -285,4 +289,4 @@ function Grade1to8() {
   );
 }
 
-export default Grade1to8;
+export default HighSchool;
