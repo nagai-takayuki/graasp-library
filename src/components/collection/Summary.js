@@ -64,10 +64,18 @@ function Summary({
           <Card className={classes.card}>
             {isLoading ? (
               <Skeleton variant="rect" width="100%">
-                <CardMedia name={name} className={classes.image} />
+                <CardMedia
+                  itemId={itemId}
+                  name={name}
+                  className={classes.image}
+                />
               </Skeleton>
             ) : (
-              <CardMedia name={name} className={classes.image} />
+              <CardMedia
+                itemId={itemId}
+                name={name}
+                className={classes.image}
+              />
             )}
           </Card>
         </Grid>

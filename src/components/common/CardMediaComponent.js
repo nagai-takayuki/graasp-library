@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import Link from 'next/link';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import CardMedia from '@material-ui/core/CardMedia';
+import { QueryClientContext } from '../QueryClientContext';
 import { DEFAULT_ITEM_IMAGE_PATH } from '../../config/constants';
 
-const CardMediaComponent = ({ image, className, name, link }) => {
+const CardMediaComponent = ({ className, name, link, itemId }) => {
   const useStyles = makeStyles(() => ({
     media: {
       minHeight: 200,
@@ -17,6 +18,8 @@ const CardMediaComponent = ({ image, className, name, link }) => {
       },
     },
   }));
+  const { hooks } = useContext(QueryClientContext);
+  const { data: thumbnail } = hooks.useItemThumbnail(itemId);
 
   const classes = useStyles();
 
@@ -28,6 +31,8 @@ const CardMediaComponent = ({ image, className, name, link }) => {
   LinkComponent.defaultProps = {
     children: null,
   };
+
+  const image = thumbnail || DEFAULT_ITEM_IMAGE_PATH;
 
   return (
     <CardMedia className={clsx(classes.media, className)} title={name}>
@@ -48,14 +53,13 @@ const CardMediaComponent = ({ image, className, name, link }) => {
 };
 
 CardMediaComponent.propTypes = {
-  image: PropTypes.string,
+  itemId: PropTypes.string.isRequired,
   className: PropTypes.string,
   name: PropTypes.string.isRequired,
   link: PropTypes.string,
 };
 
 CardMediaComponent.defaultProps = {
-  image: DEFAULT_ITEM_IMAGE_PATH,
   className: '',
   link: null,
 };

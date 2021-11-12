@@ -6,6 +6,7 @@ import { grey } from '@material-ui/core/colors';
 import { makeStyles, Typography } from '@material-ui/core';
 import { LoginModalContext } from '../common/LoginModalContext';
 import { QueryClientContext } from '../QueryClientContext';
+import { DEFAULT_MEMBER_THUMBNAIL } from '../../config/constants';
 
 const useStyles = makeStyles((theme) => ({
   username: {
@@ -20,6 +21,7 @@ const useStyles = makeStyles((theme) => ({
 const UserHeader = () => {
   const { hooks } = useContext(QueryClientContext);
   const { data: user, isLoading, isError } = hooks.useCurrentMember();
+  const { data: thumbnail } = hooks.useAvatar(user?.get('id'));
   const classes = useStyles();
   const { setOpen: openLoginModal } = useContext(LoginModalContext);
 
@@ -43,7 +45,7 @@ const UserHeader = () => {
 
   const username = user?.get('name');
   // necessary broken image to display avatar with letter
-  const imageLink = '/broken-image.jpg';
+  const imageLink = thumbnail || DEFAULT_MEMBER_THUMBNAIL;
   return (
     <>
       <Avatar alt={username} src={imageLink} className={classes.avatar} />

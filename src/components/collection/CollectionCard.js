@@ -144,7 +144,7 @@ export const CollectionCard = ({ collection = {}, isLoading }) => {
           content: classes.content,
         }}
       />
-      <CardMedia link={link} name={name} />
+      <CardMedia link={link} name={name} itemId={id} />
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">
           <p
