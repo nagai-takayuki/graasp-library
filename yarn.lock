@@ -1783,9 +1783,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@graasp/query-client@git://github.com/graasp/graasp-query-client.git#89/category":
+"@graasp/query-client@git://github.com/graasp/graasp-query-client.git":
   version: 0.1.0
-  resolution: "@graasp/query-client@git://github.com/graasp/graasp-query-client.git#commit=443ae1be75ce2f058c900a2dc2fcb228b9eecbd3"
+  resolution: "@graasp/query-client@git://github.com/graasp/graasp-query-client.git#commit=65fab859e8dc13c0e8cd4906cf91b8d90e7f96fa"
   dependencies:
     axios: 0.21.4
     http-status-codes: 2.1.4
@@ -1796,7 +1796,7 @@ __metadata:
     uuid: 8.3.2
   peerDependencies:
     react: ^17.0.0
-  checksum: 358d1aed51f089c21ed458efb25dc4d064337e7085dd7d94cf85a5114d9123fb5997957ee1f3c0175ca15cd74182ea7d6f8b4349e0a777e7432c3de8f8ed342b
+  checksum: c6b4b91df05d09acd8e6ea4a5ef75a984f9e375ecdeb5a5a3662a5a63fa3303f62a64b3512462df7e5747cead4413026e3d2b169817fa15a4d9aff4898117216
   languageName: node
   linkType: hard
 
@@ -1819,7 +1819,7 @@ __metadata:
     i18next: 21.3.1
     react: ^16.13.1
     react-dom: 16.13.1
-  checksum: b88a76d56874dacee6ab29d3ca2d0983d8cbb88fd170c0bcbae38a9464fc134dc0bc9fde3dba6c3c06c5531745d22c322673c9c50c4bd09f26cbe411a0c12818
+  checksum: d92a45efd7324c0753bf76426afd6e3c8563fd556edb19d642f6f4a74056e0e3cebdc4c906e6d9db8cb1a3ceaebfe5c00bcd63c62dfe25ba2301f2e22c01dc24
   languageName: node
   linkType: hard
 
@@ -2133,7 +2133,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@material-ui/styles@npm:4.11.4, @material-ui/styles@npm:^4.11.2":
+"@material-ui/styles@npm:^4.11.2":
   version: 4.11.4
   resolution: "@material-ui/styles@npm:4.11.4"
   dependencies:
@@ -8968,12 +8968,11 @@ __metadata:
     "@babel/preset-react": 7.16.0
     "@commitlint/cli": 11.0.0
     "@commitlint/config-conventional": 11.0.0
-    "@graasp/query-client": "git://github.com/graasp/graasp-query-client.git#89/category"
+    "@graasp/query-client": "git://github.com/graasp/graasp-query-client.git"
     "@graasp/ui": "git://github.com/graasp/graasp-ui.git"
     "@material-ui/core": 4.11.2
     "@material-ui/icons": 4.11.2
     "@material-ui/lab": 4.0.0-alpha.57
-    "@material-ui/styles": 4.11.4
     "@sentry/node": 6.2.3
     "@sentry/react": 6.2.3
     "@testing-library/jest-dom": 5.11.8
