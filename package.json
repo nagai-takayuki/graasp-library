@@ -18,7 +18,7 @@
     "release": "git add CHANGELOG.md && standard-version -a"
   },
   "dependencies": {
-    "@graasp/query-client": "git://github.com/graasp/graasp-query-client.git#85/thumbnails",
+    "@graasp/query-client": "git://github.com/graasp/graasp-query-client.git",
     "@graasp/ui": "git://github.com/graasp/graasp-ui.git",
     "@material-ui/core": "4.11.2",
     "@material-ui/icons": "4.11.2",

@@ -1,13 +1,22 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import CardMedia from '@material-ui/core/CardMedia';
+import { useRouter } from 'next/router';
 import { QueryClientContext } from '../QueryClientContext';
 import { DEFAULT_ITEM_IMAGE_PATH } from '../../config/constants';
 
-const CardMediaComponent = ({ className, name, link, itemId }) => {
+const Thumbnail = dynamic(
+  () => import('@graasp/ui').then((mod) => mod.Thumbnail),
+  {
+    ssr: false,
+  },
+);
+
+const CardMediaComponent = ({ className, name, link, itemId, itemExtra }) => {
+  const router = useRouter();
   const useStyles = makeStyles(() => ({
     media: {
       minHeight: 200,
@@ -17,25 +26,23 @@ const CardMediaComponent = ({ className, name, link, itemId }) => {
         cursor: link ? 'pointer' : 'mouse',
       },
     },
+    image: {
+      width: '100%',
+      objectFit: 'cover',
+    },
   }));
   const { hooks } = useContext(QueryClientContext);
-  const { data: thumbnail } = hooks.useItemThumbnail(itemId);
 
   const classes = useStyles();
 
-  const LinkComponent = ({ children }) =>
-    link ? <Link href={link}>{children}</Link> : children;
-  LinkComponent.propTypes = {
-    children: PropTypes.element,
-  };
-  LinkComponent.defaultProps = {
-    children: null,
-  };
-
-  const image = thumbnail || DEFAULT_ITEM_IMAGE_PATH;
-
   return (
-    <CardMedia className={clsx(classes.media, className)} title={name}>
+    <CardMedia
+      className={clsx(classes.media, className)}
+      title={name}
+      onClick={() => {
+        router.push(link);
+      }}
+    >
       <div
         style={{
           position: 'relative',
@@ -44,9 +51,14 @@ const CardMediaComponent = ({ className, name, link, itemId }) => {
           overflow: 'hidden',
         }}
       >
-        <LinkComponent>
-          <img src={image} layout="fill" width="100%" alt={name} />
-        </LinkComponent>
+        <Thumbnail
+          defaultImage={DEFAULT_ITEM_IMAGE_PATH}
+          alt={name}
+          useThumbnail={hooks.useItemThumbnail}
+          id={itemId}
+          extra={itemExtra}
+          className={classes.image}
+        />
       </div>
     </CardMedia>
   );
@@ -57,11 +69,13 @@ CardMediaComponent.propTypes = {
   className: PropTypes.string,
   name: PropTypes.string.isRequired,
   link: PropTypes.string,
+  itemExtra: PropTypes.shape({}),
 };
 
 CardMediaComponent.defaultProps = {
   className: '',
   link: null,
+  itemExtra: null,
 };
 
 export default CardMediaComponent;
