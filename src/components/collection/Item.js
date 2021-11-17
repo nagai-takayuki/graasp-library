@@ -15,6 +15,7 @@ import Text from '../common/Text';
 import { openInNewTab } from '../../utils/helpers';
 import { buildPerformViewItemRoute } from '../../config/routes';
 import CopyButton from './CopyButton';
+import CopyLinkButton from './CopyLinkButton';
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -50,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const Item = ({ item }) => {
-  const { description, name, id } = item;
+  const { description, name, id, extra } = item;
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
   const handleExpandClick = () => {
@@ -81,6 +82,7 @@ export const Item = ({ item }) => {
 
       <CardActions disableSpacing>
         <CopyButton id={id} />
+        <CopyLinkButton id={id} extra={extra} />
         {description && (
           <IconButton
             className={clsx(classes.expand, {
