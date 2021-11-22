@@ -124,6 +124,36 @@ function AllCollections() {
       : [...new Set(collections?.map(({ creator }) => creator).toArray())],
   );
 
+  const { data: mathCollections } = hooks.useItemsInCategory('discipline', '1');
+  const mathIds = mathCollections?.map((entry) => entry.item_id).toArray();
+  const collectionsMath = collections?.filter((collection) =>
+    mathIds?.includes(collection.id),
+  );
+
+  const { data: litCollections } = hooks.useItemsInCategory('discipline', '2');
+  const litIds = litCollections?.map((entry) => entry.item_id).toArray();
+  const collectionsLiterature = collections?.filter((collection) =>
+    litIds?.includes(collection.id),
+  );
+
+  const { data: nsCollections } = hooks.useItemsInCategory('discipline', '3');
+  const nsIds = nsCollections?.map((entry) => entry.item_id).toArray();
+  const collectionsNaturalScience = collections?.filter((collection) =>
+    nsIds?.includes(collection.id),
+  );
+
+  const { data: ssCollections } = hooks.useItemsInCategory('discipline', '4');
+  const ssIds = ssCollections?.map((entry) => entry.item_id).toArray();
+  const collectionsSocialScience = collections?.filter((collection) =>
+    ssIds?.includes(collection.id),
+  );
+
+  const { data: langCollections } = hooks.useItemsInCategory('discipline', '5');
+  const langIds = langCollections?.map((entry) => entry.item_id).toArray();
+  const collectionsLanguage = collections?.filter((collection) =>
+    langIds?.includes(collection.id),
+  );
+
   const handleSearch = (event) => {
     const query = event.target.value.trim().toLowerCase();
     if (query.length > 0) {
@@ -264,20 +294,40 @@ function AllCollections() {
           <Typography variant="h3" className={classes.typographyMargin}>
             {t('Math')}
           </Typography>
+          <CollectionsGrid
+            collections={collectionsMath}
+            isLoading={isLoading}
+          />
           <Typography variant="h3" className={classes.typographyMargin}>
             {t('Literature')}
           </Typography>
+          <CollectionsGrid
+            collections={collectionsLiterature}
+            isLoading={isLoading}
+          />
           <Typography variant="h3" className={classes.typographyMargin}>
             {t('Language')}
           </Typography>
+          <CollectionsGrid
+            collections={collectionsLanguage}
+            isLoading={isLoading}
+          />
           <Typography variant="h3" className={classes.typographyMargin}>
             {t('Natural Science')}
           </Typography>
+          <CollectionsGrid
+            collections={collectionsNaturalScience}
+            isLoading={isLoading}
+          />
           <Typography variant="h3" className={classes.typographyMargin}>
             {t('Social Science')}
           </Typography>
+          <CollectionsGrid
+            collections={collectionsSocialScience}
+            isLoading={isLoading}
+          />
           <Typography variant="h3" className={classes.typographyMargin}>
-            {t('Other')}
+            {t('All')}
           </Typography>
           <CollectionsGrid collections={collections} isLoading={isLoading} />
         </div>
