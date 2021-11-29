@@ -118,40 +118,67 @@ function AllCollections() {
     placeholderData: PLACEHOLDER_COLLECTIONS,
     withMemberships: true,
   });
+
+  // get member
   const { data: members } = hooks.useMembers(
     isPlaceholderData
       ? null
       : [...new Set(collections?.map(({ creator }) => creator).toArray())],
   );
 
-  const { data: mathCollections } = hooks.useItemsInCategory('discipline', '1');
+  // get all categories
+  const { data: allCategories } = hooks.useCategories();
+
+  // get category map
+  const categoriesMap = new Map(
+    allCategories?.map((entry) => [entry.name, entry.id]),
+  );
+  const { data: mathCollections } = hooks.useItemsInCategories(
+    categoriesMap?.get('math'),
+  );
   const mathIds = mathCollections?.map((entry) => entry.item_id).toArray();
   const collectionsMath = collections?.filter((collection) =>
     mathIds?.includes(collection.id),
   );
 
-  const { data: litCollections } = hooks.useItemsInCategory('discipline', '2');
+  const { data: litCollections } = hooks.useItemsInCategories(
+    categoriesMap?.get('literature'),
+  );
   const litIds = litCollections?.map((entry) => entry.item_id).toArray();
   const collectionsLiterature = collections?.filter((collection) =>
     litIds?.includes(collection.id),
   );
 
-  const { data: nsCollections } = hooks.useItemsInCategory('discipline', '3');
+  const { data: nsCollections } = hooks.useItemsInCategories(
+    categoriesMap?.get('natural-science'),
+  );
   const nsIds = nsCollections?.map((entry) => entry.item_id).toArray();
   const collectionsNaturalScience = collections?.filter((collection) =>
     nsIds?.includes(collection.id),
   );
 
-  const { data: ssCollections } = hooks.useItemsInCategory('discipline', '4');
+  const { data: ssCollections } = hooks.useItemsInCategories(
+    categoriesMap?.get('social-science'),
+  );
   const ssIds = ssCollections?.map((entry) => entry.item_id).toArray();
   const collectionsSocialScience = collections?.filter((collection) =>
     ssIds?.includes(collection.id),
   );
 
-  const { data: langCollections } = hooks.useItemsInCategory('discipline', '5');
+  const { data: langCollections } = hooks.useItemsInCategories(
+    categoriesMap?.get('language'),
+  );
   const langIds = langCollections?.map((entry) => entry.item_id).toArray();
   const collectionsLanguage = collections?.filter((collection) =>
     langIds?.includes(collection.id),
+  );
+
+  const { data: artCollections } = hooks.useItemsInCategories(
+    categoriesMap?.get('art'),
+  );
+  const artIds = artCollections?.map((entry) => entry.item_id).toArray();
+  const collectionsArt = collections?.filter((collection) =>
+    artIds?.includes(collection.id),
   );
 
   const handleSearch = (event) => {
@@ -326,6 +353,10 @@ function AllCollections() {
             collections={collectionsSocialScience}
             isLoading={isLoading}
           />
+          <Typography variant="h3" className={classes.typographyMargin}>
+            {t('Art')}
+          </Typography>
+          <CollectionsGrid collections={collectionsArt} isLoading={isLoading} />
           <Typography variant="h3" className={classes.typographyMargin}>
             {t('All')}
           </Typography>
