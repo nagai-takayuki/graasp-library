@@ -10,9 +10,7 @@ import { DEFAULT_ITEM_IMAGE_PATH } from '../../config/constants';
 
 const Thumbnail = dynamic(
   () => import('@graasp/ui').then((mod) => mod.Thumbnail),
-  {
-    ssr: false,
-  },
+  { ssr: false },
 );
 
 const CardMediaComponent = ({ className, name, link, itemId, itemExtra }) => {

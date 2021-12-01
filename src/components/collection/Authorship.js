@@ -6,7 +6,6 @@ import Skeleton from '@material-ui/lab/Skeleton';
 import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
-import { getAvatar } from '../../utils/layout';
 import Contributors from './Contributors';
 import { QueryClientContext } from '../QueryClientContext';
 import { DEFAULT_MEMBER_THUMBNAIL } from '../../config/constants';

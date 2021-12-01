@@ -139,8 +139,6 @@ export const CollectionCard = ({ collection = {}, isLoading }) => {
       ? buildCollectionRoute(id)
       : buildPeformViewEndpoint(id);
 
-  console.log(link);
-
   return (
     <Card className={classes.root}>
       <CardHeader
