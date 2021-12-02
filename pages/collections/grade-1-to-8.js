@@ -5,14 +5,14 @@ import PropTypes from 'prop-types';
 import {
   PUBLISHED_ITEMS_KEY,
   QUERY_CLIENT_OPTIONS,
-} from '../src/config/constants';
-import HighSchool from '../src/components/home/HighSchool';
-import Wrapper from '../src/components/common/Wrapper';
+} from '../../src/config/constants';
+import Grade1to8 from '../../src/components/home/Grade1to8';
+import Wrapper from '../../src/components/common/Wrapper';
 
 function Page({ dehydratedState }) {
   return (
     <Wrapper dehydratedState={dehydratedState}>
-      <HighSchool />
+      <Grade1to8 />
     </Wrapper>
   );
 }

@@ -16,8 +16,7 @@ import { PUBLISHED_TAG_ID } from '../../config/env';
 import { PLACEHOLDER_COLLECTIONS } from '../../utils/collections';
 import Header from '../layout/Header';
 import Footer from '../layout/Footer';
-
-const drawerWidth = 240;
+import { LEFT_MENU_WIDTH } from '../../config/constants';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -32,36 +31,22 @@ const useStyles = makeStyles((theme) => ({
     zIndex: theme.zIndex.drawer + 1,
   },
   drawer: {
-    width: drawerWidth,
+    width: LEFT_MENU_WIDTH,
     flexShrink: 0,
   },
   drawerPaper: {
-    width: drawerWidth,
+    width: LEFT_MENU_WIDTH,
   },
   content: {
     flexGrow: 1,
     padding: theme.spacing.unit * 3,
   },
   toolbar: theme.mixins.toolbar,
-  wrapper: {
-    padding: '4vw',
-  },
-  input: {
-    marginLeft: theme.spacing(2.5),
-    flex: 6,
-  },
-  iconButton: {
-    padding: 10,
-  },
-  divider: {
-    height: 28,
-    margin: theme.spacing(0.5),
-  },
   typographyMargin: {
     margin: theme.spacing(1.5, 0),
   },
   link: {
-    marginTop: 20,
+    marginTop: theme.spacing(2),
   },
 }));
 
@@ -93,7 +78,7 @@ function MyList() {
         <div className={classes.toolbar} />
         <List className={classes.link}>
           {['My favorites', 'My uploads', 'Saved Collections'].map((text) => (
-            <ListItem button key={text} disabled>
+            <ListItem button key={t(text)} disabled>
               <ListItemIcon>
                 <StarBorderIcon />
               </ListItemIcon>
