@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
 import { Map } from 'immutable';
-import { Grid, Typography } from '@material-ui/core';
+import { useTranslation } from 'react-i18next';
+import { Grid, Typography, Chip } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import Skeleton from '@material-ui/lab/Skeleton';
 import CardMedia from '../common/CardMediaComponent';
+import { QueryClientContext } from '../QueryClientContext';
 import Authorship from './Authorship';
 import Badges from './Badges';
 import { MAX_COLLECTION_NAME_LENGTH } from '../../config/constants';
@@ -47,6 +49,14 @@ function Summary({
     separator: /,? +/,
   });
   const classes = useStyles();
+  const { t } = useTranslation();
+  const { hooks } = useContext(QueryClientContext);
+  const { data: categories } = hooks.useItemCategories(itemId);
+  const { data: allCategories } = hooks.useCategories();
+  const categoriesDisplayed = allCategories?.filter((category) =>
+    categories?.map((entry) => entry.categoryId).includes(category.id),
+  );
+  const tags = ['demo'];
   return (
     <div className={classes.root}>
       <Grid container spacing={2} alignItems="flex-start">
@@ -87,6 +97,14 @@ function Summary({
             contributors={contributors}
             isLoading={isLoading}
           />
+          <Typography variant="h6">{t('Category')}</Typography>
+          {categoriesDisplayed?.map((entry) => (
+            <Chip label={entry.name} />
+          ))}
+          <Typography variant="h6">{t('Tags')}</Typography>
+          {tags.map((text) => (
+            <Chip label={text} />
+          ))}
         </Grid>
       </Grid>
     </div>

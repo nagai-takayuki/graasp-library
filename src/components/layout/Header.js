@@ -4,7 +4,11 @@ import { useTranslation } from 'react-i18next';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { makeStyles } from '@material-ui/core/styles';
-import { HOME_ROUTE } from '../../config/routes';
+import {
+  ALL_COLLECTION_ROUTE,
+  HOME_ROUTE,
+  MY_LIST_ROUTE,
+} from '../../config/routes';
 import UserHeader from './UserHeader';
 import {
   APP_NAME,
@@ -35,6 +39,7 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     marginLeft: theme.spacing(2),
+    marginRight: theme.spacing(2),
     '&:hover': {
       cursor: 'pointer',
     },
@@ -65,6 +70,24 @@ function Header() {
                   className={classes.title}
                 >
                   {t(APP_NAME)}
+                </Typography>
+              </Link>
+              <Link href={ALL_COLLECTION_ROUTE} className={classes.link}>
+                <Typography
+                  variant="h6"
+                  color="inherit"
+                  className={classes.title}
+                >
+                  {t('All Collections')}
+                </Typography>
+              </Link>
+              <Link href={MY_LIST_ROUTE} className={classes.link}>
+                <Typography
+                  variant="h6"
+                  color="inherit"
+                  className={classes.title}
+                >
+                  {t('My Lists')}
                 </Typography>
               </Link>
             </div>

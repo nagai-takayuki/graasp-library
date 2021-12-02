@@ -12,7 +12,6 @@ import {
   ERROR_INVALID_COLLECTION_ID_CODE,
   ERROR_UNEXPECTED_ERROR_CODE,
 } from '../../config/messages';
-import { removeTagsFromString } from '../../utils/text';
 import { QueryClientContext } from '../QueryClientContext';
 import { PLACEHOLDER_COLLECTION } from '../../utils/collections';
 import { DEFAULT_ITEM_IMAGE_PATH } from '../../config/constants';
@@ -59,9 +58,7 @@ const Collection = ({ id }) => {
   // todo: handle image
   const imageUrl = DEFAULT_ITEM_IMAGE_PATH;
 
-  const parsedDescription = removeTagsFromString(
-    collection?.get('description'),
-  );
+  const parsedDescription = collection?.get('description');
 
   // todo: views and likes don't exist
   const views = collection?.get('views');
