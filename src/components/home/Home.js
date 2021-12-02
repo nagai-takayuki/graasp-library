@@ -102,7 +102,7 @@ function Home() {
       <Seo title={APP_NAME} description={APP_DESCRIPTION} author={APP_AUTHOR} />
       <div className={classes.wrapper}>
         <Typography variant="h3" align="center">
-          {t('Open Educational Resources')}
+          {t('Browse Open Educational Resources')}
         </Typography>
         <Search handleSearch={handleSearch} isLoading={isLoading} />
         {isLoading ? <Loader /> : renderResults()}

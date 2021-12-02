@@ -16,7 +16,12 @@ import { PUBLISHED_TAG_ID } from '../../config/env';
 import { PLACEHOLDER_COLLECTIONS } from '../../utils/collections';
 import Header from '../layout/Header';
 import Footer from '../layout/Footer';
-import { LEFT_MENU_WIDTH } from '../../config/constants';
+import {
+  LEFT_MENU_WIDTH,
+  MY_FAVORITES,
+  MY_UPLOADS,
+  SAVED_COLLECTIONS,
+} from '../../config/constants';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -77,7 +82,7 @@ function MyList() {
       >
         <div className={classes.toolbar} />
         <List className={classes.link}>
-          {['My favorites', 'My uploads', 'Saved Collections'].map((text) => (
+          {[MY_FAVORITES, MY_UPLOADS, SAVED_COLLECTIONS].map((text) => (
             <ListItem button key={t(text)} disabled>
               <ListItemIcon>
                 <StarBorderIcon />

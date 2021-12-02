@@ -56,7 +56,7 @@ function Summary({
   const categoriesDisplayed = allCategories?.filter((category) =>
     categories?.map((entry) => entry.categoryId).includes(category.id),
   );
-  const tags = ['test_tag1', 'test_tag2', 'test_tag3'];
+  const tags = ['demo'];
   return (
     <div className={classes.root}>
       <Grid container spacing={2} alignItems="flex-start">

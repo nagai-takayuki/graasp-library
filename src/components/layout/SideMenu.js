@@ -8,7 +8,16 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import BookmarkIcon from '@material-ui/icons/Bookmark';
-import { GRAASP_BUILDER_URL, LEFT_MENU_WIDTH } from '../../config/constants';
+import {
+  COLLEGE_TITLE,
+  GRAASP_BUILDER_URL,
+  GRADE_1_TO_8_TITLE,
+  HIGH_SCHOOL_TITLE,
+  LEFT_MENU_WIDTH,
+  POST_GRAD_TITLE,
+  PRE_SCHOOL_TITLE,
+  TEST_PREP_TITLE,
+} from '../../config/constants';
 import {
   ALL_COLLECTION_ROUTE,
   COLLEGE_ROUTE,
@@ -40,10 +49,10 @@ function SideMenu() {
       <List className={classes.list}>
         {[
           { name: 'All', route: ALL_COLLECTION_ROUTE },
-          { name: 'Pre-School', route: PRE_SCHOOL_ROUTE },
-          { name: 'Grade 1-8', route: GRADE_1_TO_8_ROUTE },
-          { name: 'High School', route: HIGH_SCHOOL_ROUTE },
-          { name: 'College', route: COLLEGE_ROUTE },
+          { name: PRE_SCHOOL_TITLE, route: PRE_SCHOOL_ROUTE },
+          { name: GRADE_1_TO_8_TITLE, route: GRADE_1_TO_8_ROUTE },
+          { name: HIGH_SCHOOL_TITLE, route: HIGH_SCHOOL_ROUTE },
+          { name: COLLEGE_TITLE, route: COLLEGE_ROUTE },
         ].map((entry) => (
           <Link href={entry.route} className={classes.link}>
             <ListItem button key={t(entry.name)}>
@@ -57,7 +66,7 @@ function SideMenu() {
       </List>
       <Divider />
       <List className={classes.list}>
-        {['Test Prep', 'Post Grad'].map((text) => (
+        {[TEST_PREP_TITLE, POST_GRAD_TITLE].map((text) => (
           <ListItem button key={t(text)} disabled>
             <ListItemIcon>
               <BookmarkIcon />

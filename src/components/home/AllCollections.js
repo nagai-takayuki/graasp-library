@@ -15,7 +15,19 @@ import {
   APP_AUTHOR,
   APP_DESCRIPTION,
   APP_NAME,
+  ART,
+  ART_TITLE,
+  LANGUAGE,
+  LANGUAGE_TITLE,
   LEFT_MENU_WIDTH,
+  LITERATURE,
+  LITERATURE_TITLE,
+  MATH,
+  MATH_TITLE,
+  NATURAL_SCIENCE,
+  NATURAL_SCIENCE_TITLE,
+  SOCIAL_SCIENCE,
+  SOCIAL_SCIENCE_TITLE,
 } from '../../config/constants';
 import CollectionsGrid from '../collection/CollectionsGrid';
 import { QueryClientContext } from '../QueryClientContext';
@@ -105,73 +117,33 @@ function AllCollections() {
     allCategories?.map((entry) => [entry.name, entry.id]),
   );
 
-  // get itemIds belong to each category
-  const { data: mathIds } = hooks.useItemsInCategories([
-    categoriesMap?.get('math'),
-  ]);
-  const collectionsMath = collections?.filter((collection) =>
-    mathIds
-      ?.map((entry) => entry.itemId)
-      .toArray()
-      .includes(collection.id),
-  );
+  // get collections for given category
+  const getCollections = (discipline) => {
+    const { data: itemIds } = hooks.useItemsInCategories([
+      categoriesMap?.get(discipline),
+    ]);
+    return collections?.filter((collection) =>
+      itemIds
+        ?.map((entry) => entry.itemId)
+        .toArray()
+        .includes(collection.id),
+    );
+  };
 
-  const { data: litIds } = hooks.useItemsInCategories([
-    categoriesMap?.get('literature'),
-  ]);
-  const collectionsLiterature = collections?.filter((collection) =>
-    litIds
-      ?.map((entry) => entry.itemId)
-      .toArray()
-      ?.includes(collection.id),
-  );
-
-  const { data: nsIds } = hooks.useItemsInCategories([
-    categoriesMap?.get('natural-science'),
-  ]);
-  const collectionsNaturalScience = collections?.filter((collection) =>
-    nsIds
-      ?.map((entry) => entry.item_id)
-      .toArray()
-      ?.includes(collection.id),
-  );
-
-  const { data: ssIds } = hooks.useItemsInCategories([
-    categoriesMap?.get('social-science'),
-  ]);
-  const collectionsSocialScience = collections?.filter((collection) =>
-    ssIds
-      ?.map((entry) => entry.itemId)
-      .toArray()
-      .includes(collection.id),
-  );
-
-  const { data: langIds } = hooks.useItemsInCategories([
-    categoriesMap?.get('language'),
-  ]);
-  const collectionsLanguage = collections?.filter((collection) =>
-    langIds
-      ?.map((entry) => entry.itemId)
-      .toArray()
-      .includes(collection.id),
-  );
-
-  const { data: artIds } = hooks.useItemsInCategories([
-    categoriesMap?.get('art'),
-  ]);
-  const collectionsArt = collections?.filter((collection) =>
-    artIds
-      ?.map((entry) => entry.itemId)
-      .toArray()
-      .includes(collection.id),
-  );
+  // get collections
+  const collectionsMath = getCollections(MATH);
+  const collectionsLiterature = getCollections(LITERATURE);
+  const collectionsNaturalScience = getCollections(NATURAL_SCIENCE);
+  const collectionsSocialScience = getCollections(SOCIAL_SCIENCE);
+  const collectionsLanguage = getCollections(LANGUAGE);
+  const collectionsArt = getCollections(ART);
 
   const [sideBarStatus, setSideBarStatus] = React.useState(true);
 
   const closeSideBar = () => {
     setSideBarStatus(false);
   };
-  const OpenSideBar = () => {
+  const openSideBar = () => {
     setSideBarStatus(true);
   };
 
@@ -211,12 +183,12 @@ function AllCollections() {
           <IconButton
             color="primary"
             aria-label="open menu"
-            onClick={OpenSideBar}
+            onClick={openSideBar}
           >
             <MenuOpenIcon />
           </IconButton>
           <Typography variant="body1" display="inline">
-            Open Menu
+            {t('Open Menu')}
           </Typography>
           <Seo
             title={APP_NAME}
@@ -227,12 +199,18 @@ function AllCollections() {
             {t('All Collections On Explorer')}
           </Typography>
           {[
-            { name: 'Math', collections: collectionsMath },
-            { name: 'Literature', collections: collectionsLiterature },
-            { name: 'Language', collections: collectionsLanguage },
-            { name: 'Social Science', collections: collectionsSocialScience },
-            { name: 'Natural Science', collections: collectionsNaturalScience },
-            { name: 'Arts', collections: collectionsArt },
+            { name: MATH_TITLE, collections: collectionsMath },
+            { name: LITERATURE_TITLE, collections: collectionsLiterature },
+            { name: LANGUAGE_TITLE, collections: collectionsLanguage },
+            {
+              name: SOCIAL_SCIENCE_TITLE,
+              collections: collectionsSocialScience,
+            },
+            {
+              name: NATURAL_SCIENCE_TITLE,
+              collections: collectionsNaturalScience,
+            },
+            { name: ART_TITLE, collections: collectionsArt },
             { name: 'All', collections },
           ].map((entry) => (
             <>
