@@ -6,14 +6,24 @@ import clsx from 'clsx';
 import CardMedia from '@material-ui/core/CardMedia';
 import { useRouter } from 'next/router';
 import { QueryClientContext } from '../QueryClientContext';
-import { DEFAULT_ITEM_IMAGE_PATH } from '../../config/constants';
+import {
+  DEFAULT_ITEM_IMAGE_PATH,
+  DEFAULT_THUMBNAIL_SIZE,
+} from '../../config/constants';
 
 const Thumbnail = dynamic(
   () => import('@graasp/ui').then((mod) => mod.Thumbnail),
   { ssr: false },
 );
 
-const CardMediaComponent = ({ className, name, link, itemId, itemExtra }) => {
+const CardMediaComponent = ({
+  className,
+  name,
+  link,
+  itemId,
+  itemExtra,
+  size,
+}) => {
   const router = useRouter();
   const useStyles = makeStyles(() => ({
     media: {
@@ -56,6 +66,7 @@ const CardMediaComponent = ({ className, name, link, itemId, itemExtra }) => {
           id={itemId}
           extra={itemExtra}
           className={classes.image}
+          size={size}
         />
       </div>
     </CardMedia>
@@ -68,12 +79,14 @@ CardMediaComponent.propTypes = {
   name: PropTypes.string.isRequired,
   link: PropTypes.string,
   itemExtra: PropTypes.shape({}),
+  size: PropTypes.string,
 };
 
 CardMediaComponent.defaultProps = {
   className: '',
   link: null,
   itemExtra: null,
+  size: DEFAULT_THUMBNAIL_SIZE,
 };
 
 export default CardMediaComponent;

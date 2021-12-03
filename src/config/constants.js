@@ -1,4 +1,4 @@
-import { PUBLISHED_TAG_ID, GRAASP_API_HOST } from './env';
+import { PUBLISHED_TAG_ID, GRAASP_API_HOST, S3_FILES_HOST } from './env';
 import i18n from './i18n';
 import notifier from './notifier';
 
@@ -9,6 +9,7 @@ export const QUERY_CLIENT_OPTIONS = {
   // avoid refetching when same data are closely fetched
   staleTime: 1000, // ms
   notifier,
+  S3_FILES_HOST,
 };
 
 export const APP_NAME = 'Graasp Explorer';
@@ -106,3 +107,11 @@ export const SENTRY_FALLBACK_MESSAGE = 'An error has occurred';
 export const CLIENT_ERROR_MESSAGE = 'Something went wrong!';
 export const DEFAULT_ITEM_IMAGE_PATH = '/icon.png';
 export const DEFAULT_MEMBER_THUMBNAIL = '/defaultAvatar.png';
+
+export const THUMBNAIL_SIZES = {
+  SMALL: 'small',
+  MEDIUM: 'medium',
+  LARGE: 'large',
+  ORIGINAL: 'original',
+};
+export const DEFAULT_THUMBNAIL_SIZE = THUMBNAIL_SIZES.MEDIUM;
