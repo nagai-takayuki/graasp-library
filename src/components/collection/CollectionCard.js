@@ -21,6 +21,7 @@ import { QueryClientContext } from '../QueryClientContext';
 import { buildPeformViewEndpoint } from '../../api/endpoints';
 import CopyButton from './CopyButton';
 import CardMedia from '../common/CardMediaComponent';
+import CopyLinkButton from './CopyLinkButton';
 
 const Avatar = dynamic(() => import('@graasp/ui').then((mod) => mod.Avatar), {
   ssr: false,
@@ -76,7 +77,16 @@ const useStyles = makeStyles((theme) => ({
 
 export const CollectionCard = ({ collection = {}, isLoading }) => {
   const { t } = useTranslation();
-  const { name, id, description, creator, views, voteScore, type } = collection;
+  const {
+    name,
+    id,
+    description,
+    creator,
+    views,
+    voteScore,
+    type,
+    extra,
+  } = collection;
   const classes = useStyles();
   const [actionsMenuAnchor, setActionsMenuAnchor] = React.useState(null);
   const { hooks } = useContext(QueryClientContext);
@@ -168,6 +178,7 @@ export const CollectionCard = ({ collection = {}, isLoading }) => {
       </CardContent>
       <CardActions disableSpacing className={classes.actions}>
         <CopyButton id={id} />
+        <CopyLinkButton id={id} extra={extra} />
         <SimilarCollectionBadges views={views} voteScore={voteScore} />
       </CardActions>
     </Card>
