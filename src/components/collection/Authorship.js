@@ -1,14 +1,18 @@
 import React, { useContext } from 'react';
 import { Grid, Typography } from '@material-ui/core';
-import Avatar from '@material-ui/core/Avatar';
 import { Map } from 'immutable';
+import dynamic from 'next/dynamic';
 import Skeleton from '@material-ui/lab/Skeleton';
 import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
-import { getAvatar } from '../../utils/layout';
 import Contributors from './Contributors';
 import { QueryClientContext } from '../QueryClientContext';
+import { DEFAULT_MEMBER_THUMBNAIL } from '../../config/constants';
+
+const Avatar = dynamic(() => import('@graasp/ui').then((mod) => mod.Avatar), {
+  ssr: false,
+});
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -54,7 +58,6 @@ const Authorship = ({ itemId, author, isLoading }) => {
     return null;
   }
 
-  const authorAvatar = getAvatar(author?.get('image'));
   const authorName = author?.get('name');
 
   return (
@@ -72,7 +75,17 @@ const Authorship = ({ itemId, author, isLoading }) => {
                   <Avatar />
                 </Skeleton>
               ) : (
-                <Avatar alt={authorName} src={authorAvatar} />
+                <Avatar
+                  useAvatar={hooks.useAvatar}
+                  alt={authorName}
+                  defaultImage={DEFAULT_MEMBER_THUMBNAIL}
+                  id={author?.get('id')}
+                  extra={author?.get('extra')}
+                  component="avatar"
+                  maxWidth={30}
+                  maxHeight={30}
+                  variant="circle"
+                />
               )}
             </Grid>
             <Grid item className={classes.authorName}>

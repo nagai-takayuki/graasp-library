@@ -64,7 +64,7 @@ export const Item = ({ item }) => {
   return (
     <Card id={id} className={classes.card}>
       <CardActionArea onClick={handleItemClick}>
-        <CardMedia name={name} />
+        <CardMedia itemId={id} name={name} />
 
         <CardContent>
           <Typography variant="h6" component="h2">

@@ -11,7 +11,10 @@ import CardMedia from '../common/CardMediaComponent';
 import { QueryClientContext } from '../QueryClientContext';
 import Authorship from './Authorship';
 import Badges from './Badges';
-import { MAX_COLLECTION_NAME_LENGTH } from '../../config/constants';
+import {
+  MAX_COLLECTION_NAME_LENGTH,
+  THUMBNAIL_SIZES,
+} from '../../config/constants';
 
 const useStyles = makeStyles((theme) => ({
   centeredGridItem: {
@@ -64,10 +67,19 @@ function Summary({
           <Card className={classes.card}>
             {isLoading ? (
               <Skeleton variant="rect" width="100%">
-                <CardMedia name={name} className={classes.image} />
+                <CardMedia
+                  itemId={itemId}
+                  name={name}
+                  className={classes.image}
+                />
               </Skeleton>
             ) : (
-              <CardMedia name={name} className={classes.image} />
+              <CardMedia
+                itemId={itemId}
+                name={name}
+                className={classes.image}
+                size={THUMBNAIL_SIZES.ORIGINAL}
+              />
             )}
           </Card>
         </Grid>

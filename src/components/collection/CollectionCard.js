@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
+import dynamic from 'next/dynamic';
 import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -8,20 +9,22 @@ import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import Skeleton from '@material-ui/lab/Skeleton';
-import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import SimilarCollectionBadges from './SimilarCollectionBadges';
-import { getAvatar } from '../../utils/layout';
 import { buildCollectionRoute } from '../../config/routes';
-import { ITEM_TYPES } from '../../config/constants';
+import { DEFAULT_MEMBER_THUMBNAIL, ITEM_TYPES } from '../../config/constants';
 import { QueryClientContext } from '../QueryClientContext';
 import { buildPeformViewEndpoint } from '../../api/endpoints';
 import CopyButton from './CopyButton';
 import CardMedia from '../common/CardMediaComponent';
+
+const Avatar = dynamic(() => import('@graasp/ui').then((mod) => mod.Avatar), {
+  ssr: false,
+});
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -101,9 +104,16 @@ export const CollectionCard = ({ collection = {}, isLoading }) => {
     </Skeleton>
   ) : (
     <Avatar
-      aria-label={author?.get('name')}
-      src={getAvatar(author?.get('image'))}
-      title={author?.get('name')}
+      useAvatar={hooks.useAvatar}
+      alt={author?.get('name')}
+      className={classes.avatar}
+      defaultImage={DEFAULT_MEMBER_THUMBNAIL}
+      id={creator}
+      extra={author?.get('extra')}
+      component="avatar"
+      maxWidth={30}
+      maxHeight={30}
+      variant="circle"
     />
   );
 
@@ -144,7 +154,7 @@ export const CollectionCard = ({ collection = {}, isLoading }) => {
           content: classes.content,
         }}
       />
-      <CardMedia link={link} name={name} />
+      <CardMedia link={link} name={name} itemId={id} />
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">
           <p
