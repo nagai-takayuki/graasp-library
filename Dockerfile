@@ -1,20 +1,23 @@
-FROM node:alpine
+FROM node:14-alpine
 
-# ENV RAZZLE_CUSTOM_VARIABLE x
+# install git, necessary for github dependencies
+RUN apk add --no-cache git
 
 WORKDIR /usr/src/app
 RUN mkdir -p .
 
-# install app dependencies
+# install app dependencies with yarn 3
 COPY package.json .
-RUN yarn install
+COPY .yarnrc.yml .
+COPY .yarn .yarn
+RUN yarn install 
 
 # bundle app source
 COPY . .
 
 # build with babel
-RUN yarn build --prod
+RUN yarn build
 
-EXPOSE 3000
+EXPOSE 3005
 
-CMD ["yarn", "start:prod"]
+CMD ["yarn", "start:next"]
