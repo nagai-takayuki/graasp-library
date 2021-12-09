@@ -3,16 +3,17 @@ import { configureQueryClient, Api } from '@graasp/query-client';
 import getConfig from 'next/config';
 import PropTypes from 'prop-types';
 import {
+  CATEGORIES,
   PUBLISHED_ITEMS_KEY,
   QUERY_CLIENT_OPTIONS,
 } from '../../src/config/constants';
-import PreSchool from '../../src/components/home/PreSchool';
 import Wrapper from '../../src/components/common/Wrapper';
+import LevelCollectionsPage from '../../src/components/home/LevelCollectionsPage';
 
 function Page({ dehydratedState }) {
   return (
     <Wrapper dehydratedState={dehydratedState}>
-      <PreSchool />
+      <LevelCollectionsPage level={CATEGORIES.PRE_SCHOOL.name} />
     </Wrapper>
   );
 }

@@ -6,13 +6,13 @@ import {
   PUBLISHED_ITEMS_KEY,
   QUERY_CLIENT_OPTIONS,
 } from '../../src/config/constants';
-import HighSchool from '../../src/components/home/HighSchool';
 import Wrapper from '../../src/components/common/Wrapper';
+import LevelCollectionsPage from '../../src/components/home/LevelCollectionsPage';
 
 function Page({ dehydratedState }) {
   return (
     <Wrapper dehydratedState={dehydratedState}>
-      <HighSchool />
+      <LevelCollectionsPage level="high-school" />
     </Wrapper>
   );
 }

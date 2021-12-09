@@ -57,7 +57,7 @@ function Home() {
       ? null
       : [...new Set(collections?.map(({ creator }) => creator).toArray())],
   );
-  const collectionsGraasper = collections.filter(
+  const collectionsGraasper = collections?.filter(
     (collection) => collection.creator === NEXT_PUBLIC_GRAASPER_ID,
   );
 

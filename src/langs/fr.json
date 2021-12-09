@@ -16,7 +16,21 @@
     "Cancel": "Annuler",
     "Confirm": "Confirmer",
     "Copy": "Copier",
-    "Select one space from the list below": "Selectionnez un espace dans la liste ci-dessous",
-    "The comment was deleted.": "Le commentaire a été effacé."
+    "Select one space from the list below": "Sélectionnez un espace dans la liste ci-dessous",
+    "The comment was deleted.": "Le commentaire a été effacé.",
+    "An error has occurred": "Une erreur s'est produite",
+    "All Collections": "Toutes les Collections",
+    "My Lists": "Mes Listes",
+    "Open Menu": "Ouvrir le Menu",
+    "All": "Toutes les Collections",
+    "Math": "Math",
+    "Literature": "Littérature",
+    "Language": "Langues",
+    "Social Science": "Sciences Sociales",
+    "Natural Science": "Sciences Naturelles",
+    "Arts": "Arts",
+    "There are no collections available.": "Aucune collection disponible.",
+    "Category": "Categorie",
+    "Tags": "Tags"
   }
 }

@@ -62,6 +62,21 @@ export const LEFT_MENU_WIDTH = 240;
 
 export const GRAASP_BUILDER_URL = 'https://builder.graasp.org';
 
+export const CATEGORIES = {
+  MATH: {
+    name: 'math',
+    title: 'Math',
+  },
+  PRE_SCHOOL: {
+    name: 'pre-school',
+    title: 'Pre-School',
+  },
+  GRADE_1_TO_8: {
+    name: 'grade-1-to-8',
+    title: 'Grade 1 to 8',
+  },
+};
+
 export const MATH = 'math';
 export const LITERATURE = 'literature';
 export const LANGUAGE = 'language';
@@ -76,8 +91,6 @@ export const NATURAL_SCIENCE_TITLE = 'Natural Science';
 export const SOCIAL_SCIENCE_TITLE = 'Social Science';
 export const ART_TITLE = 'Arts';
 
-export const PRE_SCHOOL_TITLE = 'Pre-School';
-export const GRADE_1_TO_8_TITLE = 'Grade 1 to 8';
 export const HIGH_SCHOOL_TITLE = 'High School';
 export const COLLEGE_TITLE = 'College';
 export const TEST_PREP_TITLE = 'Test Prep';

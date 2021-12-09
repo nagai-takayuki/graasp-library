@@ -1,6 +1,7 @@
 import { makeStyles, IconButton, Divider } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import React, { useContext } from 'react';
+import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 import Drawer from '@material-ui/core/Drawer';
@@ -31,8 +32,6 @@ import {
 } from '../../config/constants';
 import CollectionsGrid from '../collection/CollectionsGrid';
 import { QueryClientContext } from '../QueryClientContext';
-import { PUBLISHED_TAG_ID } from '../../config/env';
-import { PLACEHOLDER_COLLECTIONS } from '../../utils/collections';
 import Header from '../layout/Header';
 import Footer from '../layout/Footer';
 import SideMenu from '../layout/SideMenu';
@@ -96,18 +95,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function College() {
+const LevelCollectionsPage = ({ level }) => {
   const { t } = useTranslation();
   const classes = useStyles();
   const theme = useTheme();
   const { hooks } = useContext(QueryClientContext);
-  const { data: allCollections, isLoading } = hooks.usePublicItemsWithTag(
-    PUBLISHED_TAG_ID,
-    {
-      placeholderData: PLACEHOLDER_COLLECTIONS,
-      withMemberships: true,
-    },
-  );
 
   // get all categories
   const { data: allCategories } = hooks.useCategories();
@@ -117,26 +109,16 @@ function College() {
     allCategories?.map((entry) => [entry.name, entry.id]),
   );
 
-  const ageGroupId = categoriesMap?.get('college');
-  const { data: collectionsIds } = hooks.useItemsInCategories([ageGroupId]);
-  const collections = allCollections?.filter((collection) =>
-    collectionsIds
-      ?.map((entry) => entry.itemId)
-      .toArray()
-      .includes(collection.id),
-  );
+  const ageGroupId = categoriesMap?.get(level);
+  const { data: collectionsForAge } = hooks.useItemsInCategories([ageGroupId]);
 
   // get collections for given category
   const getCollections = (discipline) => {
-    const { data: itemIds } = hooks.useItemsInCategories([
+    const { data } = hooks.useItemsInCategories([
       categoriesMap?.get(discipline),
+      ageGroupId,
     ]);
-    return collections?.filter((collection) =>
-      itemIds
-        ?.map((entry) => entry.itemId)
-        .toArray()
-        .includes(collection.id),
-    );
+    return data;
   };
 
   // get collections
@@ -205,7 +187,7 @@ function College() {
             author={APP_AUTHOR}
           />
           <Typography variant="h3" align="center">
-            {t('Collections for College')}
+            {t(`Collections for ${level}`)}
           </Typography>
           {[
             { name: MATH_TITLE, collections: collectionsMath },
@@ -220,16 +202,13 @@ function College() {
               collections: collectionsNaturalScience,
             },
             { name: ART_TITLE, collections: collectionsArt },
-            { name: 'All', collections },
+            { name: t('All'), collections: collectionsForAge },
           ].map((entry) => (
             <>
               <Typography variant="h3" className={classes.typographyMargin}>
                 {t(entry.name)}
               </Typography>
-              <CollectionsGrid
-                collections={entry.collections}
-                isLoading={isLoading}
-              />
+              <CollectionsGrid collections={entry.collections} />
               <Divider className={classes.divider} />
             </>
           ))}
@@ -240,6 +219,10 @@ function College() {
       </AppBar>
     </div>
   );
-}
+};
 
-export default College;
+LevelCollectionsPage.propTypes = {
+  level: PropTypes.string.isRequired,
+};
+
+export default LevelCollectionsPage;
