@@ -1,6 +1,6 @@
-import { makeStyles, IconButton, Divider } from '@material-ui/core';
+import { makeStyles, IconButton, Divider, Button } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 import Drawer from '@material-ui/core/Drawer';
@@ -10,32 +10,30 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import MenuOpenIcon from '@material-ui/icons/MenuOpen';
 import { useTheme } from '@material-ui/core/styles';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import BookmarkIcon from '@material-ui/icons/Bookmark';
+import HighlightOffIcon from '@material-ui/icons/HighlightOff';
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import Seo from '../common/Seo';
 import {
   APP_AUTHOR,
   APP_DESCRIPTION,
   APP_NAME,
-  ART,
-  ART_TITLE,
-  LANGUAGE,
-  LANGUAGE_TITLE,
   LEFT_MENU_WIDTH,
-  LITERATURE,
-  LITERATURE_TITLE,
-  MATH,
-  MATH_TITLE,
-  NATURAL_SCIENCE,
-  NATURAL_SCIENCE_TITLE,
-  SOCIAL_SCIENCE,
-  SOCIAL_SCIENCE_TITLE,
+  GRAASP_BUILDER_URL,
+  LEVEL,
+  DISCIPLINE,
 } from '../../config/constants';
 import CollectionsGrid from '../collection/CollectionsGrid';
 import { QueryClientContext } from '../QueryClientContext';
 import { PUBLISHED_TAG_ID } from '../../config/env';
 import { PLACEHOLDER_COLLECTIONS } from '../../utils/collections';
+import { compare } from '../../utils/helpers';
 import Header from '../layout/Header';
 import Footer from '../layout/Footer';
-import SideMenu from '../layout/SideMenu';
+import LevelCollectionsPage from './LevelCollectionsPage';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -92,6 +90,13 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1.5, 0),
   },
   divider: {
+    marginTop: theme.spacing(10),
+  },
+  list: {
+    marginTop: theme.spacing(0),
+    marginBottom: theme.spacing(0),
+  },
+  sectionHeader: {
     marginTop: theme.spacing(2),
   },
 }));
@@ -109,37 +114,50 @@ function AllCollections() {
     },
   );
 
-  // get all categories
-  const { data: allCategories } = hooks.useCategories();
+  // get categories in each type
+  const { data: categoryTypes } = hooks.useCategoryTypes();
+  const { data: categories } = hooks.useCategories();
+  const allCategories = categories?.groupBy((entry) => entry.type);
+  const levelList = allCategories
+    ?.get(categoryTypes?.filter((type) => type.name === LEVEL).get(0).id)
+    ?.toArray();
+  const disciplineList = allCategories
+    ?.get(categoryTypes?.filter((type) => type.name === DISCIPLINE).get(0).id)
+    ?.toArray()
+    .sort(compare);
 
-  // get category map (to map between category id and name)
-  const categoriesMap = new Map(
-    allCategories?.map((entry) => [entry.name, entry.id]),
-  );
+  // state variable to record selected options
+  const [selectedLevels, setSelectedLevels] = useState(false);
+  const [selectedDisciplines, setSelectedDisciplines] = useState(false);
 
-  // get collections for given category
-  const getCollections = (discipline) => {
-    const { data } = hooks.useItemsInCategories([
-      categoriesMap?.get(discipline),
-    ]);
-    return data;
-  };
-
-  // get collections
-  const collectionsMath = getCollections(MATH);
-  const collectionsLiterature = getCollections(LITERATURE);
-  const collectionsNaturalScience = getCollections(NATURAL_SCIENCE);
-  const collectionsSocialScience = getCollections(SOCIAL_SCIENCE);
-  const collectionsLanguage = getCollections(LANGUAGE);
-  const collectionsArt = getCollections(ART);
-
-  const [sideBarStatus, setSideBarStatus] = React.useState(true);
+  // state variable to control the side menu
+  const [sideBarStatus, setSideBarStatus] = useState(true);
 
   const closeSideBar = () => {
     setSideBarStatus(false);
   };
   const openSideBar = () => {
     setSideBarStatus(true);
+  };
+
+  const clearSelection = () => {
+    setSelectedLevels(false);
+    setSelectedDisciplines(false);
+  };
+
+  const handleClick = (type, name) => () => {
+    if (type === LEVEL) setSelectedLevels(name);
+    if (type === DISCIPLINE) setSelectedDisciplines(name);
+  };
+
+  const checkSelected = (type, name) => {
+    if (type === LEVEL) return name === selectedLevels;
+    if (type === DISCIPLINE) return name === selectedDisciplines;
+    return false;
+  };
+
+  const redirectToCompose = () => {
+    window.location.href = GRAASP_BUILDER_URL;
   };
 
   return (
@@ -167,7 +185,72 @@ function AllCollections() {
             )}
           </IconButton>
         </div>
-        <SideMenu />
+        <Button
+          variant="contained"
+          color="primary"
+          startIcon={<BookmarkIcon />}
+          onClick={clearSelection}
+        >
+          {t('All Collections')}
+        </Button>
+        <Button
+          variant="outlined"
+          color="primary"
+          startIcon={<AddCircleOutlineIcon />}
+          onClick={redirectToCompose}
+        >
+          {t('Create Your Own')}
+        </Button>
+        <Typography
+          variant="subtitle1"
+          align="center"
+          color="primary"
+          className={classes.sectionHeader}
+        >
+          {t('Education Level')}
+        </Typography>
+        <List dense className={classes.list}>
+          {levelList?.map((entry) => (
+            <ListItem
+              button
+              key={t(entry.name)}
+              onClick={handleClick(LEVEL, entry.name)}
+              selected={checkSelected(LEVEL, entry.name)}
+            >
+              <ListItemText primary={t(entry.name)} />
+            </ListItem>
+          ))}
+        </List>
+        <Divider />
+        <Typography
+          variant="subtitle1"
+          align="center"
+          color="primary"
+          className={classes.sectionHeader}
+        >
+          {t('Discipline')}
+        </Typography>
+        <List dense className={classes.list}>
+          {disciplineList?.map((entry) => (
+            <ListItem
+              button
+              key={t(entry.name)}
+              onClick={handleClick(DISCIPLINE, entry.name)}
+              selected={checkSelected(DISCIPLINE, entry.name)}
+            >
+              <ListItemText primary={t(entry.name)} />
+            </ListItem>
+          ))}
+        </List>
+        <Button
+          variant="outlined"
+          color="default"
+          startIcon={<HighlightOffIcon />}
+          onClick={clearSelection}
+        >
+          {t('Clear Selection')}
+        </Button>
+        <Divider className={classes.divider} />
       </Drawer>
       <div className={classes.mainWrapper}>
         <main
@@ -190,35 +273,23 @@ function AllCollections() {
             description={APP_DESCRIPTION}
             author={APP_AUTHOR}
           />
-          <Typography variant="h3" align="center">
-            {t('All Collections On Explorer')}
-          </Typography>
-          {[
-            { name: MATH_TITLE, collections: collectionsMath },
-            { name: LITERATURE_TITLE, collections: collectionsLiterature },
-            { name: LANGUAGE_TITLE, collections: collectionsLanguage },
-            {
-              name: SOCIAL_SCIENCE_TITLE,
-              collections: collectionsSocialScience,
-            },
-            {
-              name: NATURAL_SCIENCE_TITLE,
-              collections: collectionsNaturalScience,
-            },
-            { name: ART_TITLE, collections: collectionsArt },
-            { name: t('All'), collections },
-          ].map((entry) => (
+          {!selectedLevels && !selectedDisciplines && (
             <>
-              <Typography variant="h3" className={classes.typographyMargin}>
-                {t(entry.name)}
+              <Typography variant="h3" align="center">
+                {t(`All Collections`)}
               </Typography>
               <CollectionsGrid
-                collections={entry.collections}
+                collections={collections}
                 isLoading={isLoading}
               />
               <Divider className={classes.divider} />
             </>
-          ))}
+          )}
+          {(selectedLevels || selectedDisciplines) && (
+            <LevelCollectionsPage
+              selectedOptions={[selectedLevels, selectedDisciplines]}
+            />
+          )}
         </main>
       </div>
       <AppBar position="fixed" color="primary" className={classes.appBarBot}>

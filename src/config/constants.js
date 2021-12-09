@@ -58,43 +58,12 @@ export const MAIL_BREAK_LINE = '%0D%0A';
 export const HEADER_LOGO_HEIGHT = 40;
 export const HEADER_HEIGHT = 65;
 
-export const LEFT_MENU_WIDTH = 240;
+export const LEFT_MENU_WIDTH = 300;
 
 export const GRAASP_BUILDER_URL = 'https://builder.graasp.org';
 
-export const CATEGORIES = {
-  MATH: {
-    name: 'math',
-    title: 'Math',
-  },
-  PRE_SCHOOL: {
-    name: 'pre-school',
-    title: 'Pre-School',
-  },
-  GRADE_1_TO_8: {
-    name: 'grade-1-to-8',
-    title: 'Grade 1 to 8',
-  },
-};
-
-export const MATH = 'math';
-export const LITERATURE = 'literature';
-export const LANGUAGE = 'language';
-export const NATURAL_SCIENCE = 'natural-science';
-export const SOCIAL_SCIENCE = 'social-science';
-export const ART = 'art';
-
-export const MATH_TITLE = 'Math';
-export const LITERATURE_TITLE = 'Literature';
-export const LANGUAGE_TITLE = 'Language';
-export const NATURAL_SCIENCE_TITLE = 'Natural Science';
-export const SOCIAL_SCIENCE_TITLE = 'Social Science';
-export const ART_TITLE = 'Arts';
-
-export const HIGH_SCHOOL_TITLE = 'High School';
-export const COLLEGE_TITLE = 'College';
-export const TEST_PREP_TITLE = 'Test Prep';
-export const POST_GRAD_TITLE = 'Post Grad';
+export const LEVEL = 'level';
+export const DISCIPLINE = 'discipline';
 
 export const MY_FAVORITES = 'My Favorites';
 export const MY_UPLOADS = 'My Uploads';
