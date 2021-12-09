@@ -30,21 +30,26 @@ const LevelCollectionsPage = ({ selectedOptions }) => {
 
   const categories = selectedOptions?.filter((entry) => entry);
   const categoryIds = categories?.map((entry) => categoriesMap?.get(entry));
-  const { data: collections } = hooks.useItemsInCategories(categoryIds);
+  const { data: collections, isLoading } = hooks.useItemsInCategories(
+    categoryIds,
+  );
 
   return (
     <>
       <Typography variant="h3" align="center">
-        {t(`Collections in ${categories}`)}
+        {t('Collections in ')}
+        {
+          t(categories) // splited deliberately to avoid translation error
+        }
       </Typography>
-      <CollectionsGrid collections={collections} />
+      <CollectionsGrid collections={collections} isLoading={isLoading} />
       <Divider className={classes.divider} />
     </>
   );
 };
 
 LevelCollectionsPage.propTypes = {
-  selectedOptions: PropTypes.string.isRequired,
+  selectedOptions: PropTypes.arrayOf(String).isRequired,
 };
 
 export default LevelCollectionsPage;
