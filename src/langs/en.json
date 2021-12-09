@@ -18,6 +18,20 @@
     "Confirm": "Confirm",
     "Copy": "Copy",
     "Select one space from the list below": "Select one space from the list below",
-    "The comment was deleted.": "The comment was deleted."
+    "The comment was deleted.": "The comment was deleted.",
+    "An error has occurred": "An error has occurred",
+    "All Collections": "All Collections",
+    "My Lists": "My Lists",
+    "Open Menu": "Open Menu",
+    "All": "All",
+    "Math": "Math",
+    "Literature": "Literature",
+    "Language": "Language",
+    "Social Science": "Social Science",
+    "Natural Science": "Natural Science",
+    "Arts": "Arts",
+    "There are no collections available.": "There are no collections available.",
+    "Category": "Category",
+    "Tags": "Tags"
   }
 }

@@ -9,7 +9,7 @@ import CollectionCard from './CollectionCard';
 function CollectionsGrid({ collections, isLoading }) {
   const { t } = useTranslation();
 
-  return !collections.size ? (
+  return !collections?.size ? (
     <Typography variant="h5" color="inherit">
       {t('There are no collections available.')}
     </Typography>

@@ -1783,9 +1783,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@graasp/query-client@git://github.com/graasp/graasp-query-client.git":
+"@graasp/query-client@git://github.com/graasp/graasp-query-client.git#98/publicCategories":
   version: 0.1.0
-  resolution: "@graasp/query-client@git://github.com/graasp/graasp-query-client.git#commit=65fab859e8dc13c0e8cd4906cf91b8d90e7f96fa"
+  resolution: "@graasp/query-client@git://github.com/graasp/graasp-query-client.git#commit=3e52646efd47a651a9f6c38dad79a40e81c8d1b4"
   dependencies:
     axios: 0.21.4
     http-status-codes: 2.1.4
@@ -1796,13 +1796,13 @@ __metadata:
     uuid: 8.3.2
   peerDependencies:
     react: ^17.0.0
-  checksum: c6b4b91df05d09acd8e6ea4a5ef75a984f9e375ecdeb5a5a3662a5a63fa3303f62a64b3512462df7e5747cead4413026e3d2b169817fa15a4d9aff4898117216
+  checksum: c52e56cec7acad991aebfbe82d17877158d89fdc13ca62014fad98987b172922f38f8f44e769c103edc3f79d2a6693f4f2603d6b1f2aa9fc5ef14f9976b7808a
   languageName: node
   linkType: hard
 
-"@graasp/ui@git://github.com/graasp/graasp-ui.git#62/thumbnailSize":
+"@graasp/ui@git://github.com/graasp/graasp-ui.git":
   version: 0.2.0
-  resolution: "@graasp/ui@git://github.com/graasp/graasp-ui.git#commit=ecac066cfdc4520337751a975cf4c215b80778d0"
+  resolution: "@graasp/ui@git://github.com/graasp/graasp-ui.git#commit=63a68f5483103c7b9542a7b538dfed7f31108793"
   dependencies:
     clsx: 1.1.1
     http-status-codes: 2.1.4
@@ -1819,7 +1819,7 @@ __metadata:
     i18next: 21.3.1
     react: ^16.13.1
     react-dom: 16.13.1
-  checksum: a6246b62f3b76def0e936e9a3761800c8e9409799846df3c7fb6097e195fd50d490cd00130386a4d0cbe624620251f6e621af10125a005d88cf6aca57691eabc
+  checksum: ae52edada87b7354a5065f2f92c75bf48ff1a5c99dd5dfb6036dfc832857e46261ffb7b19f4fac0c92d56f907f542ae461f58076f092946e984a56d0e2dd175d
   languageName: node
   linkType: hard
 
@@ -8968,8 +8968,8 @@ __metadata:
     "@babel/preset-react": 7.16.0
     "@commitlint/cli": 11.0.0
     "@commitlint/config-conventional": 11.0.0
-    "@graasp/query-client": "git://github.com/graasp/graasp-query-client.git"
-    "@graasp/ui": "git://github.com/graasp/graasp-ui.git#62/thumbnailSize"
+    "@graasp/query-client": "git://github.com/graasp/graasp-query-client.git#98/publicCategories"
+    "@graasp/ui": "git://github.com/graasp/graasp-ui.git"
     "@material-ui/core": 4.11.2
     "@material-ui/icons": 4.11.2
     "@material-ui/lab": 4.0.0-alpha.57

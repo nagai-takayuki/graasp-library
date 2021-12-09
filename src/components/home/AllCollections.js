@@ -119,15 +119,10 @@ function AllCollections() {
 
   // get collections for given category
   const getCollections = (discipline) => {
-    const { data: itemIds } = hooks.useItemsInCategories([
+    const { data } = hooks.useItemsInCategories([
       categoriesMap?.get(discipline),
     ]);
-    return collections?.filter((collection) =>
-      itemIds
-        ?.map((entry) => entry.itemId)
-        .toArray()
-        .includes(collection.id),
-    );
+    return data;
   };
 
   // get collections
@@ -211,7 +206,7 @@ function AllCollections() {
               collections: collectionsNaturalScience,
             },
             { name: ART_TITLE, collections: collectionsArt },
-            { name: 'All', collections },
+            { name: t('All'), collections },
           ].map((entry) => (
             <>
               <Typography variant="h3" className={classes.typographyMargin}>

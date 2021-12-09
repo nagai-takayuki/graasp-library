@@ -34,20 +34,22 @@ export async function getServerSideProps({ params }) {
     ),
   );
 
-  const author = (await queryClient.getQueryData(collectionKey)).creator;
+  const author = (await queryClient.getQueryData(collectionKey))?.creator;
 
-  await queryClient.prefetchQuery(buildMemberKey(author), () =>
-    Api.getMember(
-      {
-        id: author,
-      },
-      QUERY_CLIENT_OPTIONS,
-    )
-      .then((data) => data)
-      .catch(
-        () => ({}), // do not fail on fetch error, set empty member
-      ),
-  );
+  if (author) {
+    await queryClient.prefetchQuery(buildMemberKey(author), () =>
+      Api.getMember(
+        {
+          id: author,
+        },
+        QUERY_CLIENT_OPTIONS,
+      )
+        .then((data) => data)
+        .catch(
+          () => ({}), // do not fail on fetch error, set empty member
+        ),
+    );
+  }
 
   // Pass data to the page via props
   return { props: { id, dehydratedState: dehydrate(queryClient) } };

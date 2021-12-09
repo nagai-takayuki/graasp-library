@@ -9,13 +9,12 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import BookmarkIcon from '@material-ui/icons/Bookmark';
 import {
+  CATEGORIES,
   COLLEGE_TITLE,
   GRAASP_BUILDER_URL,
-  GRADE_1_TO_8_TITLE,
   HIGH_SCHOOL_TITLE,
   LEFT_MENU_WIDTH,
   POST_GRAD_TITLE,
-  PRE_SCHOOL_TITLE,
   TEST_PREP_TITLE,
 } from '../../config/constants';
 import {
@@ -49,8 +48,8 @@ function SideMenu() {
       <List className={classes.list}>
         {[
           { name: 'All', route: ALL_COLLECTION_ROUTE },
-          { name: PRE_SCHOOL_TITLE, route: PRE_SCHOOL_ROUTE },
-          { name: GRADE_1_TO_8_TITLE, route: GRADE_1_TO_8_ROUTE },
+          { name: CATEGORIES.PRE_SCHOOL.title, route: PRE_SCHOOL_ROUTE },
+          { name: CATEGORIES.GRADE_1_TO_8.title, route: GRADE_1_TO_8_ROUTE },
           { name: HIGH_SCHOOL_TITLE, route: HIGH_SCHOOL_ROUTE },
           { name: COLLEGE_TITLE, route: COLLEGE_ROUTE },
         ].map((entry) => (
