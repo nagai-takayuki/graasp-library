@@ -123,13 +123,12 @@ function AllCollections() {
   const { data: categoryTypes } = hooks.useCategoryTypes();
   const { data: categories } = hooks.useCategories();
   const allCategories = categories?.groupBy((entry) => entry.type);
-  const levelList = allCategories
-    ?.get(categoryTypes?.filter((type) => type.name === LEVEL).get(0).id)
-    ?.toArray();
+  const levelList = allCategories?.get(
+    categoryTypes?.find((type) => type.name === LEVEL)?.id,
+  );
   const disciplineList = allCategories
-    ?.get(categoryTypes?.filter((type) => type.name === DISCIPLINE).get(0).id)
-    ?.toArray()
-    .sort(compare);
+    ?.get(categoryTypes?.find((type) => type.name === DISCIPLINE)?.id)
+    ?.sort(compare);
 
   // state variable to record selected options
   const [selectedLevels, setSelectedLevels] = useState(false);
@@ -145,9 +144,9 @@ function AllCollections() {
     setSideBarStatus(true);
   };
 
-  const clearSelection = () => {
-    setSelectedLevels(false);
-    setSelectedDisciplines(false);
+  const clearSelection = (type) => () => {
+    if (!type || type === LEVEL) setSelectedLevels(false);
+    if (!type || type === DISCIPLINE) setSelectedDisciplines(false);
   };
 
   const handleClick = (type, name) => () => {
@@ -194,7 +193,7 @@ function AllCollections() {
           variant="contained"
           color="primary"
           startIcon={<BookmarkIcon />}
-          onClick={clearSelection}
+          onClick={clearSelection()}
         >
           {t('All Collections')}
         </Button>
@@ -218,7 +217,7 @@ function AllCollections() {
           {levelList?.map((entry) => (
             <ListItem
               button
-              key={t(entry.name)}
+              key={entry.name}
               onClick={handleClick(LEVEL, entry.name)}
               selected={checkSelected(LEVEL, entry.name)}
             >
@@ -226,6 +225,15 @@ function AllCollections() {
             </ListItem>
           ))}
         </List>
+        <Button
+          variant="text"
+          color="default"
+          size="small"
+          startIcon={<HighlightOffIcon />}
+          onClick={clearSelection(LEVEL)}
+        >
+          {t('Clear Selection')}
+        </Button>
         <Divider />
         <Typography
           variant="subtitle1"
@@ -239,7 +247,7 @@ function AllCollections() {
           {disciplineList?.map((entry) => (
             <ListItem
               button
-              key={t(entry.name)}
+              key={entry.name}
               onClick={handleClick(DISCIPLINE, entry.name)}
               selected={checkSelected(DISCIPLINE, entry.name)}
             >
@@ -248,10 +256,11 @@ function AllCollections() {
           ))}
         </List>
         <Button
-          variant="outlined"
+          variant="text"
           color="default"
+          size="small"
           startIcon={<HighlightOffIcon />}
-          onClick={clearSelection}
+          onClick={clearSelection(DISCIPLINE)}
         >
           {t('Clear Selection')}
         </Button>
@@ -282,6 +291,9 @@ function AllCollections() {
             <>
               <Typography variant="h3" align="center">
                 {t(`All Collections`)}
+              </Typography>
+              <Typography variant="subtitle2" aligh="left">
+                {t('collectionsCount', { count: collections?.size })}
               </Typography>
               <CollectionsGrid
                 collections={collections}

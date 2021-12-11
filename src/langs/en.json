@@ -43,6 +43,7 @@
     "Upper Secondary School": "Upper Secondary School",
     "Vocational Training": "Vocational Training",
     "Higher Education": "Higher Education",
-    "Collections in ": "Collections in "
+    "collectionsInCategoriesTitle": "Collections in {{array}}",
+    "collectionsCount": "{{count}} collection(s) available"
   }
 }

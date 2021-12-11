@@ -33,14 +33,18 @@ const LevelCollectionsPage = ({ selectedOptions }) => {
   const { data: collections, isLoading } = hooks.useItemsInCategories(
     categoryIds,
   );
+  const count = collections?.size || 0;
 
   return (
     <>
       <Typography variant="h3" align="center">
-        {t('Collections in ')}
-        {
-          t(categories) // splited deliberately to avoid translation error
-        }
+        {t('collectionsInCategoriesTitle', {
+          array: categories,
+          joinArrays: ' ,',
+        })}
+      </Typography>
+      <Typography variant="subtitle2" aligh="left">
+        {t('collectionsCount', { count })}
       </Typography>
       <CollectionsGrid collections={collections} isLoading={isLoading} />
       <Divider className={classes.divider} />
@@ -49,7 +53,7 @@ const LevelCollectionsPage = ({ selectedOptions }) => {
 };
 
 LevelCollectionsPage.propTypes = {
-  selectedOptions: PropTypes.arrayOf(String).isRequired,
+  selectedOptions: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 export default LevelCollectionsPage;
