@@ -8994,7 +8994,7 @@ __metadata:
     eslint-plugin-react-app: 6.2.2
     http-status-codes: 2.1.4
     husky: 4.3.7
-    i18next: 19.8.4
+    i18next: 21.6.0
     immutable: 4.0.0-rc.12
     katex: 0.12.0
     lodash: 4.17.20
@@ -9580,12 +9580,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"i18next@npm:19.8.4":
-  version: 19.8.4
-  resolution: "i18next@npm:19.8.4"
+"i18next@npm:21.6.0":
+  version: 21.6.0
+  resolution: "i18next@npm:21.6.0"
   dependencies:
     "@babel/runtime": ^7.12.0
-  checksum: 49707e82681984ccc96eb29e0b85e29609a434f04d51e730f649448036b613994b3f4a14b113a20e128a4441bce2b4be683529a400bce8124f8c50b5557a49e6
+  checksum: 55e9f5e8a4bbf008c5e820015c972926451d08e0f9b1a843f4ad462dcf96b8699fb915f857cb07877fa539d83afbd53977b856cda1af85f2166093dd7ad0a5c9
   languageName: node
   linkType: hard
 

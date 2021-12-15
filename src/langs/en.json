@@ -32,6 +32,20 @@
     "Arts": "Arts",
     "There are no collections available.": "There are no collections available.",
     "Category": "Category",
-    "Tags": "Tags"
+    "Categories": "Categories",
+    "Tags": "Tags",
+    "Create Your Own": "Create Your Own",
+    "Education Level": "Education Level",
+    "Discipline": "Discipline",
+    "Clear Selection": "Clear Selection",
+    "Kindergarden": "Kindergarden",
+    "Primary School": "Primary School",
+    "Lower Secondary School": "Lower Secondary School",
+    "Upper Secondary School": "Upper Secondary School",
+    "Vocational Training": "Vocational Training",
+    "Higher Education": "Higher Education",
+    "collectionsInCategoriesTitle": "Collections in {{array}}",
+    "collectionsCount_one": "{{count}} collection available",
+    "collectionsCount_other": "{{count}} collections available"
   }
 }

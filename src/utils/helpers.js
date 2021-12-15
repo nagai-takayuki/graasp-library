@@ -10,4 +10,11 @@ const openContentInNewTab = (content) => {
   newWindow.document.write(content);
 };
 
-export { openInNewTab, openContentInNewTab };
+// helper function to sort objects in alphabetical order (by name)
+const compare = (a, b) => {
+  if (a.name < b.name) return -1;
+  if (a.name > b.name) return 1;
+  return 0;
+};
+
+export { openInNewTab, openContentInNewTab, compare };
