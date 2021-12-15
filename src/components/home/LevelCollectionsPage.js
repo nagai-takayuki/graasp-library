@@ -28,7 +28,7 @@ const LevelCollectionsPage = ({ selectedOptions }) => {
     allCategories?.map((entry) => [entry.name, entry.id]),
   );
 
-  const categories = selectedOptions?.filter((entry) => entry);
+  const categories = selectedOptions?.filter(Boolean);
   const categoryIds = categories?.map((entry) => categoriesMap?.get(entry));
   const { data: collections, isLoading } = hooks.useItemsInCategories(
     categoryIds,

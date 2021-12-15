@@ -181,6 +181,9 @@ function AllCollections() {
       >
         <div className={classes.toolbar} />
         <div className={classes.drawerHeader}>
+          <Typography variant="h5" align="center">
+            {t('Categories')}
+          </Typography>
           <IconButton onClick={closeSideBar}>
             {theme.direction === 'ltr' ? (
               <ChevronLeftIcon />

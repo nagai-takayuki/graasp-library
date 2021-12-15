@@ -32,6 +32,7 @@
     "Arts": "Arts",
     "There are no collections available.": "There are no collections available.",
     "Category": "Category",
+    "Categories": "Categories",
     "Tags": "Tags",
     "Create Your Own": "Create Your Own",
     "Education Level": "Education Level",
@@ -44,6 +45,7 @@
     "Vocational Training": "Vocational Training",
     "Higher Education": "Higher Education",
     "collectionsInCategoriesTitle": "Collections in {{array}}",
-    "collectionsCount": "{{count}} collection(s) available"
+    "collectionsCount_one": "{{count}} collection available",
+    "collectionsCount_other": "{{count}} collections available"
   }
 }
