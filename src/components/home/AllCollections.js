@@ -131,8 +131,7 @@ function AllCollections() {
     ?.sort(compare);
 
   // state variable to record selected options
-  const [selectedLevels, setSelectedLevels] = useState(false);
-  const [selectedDisciplines, setSelectedDisciplines] = useState(false);
+  const [selectedOptions, setSelectedOptions] = useState([null, null]);
 
   // state variable to control the side menu
   const [sideBarStatus, setSideBarStatus] = useState(true);
@@ -145,18 +144,18 @@ function AllCollections() {
   };
 
   const clearSelection = (type) => () => {
-    if (!type || type === LEVEL) setSelectedLevels(false);
-    if (!type || type === DISCIPLINE) setSelectedDisciplines(false);
+    if (type === LEVEL) setSelectedOptions([null, selectedOptions[1]]);
+    if (type === DISCIPLINE) setSelectedOptions([selectedOptions[0], null]);
   };
 
   const handleClick = (type, name) => () => {
-    if (type === LEVEL) setSelectedLevels(name);
-    if (type === DISCIPLINE) setSelectedDisciplines(name);
+    if (type === LEVEL) setSelectedOptions([name, selectedOptions[1]]);
+    if (type === DISCIPLINE) setSelectedOptions([selectedOptions[0], name]);
   };
 
   const checkSelected = (type, name) => {
-    if (type === LEVEL) return name === selectedLevels;
-    if (type === DISCIPLINE) return name === selectedDisciplines;
+    if (type === LEVEL) return name === selectedOptions[0];
+    if (type === DISCIPLINE) return name === selectedOptions[1];
     return false;
   };
 
@@ -290,7 +289,7 @@ function AllCollections() {
             description={APP_DESCRIPTION}
             author={APP_AUTHOR}
           />
-          {!selectedLevels && !selectedDisciplines && (
+          {!selectedOptions[0] && !selectedOptions[1] && (
             <>
               <Typography variant="h3" align="center">
                 {t(`All Collections`)}
@@ -305,10 +304,8 @@ function AllCollections() {
               <Divider className={classes.divider} />
             </>
           )}
-          {(selectedLevels || selectedDisciplines) && (
-            <LevelCollectionsPage
-              selectedOptions={[selectedLevels, selectedDisciplines]}
-            />
+          {(selectedOptions[0] || selectedOptions[1]) && (
+            <LevelCollectionsPage selectedOptions={selectedOptions} />
           )}
         </main>
       </div>
