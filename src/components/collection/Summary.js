@@ -42,6 +42,7 @@ function Summary({
   name,
   creator,
   description,
+  tags,
   contributors,
   likes,
   views,
@@ -59,7 +60,6 @@ function Summary({
   const categoriesDisplayed = allCategories?.filter((category) =>
     categories?.map((entry) => entry.categoryId).includes(category.id),
   );
-  const tags = ['demo'];
   return (
     <div className={classes.root}>
       <Grid container spacing={2} alignItems="flex-start">
@@ -111,7 +111,7 @@ function Summary({
           />
           <Typography variant="h6">{t('Category')}</Typography>
           {categoriesDisplayed?.map((entry) => (
-            <Chip label={entry.name} />
+            <Chip label={t(entry.name)} />
           ))}
           <Typography variant="h6">{t('Tags')}</Typography>
           {tags.map((text) => (
@@ -126,6 +126,7 @@ function Summary({
 Summary.propTypes = {
   name: PropTypes.string,
   description: PropTypes.string,
+  tags: PropTypes.arrayOf(PropTypes.string),
   creator: PropTypes.instanceOf(Map),
   contributors: PropTypes.arrayOf(
     PropTypes.shape({
@@ -146,6 +147,7 @@ Summary.propTypes = {
 Summary.defaultProps = {
   name: PropTypes.string,
   description: PropTypes.string,
+  tags: [],
   contributors: [],
   views: 0,
   likes: 0,
