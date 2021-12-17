@@ -86,6 +86,7 @@ const useStyles = makeStyles((theme) => ({
   mainWrapper: {
     marginLeft: theme.spacing(5),
     marginBottom: theme.spacing(6),
+    width: '100%',
   },
   toolbar: theme.mixins.toolbar,
   iconButton: {
