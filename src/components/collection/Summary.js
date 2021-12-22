@@ -109,10 +109,14 @@ function Summary({
             contributors={contributors}
             isLoading={isLoading}
           />
-          <Typography variant="h6">{t('Category')}</Typography>
-          {categoriesDisplayed?.map((entry) => (
-            <Chip label={t(entry.name)} />
-          ))}
+          {Boolean(categories?.size) && (
+            <>
+              <Typography variant="h6">{t('Category')}</Typography>
+              {categoriesDisplayed?.map((entry) => (
+                <Chip label={t(entry.name)} />
+              ))}
+            </>
+          )}
           <Typography variant="h6">{t('Tags')}</Typography>
           {tags.map((text) => (
             <Chip label={text} />

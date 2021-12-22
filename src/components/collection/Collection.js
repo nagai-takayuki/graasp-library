@@ -35,7 +35,6 @@ const Collection = ({ id }) => {
     id,
     {
       placeholderData: PLACEHOLDER_COLLECTION,
-      withMemberships: true,
     },
   );
   const {
