@@ -17,6 +17,15 @@
  */
 // eslint-disable-next-line no-unused-vars
 module.exports = (on, config) => {
-  // `on` is used to hook into various events Cypress emits
-  // `config` is the resolved Cypress config
+  const newConfig = {
+    ...config,
+    env: {
+      'cypress-react-selector': {
+        root: '#root',
+      },
+      API_HOST: process.env.NEXT_PUBLIC_API_HOST,
+      AUTHENTICATION_HOST: process.env.NEXT_PUBLIC_GRAASP_AUTH_HOST,
+    },
+  };
+  return newConfig;
 };
