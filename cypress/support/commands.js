@@ -10,24 +10,27 @@ import {
   mockGetItem,
   mockGetMember,
   mockGetCurrentMember,
+  mockGetOwnItems,
   mockSignInRedirection,
   mockSignOut,
   mockGetItems,
   mockGetCategoryTypes,
   mockGetCategories,
   mockGetItemCategories,
+  mockGetAvatar,
+  mockGetItemThumbnail,
 } from './server';
 import { MEMBERS } from '../fixtures/members';
 import {
   SAMPLE_CATEGORIES,
   SAMPLE_CATEGORY_TYPES,
 } from '../fixtures/categories';
-import { PUBLISHED_ITEM } from '../fixtures/items';
+import { PUBLISHED_ITEMS } from '../fixtures/items';
 
 Cypress.Commands.add(
   'setUpApi',
   ({
-    items = [PUBLISHED_ITEM],
+    items = PUBLISHED_ITEMS,
     members = Object.values(MEMBERS),
     currentMember = MEMBERS.ANNA,
     categories = SAMPLE_CATEGORIES,
@@ -57,6 +60,12 @@ Cypress.Commands.add(
     mockGetMember(cachedMembers);
 
     mockGetCurrentMember(currentMember, getCurrentMemberError);
+
+    mockGetOwnItems(items);
+
+    mockGetAvatar(members, false);
+
+    mockGetItemThumbnail(items, false);
 
     mockSignInRedirection();
 

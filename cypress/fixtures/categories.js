@@ -1,4 +1,4 @@
-import { PUBLISHED_ITEM } from './items';
+import { PUBLISHED_ITEMS } from './items';
 
 export const SAMPLE_CATEGORY_TYPES = [
   {
@@ -27,7 +27,7 @@ export const SAMPLE_CATEGORIES = [
 export const SAMPLE_ITEM_CATEGORIES = [
   {
     id: 'e75e1950-c5b4-4e21-95a2-c7c3bfa4072b',
-    itemId: PUBLISHED_ITEM.id,
+    itemId: PUBLISHED_ITEMS[0].id,
     categoryId: SAMPLE_CATEGORIES[0].id,
   },
 ];
@@ -35,7 +35,7 @@ export const SAMPLE_ITEM_CATEGORIES = [
 export const CUSTOMIZED_TAGS = ['water', 'ice', 'temperature'];
 
 export const ITEM_WITH_CATEGORIES = {
-  ...PUBLISHED_ITEM,
+  ...PUBLISHED_ITEMS,
   settings: {
     tags: CUSTOMIZED_TAGS,
   },

@@ -1,5 +1,3 @@
-export const FIXTURES_THUMBNAILS_FOLDER = './thumbnails';
-
 export const ITEM_TYPES = {
   FOLDER: 'folder',
   FILE: 'file',
@@ -17,3 +15,5 @@ export const PERMISSION_LEVELS = {
 };
 
 export const UUID_LENGTH = 36;
+
+export const THUMBNAIL_EXTENSION = 'image/jpeg';

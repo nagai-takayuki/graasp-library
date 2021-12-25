@@ -9,13 +9,13 @@ import {
   ID_FORMAT,
   parseStringToRegExp,
   getItemById,
-  getParentsIdsFromPath,
   isChild,
   isRootItem,
   transformIdForPath,
   getMemberById,
 } from './utils';
-import { ITEM_PUBLIC_TAG, ITEM_PUBLISHED_TAG } from '../fixtures/itemTags';
+import { ITEM_PUBLISHED_TAG } from '../fixtures/itemTags';
+import { THUMBNAIL_EXTENSION } from './constants';
 
 const {
   buildCopyItemRoute,
@@ -170,6 +170,66 @@ export const mockGetItems = ({ items, currentMember }, shouldThrowError) => {
       );
     },
   ).as('getItems');
+};
+
+export const mockGetAvatar = (members, shouldThrowError) => {
+  cy.intercept(
+    {
+      method: DEFAULT_GET.method,
+      url: new RegExp(
+        `${API_HOST}/members/avatars/${ID_FORMAT}\\?size\\=small`,
+      ),
+    },
+    ({ reply, url }) => {
+      if (shouldThrowError) {
+        return reply({ statusCode: StatusCodes.BAD_REQUEST });
+      }
+
+      const [link, querystrings] = url.split('?');
+      const id = link.slice(API_HOST.length).split('/')[3];
+      const { size } = qs.parse(querystrings);
+
+      const { thumbnails } = members.find(({ id: thisId }) => id === thisId);
+      if (!thumbnails) {
+        return reply({ statusCode: StatusCodes.NOT_FOUND });
+      }
+
+      return reply({
+        fixture: `${thumbnails}/${size}`,
+        headers: { 'content-type': THUMBNAIL_EXTENSION },
+      });
+    },
+  ).as('downloadAvatar');
+};
+
+export const mockGetItemThumbnail = (items, shouldThrowError) => {
+  cy.intercept(
+    {
+      method: DEFAULT_GET.method,
+      url: new RegExp(
+        `${API_HOST}/${ITEMS_ROUTE}/thumbnails/${ID_FORMAT}\\?size\\=medium`,
+      ),
+    },
+    ({ reply, url }) => {
+      if (shouldThrowError) {
+        return reply({ statusCode: StatusCodes.BAD_REQUEST });
+      }
+
+      const [link, querystrings] = url.split('?');
+      const id = link.slice(API_HOST.length).split('/')[3];
+      const { size } = qs.parse(querystrings);
+
+      const thumbnails = items.find(({ id: thisId }) => id === thisId)
+        ?.thumbnails;
+      if (!thumbnails) {
+        return reply({ statusCode: StatusCodes.NOT_FOUND });
+      }
+      return reply({
+        fixture: `${thumbnails}/${size}`,
+        headers: { 'content-type': THUMBNAIL_EXTENSION },
+      });
+    },
+  ).as('downloadItemThumbnail');
 };
 
 export const mockGetChildren = ({ items, currentMember }) => {

@@ -1,5 +1,3 @@
-import { FIXTURES_THUMBNAILS_FOLDER } from '../support/constants';
-
 export const SIGNED_OUT_MEMBER = {};
 
 export const MEMBERS = {
@@ -19,7 +17,7 @@ export const MEMBERS = {
     createdAt: '2021-04-13 14:56:34.749946',
     extra: { lang: 'en' },
     // this only exists for test
-    thumbnails: FIXTURES_THUMBNAILS_FOLDER,
+    // thumbnails: FIXTURES_THUMBNAILS_FOLDER,
   },
   CEDRIC: {
     id: 'ecafbd2a-5642-31fb-ae93-0242ac130006',
@@ -27,7 +25,7 @@ export const MEMBERS = {
     email: 'cedric@email.com',
     createdAt: '2021-04-13 14:56:34.749946',
     // this only exists for test
-    thumbnails: FIXTURES_THUMBNAILS_FOLDER,
+    // thumbnails: FIXTURES_THUMBNAILS_FOLDER,
   },
   DAVID: {
     id: 'ecafbd2a-5642-31fb-ae93-0242ac130062',
