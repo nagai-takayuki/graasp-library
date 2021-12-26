@@ -1,3 +1,9 @@
+// routes
+export const HOME_ROUTE = '/';
+export const ALL_COLLECTION_ROUTE = '/all-collections';
+export const MY_LIST_ROUTE = '/my-list';
+
+// items
 export const ITEM_TYPES = {
   FOLDER: 'folder',
   FILE: 'file',

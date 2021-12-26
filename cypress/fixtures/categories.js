@@ -30,12 +30,17 @@ export const SAMPLE_ITEM_CATEGORIES = [
     itemId: PUBLISHED_ITEMS[0].id,
     categoryId: SAMPLE_CATEGORIES[0].id,
   },
+  {
+    id: 'sample-item-category2',
+    itemId: PUBLISHED_ITEMS[1].id,
+    categoryId: SAMPLE_CATEGORIES[1].id,
+  },
 ];
 
 export const CUSTOMIZED_TAGS = ['water', 'ice', 'temperature'];
 
 export const ITEM_WITH_CATEGORIES = {
-  ...PUBLISHED_ITEMS,
+  ...PUBLISHED_ITEMS[0],
   settings: {
     tags: CUSTOMIZED_TAGS,
   },
