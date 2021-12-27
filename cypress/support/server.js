@@ -22,7 +22,6 @@ const {
   buildGetPublicItemsWithTag,
   buildGetChildrenRoute,
   buildGetPublicChildrenRoute,
-  buildGetItemRoute,
   GET_OWN_ITEMS_ROUTE,
   buildGetMember,
   ITEMS_ROUTE,
@@ -90,36 +89,7 @@ export const mockGetOwnItems = (items) => {
   ).as('getOwnItems');
 };
 
-export const mockGetItem = ({ items, currentMember }, shouldThrowError) => {
-  cy.intercept(
-    {
-      method: DEFAULT_GET.method,
-      url: new RegExp(`${API_HOST}/${buildGetItemRoute(ID_FORMAT)}$`),
-    },
-    ({ url, reply }) => {
-      const itemId = url.slice(API_HOST.length).split('/')[2];
-      const item = getItemById(items, itemId);
-
-      // item does not exist in db
-      if (!item) {
-        return reply({
-          statusCode: StatusCodes.NOT_FOUND,
-        });
-      }
-
-      if (shouldThrowError || !checkMembership({ item, currentMember })) {
-        return reply({ statusCode: StatusCodes.UNAUTHORIZED, body: null });
-      }
-
-      return reply({
-        body: item,
-        statusCode: StatusCodes.OK,
-      });
-    },
-  ).as('getItem');
-};
-
-export const mockGetPublicItems = (items) => {
+export const mockGetPublishedItems = (items) => {
   cy.intercept(
     {
       method: DEFAULT_GET.method,
@@ -135,41 +105,7 @@ export const mockGetPublicItems = (items) => {
     (req) => {
       req.reply(items);
     },
-  ).as('getPublicItems');
-};
-
-export const mockGetItems = ({ items, currentMember }, shouldThrowError) => {
-  cy.intercept(
-    {
-      method: DEFAULT_GET.method,
-      url: new RegExp(`${API_HOST}/${ITEMS_ROUTE}\\?id\\=`),
-    },
-    ({ url, reply }) => {
-      const { id: itemIds } = qs.parse(url.slice(url.indexOf('?') + 1));
-      return reply(
-        itemIds.map((id) => {
-          const item = getItemById(items, id);
-
-          // mock membership
-          const creator = item?.creator;
-          const haveMembership =
-            creator === currentMember.id ||
-            item?.memberships?.find(
-              ({ memberId }) => memberId === currentMember.id,
-            );
-          if (shouldThrowError || !haveMembership) {
-            return { statusCode: StatusCodes.UNAUTHORIZED, body: null };
-          }
-
-          return (
-            item || {
-              statusCode: StatusCodes.NOT_FOUND,
-            }
-          );
-        }),
-      );
-    },
-  ).as('getItems');
+  ).as('getPublishedItems');
 };
 
 export const mockGetAvatar = (members, shouldThrowError) => {
@@ -425,6 +361,33 @@ export const mockGetItemCategories = (items, shouldThrowError) => {
       const itemId = url.slice(API_HOST.length).split('/')[2];
       const result = items.find(({ id }) => id === itemId)?.categories || [];
       reply(result);
+    },
+  ).as('getItemCategories');
+};
+
+export const mockGetItemsInCategories = (
+  items,
+  categories,
+  shouldThrowError,
+) => {
+  cy.intercept(
+    {
+      method: DEFAULT_GET.method,
+      url: new RegExp(
+        parseStringToRegExp(
+          `${API_HOST}/p/${ITEMS_ROUTE}/with-categories?${qs.stringify(
+            { category: [categories[0]?.id] },
+            { arrayFormat: 'repeat' },
+          )}`,
+        ),
+      ),
+    },
+    ({ reply }) => {
+      if (shouldThrowError) {
+        reply({ statusCode: StatusCodes.BAD_REQUEST, body: null });
+        return;
+      }
+      reply([items[0]]);
     },
   ).as('getItemCategories');
 };

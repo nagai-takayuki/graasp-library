@@ -6,17 +6,16 @@ import 'cypress-localstorage-commands';
 import {
   mockCopyItem,
   mockGetChildren,
-  mockGetPublicItems,
-  mockGetItem,
+  mockGetPublishedItems,
   mockGetMember,
   mockGetCurrentMember,
   mockGetOwnItems,
   mockSignInRedirection,
   mockSignOut,
-  mockGetItems,
   mockGetCategoryTypes,
   mockGetCategories,
   mockGetItemCategories,
+  mockGetItemsInCategories,
   mockGetAvatar,
   mockGetItemThumbnail,
 } from './server';
@@ -36,7 +35,6 @@ Cypress.Commands.add(
     categories = SAMPLE_CATEGORIES,
     categoryTypes = SAMPLE_CATEGORY_TYPES,
     copyItemError = false,
-    getItemError = false,
     getCurrentMemberError = false,
     getCategoriesError = false,
     getItemCategoriesError = false,
@@ -46,14 +44,9 @@ Cypress.Commands.add(
 
     cy.setCookie('session', currentMember ? 'somecookie' : null);
 
-    mockGetItem(
-      { items: cachedItems, currentMember },
-      getItemError || getCurrentMemberError,
-    );
-
     mockGetChildren({ items: cachedItems, currentMember });
 
-    mockGetPublicItems(items);
+    mockGetPublishedItems(items);
 
     mockCopyItem(cachedItems, copyItemError);
 
@@ -71,13 +64,13 @@ Cypress.Commands.add(
 
     mockSignOut();
 
-    mockGetItems({ items, currentMember });
-
     mockGetCategoryTypes(categoryTypes);
 
     mockGetCategories(categories, getCategoriesError);
 
     mockGetItemCategories(items, getItemCategoriesError);
+
+    mockGetItemsInCategories(items, categories, false);
   },
 );
 
