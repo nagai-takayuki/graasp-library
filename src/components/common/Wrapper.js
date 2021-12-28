@@ -8,6 +8,7 @@ import { LoginModalProvider } from './LoginModalContext';
 import { QueryClientProvider } from '../QueryClientContext';
 import { SENTRY_FALLBACK_MESSAGE } from '../../config/constants';
 import Header from '../layout/Header';
+import Footer from '../layout/Footer';
 
 const useStyles = makeStyles({
   root: {
@@ -27,6 +28,7 @@ function Wrapper({ dehydratedState, children }) {
           <LoginModalProvider>
             <Header />
             {children}
+            <Footer />
           </LoginModalProvider>
         </QueryClientProvider>
       </div>

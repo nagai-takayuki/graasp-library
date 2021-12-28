@@ -3,7 +3,6 @@ import Typography from '@material-ui/core/Typography';
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import Drawer from '@material-ui/core/Drawer';
-import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -14,8 +13,6 @@ import CollectionsGrid from '../collection/CollectionsGrid';
 import { QueryClientContext } from '../QueryClientContext';
 import { PUBLISHED_TAG_ID } from '../../config/env';
 import { PLACEHOLDER_COLLECTIONS } from '../../utils/collections';
-import Header from '../layout/Header';
-import Footer from '../layout/Footer';
 import {
   LEFT_MENU_WIDTH,
   MY_FAVORITES,
@@ -27,17 +24,10 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
   },
-  appBar: {
-    zIndex: theme.zIndex.drawer + 1,
-  },
-  appBarBot: {
-    top: 'auto',
-    bottom: 0,
-    zIndex: theme.zIndex.drawer + 1,
-  },
   drawer: {
     width: LEFT_MENU_WIDTH,
     flexShrink: 0,
+    zIndex: theme.zIndex.appBar - 1,
   },
   drawerPaper: {
     width: LEFT_MENU_WIDTH,
@@ -69,9 +59,6 @@ function MyList() {
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <AppBar position="fixed" className={classes.appBar}>
-        <Header />
-      </AppBar>
       <Drawer
         className={classes.drawer}
         variant="permanent"
@@ -100,9 +87,6 @@ function MyList() {
         </Typography>
         <CollectionsGrid collections={collections} isLoading={isLoading} />
       </main>
-      <AppBar position="fixed" color="primary" className={classes.appBarBot}>
-        <Footer />
-      </AppBar>
     </div>
   );
 }

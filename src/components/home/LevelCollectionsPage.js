@@ -1,4 +1,4 @@
-import { makeStyles, Divider } from '@material-ui/core';
+// import { makeStyles, Divider } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
@@ -6,18 +6,18 @@ import { useTranslation } from 'react-i18next';
 import CollectionsGrid from '../collection/CollectionsGrid';
 import { QueryClientContext } from '../QueryClientContext';
 
-const useStyles = makeStyles((theme) => ({
-  typographyMargin: {
-    margin: theme.spacing(1.5, 0),
-  },
-  divider: {
-    marginTop: theme.spacing(2),
-  },
-}));
+// const useStyles = makeStyles((theme) => ({
+//   typographyMargin: {
+//     margin: theme.spacing(1.5, 0),
+//   },
+//   divider: {
+//     marginTop: theme.spacing(2),
+//   },
+// }));
 
 const LevelCollectionsPage = ({ selectedOptions }) => {
   const { t } = useTranslation();
-  const classes = useStyles();
+  // const classes = useStyles();
   const { hooks } = useContext(QueryClientContext);
 
   // get all categories
@@ -46,7 +46,7 @@ const LevelCollectionsPage = ({ selectedOptions }) => {
         {t('collectionsCount', { count })}
       </Typography>
       <CollectionsGrid collections={collections} isLoading={isLoading} />
-      <Divider className={classes.divider} />
+      {/* <Divider className={classes.divider} /> */}
     </>
   );
 };

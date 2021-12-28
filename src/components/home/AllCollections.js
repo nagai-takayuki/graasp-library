@@ -4,7 +4,6 @@ import {
   Divider,
   Button,
   Drawer,
-  AppBar,
   CssBaseline,
   List,
   ListItem,
@@ -36,25 +35,16 @@ import { QueryClientContext } from '../QueryClientContext';
 import { PUBLISHED_TAG_ID } from '../../config/env';
 import { PLACEHOLDER_COLLECTIONS } from '../../utils/collections';
 import { compare } from '../../utils/helpers';
-import Header from '../layout/Header';
-import Footer from '../layout/Footer';
 import LevelCollectionsPage from './LevelCollectionsPage';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
   },
-  appBar: {
-    zIndex: theme.zIndex.drawer + 1,
-  },
-  appBarBot: {
-    top: 'auto',
-    bottom: 0,
-    zIndex: theme.zIndex.drawer + 1,
-  },
   drawer: {
     width: LEFT_MENU_WIDTH,
     flexShrink: 0,
+    zIndex: theme.zIndex.appBar - 1,
   },
   drawerPaper: {
     width: LEFT_MENU_WIDTH,
@@ -166,9 +156,6 @@ function AllCollections() {
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <AppBar position="fixed" className={classes.appBar}>
-        <Header />
-      </AppBar>
       <Drawer
         className={classes.drawer}
         variant="persistent"
@@ -301,7 +288,7 @@ function AllCollections() {
                 collections={collections}
                 isLoading={isLoading}
               />
-              <Divider className={classes.divider} />
+              {/* <Divider className={classes.divider} /> */}
             </>
           )}
           {(selectedOptions[0] || selectedOptions[1]) && (
@@ -309,9 +296,6 @@ function AllCollections() {
           )}
         </main>
       </div>
-      <AppBar position="fixed" color="primary" className={classes.appBarBot}>
-        <Footer />
-      </AppBar>
     </div>
   );
 }
