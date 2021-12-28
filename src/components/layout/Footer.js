@@ -22,7 +22,7 @@ function Footer() {
 
   return (
     <footer>
-      <AppBar position="absolute" color="primary" className={classes.appBar}>
+      <AppBar position="fixed" color="primary" className={classes.appBar}>
         <Toolbar>
           <Typography variant="subtitle1" className={classes.content}>
             &copy;

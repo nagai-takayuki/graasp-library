@@ -85,9 +85,6 @@ const useStyles = makeStyles((theme) => ({
   typographyMargin: {
     margin: theme.spacing(1.5, 0),
   },
-  divider: {
-    marginTop: theme.spacing(10),
-  },
   list: {
     marginTop: theme.spacing(0),
     marginBottom: theme.spacing(0),
@@ -288,7 +285,6 @@ function AllCollections() {
                 collections={collections}
                 isLoading={isLoading}
               />
-              {/* <Divider className={classes.divider} /> */}
             </>
           )}
           {(selectedOptions[0] || selectedOptions[1]) && (

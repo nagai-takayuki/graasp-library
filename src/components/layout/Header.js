@@ -56,7 +56,7 @@ function Header() {
   return (
     <>
       <header>
-        <AppBar position="absolute">
+        <AppBar position="fixed">
           <Toolbar>
             <div className={classes.headerLeft}>
               <GraaspLogo
