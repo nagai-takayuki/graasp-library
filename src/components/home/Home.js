@@ -60,19 +60,19 @@ function Home() {
   const [range, setRange] = useState('all');
   const [keywords, setKeywords] = useState(null);
   const { hooks } = useContext(QueryClientContext);
-  const {
-    data: collections,
-    isLoading,
-    isPlaceholderData,
-  } = hooks.usePublicItemsWithTag(PUBLISHED_TAG_ID, {
-    placeholderData: PLACEHOLDER_COLLECTIONS,
-  });
-  const { data: members } = hooks.useMembers(
-    null,
-    isPlaceholderData
-      ? null
-      : [...new Set(collections?.map(({ creator }) => creator).toArray())],
+  const { data: collections, isLoading } = hooks.usePublicItemsWithTag(
+    PUBLISHED_TAG_ID,
+    {
+      placeholderData: PLACEHOLDER_COLLECTIONS,
+      withMemberships: true,
+    },
   );
+  // const { data: members } = hooks.useMembers(
+  //   null,
+  //   isPlaceholderData
+  //     ? null
+  //     : [...new Set(collections?.map(({ creator }) => creator).toArray())],
+  // );
   const collectionsGraasper = collections?.filter(
     (collection) => collection.creator === NEXT_PUBLIC_GRAASPER_ID,
   );
@@ -157,11 +157,10 @@ function Home() {
             <FormControlLabel value="tag" control={<Radio />} label="Tag" />
             <FormControlLabel
               value="author"
-              disabled
               control={<Radio />}
               label="Author"
             />
-            <Tooltip title="Use | or & for union or intersection of multiple keywords">
+            <Tooltip title="Use | or & for union/intersection of multiple keywords if choose 'Tag' or 'All'">
               <IconButton>
                 <HelpIcon />
               </IconButton>

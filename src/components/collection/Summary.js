@@ -118,9 +118,11 @@ function Summary({
             </>
           )}
           <Typography variant="h6">{t('Tags')}</Typography>
-          {tags.map((text) => (
-            <Chip label={text} />
-          ))}
+          {tags?.length ? (
+            tags?.map((text) => <Chip label={text} />)
+          ) : (
+            <Typography variant="body1">{t('None')}</Typography>
+          )}
         </Grid>
       </Grid>
     </div>
