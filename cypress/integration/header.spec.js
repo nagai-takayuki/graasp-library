@@ -12,13 +12,14 @@ import {
   HEADER_MY_LIST_SELECTOR,
 } from '../support/selector';
 
-describe('Header Bar', () => {
+describe('Header', () => {
   beforeEach(() => {
     cy.setUpApi();
     cy.visit(HOME_ROUTE);
   });
 
   it('click "all collections" then back', () => {
+    cy.wait(2000);
     cy.get(HEADER_ALL_COLLECTION_SELECTOR).click();
     cy.location('pathname').should('eq', ALL_COLLECTION_ROUTE);
     cy.get(TITLE_TEXT_SELECTOR).should('have.text', 'All Collections');

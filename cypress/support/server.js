@@ -149,9 +149,7 @@ export const mockGetItem = (items, shouldThrowError) => {
     ({ url, reply }) => {
       const paras = url.slice(API_HOST.length).split('/')[2].split('?');
       const itemId = paras[0];
-      console.log(itemId);
       const item = getItemById(items, itemId);
-      console.log(item);
 
       // item does not exist in db
       if (!item) {

@@ -1,5 +1,7 @@
 export const SUBTITLE_SELECTOR = '#__next > div > div > div > main > h6';
 export const ITEM_GRIDS_SELECTOR = '#__next > div > div > div > main > div';
+export const buildItemInGridSelector = (index) =>
+  `#__next > div > div > div > main > div > div:nth-child(${index})`;
 export const SIDEMENU_HEADING_SELECTOR =
   '#__next > div > div > div > div > div > h5';
 export const SIDEMENU_OPTION_SELECTOR =
