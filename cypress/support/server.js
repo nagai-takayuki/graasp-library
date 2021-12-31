@@ -138,6 +138,40 @@ export const mockGetAvatar = (members, shouldThrowError) => {
   ).as('downloadAvatar');
 };
 
+export const mockGetItem = (items, shouldThrowError) => {
+  cy.intercept(
+    {
+      method: DEFAULT_GET.method,
+      url: new RegExp(
+        `${API_HOST}/items/${ID_FORMAT}\\?withMemberships\\=true`,
+      ),
+    },
+    ({ url, reply }) => {
+      const paras = url.slice(API_HOST.length).split('/')[2].split('?');
+      const itemId = paras[0];
+      console.log(itemId);
+      const item = getItemById(items, itemId);
+      console.log(item);
+
+      // item does not exist in db
+      if (!item) {
+        return reply({
+          statusCode: StatusCodes.NOT_FOUND,
+        });
+      }
+
+      if (shouldThrowError) {
+        return reply({ statusCode: StatusCodes.UNAUTHORIZED, body: null });
+      }
+
+      return reply({
+        body: item,
+        statusCode: StatusCodes.OK,
+      });
+    },
+  ).as('getItem');
+};
+
 export const mockGetItemThumbnail = (items, shouldThrowError) => {
   cy.intercept(
     {

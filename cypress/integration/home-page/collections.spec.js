@@ -1,5 +1,7 @@
 import { HOME_ROUTE } from '../../support/constants';
 
+import { DISCOVER_GRIDS_SELECTOR } from '../../support/selector';
+
 describe('Home Page', () => {
   beforeEach(() => {
     cy.setUpApi();
@@ -17,10 +19,8 @@ describe('Home Page', () => {
   });
 
   it('display collections', () => {
-    // verify 3 item cards are displayed
-    const itemGrids = cy.get(
-      '#__next > div.makeStyles-root-1 > div.makeStyles-wrapper-10 > div.MuiGrid-root.MuiGrid-container.MuiGrid-spacing-xs-2',
-    );
-    itemGrids.children().should('have.length', 3);
+    // verify 5 item cards are displayed
+    const itemGrids = cy.get(DISCOVER_GRIDS_SELECTOR);
+    itemGrids.children().should('have.length', 5);
   });
 });

@@ -18,6 +18,7 @@ import {
   mockGetItemsInCategories,
   mockGetAvatar,
   mockGetItemThumbnail,
+  mockGetItem,
 } from './server';
 import { MEMBERS } from '../fixtures/members';
 import {
@@ -44,7 +45,7 @@ Cypress.Commands.add(
 
     cy.setCookie('session', currentMember ? 'somecookie' : null);
 
-    mockGetChildren({ items: cachedItems, currentMember });
+    mockGetChildren({ items, currentMember });
 
     mockGetPublishedItems(items);
 
@@ -53,6 +54,8 @@ Cypress.Commands.add(
     mockGetMember(cachedMembers);
 
     mockGetCurrentMember(currentMember, getCurrentMemberError);
+
+    mockGetItem(items, false);
 
     mockGetOwnItems(items);
 

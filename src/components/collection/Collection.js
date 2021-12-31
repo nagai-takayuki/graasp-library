@@ -58,7 +58,7 @@ const Collection = ({ id }) => {
   // todo: handle image
   const imageUrl = DEFAULT_ITEM_IMAGE_PATH;
 
-  const parsedDescription = collection?.get('description');
+  const parsedDescription = collection?.get('description') || '';
   const tags = collection?.get('settings')?.tags || [];
 
   // todo: views and likes don't exist

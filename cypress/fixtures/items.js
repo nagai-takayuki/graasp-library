@@ -54,24 +54,8 @@ export const PUBLISHED_ITEMS = [
   },
   {
     ...DEFAULT_FOLDER_ITEM,
-    id: 'egafbd2a-5688-11eb-ae93-0242ac130002',
-    name: 'public item',
-    path: 'egafbd2a_5688_11eb_ae93_0242ac130002',
-    extra: {
-      image: 'someimageurl',
-    },
-    tags: [
-      {
-        tagId: ITEM_PUBLISHED_TAG.id,
-        itemPath: 'egafbd2a_5688_11eb_ae93_0242ac130002',
-      },
-    ],
-    categories: SAMPLE_ITEM_CATEGORIES,
-  },
-  {
-    ...DEFAULT_FOLDER_ITEM,
     id: 'bdf09f5a-5688-11eb-ae93-0242ac130004',
-    name: 'child of public item',
+    name: 'child of public item1',
     path:
       'ecafbd2a_5688_11eb_ae93_0242ac130002.fdf09f5a_5688_11eb_ae93_0242ac130004.bdf09f5a_5688_11eb_ae93_0242ac130004',
     tags: [
@@ -90,5 +74,67 @@ export const PUBLISHED_ITEMS = [
       },
     ],
     categories: SAMPLE_ITEM_CATEGORIES,
+  },
+  {
+    ...DEFAULT_FOLDER_ITEM,
+    id: 'fdf09f5a-5688-11eb-ae93-0242ac130004',
+    name: 'public item1',
+    path:
+      'ecafbd2a_5688_11eb_ae93_0242ac130002.fdf09f5a_5688_11eb_ae93_0242ac130004',
+    extra: {
+      image: 'someimageurl',
+    },
+    tags: [
+      {
+        tagId: ITEM_PUBLISHED_TAG.id,
+        itemPath:
+          'ecafbd2a_5688_11eb_ae93_0242ac130002.fdf09f5a_5688_11eb_ae93_0242ac130004',
+      },
+    ],
+    memberships: [
+      {
+        itemPath: 'fdf09f5a_5688_11eb_ae93_0242ac130002',
+        permission: PERMISSION_LEVELS.ADMIN,
+        memberId: MEMBERS.ANNA.id,
+      },
+      {
+        itemPath: 'fdf09f5a_5688_11eb_ae93_0242ac130002',
+        permission: PERMISSION_LEVELS.READ,
+        memberId: MEMBERS.BOB.id,
+      },
+    ],
+  },
+  {
+    ...DEFAULT_FOLDER_ITEM,
+    id: 'egafbd2a-5688-11eb-ae93-0242ac130002',
+    name: 'independant item',
+    path: 'egafbd2a_5688_11eb_ae93_0242ac130002',
+    extra: {
+      image: 'someimageurl',
+    },
+    tags: [
+      {
+        tagId: ITEM_PUBLISHED_TAG.id,
+        itemPath: 'egafbd2a_5688_11eb_ae93_0242ac130002',
+      },
+    ],
+  },
+  {
+    ...DEFAULT_FOLDER_ITEM,
+    id: 'fdf09f5a-5688-11eb-ae93-0242ac130003',
+    name: 'public item2',
+    path:
+      'ecafbd2a_5688_11eb_ae93_0242ac130002.fdf09f5a_5688_11eb_ae93_0242ac130003',
+    extra: {
+      image: 'someimageurl',
+    },
+    memberships: [
+      {
+        itemId: 'fdf09f5a-5688-11eb-ae93-0242ac130003',
+        itemPath: 'fdf09f5a_5688_11eb_ae93_0242ac130003',
+        permission: PERMISSION_LEVELS.ADMIN,
+        memberId: MEMBERS.ANNA.id,
+      },
+    ],
   },
 ];

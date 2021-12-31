@@ -1,49 +1,36 @@
-import { HOME_ROUTE } from '../support/constants';
+import {
+  HOME_ROUTE,
+  ALL_COLLECTION_ROUTE,
+  MY_LIST_ROUTE,
+} from '../support/constants';
 
-// describe('Home Page', () => {
-//   beforeEach(() => {
-//     cy.setUpApi();
-//     cy.visit(HOME_ROUTE);
-//   });
+import {
+  TITLE_TEXT_SELECTOR,
+  MY_LIST_TITLE_TEXT_SELECTOR,
+  HEADER_ALL_COLLECTION_SELECTOR,
+  HEADER_GRAASP_EXPLORER_SELECTOR,
+  HEADER_MY_LIST_SELECTOR,
+} from '../support/selector';
 
-//   // check if title and headings are displayed correctly
-//   it('display headings', () => {
-//     cy.get('h3')
-//       .first()
-//       .should('have.text', 'Browse Open Educational Resources');
-
-//     cy.get('div + h3').first().should('have.text', 'Graasp Selection');
-//     cy.get('h5 + h3').last().should('have.text', 'Discover');
-//   });
-
-//   it('display collections', () => {
-//     // verify 3 item cards are displayed
-//     const itemGrids = cy.get(
-//       '#__next > div.makeStyles-root-1 > div.makeStyles-wrapper-10 > div.MuiGrid-root.MuiGrid-container.MuiGrid-spacing-xs-2',
-//     );
-//     itemGrids.children().should('have.length', 3);
-//   });
-// });
-
-describe('header bar', () => {
+describe('Header Bar', () => {
   beforeEach(() => {
     cy.setUpApi();
     cy.visit(HOME_ROUTE);
   });
 
   it('click "all collections" then back', () => {
-    cy.get('header > div > div > h6:nth-child(3)').click();
-    cy.location('pathname').should('eq', '/all-collections');
-    cy.get('main > h3').should('have.text', 'All Collections');
-    cy.get('header > div > div > h6:nth-child(2)').click();
-    cy.location('pathname').should('eq', '/');
+    cy.get(HEADER_ALL_COLLECTION_SELECTOR).click();
+    cy.location('pathname').should('eq', ALL_COLLECTION_ROUTE);
+    cy.get(TITLE_TEXT_SELECTOR).should('have.text', 'All Collections');
+    cy.get(HEADER_GRAASP_EXPLORER_SELECTOR).click();
+    cy.location('pathname').should('eq', HOME_ROUTE);
   });
 
   it('click "my list" then back', () => {
-    cy.get('header > div > div > h6:nth-child(4)').click();
-    cy.location('pathname').should('eq', '/my-list');
-    cy.get('main > h3:nth-child(1)').should('have.text', 'My Collections');
-    cy.get('header > div > div > h6:nth-child(2)').click();
-    cy.location('pathname').should('eq', '/');
+    cy.get(HEADER_MY_LIST_SELECTOR).click();
+    cy.location('pathname').should('eq', MY_LIST_ROUTE);
+    cy.get(MY_LIST_TITLE_TEXT_SELECTOR).should('have.text', 'My Collections');
+    cy.get(HEADER_GRAASP_EXPLORER_SELECTOR).click();
+    cy.location('pathname').should('eq', HOME_ROUTE);
   });
 });

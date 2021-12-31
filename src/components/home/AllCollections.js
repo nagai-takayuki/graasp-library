@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
   drawer: {
     width: LEFT_MENU_WIDTH,
     flexShrink: 0,
-    zIndex: theme.zIndex.appBar - 1,
+    zIndex: theme.zIndex.appBar - 2,
   },
   drawerPaper: {
     width: LEFT_MENU_WIDTH,
@@ -77,6 +77,7 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: theme.spacing(5),
     marginBottom: theme.spacing(6),
     width: '100%',
+    zIndex: theme.zIndex.appBar - 2,
   },
   toolbar: theme.mixins.toolbar,
   iconButton: {
