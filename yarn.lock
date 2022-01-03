@@ -663,9 +663,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@graasp/query-client@git://github.com/graasp/graasp-query-client.git#104/publicRefactor":
+"@graasp/query-client@git://github.com/graasp/graasp-query-client.git":
   version: 0.1.0
-  resolution: "@graasp/query-client@git://github.com/graasp/graasp-query-client.git#commit=7b389d3235fe416238ec7e737486500e6a08a160"
+  resolution: "@graasp/query-client@git://github.com/graasp/graasp-query-client.git#commit=3e05a0e61ec128c68f3c4c0b4ff359f0d44ceddc"
   dependencies:
     axios: 0.24.0
     http-status-codes: 2.1.4
@@ -5448,7 +5448,7 @@ __metadata:
     "@babel/preset-react": 7.16.0
     "@commitlint/cli": 11.0.0
     "@commitlint/config-conventional": 11.0.0
-    "@graasp/query-client": "git://github.com/graasp/graasp-query-client.git#104/publicRefactor"
+    "@graasp/query-client": "git://github.com/graasp/graasp-query-client.git"
     "@graasp/ui": "git://github.com/graasp/graasp-ui.git"
     "@material-ui/core": 4.11.2
     "@material-ui/icons": 4.11.2
