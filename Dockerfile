@@ -10,7 +10,7 @@ RUN mkdir -p .
 COPY package.json .
 COPY .yarnrc.yml .
 COPY .yarn .yarn
-RUN yarn install 
+RUN yarn install
 
 # bundle app source
 COPY . .

@@ -28,16 +28,16 @@ const Authorship = ({ itemId, author, isLoading }) => {
   const { t } = useTranslation();
   const classes = useStyles();
   const { hooks } = useContext(QueryClientContext);
-  const { data: item, isLoading: isLoadingItem } = hooks.useItem(itemId, {
-    withMemberships: true,
-  });
+  const { data: item, isLoading: isLoadingItem } = hooks.useItem(itemId);
+  const { data: memberships } = hooks.useItemMemberships([item?.get('id')]);
+
   const memberIds = [
     ...new Set(
-      item
-        ?.get('itemMemberships')
+      memberships
+        ?.first()
         ?.filter(
           ({ permission, memberId }) =>
-            (permission === 'read' || permission === 'admin') &&
+            (permission === 'write' || permission === 'admin') &&
             memberId !== author?.get('id'),
         )
         ?.map(({ memberId }) => memberId),

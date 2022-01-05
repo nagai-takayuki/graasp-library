@@ -63,7 +63,6 @@ function MyList() {
     PUBLISHED_TAG_ID,
     {
       placeholderData: PLACEHOLDER_COLLECTIONS,
-      withMemberships: true,
     },
   );
 

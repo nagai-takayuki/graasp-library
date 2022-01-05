@@ -49,7 +49,6 @@ function Home() {
     isPlaceholderData,
   } = hooks.usePublicItemsWithTag(PUBLISHED_TAG_ID, {
     placeholderData: PLACEHOLDER_COLLECTIONS,
-    withMemberships: true,
   });
   const { data: members } = hooks.useMembers(
     null,

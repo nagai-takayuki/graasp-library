@@ -29,9 +29,7 @@ export async function getServerSideProps({ params }) {
   // prefetch data in query client
   const collectionKey = buildCollectionKey(id);
   await queryClient.prefetchQuery(collectionKey, () =>
-    Api.getItem(id, { withMemberships: true }, QUERY_CLIENT_OPTIONS).then(
-      (data) => data,
-    ),
+    Api.getItem(id, QUERY_CLIENT_OPTIONS).then((data) => data),
   );
 
   const author = (await queryClient.getQueryData(collectionKey))?.creator;

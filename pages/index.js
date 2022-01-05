@@ -29,7 +29,6 @@ export async function getServerSideProps() {
     Api.getPublicItemsWithTag(
       {
         tagId: publicRuntimeConfig.NEXT_PUBLIC_PUBLISHED_TAG_ID,
-        withMemberships: true,
       },
       QUERY_CLIENT_OPTIONS,
     ).then((data) => data),
