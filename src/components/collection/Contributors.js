@@ -20,10 +20,8 @@ function Contributors({ contributors }) {
       </Typography>
       <AvatarGroup max={8}>
         {contributors.map((contributor) => {
-          const {
-            name: contributorName,
-            image: contributorAvatar,
-          } = contributor;
+          const { name: contributorName, image: contributorAvatar } =
+            contributor;
           const avatar = getAvatar(contributorAvatar);
           return (
             <Avatar key={contributorName} alt={contributorName} src={avatar} />
