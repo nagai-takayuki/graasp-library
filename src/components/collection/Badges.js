@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import _ from 'lodash';
+import truncate from 'lodash.truncate';
 import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
 import Badge from '@material-ui/core/Badge';
@@ -44,7 +44,7 @@ function Badges({ views, likes, name, description }) {
   });
 
   const shareOnTwitter = () => {
-    const message = _.truncate(
+    const message = truncate(
       `${t('Check out this collection on Graasp', {
         name,
       })} ${pageLocation} : ${parsedDescription}`,

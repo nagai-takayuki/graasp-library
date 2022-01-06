@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import _ from 'lodash';
+import truncate from 'lodash.truncate';
 import PropTypes from 'prop-types';
 import { Map } from 'immutable';
 import { useTranslation } from 'react-i18next';
@@ -48,7 +48,7 @@ function Summary({
   views,
   isLoading,
 }) {
-  const truncatedName = _.truncate(name, {
+  const truncatedName = truncate(name, {
     length: MAX_COLLECTION_NAME_LENGTH,
     separator: /,? +/,
   });

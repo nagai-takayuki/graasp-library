@@ -4417,7 +4417,9 @@ __metadata:
     i18next: 21.6.5
     immutable: 4.0.0
     katex: 0.15.1
-    lodash: 4.17.21
+    lodash.isobject: 3.0.2
+    lodash.isstring: 4.0.1
+    lodash.truncate: 4.4.2
     next: 12.0.7
     prettier: 2.5.1
     prop-types: 15.8.1
@@ -5459,6 +5461,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"lodash.isobject@npm:3.0.2":
+  version: 3.0.2
+  resolution: "lodash.isobject@npm:3.0.2"
+  checksum: 6c1667cbc4494d0a13a3617a4b23278d6d02dac520311f2bbb43f16f2cf71d2e6eb9dec8057315b77459df4890c756a256a087d3f4baa44a79ab5d6c968b060e
+  languageName: node
+  linkType: hard
+
+"lodash.isstring@npm:4.0.1":
+  version: 4.0.1
+  resolution: "lodash.isstring@npm:4.0.1"
+  checksum: eaac87ae9636848af08021083d796e2eea3d02e80082ab8a9955309569cb3a463ce97fd281d7dc119e402b2e7d8c54a23914b15d2fc7fff56461511dc8937ba0
+  languageName: node
+  linkType: hard
+
 "lodash.merge@npm:^4.6.2":
   version: 4.6.2
   resolution: "lodash.merge@npm:4.6.2"
@@ -5473,14 +5489,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lodash.truncate@npm:^4.4.2":
+"lodash.truncate@npm:4.4.2, lodash.truncate@npm:^4.4.2":
   version: 4.4.2
   resolution: "lodash.truncate@npm:4.4.2"
   checksum: b463d8a382cfb5f0e71c504dcb6f807a7bd379ff1ea216669aa42c52fc28c54e404bfbd96791aa09e6df0de2c1d7b8f1b7f4b1a61f324d38fe98bc535aeee4f5
   languageName: node
   linkType: hard
 
-"lodash@npm:4.17.21, lodash@npm:^4.17.15, lodash@npm:^4.17.19, lodash@npm:^4.17.4":
+"lodash@npm:^4.17.15, lodash@npm:^4.17.19, lodash@npm:^4.17.4":
   version: 4.17.21
   resolution: "lodash@npm:4.17.21"
   checksum: eb835a2e51d381e561e508ce932ea50a8e5a68f4ebdd771ea240d3048244a8d13658acbd502cd4829768c56f2e16bdd4340b9ea141297d472517b83868e677f7
