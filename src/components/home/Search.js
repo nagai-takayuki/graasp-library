@@ -1,12 +1,22 @@
 import { useTranslation } from 'react-i18next';
-import InputBase from '@material-ui/core/InputBase';
-import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
-import SearchIcon from '@material-ui/icons/Search';
-import Paper from '@material-ui/core/Paper';
 import React from 'react';
-import { makeStyles } from '@material-ui/core';
+import {
+  InputBase,
+  Divider,
+  Paper,
+  makeStyles,
+  FormControl,
+  FormLabel,
+  RadioGroup,
+  Radio,
+  FormControlLabel,
+  Tooltip,
+  IconButton,
+} from '@material-ui/core';
+import SearchIcon from '@material-ui/icons/Search';
+import HelpIcon from '@material-ui/icons/Help';
 import PropTypes from 'prop-types';
+import { RANGES } from '../../config/constants';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,38 +36,67 @@ const useStyles = makeStyles((theme) => ({
   search: {
     margin: theme.spacing(1),
   },
+  searchOptions: {
+    marginTop: theme.spacing(-10),
+    marginLeft: theme.spacing(1),
+  },
 }));
 
-function Search({ handleSearch, handleClick, isLoading }) {
+function Search({
+  handleSearch,
+  handleClick,
+  isLoading,
+  range,
+  handleRangeChange,
+}) {
   const { t } = useTranslation();
   const classes = useStyles();
   return (
-    <Paper component="div" className={classes.root}>
-      <InputBase
-        id="search"
-        disabled={isLoading}
-        className={classes.search}
-        placeholder={t('Search collections using name or author')}
-        fullWidth
-        margin="none"
-        InputLabelProps={{
-          shrink: true,
-          ariaLabel: 'search collections',
-        }}
-        variant="filled"
-        onChange={handleSearch}
-      />
-      <Divider className={classes.divider} orientation="vertical" />
-      <IconButton
-        color="primary"
-        className={classes.iconButton}
-        aria-label="directions"
-        type="submit"
-        onClick={handleClick}
-      >
-        <SearchIcon />
-      </IconButton>
-    </Paper>
+    <>
+      <Paper component="div" className={classes.root}>
+        <InputBase
+          id="search"
+          disabled={isLoading}
+          className={classes.search}
+          placeholder={t('Search collections using name or author')}
+          fullWidth
+          margin="none"
+          InputLabelProps={{
+            shrink: true,
+            ariaLabel: 'search collections',
+          }}
+          variant="filled"
+          onChange={handleSearch}
+        />
+        <Divider className={classes.divider} orientation="vertical" />
+        <IconButton
+          color="primary"
+          className={classes.iconButton}
+          aria-label="directions"
+          type="submit"
+          onClick={handleClick}
+        >
+          <SearchIcon />
+        </IconButton>
+      </Paper>
+      <FormControl component="fieldset" className={classes.searchOptions}>
+        <FormLabel component="legend">{t('Search Range')}</FormLabel>
+        <RadioGroup row value={range} onChange={handleRangeChange}>
+          {Object.values(RANGES).map((entry) => (
+            <FormControlLabel
+              value={entry.value}
+              control={<Radio color="primary" />}
+              label={t(entry.title)}
+            />
+          ))}
+          <Tooltip title="Use | or & for union/intersection of multiple keywords if choose 'Tag' or 'All'">
+            <IconButton>
+              <HelpIcon />
+            </IconButton>
+          </Tooltip>
+        </RadioGroup>
+      </FormControl>
+    </>
   );
 }
 
@@ -65,6 +104,8 @@ Search.propTypes = {
   handleSearch: PropTypes.func.isRequired,
   handleClick: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
+  range: PropTypes.string.isRequired,
+  handleRangeChange: PropTypes.func.isRequired,
 };
 
 export default Search;

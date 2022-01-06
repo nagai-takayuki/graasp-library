@@ -97,3 +97,22 @@ export const THUMBNAIL_SIZES = {
   ORIGINAL: 'original',
 };
 export const DEFAULT_THUMBNAIL_SIZE = THUMBNAIL_SIZES.MEDIUM;
+
+export const RANGES = {
+  ALL: {
+    value: 'all',
+    title: 'All',
+  },
+  TAG: {
+    value: 'tag',
+    title: 'Tag',
+  },
+  TITLE: {
+    value: 'title',
+    title: 'Title',
+  },
+  AUTHOR: {
+    value: 'author',
+    title: 'Author',
+  },
+};

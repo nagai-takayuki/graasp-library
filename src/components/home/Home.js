@@ -1,18 +1,12 @@
-import {
-  makeStyles,
-  Radio,
-  RadioGroup,
-  FormControl,
-  FormLabel,
-  FormControlLabel,
-  Tooltip,
-  IconButton,
-  Typography,
-} from '@material-ui/core';
-import HelpIcon from '@material-ui/icons/Help';
+import { makeStyles, Typography } from '@material-ui/core';
 import React, { useContext, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { APP_AUTHOR, APP_DESCRIPTION, APP_NAME } from '../../config/constants';
+import {
+  APP_AUTHOR,
+  APP_DESCRIPTION,
+  APP_NAME,
+  RANGES,
+} from '../../config/constants';
 import { PUBLISHED_TAG_ID, NEXT_PUBLIC_GRAASPER_ID } from '../../config/env';
 import CollectionsGrid from '../collection/CollectionsGrid';
 import Seo from '../common/Seo';
@@ -46,18 +40,14 @@ const useStyles = makeStyles((theme) => ({
   typographyMargin: {
     margin: theme.spacing(1.5, 0),
   },
-  searchOptions: {
-    marginTop: theme.spacing(-10),
-    marginLeft: theme.spacing(1),
-  },
 }));
 
 function Home() {
   const { t } = useTranslation();
   const classes = useStyles();
   const [searchResults, setSearchResults] = useState(null);
-  const [typing, setTyping] = useState(null);
-  const [range, setRange] = useState('all');
+  const [searchInput, setSearchInput] = useState(null);
+  const [range, setRange] = useState(RANGES.ALL.value);
   const [keywords, setKeywords] = useState(null);
   const { hooks } = useContext(QueryClientContext);
   const { data: collections, isLoading } = hooks.usePublicItemsWithTag(
@@ -67,12 +57,7 @@ function Home() {
       withMemberships: true,
     },
   );
-  // const { data: members } = hooks.useMembers(
-  //   null,
-  //   isPlaceholderData
-  //     ? null
-  //     : [...new Set(collections?.map(({ creator }) => creator).toArray())],
-  // );
+
   const collectionsGraasper = collections?.filter(
     (collection) => collection.creator === NEXT_PUBLIC_GRAASPER_ID,
   );
@@ -83,28 +68,19 @@ function Home() {
     setSearchResults(resultCollections);
   }, [resultCollections]);
 
-  // const handleSearch = (event) => {
-  //   const query = event.target.value.trim().toLowerCase();
-  //   if (query.length > 0) {
-  //     setSearchResults(
-  //       collections.filter(
-  //         (collection) =>
-  //           collection.name.toLowerCase().includes(query) ||
-  //           members
-  //             ?.find(({ id }) => collection.creator === id)
-  //             ?.name.toLowerCase()
-  //             .includes(query),
-  //       ),
-  //     );
-  //   }
-  // };
-
   const handleKeywordInput = (event) => {
-    setTyping(event.target.value.trim().toLowerCase());
+    setSearchInput(event.target.value.trim().toLowerCase());
   };
 
   const handleClick = () => {
-    setKeywords(typing);
+    if (searchInput.split(' ').length > 1) {
+      const keywordArray = searchInput
+        .split(' ')
+        .map((keyword) => keyword.trim());
+      setKeywords(keywordArray.join('&'));
+    } else {
+      setKeywords(searchInput);
+    }
   };
 
   const handleRangeChange = (event) => {
@@ -142,31 +118,9 @@ function Home() {
           handleSearch={handleKeywordInput}
           handleClick={handleClick}
           isLoading={isLoading}
+          range={range}
+          handleRangeChange={handleRangeChange}
         />
-        <FormControl component="fieldset" className={classes.searchOptions}>
-          <FormLabel component="legend">Search Range</FormLabel>
-          <RadioGroup
-            row
-            aria-label="range"
-            name="search-range-radio-button-group"
-            value={range}
-            onChange={handleRangeChange}
-          >
-            <FormControlLabel value="all" control={<Radio />} label="All" />
-            <FormControlLabel value="title" control={<Radio />} label="Title" />
-            <FormControlLabel value="tag" control={<Radio />} label="Tag" />
-            <FormControlLabel
-              value="author"
-              control={<Radio />}
-              label="Author"
-            />
-            <Tooltip title="Use | or & for union/intersection of multiple keywords if choose 'Tag' or 'All'">
-              <IconButton>
-                <HelpIcon />
-              </IconButton>
-            </Tooltip>
-          </RadioGroup>
-        </FormControl>
         {isLoading ? <Loader /> : renderResults()}
         <Typography variant="h3" className={classes.typographyMargin}>
           {t('Graasp Selection')}
