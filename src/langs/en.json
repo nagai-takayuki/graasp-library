@@ -47,6 +47,9 @@
     "collectionsInCategoriesTitle": "Collections in {{array}}",
     "collectionsCount_one": "{{count}} collection available",
     "collectionsCount_other": "{{count}} collections available",
-    "Browse Open Educational Resources": "Browse Open Educational Resources"
+    "Browse Open Educational Resources": "Browse Open Educational Resources",
+    "Search Range": "Search Range",
+    "Title": "Title",
+    "Tag": "Tag"
   }
 }
