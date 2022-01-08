@@ -10,11 +10,9 @@ import {
   RadioGroup,
   Radio,
   FormControlLabel,
-  Tooltip,
   IconButton,
 } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
-import HelpIcon from '@material-ui/icons/Help';
 import PropTypes from 'prop-types';
 import { RANGES } from '../../config/constants';
 
@@ -58,7 +56,7 @@ function Search({
           id="search"
           disabled={isLoading}
           className={classes.search}
-          placeholder={t('Search collections using name or author')}
+          placeholder={t('Search collections using keywords and range options')}
           fullWidth
           margin="none"
           InputLabelProps={{
@@ -89,11 +87,14 @@ function Search({
               label={t(entry.title)}
             />
           ))}
-          <Tooltip title="Use | or & for union/intersection of multiple keywords if choose 'Tag' or 'All'">
+          {/*
+            TODO: prompt users hints about how to use multiple keywords 
+            <Tooltip title="Use | or & for union/intersection of multiple keywords if choose 'Tag' or 'All'"> 
             <IconButton>
               <HelpIcon />
             </IconButton>
           </Tooltip>
+          */}
         </RadioGroup>
       </FormControl>
     </>

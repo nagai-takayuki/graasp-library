@@ -54,7 +54,6 @@ function Home() {
     PUBLISHED_TAG_ID,
     {
       placeholderData: PLACEHOLDER_COLLECTIONS,
-      withMemberships: true,
     },
   );
 
@@ -73,13 +72,13 @@ function Home() {
   };
 
   const handleClick = () => {
-    if (searchInput.split(' ').length > 1) {
-      const keywordArray = searchInput
-        .split(' ')
-        .map((keyword) => keyword.trim());
-      setKeywords(keywordArray.join('&'));
-    } else {
+    const keywordArray = searchInput
+      .split(' ')
+      .map((keyword) => keyword.trim());
+    if (range === 'title') {
       setKeywords(searchInput);
+    } else {
+      setKeywords(keywordArray.join('&'));
     }
   };
 
