@@ -1,5 +1,5 @@
 import { ITEM_TYPES, PERMISSION_LEVELS } from '../support/constants';
-import { SAMPLE_ITEM_CATEGORIES } from './categories';
+import { SAMPLE_CATEGORIES } from './categories';
 import { ITEM_PUBLIC_TAG, ITEM_PUBLISHED_TAG } from './itemTags';
 import { CURRENT_USER, MEMBERS } from './members';
 
@@ -50,7 +50,7 @@ export const PUBLISHED_ITEMS = [
         memberId: MEMBERS.BOB.id,
       },
     ],
-    categories: SAMPLE_ITEM_CATEGORIES,
+    categories: [SAMPLE_CATEGORIES[0].id],
   },
   {
     ...DEFAULT_FOLDER_ITEM,
@@ -73,7 +73,7 @@ export const PUBLISHED_ITEMS = [
         memberId: MEMBERS.ANNA.id,
       },
     ],
-    categories: SAMPLE_ITEM_CATEGORIES,
+    categories: [SAMPLE_CATEGORIES[1].id],
   },
   {
     ...DEFAULT_FOLDER_ITEM,

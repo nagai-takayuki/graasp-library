@@ -14,6 +14,7 @@ import Loader from '../common/Loader';
 import Search from './Search';
 import { QueryClientContext } from '../QueryClientContext';
 import { PLACEHOLDER_COLLECTIONS } from '../../utils/collections';
+import { TITLE_TEXT_ID } from '../../config/selectors';
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -110,7 +111,7 @@ function Home() {
     <>
       <Seo title={APP_NAME} description={APP_DESCRIPTION} author={APP_AUTHOR} />
       <div className={classes.wrapper}>
-        <Typography variant="h3" align="center">
+        <Typography variant="h3" align="center" id={TITLE_TEXT_ID}>
           {t('Browse Open Educational Resources')}
         </Typography>
         <Search

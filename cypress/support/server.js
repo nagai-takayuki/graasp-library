@@ -1,24 +1,20 @@
-import { v4 as uuidv4 } from 'uuid';
 import { StatusCodes } from 'http-status-codes';
 import qs from 'querystring';
 import { API_ROUTES } from '@graasp/query-client';
 import { MEMBERS } from '../fixtures/members';
 import {
   DEFAULT_GET,
-  DEFAULT_POST,
   ID_FORMAT,
   parseStringToRegExp,
   getItemById,
   isChild,
   isRootItem,
-  transformIdForPath,
   getMemberById,
 } from './utils';
 import { ITEM_PUBLISHED_TAG } from '../fixtures/itemTags';
 import { THUMBNAIL_EXTENSION } from './constants';
 
 const {
-  buildCopyItemRoute,
   buildGetPublicItemsWithTag,
   buildGetChildrenRoute,
   buildGetPublicChildrenRoute,
@@ -31,7 +27,6 @@ const {
   buildGetMembersRoute,
   GET_CATEGORY_TYPES_ROUTE,
   buildGetCategoriesRoute,
-  buildGetItemCategoriesRoute,
 } = API_ROUTES;
 
 const API_HOST = Cypress.env('API_HOST');
@@ -235,38 +230,6 @@ export const mockGetPublicChildren = (items) => {
   ).as('getPublicChildren');
 };
 
-export const mockCopyItem = (items, shouldThrowError) => {
-  cy.intercept(
-    {
-      method: DEFAULT_POST.method,
-      url: new RegExp(`${API_HOST}/${buildCopyItemRoute(ID_FORMAT)}`),
-    },
-    ({ url, reply, body }) => {
-      if (shouldThrowError) {
-        return reply({ statusCode: StatusCodes.BAD_REQUEST, body: null });
-      }
-
-      const id = url.slice(API_HOST.length).split('/')[2];
-      const item = getItemById(items, id);
-      const newId = uuidv4();
-      let newItem = null;
-      // actually copy
-      let path = transformIdForPath(newId);
-      if (body.parentId) {
-        const parentItem = getItemById(items, body.parentId);
-        path = `${parentItem.path}.${path}`;
-      }
-      newItem = { ...item, id: newId, path };
-      items.push(newItem);
-      // todo: do for all children
-      return reply({
-        statusCode: StatusCodes.OK,
-        body: newItem,
-      });
-    },
-  ).as('copyItem');
-};
-
 export const mockGetMember = (members) => {
   cy.intercept(
     {
@@ -379,16 +342,11 @@ export const mockGetItemCategories = (items, shouldThrowError) => {
   cy.intercept(
     {
       method: DEFAULT_GET.method,
-      url: new RegExp(
-        `${API_HOST}/${parseStringToRegExp(
-          buildGetItemCategoriesRoute(items[0]?.id),
-        )}`,
-      ),
+      url: new RegExp(`${API_HOST}/items/${ID_FORMAT}/categories`),
     },
     ({ reply, url }) => {
       if (shouldThrowError) {
-        reply({ statusCode: StatusCodes.BAD_REQUEST, body: null });
-        return;
+        reply({ statusCode: StatusCodes.BAD_REQUEST });
       }
       const itemId = url.slice(API_HOST.length).split('/')[2];
       const result = items.find(({ id }) => id === itemId)?.categories || [];
@@ -397,29 +355,29 @@ export const mockGetItemCategories = (items, shouldThrowError) => {
   ).as('getItemCategories');
 };
 
-export const mockGetItemsInCategories = (
-  items,
-  categories,
-  shouldThrowError,
-) => {
+export const mockGetItemsInCategories = (items, shouldThrowError) => {
   cy.intercept(
     {
       method: DEFAULT_GET.method,
-      url: new RegExp(
-        parseStringToRegExp(
-          `${API_HOST}/p/${ITEMS_ROUTE}/with-categories?${qs.stringify(
-            { category: [categories[0]?.id] },
-            { arrayFormat: 'repeat' },
-          )}`,
-        ),
-      ),
+      url: new RegExp(`${API_HOST}/p/${ITEMS_ROUTE}/with-categories?`),
     },
-    ({ reply }) => {
+    ({ reply, url }) => {
       if (shouldThrowError) {
         reply({ statusCode: StatusCodes.BAD_REQUEST, body: null });
         return;
       }
-      reply([items[0]]);
+      const queryCategories = url
+        .slice(url.indexOf('?') + 1)
+        .split('category=')
+        .slice(1);
+      const result = items.filter(({ categories }) =>
+        queryCategories.reduce(
+          (total, queryCategory) =>
+            total && categories?.includes(queryCategory),
+          Boolean(categories),
+        ),
+      );
+      reply(result);
     },
-  ).as('getItemCategories');
+  ).as('getItemsInCategories');
 };

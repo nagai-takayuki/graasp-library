@@ -19,6 +19,7 @@ import {
   MY_UPLOADS,
   SAVED_COLLECTIONS,
 } from '../../config/constants';
+import { TITLE_TEXT_ID } from '../../config/selectors';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -79,7 +80,7 @@ function MyList() {
         </List>
       </Drawer>
       <main className={classes.content}>
-        <Typography variant="h3" align="center">
+        <Typography variant="h3" align="center" id={TITLE_TEXT_ID}>
           {t('My Collections')}
         </Typography>
         <Typography variant="h3" className={classes.typographyMargin}>

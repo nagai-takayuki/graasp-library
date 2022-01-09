@@ -17,6 +17,7 @@ import {
   MAX_COLLECTION_NAME_LENGTH,
   THUMBNAIL_SIZES,
 } from '../../config/constants';
+import { ITEM_SUMMARY_TITLE_ID } from '../../config/selectors';
 
 const { ItemFlagDialog, FlagItemButton } = {
   ItemFlagDialog: dynamic(
@@ -129,6 +130,14 @@ function Summary({
               <FlagItemButton setOpen={setOpen} />
             </Grid>
           </Grid>
+          <Typography
+            variant="h1"
+            gutterBottom
+            className={classes.title}
+            id={ITEM_SUMMARY_TITLE_ID}
+          >
+            {truncatedName}
+          </Typography>
           <Badges
             name={name}
             views={views}

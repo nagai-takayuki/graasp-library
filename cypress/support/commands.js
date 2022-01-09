@@ -1,10 +1,7 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-import 'cypress-file-upload';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import 'cypress-localstorage-commands';
 
 import {
-  mockCopyItem,
   mockGetChildren,
   mockGetPublishedItems,
   mockGetMember,
@@ -35,12 +32,10 @@ Cypress.Commands.add(
     currentMember = MEMBERS.ANNA,
     categories = SAMPLE_CATEGORIES,
     categoryTypes = SAMPLE_CATEGORY_TYPES,
-    copyItemError = false,
     getCurrentMemberError = false,
     getCategoriesError = false,
     getItemCategoriesError = false,
   } = {}) => {
-    const cachedItems = JSON.parse(JSON.stringify(items));
     const cachedMembers = JSON.parse(JSON.stringify(members));
 
     cy.setCookie('session', currentMember ? 'somecookie' : null);
@@ -48,8 +43,6 @@ Cypress.Commands.add(
     mockGetChildren({ items, currentMember });
 
     mockGetPublishedItems(items);
-
-    mockCopyItem(cachedItems, copyItemError);
 
     mockGetMember(cachedMembers);
 
@@ -73,7 +66,7 @@ Cypress.Commands.add(
 
     mockGetItemCategories(items, getItemCategoriesError);
 
-    mockGetItemsInCategories(items, categories, false);
+    mockGetItemsInCategories(items, false);
   },
 );
 

@@ -7,7 +7,6 @@ import { QueryClientContext } from '../QueryClientContext';
 
 const LevelCollectionsPage = ({ selectedOptions }) => {
   const { t } = useTranslation();
-  // const classes = useStyles();
   const { hooks } = useContext(QueryClientContext);
 
   // get all categories

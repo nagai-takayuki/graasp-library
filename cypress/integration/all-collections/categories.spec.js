@@ -1,50 +1,53 @@
-import { ALL_COLLECTION_ROUTE } from '../../support/constants';
+import { ALL_COLLECTIONS_ROUTE } from '../../support/constants';
+import { SAMPLE_CATEGORIES } from '../../fixtures/categories';
+import { PUBLISHED_ITEMS } from '../../fixtures/items';
 
 import {
-  SUBTITLE_SELECTOR,
+  SUBTITLE_TEXT_SELECTOR,
   SIDEMENU_HEADING_SELECTOR,
-  SIDEMENU_OPTION_SELECTOR,
-  CATEGORY_BUTTON_SELECTOR,
   ITEM_GRIDS_SELECTOR,
-  CLEAR_SELECTION_SELECTOR,
+  CLEAR_EDUCATION_LEVEL_SELECTION_SELECTOR,
   OPEN_MENU_BUTTON_SELECTOR,
   CLOSE_MENU_BUTTON_SELECTOR,
   TITLE_TEXT_SELECTOR,
-} from '../../support/selector';
+  buildEducationLevelOptionSelector,
+} from '../../support/selectors';
 
 describe('All Collections Page', () => {
   beforeEach(() => {
     cy.setUpApi();
-    cy.visit(ALL_COLLECTION_ROUTE);
+    cy.visit(ALL_COLLECTIONS_ROUTE);
   });
 
   // check if title and headings are displayed correctly
-  it('display headings', () => {
+  it('display headings & side menu & collections', () => {
     cy.get(TITLE_TEXT_SELECTOR).should('have.text', 'All Collections');
 
-    cy.get(SUBTITLE_SELECTOR).should('have.text', '5 collections available');
-  });
+    cy.get(SUBTITLE_TEXT_SELECTOR).should(
+      'have.text',
+      `${PUBLISHED_ITEMS.length} collections available`,
+    );
 
-  it('display side menu', () => {
     // side menu heading
     cy.get(SIDEMENU_HEADING_SELECTOR).should('have.text', 'Categories');
-  });
 
-  it('display collections', () => {
     // verify 5 item cards are displayed
     const itemGrids = cy.get(ITEM_GRIDS_SELECTOR);
-    itemGrids.children().should('have.length', 5);
+    itemGrids.children().should('have.length', PUBLISHED_ITEMS.length);
   });
 });
 
 describe('Side Menu', () => {
   beforeEach(() => {
     cy.setUpApi();
-    cy.visit(ALL_COLLECTION_ROUTE);
+    cy.visit(ALL_COLLECTIONS_ROUTE);
   });
 
   it('display menu options', () => {
-    cy.get(SIDEMENU_OPTION_SELECTOR).should('have.text', 'test_category');
+    cy.get(buildEducationLevelOptionSelector(0)).should(
+      'have.text',
+      SAMPLE_CATEGORIES[0].name,
+    );
   });
 
   it('close side menu and reopen', () => {
@@ -55,15 +58,20 @@ describe('Side Menu', () => {
   });
 
   it('select/unselect categories', () => {
-    const selectCategoryButton = cy.get(CATEGORY_BUTTON_SELECTOR);
+    const selectCategoryButton = cy.get(buildEducationLevelOptionSelector(0));
     selectCategoryButton.click();
     const itemGrids = cy.get(ITEM_GRIDS_SELECTOR);
-    itemGrids.children().should('have.length', 1);
+    const items = PUBLISHED_ITEMS.filter(({ categories }) =>
+      categories?.includes(SAMPLE_CATEGORIES[0].id),
+    );
+    itemGrids.children().should('have.length', items.length);
 
     // clear selection
-    cy.get(CLEAR_SELECTION_SELECTOR).click();
+    cy.get(CLEAR_EDUCATION_LEVEL_SELECTION_SELECTOR).click();
 
     // check display
-    cy.get(ITEM_GRIDS_SELECTOR).children().should('have.length', 5);
+    cy.get(ITEM_GRIDS_SELECTOR)
+      .children()
+      .should('have.length', PUBLISHED_ITEMS.length);
   });
 });

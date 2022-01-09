@@ -1,5 +1,3 @@
-import { PUBLISHED_ITEMS } from './items';
-
 export const SAMPLE_CATEGORY_TYPES = [
   {
     id: '3f7b79e2-7e78-4aea-b697-2b6a6ba92e91',
@@ -24,26 +22,4 @@ export const SAMPLE_CATEGORIES = [
   },
 ];
 
-export const SAMPLE_ITEM_CATEGORIES = [
-  {
-    id: 'e75e1950-c5b4-4e21-95a2-c7c3bfa4072b',
-    itemId: PUBLISHED_ITEMS[0].id,
-    categoryId: SAMPLE_CATEGORIES[0].id,
-  },
-  {
-    id: 'sample-item-category2',
-    itemId: PUBLISHED_ITEMS[1].id,
-    categoryId: SAMPLE_CATEGORIES[1].id,
-  },
-];
-
 export const CUSTOMIZED_TAGS = ['water', 'ice', 'temperature'];
-
-export const ITEM_WITH_CATEGORIES = {
-  ...PUBLISHED_ITEMS[0],
-  settings: {
-    tags: CUSTOMIZED_TAGS,
-  },
-  // for tests
-  categories: SAMPLE_ITEM_CATEGORIES,
-};

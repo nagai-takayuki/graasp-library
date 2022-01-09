@@ -1,6 +1,6 @@
 // routes
 export const HOME_ROUTE = '/';
-export const ALL_COLLECTION_ROUTE = '/all-collections';
+export const ALL_COLLECTIONS_ROUTE = '/all-collections';
 export const MY_LIST_ROUTE = '/my-list';
 
 // items
@@ -23,3 +23,5 @@ export const PERMISSION_LEVELS = {
 export const UUID_LENGTH = 36;
 
 export const THUMBNAIL_EXTENSION = 'image/jpeg';
+
+export const LOADING_TIME = 3000;

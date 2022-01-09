@@ -36,6 +36,15 @@ import { PUBLISHED_TAG_ID } from '../../config/env';
 import { PLACEHOLDER_COLLECTIONS } from '../../utils/collections';
 import { compare } from '../../utils/helpers';
 import LevelCollectionsPage from './LevelCollectionsPage';
+import {
+  buildEducationLevelOptionId,
+  CLEAR_EDUCATION_LEVEL_SELECTION_ID,
+  CLOSE_MENU_BUTTON_ID,
+  OPEN_MENU_BUTTON_ID,
+  SIDEMENU_HEADING_ID,
+  SUBTITLE_TEXT_ID,
+  TITLE_TEXT_ID,
+} from '../../config/selectors';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -165,10 +174,10 @@ function AllCollections() {
       >
         <div className={classes.toolbar} />
         <div className={classes.drawerHeader}>
-          <Typography variant="h5" align="center">
+          <Typography variant="h5" align="center" id={SIDEMENU_HEADING_ID}>
             {t('Categories')}
           </Typography>
-          <IconButton onClick={closeSideBar}>
+          <IconButton onClick={closeSideBar} id={CLOSE_MENU_BUTTON_ID}>
             {theme.direction === 'ltr' ? (
               <ChevronLeftIcon />
             ) : (
@@ -201,12 +210,13 @@ function AllCollections() {
           {t('Education Level')}
         </Typography>
         <List dense className={classes.list}>
-          {levelList?.map((entry) => (
+          {levelList?.map((entry, index) => (
             <ListItem
               button
               key={entry.name}
               onClick={handleClick(LEVEL, entry.name)}
               selected={checkSelected(LEVEL, entry.name)}
+              id={buildEducationLevelOptionId(index)}
             >
               <ListItemText primary={t(entry.name)} />
             </ListItem>
@@ -218,6 +228,7 @@ function AllCollections() {
           size="small"
           startIcon={<HighlightOffIcon />}
           onClick={clearSelection(LEVEL)}
+          id={CLEAR_EDUCATION_LEVEL_SELECTION_ID}
         >
           {t('Clear Selection')}
         </Button>
@@ -263,6 +274,7 @@ function AllCollections() {
             color="primary"
             aria-label="open menu"
             onClick={openSideBar}
+            id={OPEN_MENU_BUTTON_ID}
           >
             <MenuOpenIcon />
           </IconButton>
@@ -276,10 +288,14 @@ function AllCollections() {
           />
           {!selectedOptions[0] && !selectedOptions[1] && (
             <>
-              <Typography variant="h3" align="center">
+              <Typography variant="h3" align="center" id={TITLE_TEXT_ID}>
                 {t(`All Collections`)}
               </Typography>
-              <Typography variant="subtitle2" aligh="left">
+              <Typography
+                variant="subtitle2"
+                aligh="left"
+                id={SUBTITLE_TEXT_ID}
+              >
                 {t('collectionsCount', { count: collections?.size })}
               </Typography>
               <CollectionsGrid
