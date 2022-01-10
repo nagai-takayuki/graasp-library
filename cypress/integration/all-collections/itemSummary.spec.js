@@ -14,6 +14,7 @@ describe('All Collections to Item Page', () => {
   });
 
   it('display item summary and children items', () => {
+    cy.wait(LOADING_TIME);
     cy.get(buildItemInGridSelector(0)).click();
     cy.wait('@getItem').then(() => {
       const clickItem = PUBLISHED_ITEMS[0];
