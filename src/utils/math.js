@@ -1,5 +1,5 @@
 import katex from 'katex';
-import _ from 'lodash';
+import isString from 'lodash.isstring';
 import {
   BLOCK_MATH_DIV,
   BLOCK_MATH_INDICATOR,
@@ -10,7 +10,7 @@ import {
 } from '../config/constants';
 
 const hasMath = (input = '') =>
-  _.isString(input) &&
+  isString(input) &&
   (input.includes(BLOCK_MATH_INDICATOR) ||
     input.includes(INLINE_MATH_INDICATOR));
 

@@ -77,16 +77,8 @@ const useStyles = makeStyles((theme) => ({
 
 export const CollectionCard = ({ collection = {}, isLoading }) => {
   const { t } = useTranslation();
-  const {
-    name,
-    id,
-    description,
-    creator,
-    views,
-    voteScore,
-    type,
-    extra,
-  } = collection;
+  const { name, id, description, creator, views, voteScore, type, extra } =
+    collection;
   const classes = useStyles();
   const [actionsMenuAnchor, setActionsMenuAnchor] = React.useState(null);
   const { hooks } = useContext(QueryClientContext);

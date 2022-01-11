@@ -31,12 +31,13 @@ const useStyles = makeStyles((theme) => ({
 const Collection = ({ id }) => {
   const classes = useStyles();
   const { hooks } = useContext(QueryClientContext);
-  const { data: collection, isLoading: isLoadingItem, isError } = hooks.useItem(
-    id,
-    {
-      placeholderData: PLACEHOLDER_COLLECTION,
-    },
-  );
+  const {
+    data: collection,
+    isLoading: isLoadingItem,
+    isError,
+  } = hooks.useItem(id, {
+    placeholderData: PLACEHOLDER_COLLECTION,
+  });
   const {
     data: member,
     isError: memberIsError,

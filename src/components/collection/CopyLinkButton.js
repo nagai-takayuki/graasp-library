@@ -53,7 +53,11 @@ CopyLinkButton.propTypes = {
     app: PropTypes.shape({
       url: PropTypes.string,
     }),
-  }).isRequired,
+  }),
+};
+
+CopyLinkButton.defaultProps = {
+  extra: {},
 };
 
 export default CopyLinkButton;

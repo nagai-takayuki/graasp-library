@@ -19,9 +19,8 @@ const CopyButton = ({ id }) => {
   const { mutate: copyItem, isLoading: isCopying } = useMutation(
     MUTATION_KEYS.COPY_PUBLIC_ITEM,
   );
-  const { setOpen: openLoginModal, open: showLoginModal } = useContext(
-    LoginModalContext,
-  );
+  const { setOpen: openLoginModal, open: showLoginModal } =
+    useContext(LoginModalContext);
 
   useEffect(() => {
     // if the user signs in while the login modal is open

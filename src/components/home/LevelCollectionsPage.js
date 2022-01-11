@@ -30,9 +30,8 @@ const LevelCollectionsPage = ({ selectedOptions }) => {
 
   const categories = selectedOptions?.filter(Boolean);
   const categoryIds = categories?.map((entry) => categoriesMap?.get(entry));
-  const { data: collections, isLoading } = hooks.useItemsInCategories(
-    categoryIds,
-  );
+  const { data: collections, isLoading } =
+    hooks.useItemsInCategories(categoryIds);
   const count = collections?.size || 0;
 
   return (

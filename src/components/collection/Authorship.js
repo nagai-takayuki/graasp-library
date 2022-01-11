@@ -43,10 +43,8 @@ const Authorship = ({ itemId, author, isLoading }) => {
         ?.map(({ memberId }) => memberId),
     ),
   ];
-  const {
-    data: contributors,
-    isLoading: isLoadingContributors,
-  } = hooks.useMembers(memberIds);
+  const { data: contributors, isLoading: isLoadingContributors } =
+    hooks.useMembers(memberIds);
 
   const isAnyLoading = isLoadingItem || isLoading || isLoadingContributors;
 
