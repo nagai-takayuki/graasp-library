@@ -19,8 +19,8 @@
     "pre-commit": "yarn prettier:check && yarn lint"
   },
   "dependencies": {
-    "@graasp/query-client": "git://github.com/graasp/graasp-query-client.git#116/updateDep",
-    "@graasp/ui": "git://github.com/graasp/graasp-ui.git#73/updateDep",
+    "@graasp/query-client": "github:graasp/graasp-query-client.git",
+    "@graasp/ui": "github:graasp/graasp-ui.git",
     "@material-ui/core": "4.12.3",
     "@material-ui/icons": "4.11.2",
     "@material-ui/lab": "4.0.0-alpha.60",
