@@ -1,8 +1,12 @@
-import { makeStyles } from '@material-ui/core';
-import Typography from '@material-ui/core/Typography';
-import React, { useContext, useState } from 'react';
+import { makeStyles, Typography } from '@material-ui/core';
+import React, { useContext, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { APP_AUTHOR, APP_DESCRIPTION, APP_NAME } from '../../config/constants';
+import {
+  APP_AUTHOR,
+  APP_DESCRIPTION,
+  APP_NAME,
+  RANGES,
+} from '../../config/constants';
 import { PUBLISHED_TAG_ID, NEXT_PUBLIC_GRAASPER_ID } from '../../config/env';
 import CollectionsGrid from '../collection/CollectionsGrid';
 import Seo from '../common/Seo';
@@ -42,38 +46,44 @@ function Home() {
   const { t } = useTranslation();
   const classes = useStyles();
   const [searchResults, setSearchResults] = useState(null);
+  const [searchInput, setSearchInput] = useState(null);
+  const [range, setRange] = useState(RANGES.ALL.value);
+  const [keywords, setKeywords] = useState(null);
   const { hooks } = useContext(QueryClientContext);
-  const {
-    data: collections,
-    isLoading,
-    isPlaceholderData,
-  } = hooks.usePublicItemsWithTag(PUBLISHED_TAG_ID, {
-    placeholderData: PLACEHOLDER_COLLECTIONS,
-  });
-  const { data: members } = hooks.useMembers(
-    null,
-    isPlaceholderData
-      ? null
-      : [...new Set(collections?.map(({ creator }) => creator).toArray())],
+  const { data: collections, isLoading } = hooks.usePublicItemsWithTag(
+    PUBLISHED_TAG_ID,
+    {
+      placeholderData: PLACEHOLDER_COLLECTIONS,
+    },
   );
+
   const collectionsGraasper = collections?.filter(
     (collection) => collection.creator === NEXT_PUBLIC_GRAASPER_ID,
   );
 
-  const handleSearch = (event) => {
-    const query = event.target.value.trim().toLowerCase();
-    if (query.length > 0) {
-      setSearchResults(
-        collections.filter(
-          (collection) =>
-            collection.name.toLowerCase().includes(query) ||
-            members
-              ?.find(({ id }) => collection.creator === id)
-              ?.name.toLowerCase()
-              .includes(query),
-        ),
-      );
+  const { data: resultCollections } = hooks.useKeywordSearch(range, keywords);
+
+  useEffect(() => {
+    setSearchResults(resultCollections);
+  }, [resultCollections]);
+
+  const handleKeywordInput = (event) => {
+    setSearchInput(event.target.value.trim().toLowerCase());
+  };
+
+  const handleClick = () => {
+    const keywordArray = searchInput
+      .split(' ')
+      .map((keyword) => keyword.trim());
+    if (range === 'title') {
+      setKeywords(searchInput);
+    } else {
+      setKeywords(keywordArray.join('&'));
     }
+  };
+
+  const handleRangeChange = (event) => {
+    setRange(event.target.value);
   };
 
   const renderResults = () => {
@@ -103,7 +113,13 @@ function Home() {
         <Typography variant="h3" align="center">
           {t('Browse Open Educational Resources')}
         </Typography>
-        <Search handleSearch={handleSearch} isLoading={isLoading} />
+        <Search
+          handleSearch={handleKeywordInput}
+          handleClick={handleClick}
+          isLoading={isLoading}
+          range={range}
+          handleRangeChange={handleRangeChange}
+        />
         {isLoading ? <Loader /> : renderResults()}
         <Typography variant="h3" className={classes.typographyMargin}>
           {t('Graasp Selection')}
