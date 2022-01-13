@@ -1,12 +1,15 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
+import dynamic from 'next/dynamic';
 import truncate from 'lodash.truncate';
 import PropTypes from 'prop-types';
 import { Map } from 'immutable';
 import { useTranslation } from 'react-i18next';
-import { Grid, Typography, Chip } from '@material-ui/core';
+import { Grid, Typography, Chip, IconButton, Tooltip } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import Skeleton from '@material-ui/lab/Skeleton';
+import ReportIcon from '@material-ui/icons/Report';
+import { MUTATION_KEYS } from '@graasp/query-client';
 import CardMedia from '../common/CardMediaComponent';
 import { QueryClientContext } from '../QueryClientContext';
 import Authorship from './Authorship';
@@ -15,6 +18,10 @@ import {
   MAX_COLLECTION_NAME_LENGTH,
   THUMBNAIL_SIZES,
 } from '../../config/constants';
+
+const ItemFlagDialog = dynamic(() => import('@graasp/ui').then((mod) => mod.ItemFlagDialog), {
+  ssr: false,
+});
 
 const useStyles = makeStyles((theme) => ({
   centeredGridItem: {
@@ -35,6 +42,9 @@ const useStyles = makeStyles((theme) => ({
   title: {
     fontSize: '4em',
   },
+  reportButton: {
+    display: 'flex',
+  }
 }));
 
 function Summary({
@@ -54,12 +64,30 @@ function Summary({
   });
   const classes = useStyles();
   const { t } = useTranslation();
-  const { hooks } = useContext(QueryClientContext);
+  const { hooks, useMutation } = useContext(QueryClientContext);
   const { data: categories } = hooks.useItemCategories(itemId);
   const { data: allCategories } = hooks.useCategories();
   const categoriesDisplayed = allCategories?.filter((category) =>
     categories?.map((entry) => entry.categoryId).includes(category.id),
   );
+  const { mutate: postFlagItem } = useMutation(MUTATION_KEYS.POST_ITEM_FLAG);
+  const [open, setOpen] = useState(false);
+  const [selectedFlag, setSelectedFlag] = useState(false);
+
+  const { data: flags } = hooks.useFlags();
+
+  const openItemFlagMenu = () => {
+    setOpen(true);
+  }
+
+  const onFlag = () => {
+    postFlagItem({
+      flagId: selectedFlag.id,
+      itemId,
+    });
+    setOpen(false);
+  };
+
   return (
     <div className={classes.root}>
       <Grid container spacing={2} alignItems="flex-start">
@@ -84,9 +112,20 @@ function Summary({
           </Card>
         </Grid>
         <Grid item sm={12} md={8}>
-          <Typography variant="h1" gutterBottom className={classes.title}>
-            {truncatedName}
-          </Typography>
+          <Grid container spacing={0} justify="space-between" alignItems="center">
+            <Grid item>
+              <Typography variant="h1" gutterBottom className={classes.title}>
+                {truncatedName}
+              </Typography>
+            </Grid>
+            <Grid item className={classes.reportButton}>
+              <Tooltip title={t('Report')}>
+                <IconButton color="primary" onClick={openItemFlagMenu}>
+                  <ReportIcon fontSize="large" />
+                </IconButton>
+              </Tooltip>
+            </Grid>
+          </Grid>
           <Badges
             name={name}
             views={views}
@@ -117,7 +156,7 @@ function Summary({
               ))}
             </>
           )}
-          {tags?.length && (
+          {Boolean(tags?.length) && (
             <>
               <Typography variant="h6">{t('Tags')}</Typography>
               {tags?.map((text) => (
@@ -125,6 +164,14 @@ function Summary({
               ))}
             </>
           )}
+          <ItemFlagDialog 
+            flags={flags}
+            onFlag={onFlag}
+            open={open}
+            setOpen={setOpen}
+            selectedFlag={selectedFlag}
+            setSelectedFlag={setSelectedFlag}
+          />
         </Grid>
       </Grid>
     </div>
