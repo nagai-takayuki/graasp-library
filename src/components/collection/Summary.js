@@ -1,14 +1,12 @@
 import React, { useContext, useState } from 'react';
-import dynamic from 'next/dynamic';
 import truncate from 'lodash.truncate';
 import PropTypes from 'prop-types';
 import { Map } from 'immutable';
 import { useTranslation } from 'react-i18next';
-import { Grid, Typography, Chip, IconButton, Tooltip } from '@material-ui/core';
+import { Grid, Typography, Chip } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import Skeleton from '@material-ui/lab/Skeleton';
-import ReportIcon from '@material-ui/icons/Report';
 import { MUTATION_KEYS } from '@graasp/query-client';
 import CardMedia from '../common/CardMediaComponent';
 import { QueryClientContext } from '../QueryClientContext';
@@ -18,10 +16,7 @@ import {
   MAX_COLLECTION_NAME_LENGTH,
   THUMBNAIL_SIZES,
 } from '../../config/constants';
-
-const ItemFlagDialog = dynamic(() => import('@graasp/ui').then((mod) => mod.ItemFlagDialog), {
-  ssr: false,
-});
+import FlagItemButton from './FlagItemButton';
 
 const useStyles = makeStyles((theme) => ({
   centeredGridItem: {
@@ -76,10 +71,6 @@ function Summary({
 
   const { data: flags } = hooks.useFlags();
 
-  const openItemFlagMenu = () => {
-    setOpen(true);
-  }
-
   const onFlag = () => {
     postFlagItem({
       flagId: selectedFlag.id,
@@ -119,11 +110,14 @@ function Summary({
               </Typography>
             </Grid>
             <Grid item className={classes.reportButton}>
-              <Tooltip title={t('Report')}>
-                <IconButton color="primary" onClick={openItemFlagMenu}>
-                  <ReportIcon fontSize="large" />
-                </IconButton>
-              </Tooltip>
+              <FlagItemButton 
+                flags={flags}
+                onFlag={onFlag}
+                setOpen={setOpen}
+                open={open}
+                selectedFlag={selectedFlag}
+                setSelectedFlag={setSelectedFlag}
+              />
             </Grid>
           </Grid>
           <Badges
@@ -164,14 +158,6 @@ function Summary({
               ))}
             </>
           )}
-          <ItemFlagDialog 
-            flags={flags}
-            onFlag={onFlag}
-            open={open}
-            setOpen={setOpen}
-            selectedFlag={selectedFlag}
-            setSelectedFlag={setSelectedFlag}
-          />
         </Grid>
       </Grid>
     </div>
