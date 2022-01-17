@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react';
+import dynamic from 'next/dynamic';
 import truncate from 'lodash.truncate';
 import PropTypes from 'prop-types';
 import { Map } from 'immutable';
@@ -16,7 +17,21 @@ import {
   MAX_COLLECTION_NAME_LENGTH,
   THUMBNAIL_SIZES,
 } from '../../config/constants';
-import FlagItemButton from './FlagItemButton';
+// import FlagItemButton from './FlagItemButton';
+
+const ItemFlagDialog = dynamic(
+  () => import('@graasp/ui').then((mod) => mod.ItemFlagDialog),
+  {
+    ssr: false,
+  },
+);
+
+const FlagItemButton = dynamic(
+  () => import('@graasp/ui').then((mod) => mod.FlagItemButton),
+  {
+    ssr: false,
+  },
+);
 
 const useStyles = makeStyles((theme) => ({
   centeredGridItem: {
@@ -39,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
   },
   reportButton: {
     display: 'flex',
-  }
+  },
 }));
 
 function Summary({
@@ -103,21 +118,19 @@ function Summary({
           </Card>
         </Grid>
         <Grid item sm={12} md={8}>
-          <Grid container spacing={0} justify="space-between" alignItems="center">
+          <Grid
+            container
+            spacing={0}
+            justify="space-between"
+            alignItems="center"
+          >
             <Grid item>
               <Typography variant="h1" gutterBottom className={classes.title}>
                 {truncatedName}
               </Typography>
             </Grid>
             <Grid item className={classes.reportButton}>
-              <FlagItemButton 
-                flags={flags}
-                onFlag={onFlag}
-                setOpen={setOpen}
-                open={open}
-                selectedFlag={selectedFlag}
-                setSelectedFlag={setSelectedFlag}
-              />
+              <FlagItemButton setOpen={setOpen} />
             </Grid>
           </Grid>
           <Badges
@@ -141,6 +154,14 @@ function Summary({
             author={creator}
             contributors={contributors}
             isLoading={isLoading}
+          />
+          <ItemFlagDialog
+            flags={flags}
+            onFlag={onFlag}
+            open={open}
+            setOpen={setOpen}
+            selectedFlag={selectedFlag}
+            setSelectedFlag={setSelectedFlag}
           />
           {Boolean(categories?.size) && (
             <>
