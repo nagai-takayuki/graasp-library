@@ -17,21 +17,17 @@ import {
   MAX_COLLECTION_NAME_LENGTH,
   THUMBNAIL_SIZES,
 } from '../../config/constants';
-// import FlagItemButton from './FlagItemButton';
 
-const ItemFlagDialog = dynamic(
-  () => import('@graasp/ui').then((mod) => mod.ItemFlagDialog),
-  {
-    ssr: false,
-  },
-);
-
-const FlagItemButton = dynamic(
-  () => import('@graasp/ui').then((mod) => mod.FlagItemButton),
-  {
-    ssr: false,
-  },
-);
+const { ItemFlagDialog, FlagItemButton } = {
+  ItemFlagDialog: dynamic(
+    () => import('@graasp/ui').then((mod) => mod.ItemFlagDialog),
+    { ssr: false },
+  ),
+  FlagItemButton: dynamic(
+    () => import('@graasp/ui').then((mod) => mod.FlagItemButton),
+    { ssr: false },
+  ),
+};
 
 const useStyles = makeStyles((theme) => ({
   centeredGridItem: {
