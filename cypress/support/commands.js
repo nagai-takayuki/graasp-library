@@ -1,6 +1,3 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
-import 'cypress-localstorage-commands';
-
 import {
   mockGetChildren,
   mockGetPublishedItems,
@@ -67,18 +64,6 @@ Cypress.Commands.add(
     mockGetItemCategories(items, getItemCategoriesError);
 
     mockGetItemsInCategories(items, false);
-  },
-);
-
-Cypress.Commands.add(
-  'visitAndMockWs',
-  (visitRoute, sampleData, wsClientStub) => {
-    cy.setUpApi(sampleData);
-    cy.visit(visitRoute, {
-      onBeforeLoad: (win) => {
-        cy.stub(win, 'WebSocket', () => wsClientStub);
-      },
-    });
   },
 );
 
