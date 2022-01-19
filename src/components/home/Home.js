@@ -73,14 +73,7 @@ function Home() {
   };
 
   const handleClick = () => {
-    const keywordArray = searchInput
-      .split(' ')
-      .map((keyword) => keyword.trim());
-    if (range === 'title') {
-      setKeywords(searchInput);
-    } else {
-      setKeywords(keywordArray.join('&'));
-    }
+    setKeywords(searchInput);
   };
 
   const handleRangeChange = (event) => {
