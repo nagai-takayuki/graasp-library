@@ -4,6 +4,7 @@
   "license": "AGPL-3.0-only",
   "scripts": {
     "start": "next dev -p 3005",
+    "start:ci": "next dev -p 3005",
     "build": "next build",
     "start:next": "next start -p 3005",
     "start:prod": "NODE_ENV=production node build/server.js",
