@@ -38,5 +38,5 @@ jobs:
           headless: true
           quiet: true
 
-      - name: coverage report
-        run: npx nyc report --reporter=text-summary
+      # - name: coverage report
+      #   run: npx nyc report --reporter=text-summary
