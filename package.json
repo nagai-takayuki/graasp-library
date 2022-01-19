@@ -18,7 +18,7 @@
     "post-commit": "git status",
     "pre-commit": "yarn prettier:check && yarn lint",
     "cypress:open": "env-cmd -f ./.env.test cypress open",
-    "cypress": "concurrently \"yarn start:test\" \"wait-on http://localhost:3005 && yarn cypress:run\"",
+    "cypress": "concurrently \"yarn start\" \"wait-on http://localhost:3005 && yarn cypress:run\"",
     "cypress:run": "env-cmd -f ./.env.test cypress run --headless --browser chrome --spec \"cypress/**/*.spec.js\""
   },
   "dependencies": {
@@ -33,9 +33,11 @@
     "@testing-library/react": "12.1.2",
     "@testing-library/user-event": "13.5.0",
     "clsx": "1.1.1",
+    "concurrently": "7.0.0",
     "cookie-parser": "1.4.5",
     "cypress": "9.1.1",
     "cypress-localstorage-commands": "1.6.1",
+    "env-cmd": "10.1.0",
     "http-status-codes": "2.2.0",
     "i18next": "21.6.5",
     "immutable": "4.0.0",

@@ -92,7 +92,6 @@ export const mockGetPublishedItems = (items) => {
         `${API_HOST}/${parseStringToRegExp(
           buildGetPublicItemsWithTag({
             tagId: ITEM_PUBLISHED_TAG.id,
-            withMemberships: true,
           }),
         )}$`,
       ),
@@ -368,7 +367,7 @@ export const mockGetItemsInCategories = (items, shouldThrowError) => {
       }
       const queryCategories = url
         .slice(url.indexOf('?') + 1)
-        .split('category=')
+        .split('categoryId=')
         .slice(1);
       const result = items.filter(({ categories }) =>
         queryCategories.reduce(

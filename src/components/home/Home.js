@@ -14,7 +14,11 @@ import Loader from '../common/Loader';
 import Search from './Search';
 import { QueryClientContext } from '../QueryClientContext';
 import { PLACEHOLDER_COLLECTIONS } from '../../utils/collections';
-import { TITLE_TEXT_ID } from '../../config/selectors';
+import {
+  TITLE_TEXT_ID,
+  GRAASP_SELECTION_TITLE_ID,
+  DISCOVER_SECTION_TITLE_ID,
+} from '../../config/selectors';
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -122,14 +126,22 @@ function Home() {
           handleRangeChange={handleRangeChange}
         />
         {isLoading ? <Loader /> : renderResults()}
-        <Typography variant="h3" className={classes.typographyMargin}>
+        <Typography
+          variant="h3"
+          id={GRAASP_SELECTION_TITLE_ID}
+          className={classes.typographyMargin}
+        >
           {t('Graasp Selection')}
         </Typography>
         <CollectionsGrid
           collections={collectionsGraasper}
           isLoading={isLoading}
         />
-        <Typography variant="h3" className={classes.typographyMargin}>
+        <Typography
+          variant="h3"
+          id={DISCOVER_SECTION_TITLE_ID}
+          className={classes.typographyMargin}
+        >
           {t('Discover')}
         </Typography>
         <CollectionsGrid collections={collections} isLoading={isLoading} />
