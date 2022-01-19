@@ -137,7 +137,7 @@ export const mockGetItem = (items, shouldThrowError) => {
     {
       method: DEFAULT_GET.method,
       url: new RegExp(
-        `${API_HOST}/items/${ID_FORMAT}\\?withMemberships\\=true`,
+        `${API_HOST}/items/${ID_FORMAT}$`,
       ),
     },
     ({ url, reply }) => {

@@ -122,7 +122,12 @@ function Summary({
             alignItems="center"
           >
             <Grid item>
-              <Typography variant="h1" gutterBottom className={classes.title}>
+              <Typography
+                variant="h1"
+                gutterBottom
+                className={classes.title}
+                id={ITEM_SUMMARY_TITLE_ID}
+              >
                 {truncatedName}
               </Typography>
             </Grid>
@@ -130,14 +135,6 @@ function Summary({
               <FlagItemButton setOpen={setOpen} />
             </Grid>
           </Grid>
-          <Typography
-            variant="h1"
-            gutterBottom
-            className={classes.title}
-            id={ITEM_SUMMARY_TITLE_ID}
-          >
-            {truncatedName}
-          </Typography>
           <Badges
             name={name}
             views={views}
