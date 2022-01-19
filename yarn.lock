@@ -3172,6 +3172,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"cypress-localstorage-commands@npm:1.6.1":
+  version: 1.6.1
+  resolution: "cypress-localstorage-commands@npm:1.6.1"
+  peerDependencies:
+    cypress: ">=2.1.0"
+  checksum: 9f3fb01a90c2b5024c95349d3841fa136b4571b7a4c6cb9aaf706ad042fb2aa30370378f2a7fb4ea06b5d941180ed7454bc84c9262ee66a5d353e9869adbfd1e
+  languageName: node
+  linkType: hard
+
 "cypress@npm:9.1.1":
   version: 9.1.1
   resolution: "cypress@npm:9.1.1"
@@ -4664,6 +4673,7 @@ __metadata:
     clsx: 1.1.1
     cookie-parser: 1.4.5
     cypress: 9.1.1
+    cypress-localstorage-commands: 1.6.1
     eslint: 7.32.0
     eslint-config-airbnb: 18.2.1
     eslint-config-prettier: 7.2.0
