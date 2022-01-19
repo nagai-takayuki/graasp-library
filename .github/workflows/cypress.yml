@@ -20,7 +20,6 @@ jobs:
       - name: cypress run
         uses: cypress-io/github-action@v2
         env:
-          NEXT_PUBLIC_API_HOST: https://graasp.eu
           NEXT_PUBLIC_GOOGLE_ANALYTICS_ID: G-H48F1X7SWK
           NEXT_PUBLIC_PUBLISHED_TAG_ID: ea9a3b4e-7b67-44c2-a9df-528b6ae5424f
           PORT: 3005
