@@ -15,6 +15,11 @@ import {
   HEADER_HEIGHT,
   HEADER_LOGO_HEIGHT,
 } from '../../config/constants';
+import {
+  HEADER_ALL_COLLECTIONS_ID,
+  HEADER_GRAASP_EXPLORER_ID,
+  HEADER_MY_LIST_ID,
+} from '../../config/selectors';
 
 const GraaspLogo = dynamic(
   () => import('@graasp/ui').then((mod) => mod.GraaspLogo),
@@ -56,7 +61,7 @@ function Header() {
   return (
     <>
       <header>
-        <AppBar position="absolute">
+        <AppBar position="fixed">
           <Toolbar>
             <div className={classes.headerLeft}>
               <GraaspLogo
@@ -68,6 +73,7 @@ function Header() {
                   variant="h6"
                   color="inherit"
                   className={classes.title}
+                  id={HEADER_GRAASP_EXPLORER_ID}
                 >
                   {t(APP_NAME)}
                 </Typography>
@@ -77,6 +83,7 @@ function Header() {
                   variant="h6"
                   color="inherit"
                   className={classes.title}
+                  id={HEADER_ALL_COLLECTIONS_ID}
                 >
                   {t('All Collections')}
                 </Typography>
@@ -86,6 +93,7 @@ function Header() {
                   variant="h6"
                   color="inherit"
                   className={classes.title}
+                  id={HEADER_MY_LIST_ID}
                 >
                   {t('My Lists')}
                 </Typography>

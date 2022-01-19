@@ -9,6 +9,7 @@ import Item from './Item';
 import ItemsHeader from './ItemsHeader';
 import { QueryClientContext } from '../QueryClientContext';
 import { PLACEHOLDER_COLLECTION } from '../../utils/collections';
+import { CHILDREN_ITEMS_GRID_ID } from '../../config/selectors';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -39,7 +40,7 @@ function Items({ parentId }) {
           </Typography>
         </div>
       ) : (
-        <Grid container spacing={2}>
+        <Grid container spacing={2} id={CHILDREN_ITEMS_GRID_ID}>
           {items.map((item) => (
             <Grid key={item.id} item xs={12} sm={4} md={3} lg={3} xl={2}>
               <Item item={item} />
