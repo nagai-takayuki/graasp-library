@@ -64,6 +64,7 @@ export const GRAASP_BUILDER_URL = 'https://builder.graasp.org';
 
 export const LEVEL = 'level';
 export const DISCIPLINE = 'discipline';
+export const ALL = 'all';
 
 export const MY_FAVORITES = 'My Favorites';
 export const MY_UPLOADS = 'My Uploads';
