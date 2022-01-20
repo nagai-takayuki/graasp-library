@@ -1,3 +1,6 @@
+/* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable global-require */
+
 /// <reference types="cypress" />
 // ***********************************************************
 // This example plugins/index.js can be used to load plugins
@@ -25,7 +28,10 @@ module.exports = (on, config) => {
       },
       API_HOST: process.env.NEXT_PUBLIC_API_HOST,
       AUTHENTICATION_HOST: process.env.NEXT_PUBLIC_GRAASP_AUTH_HOST,
+      GRAASPER_ID: process.env.NEXT_PUBLIC_GRAASPER_ID,
+      PUBLISHED_TAG_ID: process.env.NEXT_PUBLIC_PUBLISHED_TAG_ID,
     },
   };
+  require('@cypress/code-coverage/task')(on, newConfig);
   return newConfig;
 };

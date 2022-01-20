@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { AppBar, Typography, Toolbar } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { makeStyles } from '@material-ui/core/styles';
 import {
-  ALL_COLLECTION_ROUTE,
+  ALL_COLLECTIONS_ROUTE,
   HOME_ROUTE,
   MY_LIST_ROUTE,
 } from '../../config/routes';
@@ -20,6 +20,7 @@ import {
   HEADER_GRAASP_EXPLORER_ID,
   HEADER_MY_LIST_ID,
 } from '../../config/selectors';
+import { QueryClientContext } from '../QueryClientContext';
 
 const GraaspLogo = dynamic(
   () => import('@graasp/ui').then((mod) => mod.GraaspLogo),
@@ -57,6 +58,27 @@ const useStyles = makeStyles((theme) => ({
 function Header() {
   const classes = useStyles();
   const { t } = useTranslation();
+  const { hooks } = useContext(QueryClientContext);
+  const { data: currentMember, isError } = hooks.useCurrentMember();
+
+  const renderMyList = () => {
+    if (isError || !currentMember || currentMember.isEmpty()) {
+      return null;
+    }
+
+    return (
+      <Link href={MY_LIST_ROUTE} className={classes.link}>
+        <Typography
+          variant="h6"
+          color="inherit"
+          className={classes.title}
+          id={HEADER_MY_LIST_ID}
+        >
+          {t('My Lists')}
+        </Typography>
+      </Link>
+    );
+  };
 
   return (
     <>
@@ -78,7 +100,7 @@ function Header() {
                   {t(APP_NAME)}
                 </Typography>
               </Link>
-              <Link href={ALL_COLLECTION_ROUTE} className={classes.link}>
+              <Link href={ALL_COLLECTIONS_ROUTE} className={classes.link}>
                 <Typography
                   variant="h6"
                   color="inherit"
@@ -88,16 +110,7 @@ function Header() {
                   {t('All Collections')}
                 </Typography>
               </Link>
-              <Link href={MY_LIST_ROUTE} className={classes.link}>
-                <Typography
-                  variant="h6"
-                  color="inherit"
-                  className={classes.title}
-                  id={HEADER_MY_LIST_ID}
-                >
-                  {t('My Lists')}
-                </Typography>
-              </Link>
+              {renderMyList()}
             </div>
             <UserHeader />
           </Toolbar>

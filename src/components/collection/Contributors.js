@@ -5,6 +5,7 @@ import AvatarGroup from '@material-ui/lab/AvatarGroup';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { getAvatar } from '../../utils/layout';
+import { buildContributorId } from '../../../cypress/support/selectors';
 
 function Contributors({ contributors }) {
   const { t } = useTranslation();
@@ -20,11 +21,19 @@ function Contributors({ contributors }) {
       </Typography>
       <AvatarGroup max={8}>
         {contributors.map((contributor) => {
-          const { name: contributorName, image: contributorAvatar } =
-            contributor;
+          const {
+            id,
+            name: contributorName,
+            image: contributorAvatar,
+          } = contributor;
           const avatar = getAvatar(contributorAvatar);
           return (
-            <Avatar key={contributorName} alt={contributorName} src={avatar} />
+            <Avatar
+              key={contributorName}
+              alt={contributorName}
+              src={avatar}
+              id={buildContributorId(id)}
+            />
           );
         })}
       </AvatarGroup>

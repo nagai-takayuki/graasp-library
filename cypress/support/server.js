@@ -8,17 +8,18 @@ import {
   parseStringToRegExp,
   getItemById,
   isChild,
-  isRootItem,
   getMemberById,
+  getRootPublishedItems,
 } from './utils';
-import { ITEM_PUBLISHED_TAG } from '../fixtures/itemTags';
-import { THUMBNAIL_EXTENSION } from './constants';
+import { ITEM_PUBLIC_TAG } from '../fixtures/itemTags';
+import { PERMISSION_LEVELS, THUMBNAIL_EXTENSION } from './constants';
 
 const {
   buildGetPublicItemsWithTag,
   buildGetChildrenRoute,
   buildGetPublicChildrenRoute,
-  GET_OWN_ITEMS_ROUTE,
+  buildGetItemMembershipsForItemsRoute,
+  buildGetItemRoute,
   buildGetMember,
   ITEMS_ROUTE,
   GET_CURRENT_MEMBER_ROUTE,
@@ -27,6 +28,14 @@ const {
   buildGetMembersRoute,
   GET_CATEGORY_TYPES_ROUTE,
   buildGetCategoriesRoute,
+  buildGetPublicItemMembershipsForItemsRoute,
+  GET_OWN_ITEMS_ROUTE,
+  buildGetPublicMembersRoute,
+  buildGetPublicItemRoute,
+  buildGetPublicMember,
+  buildGetItemsInCategoryRoute,
+  buildGetItemsByKeywordRoute,
+  GET_FLAGS_ROUTE,
 } = API_ROUTES;
 
 const API_HOST = Cypress.env('API_HOST');
@@ -42,10 +51,39 @@ const checkMembership = ({ item, currentMember }) => {
   return haveMembership;
 };
 
+const checkIsPublic = (item) => {
+  const isPublic = item?.tags?.find(
+    ({ tagId }) => tagId === ITEM_PUBLIC_TAG.id,
+  );
+  if (!isPublic) {
+    return { statusCode: StatusCodes.UNAUTHORIZED };
+  }
+  return {};
+};
+
 export const redirectionReply = {
   headers: { 'content-type': 'application/json' },
   statusCode: StatusCodes.OK,
   body: null,
+};
+
+export const mockGetOwnItems = ({ items, currentMember }) => {
+  cy.intercept(
+    {
+      method: DEFAULT_GET.method,
+      url: `${API_HOST}/${GET_OWN_ITEMS_ROUTE}`,
+    },
+    ({ reply }) => {
+      if (!currentMember) {
+        return reply({ statusCode: StatusCodes.UNAUTHORIZED, body: null });
+      }
+      const own = items.filter(
+        ({ creator, path }) =>
+          creator === currentMember.id && !path.includes('.'),
+      );
+      return reply(own);
+    },
+  ).as('getOwnItems');
 };
 
 export const mockGetCurrentMember = (
@@ -71,38 +109,7 @@ export const mockGetCurrentMember = (
   ).as('getCurrentMember');
 };
 
-export const mockGetOwnItems = (items) => {
-  cy.intercept(
-    {
-      method: DEFAULT_GET.method,
-      url: `${API_HOST}/${GET_OWN_ITEMS_ROUTE}`,
-    },
-    (req) => {
-      const own = items.filter(isRootItem);
-      req.reply(own);
-    },
-  ).as('getOwnItems');
-};
-
-export const mockGetPublishedItems = (items) => {
-  cy.intercept(
-    {
-      method: DEFAULT_GET.method,
-      url: new RegExp(
-        `${API_HOST}/${parseStringToRegExp(
-          buildGetPublicItemsWithTag({
-            tagId: ITEM_PUBLISHED_TAG.id,
-          }),
-        )}$`,
-      ),
-    },
-    (req) => {
-      req.reply(items);
-    },
-  ).as('getPublishedItems');
-};
-
-export const mockGetAvatar = (members, shouldThrowError) => {
+export const mockGetAvatar = ({ members, currentMember }, shouldThrowError) => {
   cy.intercept(
     {
       method: DEFAULT_GET.method,
@@ -113,6 +120,10 @@ export const mockGetAvatar = (members, shouldThrowError) => {
     ({ reply, url }) => {
       if (shouldThrowError) {
         return reply({ statusCode: StatusCodes.BAD_REQUEST });
+      }
+
+      if (!currentMember) {
+        return reply({ statusCode: StatusCodes.UNAUTHORIZED, body: null });
       }
 
       const [link, querystrings] = url.split('?');
@@ -132,13 +143,11 @@ export const mockGetAvatar = (members, shouldThrowError) => {
   ).as('downloadAvatar');
 };
 
-export const mockGetItem = (items, shouldThrowError) => {
+export const mockGetItem = ({ items, currentMember }, shouldThrowError) => {
   cy.intercept(
     {
       method: DEFAULT_GET.method,
-      url: new RegExp(
-        `${API_HOST}/items/${ID_FORMAT}$`,
-      ),
+      url: new RegExp(`${API_HOST}/${buildGetItemRoute(ID_FORMAT)}$`),
     },
     ({ url, reply }) => {
       const paras = url.slice(API_HOST.length).split('/')[2].split('?');
@@ -156,6 +165,11 @@ export const mockGetItem = (items, shouldThrowError) => {
         return reply({ statusCode: StatusCodes.UNAUTHORIZED, body: null });
       }
 
+      const hasAccess = checkMembership({ item, currentMember });
+      if (!hasAccess) {
+        return reply({ statusCode: StatusCodes.UNAUTHORIZED, body: null });
+      }
+
       return reply({
         body: item,
         statusCode: StatusCodes.OK,
@@ -164,7 +178,44 @@ export const mockGetItem = (items, shouldThrowError) => {
   ).as('getItem');
 };
 
-export const mockGetItemThumbnail = (items, shouldThrowError) => {
+export const mockGetPublicItem = ({ items }, shouldThrowError) => {
+  cy.intercept(
+    {
+      method: DEFAULT_GET.method,
+      url: new RegExp(`${API_HOST}/${buildGetPublicItemRoute(ID_FORMAT)}$`),
+    },
+    ({ url, reply }) => {
+      const paras = url.slice(API_HOST.length).split('/')[3].split('?');
+      const itemId = paras[0];
+      const item = getItemById(items, itemId);
+
+      // item does not exist in db
+      if (!item) {
+        return reply({
+          statusCode: StatusCodes.NOT_FOUND,
+        });
+      }
+
+      if (shouldThrowError) {
+        return reply({ statusCode: StatusCodes.UNAUTHORIZED, body: null });
+      }
+
+      if (!checkIsPublic(item)) {
+        return reply({ statusCode: StatusCodes.UNAUTHORIZED, body: null });
+      }
+
+      return reply({
+        body: item,
+        statusCode: StatusCodes.OK,
+      });
+    },
+  ).as('getPublicItem');
+};
+
+export const mockGetItemThumbnail = (
+  { items, currentMember },
+  shouldThrowError,
+) => {
   cy.intercept(
     {
       method: DEFAULT_GET.method,
@@ -181,11 +232,18 @@ export const mockGetItemThumbnail = (items, shouldThrowError) => {
       const id = link.slice(API_HOST.length).split('/')[3];
       const { size } = qs.parse(querystrings);
 
-      const thumbnails = items.find(({ id: thisId }) => id === thisId)
-        ?.thumbnails;
+      const item = items.find(({ id: thisId }) => id === thisId);
+
+      const hasAccess = checkMembership({ item, currentMember });
+      if (!hasAccess) {
+        return reply({ statusCode: StatusCodes.UNAUTHORIZED, body: null });
+      }
+
+      const { thumbnails } = item;
       if (!thumbnails) {
         return reply({ statusCode: StatusCodes.NOT_FOUND });
       }
+
       return reply({
         fixture: `${thumbnails}/${size}`,
         headers: { 'content-type': THUMBNAIL_EXTENSION },
@@ -214,14 +272,19 @@ export const mockGetChildren = ({ items, currentMember }) => {
   ).as('getChildren');
 };
 
-export const mockGetPublicChildren = (items) => {
+export const mockGetPublicChildren = ({ items }) => {
   cy.intercept(
     {
       method: DEFAULT_GET.method,
       url: new RegExp(`${API_HOST}/${buildGetPublicChildrenRoute(ID_FORMAT)}`),
     },
     ({ url, reply }) => {
-      const id = url.slice(API_HOST.length).split('/')[2];
+      const id = url.slice(API_HOST.length).split('/')[3];
+      const item = items.find(({ id: thisId }) => id === thisId);
+
+      if (!checkIsPublic(item)) {
+        return reply({ statusCode: StatusCodes.UNAUTHORIZED, body: null });
+      }
 
       const children = items.filter(isChild(id));
       return reply(children);
@@ -229,13 +292,17 @@ export const mockGetPublicChildren = (items) => {
   ).as('getPublicChildren');
 };
 
-export const mockGetMember = (members) => {
+export const mockGetMember = ({ members, currentMember }) => {
   cy.intercept(
     {
       method: DEFAULT_GET.method,
       url: new RegExp(`${API_HOST}/${buildGetMember(ID_FORMAT)}$`),
     },
     ({ url, reply }) => {
+      if (!currentMember) {
+        return reply({ statusCode: StatusCodes.UNAUTHORIZED, body: null });
+      }
+
       const memberId = url.slice(API_HOST.length).split('/')[2];
       const member = getMemberById(members, memberId);
 
@@ -254,11 +321,71 @@ export const mockGetMember = (members) => {
   ).as('getMember');
 };
 
-export const mockGetMembers = (members) => {
+export const mockGetPublicMember = ({ members }) => {
   cy.intercept(
     {
       method: DEFAULT_GET.method,
-      url: `${API_HOST}/${buildGetMembersRoute([''])}`,
+      url: new RegExp(`${API_HOST}/${buildGetPublicMember(ID_FORMAT)}$`),
+    },
+    ({ url, reply }) => {
+      const memberId = url.slice(API_HOST.length).split('/')[3];
+      const member = getMemberById(members, memberId);
+
+      // member does not exist in db
+      if (!member) {
+        return reply({
+          statusCode: StatusCodes.NOT_FOUND,
+        });
+      }
+
+      return reply({
+        body: member,
+        statusCode: StatusCodes.OK,
+      });
+    },
+  ).as('getPublicMember');
+};
+
+export const mockGetMembers = ({ members, currentMember }) => {
+  cy.intercept(
+    {
+      method: DEFAULT_GET.method,
+      url: new RegExp(
+        `${API_HOST}/${parseStringToRegExp(buildGetMembersRoute(['']))}`,
+      ),
+    },
+    ({ url, reply }) => {
+      if (!currentMember) {
+        return reply({ statusCode: StatusCodes.UNAUTHORIZED, body: null });
+      }
+
+      let { id: memberIds } = qs.parse(url.slice(url.indexOf('?') + 1));
+      if (typeof memberIds === 'string') {
+        memberIds = [memberIds];
+      }
+      const allMembers = memberIds?.map((id) => getMemberById(members, id));
+      // member does not exist in db
+      if (!allMembers) {
+        return reply({
+          statusCode: StatusCodes.NOT_FOUND,
+        });
+      }
+
+      return reply({
+        body: allMembers,
+        statusCode: StatusCodes.OK,
+      });
+    },
+  ).as('getMembers');
+};
+
+export const mockGetPublicMembers = ({ members }) => {
+  cy.intercept(
+    {
+      method: DEFAULT_GET.method,
+      url: new RegExp(
+        `${API_HOST}/${parseStringToRegExp(buildGetPublicMembersRoute(['']))}`,
+      ),
     },
     ({ url, reply }) => {
       let { id: memberIds } = qs.parse(url.slice(url.indexOf('?') + 1));
@@ -278,7 +405,7 @@ export const mockGetMembers = (members) => {
         statusCode: StatusCodes.OK,
       });
     },
-  ).as('getMembers');
+  ).as('getPublicMembers');
 };
 
 export const mockSignInRedirection = () => {
@@ -337,7 +464,10 @@ export const mockGetCategories = (categories, shouldThrowError) => {
   ).as('getCategories');
 };
 
-export const mockGetItemCategories = (items, shouldThrowError) => {
+export const mockGetItemCategories = (
+  { items, currentMember },
+  shouldThrowError,
+) => {
   cy.intercept(
     {
       method: DEFAULT_GET.method,
@@ -347,36 +477,208 @@ export const mockGetItemCategories = (items, shouldThrowError) => {
       if (shouldThrowError) {
         reply({ statusCode: StatusCodes.BAD_REQUEST });
       }
+
       const itemId = url.slice(API_HOST.length).split('/')[2];
-      const result = items.find(({ id }) => id === itemId)?.categories || [];
-      reply(result);
+      const item = items.find(({ id }) => id === itemId);
+
+      if (!checkMembership({ item, currentMember })) {
+        return reply({ statusCode: StatusCodes.UNAUTHORIZED, body: null });
+      }
+
+      return reply(item?.categories || []);
     },
   ).as('getItemCategories');
 };
 
-export const mockGetItemsInCategories = (items, shouldThrowError) => {
+export const mockGetPublicItemCategories = ({ items }, shouldThrowError) => {
   cy.intercept(
     {
       method: DEFAULT_GET.method,
-      url: new RegExp(`${API_HOST}/p/${ITEMS_ROUTE}/with-categories?`),
+      url: new RegExp(`${API_HOST}/p/items/${ID_FORMAT}/categories`),
     },
     ({ reply, url }) => {
       if (shouldThrowError) {
-        reply({ statusCode: StatusCodes.BAD_REQUEST, body: null });
-        return;
+        reply({ statusCode: StatusCodes.BAD_REQUEST });
       }
-      const queryCategories = url
-        .slice(url.indexOf('?') + 1)
-        .split('categoryId=')
-        .slice(1);
-      const result = items.filter(({ categories }) =>
-        queryCategories.reduce(
-          (total, queryCategory) =>
-            total && categories?.includes(queryCategory),
-          Boolean(categories),
+
+      const itemId = url.slice(API_HOST.length).split('/')[3];
+      const item = items.find(({ id }) => id === itemId);
+
+      if (!checkIsPublic({ item })) {
+        return reply({ statusCode: StatusCodes.UNAUTHORIZED, body: null });
+      }
+
+      return reply(item?.categories || []);
+    },
+  ).as('getPublicItemCategories');
+};
+
+export const mockGetPublishedItemsInCategories = (
+  { items },
+  shouldThrowError,
+) => {
+  cy.intercept(
+    {
+      method: DEFAULT_GET.method,
+      url: new RegExp(
+        `${API_HOST}/${parseStringToRegExp(buildGetItemsInCategoryRoute())}`,
+      ),
+    },
+    ({ reply, url }) => {
+      if (shouldThrowError) {
+        return reply({ statusCode: StatusCodes.BAD_REQUEST, body: null });
+      }
+      let { categoryId: ids } = qs.parse(url.split('?')[1]);
+      ids = Array.isArray(ids) ? ids : [ids];
+      const publishedItems = getRootPublishedItems(items);
+      const result = publishedItems.filter(({ categories }) =>
+        categories?.find(({ categoryId: cId }) => ids.includes(cId)),
+      );
+      return reply(result);
+    },
+  ).as('getPublishedItemsInCategories');
+};
+
+export const mockGetPublicItemsWithTags = ({ items }, shouldThrowError) => {
+  cy.intercept(
+    {
+      method: DEFAULT_GET.method,
+      url: new RegExp(
+        `${API_HOST}/${parseStringToRegExp(
+          buildGetPublicItemsWithTag({ tagId: '' }),
+        )}`,
+      ),
+    },
+    ({ reply, url }) => {
+      if (shouldThrowError) {
+        return reply({ statusCode: StatusCodes.BAD_REQUEST, body: null });
+      }
+
+      const tagId = qs.parse(url.split('?')[1])?.tagId;
+      const result = items.filter((item) =>
+        item?.tags?.find(
+          ({ tagId: tId, itemPath }) => tagId === tId && itemPath === item.path,
         ),
       );
-      reply(result);
+      return reply(result);
     },
-  ).as('getItemsInCategories');
+  ).as('getPublicItemsWithTags');
+};
+
+export const mockGetItemMembershipsForItem = ({ items, currentMember }) => {
+  cy.intercept(
+    {
+      method: DEFAULT_GET.method,
+      url: new RegExp(
+        `${API_HOST}/${parseStringToRegExp(
+          buildGetItemMembershipsForItemsRoute([]),
+        )}`,
+      ),
+    },
+    ({ reply, url }) => {
+      const { itemId } = qs.parse(url.slice(url.indexOf('?') + 1));
+      const selectedItems = items.filter(({ id }) => itemId.includes(id));
+      const allMemberships = selectedItems.map(
+        ({ creator, id, memberships }) => {
+          // build default membership depending on current member
+          // if the current member is the creator, it has membership
+          // otherwise it should return an error
+          const defaultMembership =
+            creator === currentMember?.id
+              ? [
+                  {
+                    permission: PERMISSION_LEVELS.ADMIN,
+                    memberId: creator,
+                    itemId: id,
+                  },
+                ]
+              : { statusCode: StatusCodes.UNAUTHORIZED };
+
+          // if the defined memberships does not contain currentMember, it should throw
+          const currentMemberHasMembership = memberships?.find(
+            ({ memberId }) => memberId === currentMember?.id,
+          );
+          if (!currentMemberHasMembership) {
+            return defaultMembership;
+          }
+
+          return memberships || defaultMembership;
+        },
+      );
+      reply(allMemberships);
+    },
+  ).as('getItemMemberships');
+};
+
+export const mockGetPublicItemMembershipsForItem = ({ items }) => {
+  cy.intercept(
+    {
+      method: DEFAULT_GET.method,
+      url: new RegExp(
+        `${API_HOST}/${parseStringToRegExp(
+          buildGetPublicItemMembershipsForItemsRoute([]),
+        )}`,
+      ),
+    },
+    ({ reply, url }) => {
+      const { itemId } = qs.parse(url.slice(url.indexOf('?') + 1));
+      const parentItem = items.filter(({ id }) => itemId === id);
+
+      if (!checkIsPublic(parentItem)) {
+        return reply({ statusCode: StatusCodes.UNAUTHORIZED, body: null });
+      }
+
+      const selectedItems = items.filter(({ id }) => itemId.includes(id));
+      const allMemberships = selectedItems.map(
+        ({ creator, id, memberships }) => {
+          // build default membership depending on creator
+          const defaultMembership = [
+            {
+              permission: PERMISSION_LEVELS.ADMIN,
+              memberId: creator,
+              itemId: id,
+            },
+          ];
+
+          return memberships || defaultMembership;
+        },
+      );
+      return reply(allMemberships);
+    },
+  ).as('getPublicItemMemberships');
+};
+
+export const mockGetFlags = ({ flags, currentMember }) => {
+  cy.intercept(
+    {
+      method: DEFAULT_GET.method,
+      url: new RegExp(`${API_HOST}/${parseStringToRegExp(GET_FLAGS_ROUTE)}$`),
+    },
+    ({ reply }) => {
+      if (!currentMember) {
+        return reply({ statusCode: StatusCodes.UNAUTHORIZED, body: null });
+      }
+      return reply(flags);
+    },
+  ).as('getFlags');
+};
+
+// this mock only returns what is set in setup
+export const mockSearch = ({ searchResultItems }, shouldThrowError) => {
+  cy.intercept(
+    {
+      method: DEFAULT_GET.method,
+      url: new RegExp(`${API_HOST}/${buildGetItemsByKeywordRoute('.*', '.*')}`),
+    },
+    ({ reply }) => {
+      if (shouldThrowError) {
+        return reply({
+          statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
+          body: null,
+        });
+      }
+
+      return reply(searchResultItems);
+    },
+  ).as('search');
 };

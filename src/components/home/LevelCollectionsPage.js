@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import CollectionsGrid from '../collection/CollectionsGrid';
 import { QueryClientContext } from '../QueryClientContext';
+import { ALL_COLLECTIONS_GRID_ID } from '../../../cypress/support/selectors';
 
 const LevelCollectionsPage = ({ selectedLevel, selectedDiscipline }) => {
   const { t } = useTranslation();
@@ -26,7 +27,11 @@ const LevelCollectionsPage = ({ selectedLevel, selectedDiscipline }) => {
       <Typography variant="subtitle2" aligh="left">
         {t('collectionsCount', { count })}
       </Typography>
-      <CollectionsGrid collections={collections} isLoading={isLoading} />
+      <CollectionsGrid
+        id={ALL_COLLECTIONS_GRID_ID}
+        collections={collections}
+        isLoading={isLoading}
+      />
     </>
   );
 };

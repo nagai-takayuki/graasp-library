@@ -7,7 +7,7 @@ export const ITEM_PUBLIC_TAG = {
   name: 'public-item',
 };
 export const ITEM_PUBLISHED_TAG = {
-  id: 'ea9a3b4e-7b67-44c2-a9df-528b6ae5424f',
+  id: Cypress.env('PUBLISHED_TAG_ID'),
   name: 'published-item',
 };
 

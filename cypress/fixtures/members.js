@@ -1,4 +1,8 @@
-export const SIGNED_OUT_MEMBER = {};
+export const SIGNED_OUT_MEMBER = {
+  name: 'signed out user',
+};
+
+const GRAASPER_ID = Cypress.env('GRAASPER_ID');
 
 export const MEMBERS = {
   ANNA: {
@@ -45,6 +49,12 @@ export const MEMBERS = {
     id: 'ecafbd2a-5642-31fb-ae93-0242ac130012',
     name: 'fanny',
     email: 'fanny@email.com',
+    createdAt: '2021-04-13 14:56:34.749946',
+  },
+  GRAASPER: {
+    id: GRAASPER_ID,
+    name: 'graasper',
+    email: 'graasper@email.com',
     createdAt: '2021-04-13 14:56:34.749946',
   },
 };

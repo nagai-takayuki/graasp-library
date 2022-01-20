@@ -1,16 +1,5 @@
-import { PUBLISHED_TAG_ID, GRAASP_API_HOST, S3_FILES_HOST } from './env';
+import { PUBLISHED_TAG_ID, GRAASP_PERFORM_HOST, GRAASP_AUTH_HOST } from './env';
 import i18n from './i18n';
-import notifier from './notifier';
-
-export const QUERY_CLIENT_OPTIONS = {
-  API_HOST: GRAASP_API_HOST,
-  enableWebsocket: false,
-  keepPreviousData: true,
-  // avoid refetching when same data are closely fetched
-  staleTime: 1000, // ms
-  notifier,
-  S3_FILES_HOST,
-};
 
 export const APP_NAME = 'Graasp Explorer';
 export const APP_DESCRIPTION =
@@ -100,21 +89,8 @@ export const THUMBNAIL_SIZES = {
 };
 export const DEFAULT_THUMBNAIL_SIZE = THUMBNAIL_SIZES.MEDIUM;
 
-export const RANGES = {
-  ALL: {
-    value: 'all',
-    title: 'All',
-  },
-  TAG: {
-    value: 'tag',
-    title: 'Tag',
-  },
-  TITLE: {
-    value: 'title',
-    title: 'Title',
-  },
-  AUTHOR: {
-    value: 'author',
-    title: 'Author',
-  },
-};
+export const SIGN_IN_ROUTE = `${GRAASP_AUTH_HOST}/signIn`;
+export const SIGN_UP_ROUTE = `${GRAASP_AUTH_HOST}/signUp`;
+
+export const buildPerformViewItemRoute = (id = ':id') =>
+  `${GRAASP_PERFORM_HOST}/${id}`;

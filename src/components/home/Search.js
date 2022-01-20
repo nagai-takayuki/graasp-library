@@ -14,12 +14,17 @@ import {
 } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import PropTypes from 'prop-types';
-import { RANGES } from '../../config/constants';
+import { SEARCH_RANGES } from '../../enums/searchRanges';
+import {
+  buildSearchRangeOptionId,
+  HOME_SEARCH_BUTTON_ID,
+  HOME_SEARCH_ID,
+} from '../../../cypress/support/selectors';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     padding: theme.spacing(0.25, 0.5),
-    margin: theme.spacing(12.5, 0),
+    margin: theme.spacing(3, 'auto'),
     display: 'flex',
     alignItems: 'center',
     width: '100%',
@@ -35,8 +40,8 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
   },
   searchOptions: {
-    marginTop: theme.spacing(-10),
     marginLeft: theme.spacing(1),
+    marginBottom: theme.spacing(2),
   },
 }));
 
@@ -60,7 +65,7 @@ function Search({
     <>
       <Paper component="div" className={classes.root} onKeyUp={handleKeyUp}>
         <InputBase
-          id="search"
+          id={HOME_SEARCH_ID}
           disabled={isLoading}
           className={classes.search}
           placeholder={t('Search collections using keywords and range options')}
@@ -75,6 +80,7 @@ function Search({
         />
         <Divider className={classes.divider} orientation="vertical" />
         <IconButton
+          id={HOME_SEARCH_BUTTON_ID}
           color="primary"
           className={classes.iconButton}
           aria-label="directions"
@@ -87,11 +93,12 @@ function Search({
       <FormControl component="fieldset" className={classes.searchOptions}>
         <FormLabel component="legend">{t('Search Range')}</FormLabel>
         <RadioGroup row value={range} onChange={handleRangeChange}>
-          {Object.values(RANGES).map((entry) => (
+          {Object.values(SEARCH_RANGES).map((entry) => (
             <FormControlLabel
               value={entry.value}
               control={<Radio color="primary" />}
               label={t(entry.title)}
+              id={buildSearchRangeOptionId(entry.value)}
             />
           ))}
           {/*

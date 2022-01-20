@@ -1,30 +1,41 @@
 import {
   mockGetChildren,
-  mockGetPublishedItems,
   mockGetMember,
   mockGetCurrentMember,
-  mockGetOwnItems,
   mockSignInRedirection,
   mockSignOut,
   mockGetCategoryTypes,
   mockGetCategories,
   mockGetItemCategories,
-  mockGetItemsInCategories,
+  mockGetPublishedItemsInCategories,
   mockGetAvatar,
   mockGetItemThumbnail,
   mockGetItem,
+  mockGetMembers,
+  mockGetItemMembershipsForItem,
+  mockGetPublicItemMembershipsForItem,
+  mockGetPublicItem,
+  mockGetOwnItems,
+  mockGetPublicMembers,
+  mockGetPublicMember,
+  mockGetPublicChildren,
+  mockGetPublicItemCategories,
+  mockGetFlags,
+  mockGetPublicItemsWithTags,
+  mockSearch,
 } from './server';
 import { MEMBERS } from '../fixtures/members';
 import {
   SAMPLE_CATEGORIES,
   SAMPLE_CATEGORY_TYPES,
 } from '../fixtures/categories';
+import { SAMPLE_FLAGS } from '../fixtures/flags';
 import { PUBLISHED_ITEMS } from '../fixtures/items';
 
 Cypress.Commands.add(
   'setUpApi',
   ({
-    items = PUBLISHED_ITEMS,
+    items,
     members = Object.values(MEMBERS),
     currentMember = MEMBERS.ANNA,
     categories = SAMPLE_CATEGORIES,
@@ -32,26 +43,34 @@ Cypress.Commands.add(
     getCurrentMemberError = false,
     getCategoriesError = false,
     getItemCategoriesError = false,
+    flags = SAMPLE_FLAGS,
+    searchResultItems = PUBLISHED_ITEMS,
+    searchError = false,
   } = {}) => {
     const cachedMembers = JSON.parse(JSON.stringify(members));
 
-    cy.setCookie('session', currentMember ? 'somecookie' : null);
+    if (currentMember?.id) {
+      cy.setCookie('session', currentMember?.id);
+    }
+
+    mockGetOwnItems({ items, currentMember });
 
     mockGetChildren({ items, currentMember });
+    mockGetPublicChildren({ items });
 
-    mockGetPublishedItems(items);
-
-    mockGetMember(cachedMembers);
+    mockGetMember({ members: cachedMembers, currentMember });
+    mockGetPublicMember({ members: cachedMembers });
+    mockGetMembers({ members: cachedMembers, currentMember });
+    mockGetPublicMembers({ members: cachedMembers });
 
     mockGetCurrentMember(currentMember, getCurrentMemberError);
 
-    mockGetItem(items, false);
+    mockGetItem({ items, currentMember });
+    mockGetPublicItem({ items });
 
-    mockGetOwnItems(items);
+    mockGetAvatar({ members, currentMember });
 
-    mockGetAvatar(members, false);
-
-    mockGetItemThumbnail(items, false);
+    mockGetItemThumbnail({ items, currentMember });
 
     mockSignInRedirection();
 
@@ -61,20 +80,18 @@ Cypress.Commands.add(
 
     mockGetCategories(categories, getCategoriesError);
 
-    mockGetItemCategories(items, getItemCategoriesError);
+    mockGetItemCategories({ items, currentMember }, getItemCategoriesError);
+    mockGetPublicItemCategories({ items }, getItemCategoriesError);
 
-    mockGetItemsInCategories(items, false);
+    mockGetPublishedItemsInCategories({ items });
+    mockGetPublicItemsWithTags({ items });
+
+    mockGetItemMembershipsForItem({ items, currentMember });
+    mockGetPublicItemMembershipsForItem({ items });
+
+    mockGetFlags({ flags, currentMember });
+    mockSearch({ searchResultItems }, searchError);
   },
-);
-
-Cypress.Commands.add(
-  'clickElementInIframe',
-  (iframeSelector, elementSelector) =>
-    cy
-      .get(iframeSelector)
-      .then(($iframe) =>
-        cy.wrap($iframe.contents().find(elementSelector)).click(),
-      ),
 );
 
 Cypress.Commands.add(
