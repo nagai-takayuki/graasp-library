@@ -28,9 +28,7 @@ import {
   APP_NAME,
   LEFT_MENU_WIDTH,
   GRAASP_BUILDER_URL,
-  LEVEL,
-  DISCIPLINE,
-  ALL,
+  CATEGORY_TYPES,
 } from '../../config/constants';
 import CollectionsGrid from '../collection/CollectionsGrid';
 import { QueryClientContext } from '../QueryClientContext';
@@ -127,10 +125,13 @@ function AllCollections() {
     hooks.useCategories();
   const allCategories = categories?.groupBy((entry) => entry.type);
   const levelList = allCategories?.get(
-    categoryTypes?.find((type) => type.name === LEVEL)?.id,
+    categoryTypes?.find((type) => type.name === CATEGORY_TYPES.LEVEL)?.id,
   );
   const disciplineList = allCategories
-    ?.get(categoryTypes?.find((type) => type.name === DISCIPLINE)?.id)
+    ?.get(
+      categoryTypes?.find((type) => type.name === CATEGORY_TYPES.DISCIPLINE)
+        ?.id,
+    )
     ?.sort(compare);
 
   // state variable to record selected options
@@ -148,40 +149,41 @@ function AllCollections() {
   };
 
   const clearSelection = (type) => () => {
-    if (type === LEVEL) setSelectedLevel([]);
-    if (type === DISCIPLINE) setSelectedDiscipline([]);
-    if (type === ALL) {
-      setSelectedLevel([]);
-      setSelectedDiscipline([]);
+    switch (type) {
+      case CATEGORY_TYPES.LEVEL: {
+        setSelectedLevel([]);
+        break;
+      }
+      case CATEGORY_TYPES.DISCIPLINE: {
+        setSelectedDiscipline([]);
+        break;
+      }
+      default: {
+        setSelectedLevel([]);
+        setSelectedDiscipline([]);
+        break;
+      }
     }
   };
 
-  const handleClick = (type, name) => () => {
-    if (type === LEVEL) {
-      const currentIndex = selectedLevel.indexOf(name);
-      const newChecked = [...selectedLevel];
+  const buildHandleClick = (selected, setSelected) => (id) => () => {
+    const currentIndex = selected.indexOf(id);
+    const newChecked = [...selected];
 
-      if (currentIndex === -1) {
-        newChecked.push(name);
-      } else {
-        newChecked.splice(currentIndex, 1);
-      }
-
-      setSelectedLevel(newChecked);
+    if (currentIndex === -1) {
+      newChecked.push(id);
+    } else {
+      newChecked.splice(currentIndex, 1);
     }
-    if (type === DISCIPLINE) {
-      const currentIndex = selectedDiscipline.indexOf(name);
-      const newChecked = [...selectedDiscipline];
 
-      if (currentIndex === -1) {
-        newChecked.push(name);
-      } else {
-        newChecked.splice(currentIndex, 1);
-      }
-
-      setSelectedDiscipline(newChecked);
-    }
+    setSelected(newChecked);
   };
+
+  const handleClickForDiscipline = buildHandleClick(
+    selectedDiscipline,
+    setSelectedDiscipline,
+  );
+  const handleClickForLevel = buildHandleClick(selectedLevel, setSelectedLevel);
 
   const redirectToCompose = () => {
     window.location.href = GRAASP_BUILDER_URL;
@@ -216,7 +218,7 @@ function AllCollections() {
           variant="contained"
           color="primary"
           startIcon={<BookmarkIcon />}
-          onClick={clearSelection(ALL)}
+          onClick={clearSelection()}
         >
           {t('All Collections')}
         </Button>
@@ -244,7 +246,7 @@ function AllCollections() {
               <ListItem
                 button
                 key={entry.id}
-                onClick={handleClick(LEVEL, entry.id)}
+                onClick={handleClickForLevel(entry.id)}
                 selected={selectedLevel.indexOf(entry.id) !== -1}
                 id={buildEducationLevelOptionId(index)}
               >
@@ -258,7 +260,7 @@ function AllCollections() {
           color="default"
           size="small"
           startIcon={<HighlightOffIcon />}
-          onClick={clearSelection(LEVEL)}
+          onClick={clearSelection(CATEGORY_TYPES.LEVEL)}
           id={CLEAR_EDUCATION_LEVEL_SELECTION_ID}
         >
           {t('Clear Selection')}
@@ -280,7 +282,7 @@ function AllCollections() {
               <ListItem
                 button
                 key={entry.id}
-                onClick={handleClick(DISCIPLINE, entry.id)}
+                onClick={handleClickForDiscipline(entry.id)}
                 selected={selectedDiscipline.indexOf(entry.id) !== -1}
               >
                 <ListItemText primary={t(entry.name)} />
@@ -293,7 +295,7 @@ function AllCollections() {
           color="default"
           size="small"
           startIcon={<HighlightOffIcon />}
-          onClick={clearSelection(DISCIPLINE)}
+          onClick={clearSelection(CATEGORY_TYPES.DISCIPLINE)}
         >
           {t('Clear Selection')}
         </Button>
@@ -321,7 +323,7 @@ function AllCollections() {
             description={APP_DESCRIPTION}
             author={APP_AUTHOR}
           />
-          {selectedLevel?.length === 0 && selectedDiscipline?.length === 0 && (
+          {selectedLevel?.length === 0 && selectedDiscipline?.length === 0 ? (
             <>
               <Typography variant="h3" align="center" id={TITLE_TEXT_ID}>
                 {t(`All Collections`)}
@@ -338,8 +340,7 @@ function AllCollections() {
                 isLoading={isLoading}
               />
             </>
-          )}
-          {(selectedLevel?.length > 0 || selectedDiscipline?.length > 0) && (
+          ) : (
             <LevelCollectionsPage
               selectedLevel={selectedLevel}
               selectedDiscipline={selectedDiscipline}

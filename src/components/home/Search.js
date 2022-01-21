@@ -49,9 +49,16 @@ function Search({
 }) {
   const { t } = useTranslation();
   const classes = useStyles();
+
+  const handleKeyUp = (event) => {
+    if (event.keyCode === 13) {
+      handleClick();
+    }
+  };
+
   return (
     <>
-      <Paper component="div" className={classes.root}>
+      <Paper component="div" className={classes.root} onKeyUp={handleKeyUp}>
         <InputBase
           id="search"
           disabled={isLoading}
