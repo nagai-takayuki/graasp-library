@@ -20,6 +20,7 @@ import MenuOpenIcon from '@material-ui/icons/MenuOpen';
 import BookmarkIcon from '@material-ui/icons/Bookmark';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+import Skeleton from '@material-ui/lab/Skeleton';
 import Seo from '../common/Seo';
 import {
   APP_AUTHOR,
@@ -27,8 +28,7 @@ import {
   APP_NAME,
   LEFT_MENU_WIDTH,
   GRAASP_BUILDER_URL,
-  LEVEL,
-  DISCIPLINE,
+  CATEGORY_TYPES,
 } from '../../config/constants';
 import CollectionsGrid from '../collection/CollectionsGrid';
 import { QueryClientContext } from '../QueryClientContext';
@@ -102,6 +102,9 @@ const useStyles = makeStyles((theme) => ({
   sectionHeader: {
     marginTop: theme.spacing(2),
   },
+  divider: {
+    marginBottom: theme.spacing(10),
+  },
 }));
 
 function AllCollections() {
@@ -118,17 +121,22 @@ function AllCollections() {
 
   // get categories in each type
   const { data: categoryTypes } = hooks.useCategoryTypes();
-  const { data: categories } = hooks.useCategories();
+  const { data: categories, isLoading: isCategoriesLoading } =
+    hooks.useCategories();
   const allCategories = categories?.groupBy((entry) => entry.type);
   const levelList = allCategories?.get(
-    categoryTypes?.find((type) => type.name === LEVEL)?.id,
+    categoryTypes?.find((type) => type.name === CATEGORY_TYPES.LEVEL)?.id,
   );
   const disciplineList = allCategories
-    ?.get(categoryTypes?.find((type) => type.name === DISCIPLINE)?.id)
+    ?.get(
+      categoryTypes?.find((type) => type.name === CATEGORY_TYPES.DISCIPLINE)
+        ?.id,
+    )
     ?.sort(compare);
 
   // state variable to record selected options
-  const [selectedOptions, setSelectedOptions] = useState([null, null]);
+  const [selectedLevel, setSelectedLevel] = useState([]);
+  const [selectedDiscipline, setSelectedDiscipline] = useState([]);
 
   // state variable to control the side menu
   const [sideBarStatus, setSideBarStatus] = useState(true);
@@ -141,20 +149,41 @@ function AllCollections() {
   };
 
   const clearSelection = (type) => () => {
-    if (type === LEVEL) setSelectedOptions([null, selectedOptions[1]]);
-    if (type === DISCIPLINE) setSelectedOptions([selectedOptions[0], null]);
+    switch (type) {
+      case CATEGORY_TYPES.LEVEL: {
+        setSelectedLevel([]);
+        break;
+      }
+      case CATEGORY_TYPES.DISCIPLINE: {
+        setSelectedDiscipline([]);
+        break;
+      }
+      default: {
+        setSelectedLevel([]);
+        setSelectedDiscipline([]);
+        break;
+      }
+    }
   };
 
-  const handleClick = (type, name) => () => {
-    if (type === LEVEL) setSelectedOptions([name, selectedOptions[1]]);
-    if (type === DISCIPLINE) setSelectedOptions([selectedOptions[0], name]);
+  const buildHandleClick = (selected, setSelected) => (id) => () => {
+    const currentIndex = selected.indexOf(id);
+    const newChecked = [...selected];
+
+    if (currentIndex === -1) {
+      newChecked.push(id);
+    } else {
+      newChecked.splice(currentIndex, 1);
+    }
+
+    setSelected(newChecked);
   };
 
-  const checkSelected = (type, name) => {
-    if (type === LEVEL) return name === selectedOptions[0];
-    if (type === DISCIPLINE) return name === selectedOptions[1];
-    return false;
-  };
+  const handleClickForDiscipline = buildHandleClick(
+    selectedDiscipline,
+    setSelectedDiscipline,
+  );
+  const handleClickForLevel = buildHandleClick(selectedLevel, setSelectedLevel);
 
   const redirectToCompose = () => {
     window.location.href = GRAASP_BUILDER_URL;
@@ -209,25 +238,29 @@ function AllCollections() {
         >
           {t('Education Level')}
         </Typography>
-        <List dense className={classes.list}>
-          {levelList?.map((entry, index) => (
-            <ListItem
-              button
-              key={entry.name}
-              onClick={handleClick(LEVEL, entry.name)}
-              selected={checkSelected(LEVEL, entry.name)}
-              id={buildEducationLevelOptionId(index)}
-            >
-              <ListItemText primary={t(entry.name)} />
-            </ListItem>
-          ))}
-        </List>
+        {isCategoriesLoading ? (
+          <Skeleton height="10%" />
+        ) : (
+          <List dense className={classes.list}>
+            {levelList?.map((entry, index) => (
+              <ListItem
+                button
+                key={entry.id}
+                onClick={handleClickForLevel(entry.id)}
+                selected={selectedLevel.indexOf(entry.id) !== -1}
+                id={buildEducationLevelOptionId(index)}
+              >
+                <ListItemText primary={t(entry.name)} />
+              </ListItem>
+            ))}
+          </List>
+        )}
         <Button
           variant="text"
           color="default"
           size="small"
           startIcon={<HighlightOffIcon />}
-          onClick={clearSelection(LEVEL)}
+          onClick={clearSelection(CATEGORY_TYPES.LEVEL)}
           id={CLEAR_EDUCATION_LEVEL_SELECTION_ID}
         >
           {t('Clear Selection')}
@@ -241,24 +274,28 @@ function AllCollections() {
         >
           {t('Discipline')}
         </Typography>
-        <List dense className={classes.list}>
-          {disciplineList?.map((entry) => (
-            <ListItem
-              button
-              key={entry.name}
-              onClick={handleClick(DISCIPLINE, entry.name)}
-              selected={checkSelected(DISCIPLINE, entry.name)}
-            >
-              <ListItemText primary={t(entry.name)} />
-            </ListItem>
-          ))}
-        </List>
+        {isCategoriesLoading ? (
+          <Skeleton height="10%" />
+        ) : (
+          <List dense className={classes.list}>
+            {disciplineList?.map((entry) => (
+              <ListItem
+                button
+                key={entry.id}
+                onClick={handleClickForDiscipline(entry.id)}
+                selected={selectedDiscipline.indexOf(entry.id) !== -1}
+              >
+                <ListItemText primary={t(entry.name)} />
+              </ListItem>
+            ))}
+          </List>
+        )}
         <Button
           variant="text"
           color="default"
           size="small"
           startIcon={<HighlightOffIcon />}
-          onClick={clearSelection(DISCIPLINE)}
+          onClick={clearSelection(CATEGORY_TYPES.DISCIPLINE)}
         >
           {t('Clear Selection')}
         </Button>
@@ -286,7 +323,7 @@ function AllCollections() {
             description={APP_DESCRIPTION}
             author={APP_AUTHOR}
           />
-          {!selectedOptions[0] && !selectedOptions[1] && (
+          {selectedLevel?.length === 0 && selectedDiscipline?.length === 0 ? (
             <>
               <Typography variant="h3" align="center" id={TITLE_TEXT_ID}>
                 {t(`All Collections`)}
@@ -303,9 +340,11 @@ function AllCollections() {
                 isLoading={isLoading}
               />
             </>
-          )}
-          {(selectedOptions[0] || selectedOptions[1]) && (
-            <LevelCollectionsPage selectedOptions={selectedOptions} />
+          ) : (
+            <LevelCollectionsPage
+              selectedLevel={selectedLevel}
+              selectedDiscipline={selectedDiscipline}
+            />
           )}
         </main>
       </div>
