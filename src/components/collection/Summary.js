@@ -19,13 +19,17 @@ import {
 } from '../../config/constants';
 import { ITEM_SUMMARY_TITLE_ID } from '../../config/selectors';
 
-const { ItemFlagDialog, FlagItemButton } = {
+const { ItemFlagDialog, FlagItemButton, FavoriteButton } = {
   ItemFlagDialog: dynamic(
     () => import('@graasp/ui').then((mod) => mod.ItemFlagDialog),
     { ssr: false },
   ),
   FlagItemButton: dynamic(
     () => import('@graasp/ui').then((mod) => mod.FlagItemButton),
+    { ssr: false },
+  ),
+  FavoriteButton: dynamic(
+    () => import('@graasp/ui').then((mod) => mod.FavoriteButton),
     { ssr: false },
   ),
 };
@@ -77,11 +81,17 @@ function Summary({
   const categoriesDisplayed = allCategories?.filter((category) =>
     categories?.map((entry) => entry.categoryId).includes(category.id),
   );
+  const { data: member } = hooks.useCurrentMember();
+
   const { mutate: postFlagItem } = useMutation(MUTATION_KEYS.POST_ITEM_FLAG);
+  const { mutate: updateFavoriteItem } = useMutation(MUTATION_KEYS.EDIT_MEMBER);
+
   const [open, setOpen] = useState(false);
   const [selectedFlag, setSelectedFlag] = useState(false);
 
   const { data: flags } = hooks.useFlags();
+
+  const isFavorite = member?.get('extra')?.favoriteItems?.includes(itemId);
 
   const onFlag = () => {
     postFlagItem({
@@ -89,6 +99,28 @@ function Summary({
       itemId,
     });
     setOpen(false);
+  };
+
+  const handleFavorite = () => {
+    updateFavoriteItem({
+      id: member.get('id'),
+      extra: {
+        favoriteItems: member?.get('extra').favoriteItems
+          ? member.get('extra').favoriteItems.concat([itemId])
+          : [itemId],
+      },
+    });
+  };
+
+  const handleUnfavorite = () => {
+    updateFavoriteItem({
+      id: member.get('id'),
+      extra: {
+        favoriteItems: member
+          ?.get('extra')
+          .favoriteItems?.filter((id) => id !== itemId),
+      },
+    });
   };
 
   return (
@@ -132,6 +164,12 @@ function Summary({
               </Typography>
             </Grid>
             <Grid item className={classes.reportButton}>
+              <FavoriteButton
+                color="primary"
+                isFavorite={isFavorite}
+                handleFavorite={handleFavorite}
+                handleUnfavorite={handleUnfavorite}
+              />
               <FlagItemButton setOpen={setOpen} />
             </Grid>
           </Grid>

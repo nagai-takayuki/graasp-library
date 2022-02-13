@@ -50,11 +50,16 @@ function MyList() {
   const { t } = useTranslation();
   const classes = useStyles();
   const { hooks } = useContext(QueryClientContext);
+  const { data: member } = hooks.useCurrentMember();
   const { data: collections, isLoading } = hooks.usePublicItemsWithTag(
     PUBLISHED_TAG_ID,
     {
       placeholderData: PLACEHOLDER_COLLECTIONS,
     },
+  );
+  const favoriteItemsList = member?.get('extra')?.favoriteItems || [];
+  const favoriteCollections = collections.filter((collection) =>
+    favoriteItemsList.includes(collection.id),
   );
 
   return (
@@ -86,7 +91,10 @@ function MyList() {
         <Typography variant="h3" className={classes.typographyMargin}>
           {t('Favorites')}
         </Typography>
-        <CollectionsGrid collections={collections} isLoading={isLoading} />
+        <CollectionsGrid
+          collections={favoriteCollections}
+          isLoading={isLoading}
+        />
       </main>
     </div>
   );
