@@ -22,6 +22,7 @@ import { buildPeformViewEndpoint } from '../../api/endpoints';
 import CopyButton from './CopyButton';
 import CardMedia from '../common/CardMediaComponent';
 import CopyLinkButton from './CopyLinkButton';
+import DownloadButton from './DownloadButton';
 
 const Avatar = dynamic(() => import('@graasp/ui').then((mod) => mod.Avatar), {
   ssr: false,
@@ -171,6 +172,7 @@ export const CollectionCard = ({ collection = {}, isLoading }) => {
       <CardActions disableSpacing className={classes.actions}>
         <CopyButton id={id} />
         <CopyLinkButton id={id} extra={extra} />
+        <DownloadButton id={id} />
         <SimilarCollectionBadges views={views} voteScore={voteScore} />
       </CardActions>
     </Card>
