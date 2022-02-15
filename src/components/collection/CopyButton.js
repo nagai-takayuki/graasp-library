@@ -19,6 +19,11 @@ const CopyButton = ({ id }) => {
   const { mutate: copyItem, isLoading: isCopying } = useMutation(
     MUTATION_KEYS.COPY_PUBLIC_ITEM,
   );
+  const mutation = useMutation(
+    MUTATION_KEYS.COPY_PUBLIC_ITEM,
+  );
+  console.log(mutation);
+  
   const { setOpen: openLoginModal, open: showLoginModal } =
     useContext(LoginModalContext);
 
