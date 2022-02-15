@@ -56,6 +56,7 @@ const useStyles = makeStyles((theme) => ({
   reportButton: {
     display: 'flex',
   },
+  favoriteButton: {},
 }));
 
 function Summary({
@@ -166,6 +167,7 @@ function Summary({
             <Grid item className={classes.reportButton}>
               <FavoriteButton
                 color="primary"
+                className={classes.favoriteButton}
                 isFavorite={isFavorite}
                 handleFavorite={handleFavorite}
                 handleUnfavorite={handleUnfavorite}
