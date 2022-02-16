@@ -9,17 +9,19 @@ import { QueryClientContext } from '../QueryClientContext';
 
 const DownloadButton = ({ id }) => {
   const { t } = useTranslation();
-  const { hooks, useMutation } = useContext(QueryClientContext);
-  const { data: user, isLoading } = hooks.useCurrentMember();
-  const { mutate: downloadItem } = useMutation('downloadItem');
-  console.log(MUTATION_KEYS);
-  console.log(MUTATION_KEYS.DOWNLOAD_ITEM);
+  const { useMutation } = useContext(QueryClientContext);
+  const { mutate: downloadItem, data: response, isLoading } = useMutation(MUTATION_KEYS.DOWNLOAD_ITEM);
 
+  if (isLoading) {
+    return null;
+  }
   const onClick = () => {
     // remove loading icon on callback
     // do not set parent if it is root
     console.log('download');
-    downloadItem(id);
+    const res = downloadItem(id);
+    console.log(response, res);
+    console.log('download finish');
   };
 
   return (
