@@ -19,7 +19,7 @@ import {
 } from '../../config/constants';
 import { ITEM_SUMMARY_TITLE_ID } from '../../config/selectors';
 
-const { ItemFlagDialog, FlagItemButton, FavoriteButton } = {
+const { ItemFlagDialog, FlagItemButton, FavoriteButton, LikeButton } = {
   ItemFlagDialog: dynamic(
     () => import('@graasp/ui').then((mod) => mod.ItemFlagDialog),
     { ssr: false },
@@ -30,6 +30,10 @@ const { ItemFlagDialog, FlagItemButton, FavoriteButton } = {
   ),
   FavoriteButton: dynamic(
     () => import('@graasp/ui').then((mod) => mod.FavoriteButton),
+    { ssr: false },
+  ),
+  LikeButton: dynamic(
+    () => import('@graasp/ui').then((mod) => mod.LikeButton),
     { ssr: false },
   ),
 };
@@ -83,9 +87,14 @@ function Summary({
     categories?.map((entry) => entry.categoryId).includes(category.id),
   );
   const { data: member } = hooks.useCurrentMember();
+  const { data: likeCount } = hooks.useLikeCount(itemId);
+  const { data: likedItems } = hooks.useLikedItems(member?.id);
+  console.log(likeCount, likedItems);
 
   const { mutate: postFlagItem } = useMutation(MUTATION_KEYS.POST_ITEM_FLAG);
   const { mutate: updateFavoriteItem } = useMutation(MUTATION_KEYS.EDIT_MEMBER);
+  const { mutate: postItemLike } = useMutation(MUTATION_KEYS.POST_ITEM_LIKE);
+  const { mutate: deleteItemLike } = useMutation(MUTATION_KEYS.DELETE_ITEM_LIKE);
 
   const [open, setOpen] = useState(false);
   const [selectedFlag, setSelectedFlag] = useState(false);
@@ -93,6 +102,8 @@ function Summary({
   const { data: flags } = hooks.useFlags();
 
   const isFavorite = member?.get('extra')?.favoriteItems?.includes(itemId);
+
+  const likeEntry = likedItems?.filter((itemLike) => itemLike?.itemId === itemId);
 
   const onFlag = () => {
     postFlagItem({
@@ -121,6 +132,18 @@ function Summary({
           ?.get('extra')
           .favoriteItems?.filter((id) => id !== itemId),
       },
+    });
+  };
+
+  const handleLike = () => {
+    postItemLike({
+      itemId,
+    });
+  };
+
+  const handleUnlike = () => {
+    deleteItemLike({
+      id: likeEntry?.id,
     });
   };
 
@@ -171,6 +194,13 @@ function Summary({
                 isFavorite={isFavorite}
                 handleFavorite={handleFavorite}
                 handleUnfavorite={handleUnfavorite}
+              />
+              <LikeButton
+                color="primary"
+                className={classes.likeButton}
+                isLike={Boolean(likeEntry)}
+                handleLike={handleLike}
+                handleUnlike={handleUnlike}
               />
               <FlagItemButton setOpen={setOpen} />
             </Grid>
