@@ -24,7 +24,7 @@
   },
   "dependencies": {
     "@graasp/query-client": "github:graasp/graasp-query-client.git#128/ItemDownloadHooks",
-    "@graasp/ui": "github:graasp/graasp-ui.git#88/FavoriteButton",
+    "@graasp/ui": "github:graasp/graasp-ui.git",
     "@material-ui/core": "4.12.3",
     "@material-ui/icons": "4.11.2",
     "@material-ui/lab": "4.0.0-alpha.60",

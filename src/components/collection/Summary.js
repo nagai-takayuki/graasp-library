@@ -86,9 +86,8 @@ function Summary({
   const categoriesDisplayed = allCategories?.filter((category) =>
     categories?.map((entry) => entry.categoryId).includes(category.id),
   );
-  const { data: member } = hooks.useCurrentMember();
-  // const { data: likeCount } = hooks.useLikeCount(itemId);
-  const { data: likedItems } = hooks.useLikedItems(member?.id);
+  const { data: member, isLoading: isMemberLoading } = hooks.useCurrentMember();
+  const { data: likedItems } = hooks.useLikedItems(member?.get('id'));
 
   const { mutate: postFlagItem } = useMutation(MUTATION_KEYS.POST_ITEM_FLAG);
   const { mutate: updateFavoriteItem } = useMutation(MUTATION_KEYS.EDIT_MEMBER);
@@ -102,11 +101,11 @@ function Summary({
 
   const { data: flags } = hooks.useFlags();
 
+  if (isMemberLoading) return null;
+
   const isFavorite = member?.get('extra')?.favoriteItems?.includes(itemId);
 
-  const likeEntry = likedItems?.filter(
-    (itemLike) => itemLike?.itemId === itemId,
-  );
+  const likeEntry = likedItems?.find((itemLike) => itemLike?.itemId === itemId);
 
   const onFlag = () => {
     postFlagItem({
@@ -141,7 +140,7 @@ function Summary({
   const handleLike = () => {
     postItemLike({
       itemId,
-      memberId: member?.id,
+      memberId: member.get('id'),
     });
   };
 
@@ -149,7 +148,7 @@ function Summary({
     deleteItemLike({
       id: likeEntry?.id,
       itemId,
-      memberId: member?.id,
+      memberId: member.get('id'),
     });
   };
 
@@ -204,7 +203,7 @@ function Summary({
               <LikeButton
                 color="primary"
                 className={classes.likeButton}
-                isLike={Boolean(likeEntry)}
+                isLiked={Boolean(likeEntry)}
                 handleLike={handleLike}
                 handleUnlike={handleUnlike}
               />

@@ -735,7 +735,7 @@ __metadata:
 
 "@graasp/query-client@github:graasp/graasp-query-client.git#128/ItemDownloadHooks":
   version: 0.1.0
-  resolution: "@graasp/query-client@https://github.com/graasp/graasp-query-client.git#commit=56114b48fbb2cbf798c5d6670ee4165441d4d27a"
+  resolution: "@graasp/query-client@https://github.com/graasp/graasp-query-client.git#commit=672c015168f583ece13f5103c84b9168e5e5f448"
   dependencies:
     axios: 0.24.0
     http-status-codes: 2.2.0
@@ -746,13 +746,13 @@ __metadata:
     uuid: 8.3.2
   peerDependencies:
     react: ^17.0.0
-  checksum: c7866b61628ef433885bc5904daef6c22d65add23920a1d5f970041fe6aac809bf39e033fb832e44868b476f48d604235cf2a56865f44ae527d1926da9c876c9
+  checksum: ee664a186598a8ecd45b8cad45f568a80a425eedd85f384c121966b73777e5e7338a0a27652218b0bf219e7905a9f07368a90ec7076e664b92e345377620f643
   languageName: node
   linkType: hard
 
 "@graasp/ui@github:graasp/graasp-ui.git#88/FavoriteButton":
   version: 0.2.0
-  resolution: "@graasp/ui@https://github.com/graasp/graasp-ui.git#commit=21288c196994ce3f7ab8aa5337b1c7ed865c83cf"
+  resolution: "@graasp/ui@https://github.com/graasp/graasp-ui.git#commit=0d91a5667e27d39d959e024cdbb79f90ab1e0003"
   dependencies:
     clsx: 1.1.1
     http-status-codes: 2.2.0
@@ -769,7 +769,7 @@ __metadata:
     i18next: 21.3.1
     react: ^16.13.1
     react-dom: 16.13.1
-  checksum: a03d75863b7f92b5873173297b3ec04ea15e843437775509004d376c13562c619e156eb742b70f5f50bb962accb94f0ede1e947bf20163cbff7d7825fede5acf
+  checksum: 0c465c79775b030e47ba0906e152862c36617104881eabb7ab16c9b37984064419c57e3faace042d1ff39ea225989a1f38bca6fab2e83f3553024373936e08b2
   languageName: node
   linkType: hard
 
@@ -6395,11 +6395,11 @@ __metadata:
   linkType: hard
 
 "nanoid@npm:^3.1.23":
-  version: 3.3.0
-  resolution: "nanoid@npm:3.3.0"
+  version: 3.3.1
+  resolution: "nanoid@npm:3.3.1"
   bin:
     nanoid: bin/nanoid.cjs
-  checksum: 183d7da5c910a717a6058c7d4485d69de6f50fe3eb903830fa965430c7bbd516d70b9eb523a25cf32550bebe835a7adf080b6059808d50c9a8895fa9204e7499
+  checksum: 4ef0969e1bbe866fc223eb32276cbccb0961900bfe79104fa5abe34361979dead8d0e061410a5c03bc3d47455685adf32c09d6f27790f4a6898fb51f7df7ec86
   languageName: node
   linkType: hard
 

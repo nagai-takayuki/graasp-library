@@ -43,6 +43,7 @@ const Collection = ({ id }) => {
     isError: memberIsError,
     isLoading: isLoadingMember,
   } = hooks.useMember(collection?.get('creator'));
+  const { data: likeCount } = hooks.useLikeCount(id);
 
   if (!id || !validate(id)) {
     return <Error code={ERROR_INVALID_COLLECTION_ID_CODE} />;
@@ -61,9 +62,9 @@ const Collection = ({ id }) => {
   const parsedDescription = collection?.get('description') || '';
   const tags = collection?.get('settings')?.tags || [];
 
-  // todo: views and likes don't exist
+  // todo: views don't exist
   const views = collection?.get('views');
-  const likes = collection?.get('likes');
+  const likes = parseInt(likeCount?.count, 10);
   return (
     <ErrorBoundary>
       <Seo
