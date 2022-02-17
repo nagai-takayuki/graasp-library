@@ -10,18 +10,25 @@ import { QueryClientContext } from '../QueryClientContext';
 const DownloadButton = ({ id }) => {
   const { t } = useTranslation();
   const { useMutation } = useContext(QueryClientContext);
-  const { mutate: downloadItem, data: response, isLoading } = useMutation(MUTATION_KEYS.DOWNLOAD_ITEM);
+  const {
+    mutate: downloadItem,
+    data,
+    isLoading,
+  } = useMutation(MUTATION_KEYS.DOWNLOAD_ITEM);
 
   if (isLoading) {
     return null;
   }
   const onClick = () => {
-    // remove loading icon on callback
-    // do not set parent if it is root
-    console.log('download');
-    const res = downloadItem(id);
-    console.log(response, res);
-    console.log('download finish');
+    downloadItem(id);
+    if (!isLoading) {
+      const url = window.URL.createObjectURL(new Blob([data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', `${id}.zip`);
+      document.body.appendChild(link);
+      link.click();
+    }
   };
 
   return (
