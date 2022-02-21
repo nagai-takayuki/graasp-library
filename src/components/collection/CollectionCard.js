@@ -33,6 +33,7 @@ const useStyles = makeStyles((theme) => ({
     height: '100%',
     display: 'flex',
     flexDirection: 'column',
+    borderRadius: 20,
   },
   header: {
     height: 60,

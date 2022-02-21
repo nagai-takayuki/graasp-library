@@ -36,12 +36,19 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
   },
+  toolbar: {
+    height: HEADER_HEIGHT,
+  },
+  header: {
+    boxShadow:
+      '0px 2px 4px -1px rgb(0 0 0 / 30%), 0px 4px 5px 0px rgb(0 0 0 / 20%), 0px 1px 10px 0px rgb(0 0 0 / 12%)',
+  },
   link: {
     textDecoration: 'none',
     color: '#fff',
   },
   logo: {
-    fill: '#fff',
+    fill: '#000',
   },
   title: {
     marginLeft: theme.spacing(2),
@@ -82,9 +89,9 @@ function Header() {
 
   return (
     <>
-      <header>
-        <AppBar position="fixed">
-          <Toolbar>
+      <header className={classes.header}>
+        <AppBar position="fixed" color="#ffffff">
+          <Toolbar className={classes.toolbar}>
             <div className={classes.headerLeft}>
               <GraaspLogo
                 height={HEADER_LOGO_HEIGHT}

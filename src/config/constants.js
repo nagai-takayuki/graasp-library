@@ -44,8 +44,8 @@ export const TREE_VIEW_MIN_WIDTH = 350;
 export const TWITTER_MESSAGE_MAX_LENGTH = 270;
 export const MAIL_BREAK_LINE = '%0D%0A';
 
-export const HEADER_LOGO_HEIGHT = 40;
-export const HEADER_HEIGHT = 65;
+export const HEADER_LOGO_HEIGHT = 60;
+export const HEADER_HEIGHT = 100;
 
 export const LEFT_MENU_WIDTH = 300;
 
