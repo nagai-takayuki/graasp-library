@@ -68,6 +68,7 @@ function Summary({
   creator,
   description,
   tags,
+  ccLicense,
   contributors,
   likes,
   views,
@@ -147,6 +148,35 @@ function Summary({
       itemId,
       memberId: member.get('id'),
     });
+  };
+
+  const displayCCLicense = () => {
+    if (ccLicense === 'yes') {
+      return (
+        <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">
+          <img
+            alt="Creative Commons License"
+            className={classes.icon}
+            src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png"
+          />
+        </a>
+      );
+    }
+    if (ccLicense === 'conditional') {
+      return (
+        <a
+          rel="license"
+          href="http://creativecommons.org/licenses/by-nc-sa/4.0/"
+        >
+          <img
+            alt="Creative Commons License"
+            className={classes.icon}
+            src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"
+          />
+        </a>
+      );
+    }
+    return <></>;
   };
 
   return (
@@ -253,6 +283,12 @@ function Summary({
               ))}
             </>
           )}
+          {ccLicense && (
+            <Typography variant="h6">
+              {t('Creative Commons License')}
+            </Typography>
+          )}
+          {displayCCLicense()}
         </Grid>
       </Grid>
     </div>
@@ -263,6 +299,7 @@ Summary.propTypes = {
   name: PropTypes.string,
   description: PropTypes.string,
   tags: PropTypes.arrayOf(PropTypes.string),
+  ccLicense: PropTypes.string.isRequired,
   creator: PropTypes.instanceOf(Map),
   contributors: PropTypes.arrayOf(
     PropTypes.shape({
