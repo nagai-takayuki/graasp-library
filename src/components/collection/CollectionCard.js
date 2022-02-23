@@ -32,6 +32,7 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: 345,
     height: '100%',
     display: 'flex',
+    aspectRatio: 1,
     flexDirection: 'column',
     borderRadius: 20,
   },
