@@ -60,7 +60,6 @@ const useStyles = makeStyles((theme) => ({
   reportButton: {
     display: 'flex',
   },
-  favoriteButton: {},
 }));
 
 function Summary({
@@ -86,7 +85,7 @@ function Summary({
   const categoriesDisplayed = allCategories?.filter((category) =>
     categories?.map((entry) => entry.categoryId).includes(category.id),
   );
-  const { data: member, isLoading: isMemberLoading } = hooks.useCurrentMember();
+  const { data: member } = hooks.useCurrentMember();
   const { data: likedItems } = hooks.useLikedItems(member?.get('id'));
 
   const { mutate: postFlagItem } = useMutation(MUTATION_KEYS.POST_ITEM_FLAG);
@@ -100,8 +99,6 @@ function Summary({
   const [selectedFlag, setSelectedFlag] = useState(false);
 
   const { data: flags } = hooks.useFlags();
-
-  if (isMemberLoading) return null;
 
   const isFavorite = member?.get('extra')?.favoriteItems?.includes(itemId);
 

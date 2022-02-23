@@ -64,7 +64,7 @@ const Collection = ({ id }) => {
 
   // todo: views don't exist
   const views = collection?.get('views');
-  const likes = parseInt(likeCount?.count, 10);
+  const likes = likeCount;
   return (
     <ErrorBoundary>
       <Seo
