@@ -60,8 +60,7 @@ const Collection = ({ id }) => {
   const imageUrl = DEFAULT_ITEM_IMAGE_PATH;
 
   const parsedDescription = collection?.get('description') || '';
-  const tags = collection?.get('settings')?.tags || [];
-  const ccLicense = collection?.get('settings')?.ccLicense;
+  const settings = collection?.get('settings');
 
   // todo: views don't exist
   const views = collection?.get('views');
@@ -80,8 +79,7 @@ const Collection = ({ id }) => {
           name={name}
           image={imageUrl}
           description={parsedDescription}
-          tags={tags}
-          ccLicense={ccLicense}
+          settings={settings}
           creator={member}
           views={views}
           likes={likes}

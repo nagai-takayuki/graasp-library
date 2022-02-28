@@ -19,7 +19,13 @@ import {
 } from '../../config/constants';
 import { ITEM_SUMMARY_TITLE_ID } from '../../config/selectors';
 
-const { ItemFlagDialog, FlagItemButton, FavoriteButton, LikeButton } = {
+const {
+  ItemFlagDialog,
+  FlagItemButton,
+  FavoriteButton,
+  LikeButton,
+  CCLicenseIcon,
+} = {
   ItemFlagDialog: dynamic(
     () => import('@graasp/ui').then((mod) => mod.ItemFlagDialog),
     { ssr: false },
@@ -34,6 +40,10 @@ const { ItemFlagDialog, FlagItemButton, FavoriteButton, LikeButton } = {
   ),
   LikeButton: dynamic(
     () => import('@graasp/ui').then((mod) => mod.LikeButton),
+    { ssr: false },
+  ),
+  CCLicenseIcon: dynamic(
+    () => import('@graasp/ui').then((mod) => mod.CCLicenseIcon),
     { ssr: false },
   ),
 };
@@ -60,6 +70,10 @@ const useStyles = makeStyles((theme) => ({
   reportButton: {
     display: 'flex',
   },
+  icon: {
+    marginTop: theme.spacing(1),
+    borderWidth: 0,
+  },
 }));
 
 function Summary({
@@ -67,8 +81,7 @@ function Summary({
   name,
   creator,
   description,
-  tags,
-  ccLicense,
+  settings,
   contributors,
   likes,
   views,
@@ -78,6 +91,8 @@ function Summary({
     length: MAX_COLLECTION_NAME_LENGTH,
     separator: /,? +/,
   });
+  const tags = settings?.tags;
+  const ccLicenseAdaption = settings?.ccLicenseAdaption;
   const classes = useStyles();
   const { t } = useTranslation();
   const { hooks, useMutation } = useContext(QueryClientContext);
@@ -90,7 +105,9 @@ function Summary({
   const { data: likedItems } = hooks.useLikedItems(member?.get('id'));
 
   const { mutate: postFlagItem } = useMutation(MUTATION_KEYS.POST_ITEM_FLAG);
-  const { mutate: updateFavoriteItem } = useMutation(MUTATION_KEYS.EDIT_MEMBER);
+  const { mutate: updateFavoriteItem } = useMutation(
+    MUTATION_KEYS.UPDATE_FAVORITE_ITEMS,
+  );
   const { mutate: postItemLike } = useMutation(MUTATION_KEYS.POST_ITEM_LIKE);
   const { mutate: deleteItemLike } = useMutation(
     MUTATION_KEYS.DELETE_ITEM_LIKE,
@@ -115,23 +132,19 @@ function Summary({
 
   const handleFavorite = () => {
     updateFavoriteItem({
-      id: member.get('id'),
-      extra: {
-        favoriteItems: member?.get('extra').favoriteItems
-          ? member.get('extra').favoriteItems.concat([itemId])
-          : [itemId],
-      },
+      memberId: member.get('id'),
+      extra: member?.get('extra'),
+      itemId,
+      action: 'add',
     });
   };
 
   const handleUnfavorite = () => {
     updateFavoriteItem({
-      id: member.get('id'),
-      extra: {
-        favoriteItems: member
-          ?.get('extra')
-          .favoriteItems?.filter((id) => id !== itemId),
-      },
+      memberId: member.get('id'),
+      extra: member?.get('extra'),
+      itemId,
+      action: 'remove',
     });
   };
 
@@ -148,35 +161,6 @@ function Summary({
       itemId,
       memberId: member.get('id'),
     });
-  };
-
-  const displayCCLicense = () => {
-    if (ccLicense === 'yes') {
-      return (
-        <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">
-          <img
-            alt="Creative Commons License"
-            className={classes.icon}
-            src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png"
-          />
-        </a>
-      );
-    }
-    if (ccLicense === 'conditional') {
-      return (
-        <a
-          rel="license"
-          href="http://creativecommons.org/licenses/by-nc-sa/4.0/"
-        >
-          <img
-            alt="Creative Commons License"
-            className={classes.icon}
-            src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"
-          />
-        </a>
-      );
-    }
-    return <></>;
   };
 
   return (
@@ -283,12 +267,15 @@ function Summary({
               ))}
             </>
           )}
-          {ccLicense && (
+          {ccLicenseAdaption && (
             <Typography variant="h6">
               {t('Creative Commons License')}
             </Typography>
           )}
-          {displayCCLicense()}
+          <CCLicenseIcon
+            adaption={ccLicenseAdaption}
+            className={classes.icon}
+          />
         </Grid>
       </Grid>
     </div>
@@ -298,8 +285,10 @@ function Summary({
 Summary.propTypes = {
   name: PropTypes.string,
   description: PropTypes.string,
-  tags: PropTypes.arrayOf(PropTypes.string),
-  ccLicense: PropTypes.string.isRequired,
+  settings: PropTypes.shape({
+    tags: PropTypes.arrayOf(PropTypes.string),
+    ccLicenseAdaption: PropTypes.string,
+  }),
   creator: PropTypes.instanceOf(Map),
   contributors: PropTypes.arrayOf(
     PropTypes.shape({
@@ -320,7 +309,7 @@ Summary.propTypes = {
 Summary.defaultProps = {
   name: PropTypes.string,
   description: PropTypes.string,
-  tags: [],
+  settings: {},
   contributors: [],
   views: 0,
   likes: 0,

@@ -16,3 +16,5 @@ export const HEADER_GRAASP_EXPLORER_ID = 'headerGraaspExplore';
 export const HEADER_MY_LIST_ID = 'headerMyList';
 export const GRAASP_SELECTION_TITLE_ID = 'graaspSelectionTitleId';
 export const DISCOVER_SECTION_TITLE_ID = 'discoverSectionTitleId';
+
+export const buildMyListNavigationTabId = (index) => `nav-tab-${index}`;

@@ -68,8 +68,8 @@ export const CATEGORY_TYPES = {
 };
 
 export const MY_FAVORITES = 'My Favorites';
-export const MY_UPLOADS = 'My Uploads';
-export const SAVED_COLLECTIONS = 'Saved Collections';
+export const MY_LIKES = 'My Likes';
+export const MY_PUBLISHMENTS = 'My Publishments';
 
 export const PICTURE_QUALITIES = {
   LARGE: 'large',

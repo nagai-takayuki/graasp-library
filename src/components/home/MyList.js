@@ -1,48 +1,30 @@
-import { makeStyles } from '@material-ui/core';
-import Typography from '@material-ui/core/Typography';
-import React, { useContext } from 'react';
+import { makeStyles, Typography, Tab, AppBar, Tabs } from '@material-ui/core';
+import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import Drawer from '@material-ui/core/Drawer';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
+import PublishIcon from '@material-ui/icons/Publish';
 import CollectionsGrid from '../collection/CollectionsGrid';
 import { QueryClientContext } from '../QueryClientContext';
 import { PUBLISHED_TAG_ID } from '../../config/env';
 import { PLACEHOLDER_COLLECTIONS } from '../../utils/collections';
 import {
-  LEFT_MENU_WIDTH,
-  MY_FAVORITES,
-  MY_UPLOADS,
-  SAVED_COLLECTIONS,
-} from '../../config/constants';
-import { TITLE_TEXT_ID } from '../../config/selectors';
+  TITLE_TEXT_ID,
+  buildMyListNavigationTabId,
+} from '../../config/selectors';
+import TabPanel from './TabPanel';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
   },
-  drawer: {
-    width: LEFT_MENU_WIDTH,
-    flexShrink: 0,
-    zIndex: theme.zIndex.appBar - 1,
-  },
-  drawerPaper: {
-    width: LEFT_MENU_WIDTH,
-  },
   content: {
     flexGrow: 1,
     padding: theme.spacing.unit * 3,
   },
-  toolbar: theme.mixins.toolbar,
-  typographyMargin: {
-    margin: theme.spacing(1.5, 0),
-  },
-  link: {
-    marginTop: theme.spacing(2),
+  tabBar: {
+    marginTop: theme.spacing(3),
+    marginBottom: theme.spacing(2),
   },
 }));
 
@@ -57,44 +39,71 @@ function MyList() {
       placeholderData: PLACEHOLDER_COLLECTIONS,
     },
   );
+  const { data: likedItems } = hooks.useLikedItems(member?.get('id'));
+
   const favoriteItemsList = member?.get('extra')?.favoriteItems || [];
-  const favoriteCollections = collections.filter((collection) =>
-    favoriteItemsList.includes(collection.id),
+  const favoriteCollections = collections?.filter((collection) =>
+    favoriteItemsList?.includes(collection?.id),
   );
+  const likedItemsList = likedItems?.map((entry) => entry.itemId);
+  const likedCollections = collections?.filter((collection) =>
+    likedItemsList?.includes(collection?.id),
+  );
+
+  const [tab, setTab] = useState(0);
+
+  const handleChange = (event, newValue) => {
+    setTab(newValue);
+  };
 
   return (
     <div className={classes.root}>
-      <CssBaseline />
-      <Drawer
-        className={classes.drawer}
-        variant="permanent"
-        classes={{
-          paper: classes.drawerPaper,
-        }}
-      >
-        <div className={classes.toolbar} />
-        <List className={classes.link}>
-          {[MY_FAVORITES, MY_UPLOADS, SAVED_COLLECTIONS].map((text) => (
-            <ListItem button key={t(text)} disabled>
-              <ListItemIcon>
-                <StarBorderIcon />
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List>
-      </Drawer>
       <main className={classes.content}>
         <Typography variant="h3" align="center" id={TITLE_TEXT_ID}>
           {t('My Collections')}
         </Typography>
-        <Typography variant="h3" className={classes.typographyMargin}>
-          {t('Favorites')}
-        </Typography>
-        <CollectionsGrid
-          collections={favoriteCollections}
-          isLoading={isLoading}
-        />
+        <AppBar position="static" color="default" className={classes.tabBar}>
+          <Tabs
+            value={tab}
+            onChange={handleChange}
+            variant="fullWidth"
+            indicatorColor="primary"
+            textColor="primary"
+            aria-label="navigation tabs"
+          >
+            <Tab
+              label={t('My Favorites')}
+              icon={<StarBorderIcon />}
+              id={buildMyListNavigationTabId(0)}
+            />
+            <Tab
+              label={t('My Likes')}
+              icon={<FavoriteBorderIcon />}
+              id={buildMyListNavigationTabId(1)}
+            />
+            <Tab
+              label={t('My Publishments')}
+              icon={<PublishIcon />}
+              id={buildMyListNavigationTabId(2)}
+              disabled
+            />
+          </Tabs>
+        </AppBar>
+        <TabPanel value={tab} index={0}>
+          <CollectionsGrid
+            collections={favoriteCollections}
+            isLoading={isLoading}
+          />
+        </TabPanel>
+        <TabPanel value={tab} index={1}>
+          <CollectionsGrid
+            collections={likedCollections}
+            isLoading={isLoading}
+          />
+        </TabPanel>
+        <TabPanel value={tab} index={2}>
+          <CollectionsGrid collections={collections} isLoading={isLoading} />
+        </TabPanel>
       </main>
     </div>
   );
