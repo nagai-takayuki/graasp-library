@@ -78,7 +78,7 @@ export const buildMemberKey = (id) => ['members', id];
 export const SENTRY_FALLBACK_MESSAGE = 'An error has occurred';
 
 export const CLIENT_ERROR_MESSAGE = 'Something went wrong!';
-export const DEFAULT_ITEM_IMAGE_PATH = '/icon.png';
+export const DEFAULT_ITEM_IMAGE_PATH = '/newicon.png';
 export const DEFAULT_MEMBER_THUMBNAIL = '/defaultAvatar.png';
 
 export const THUMBNAIL_SIZES = {

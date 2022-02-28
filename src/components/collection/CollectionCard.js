@@ -29,12 +29,14 @@ const Avatar = dynamic(() => import('@graasp/ui').then((mod) => mod.Avatar), {
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: 345,
+    minWidth: 400,
     height: '100%',
     display: 'flex',
     aspectRatio: 1,
     flexDirection: 'column',
-    borderRadius: 20,
+    borderRadius: 35,
+    boxShadow:
+      '0px 2px 4px -1px rgb(0 0 0 / 30%), 0px 4px 5px 0px rgb(0 0 0 / 20%), 0px 1px 10px 0px rgb(0 0 0 / 12%)',
   },
   header: {
     height: 60,

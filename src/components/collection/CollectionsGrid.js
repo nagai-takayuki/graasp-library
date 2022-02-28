@@ -15,7 +15,7 @@ function CollectionsGrid({ collections, isLoading, id }) {
       {t('There are no collections available.')}
     </Typography>
   ) : (
-    <Grid container spacing={2} alignItems="stretch" id={id}>
+    <Grid container spacing={4} alignItems="stretch" id={id}>
       {collections.map((collection, index) => (
         <Grid
           key={collection.id}
