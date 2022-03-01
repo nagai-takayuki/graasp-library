@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
+import dynamic from 'next/dynamic';
 import { AppBar, Typography, Toolbar } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
-import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { makeStyles } from '@material-ui/core/styles';
 import {
@@ -49,6 +49,7 @@ const useStyles = makeStyles((theme) => ({
   },
   logo: {
     fill: '#000',
+    marginRight: theme.spacing(2),
   },
   title: {
     marginLeft: theme.spacing(2),

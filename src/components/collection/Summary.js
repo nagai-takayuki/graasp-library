@@ -59,10 +59,15 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
   },
   card: {
-    width: '100%',
     marginRight: theme.spacing(2),
+    borderRadius: 35,
+    aspectRatio: 1,
+    boxShadow:
+      '0px 0px 2px 2px rgb(0 0 0 / 24%), 0px 0px 4px 6px rgb(0 0 0 / 18%), 0px 0px 8px 10px rgb(0 0 0 / 12%), 0px 0px 16px 16px rgb(0 0 0 / 8%)',
   },
   image: {
+    width: '100%',
+    aspectRatio: 1,
     minHeight: '350px !important',
   },
   root: {

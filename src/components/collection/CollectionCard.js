@@ -6,11 +6,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import { toast } from 'react-toastify';
 import CardHeader from '@material-ui/core/CardHeader';
-import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import Skeleton from '@material-ui/lab/Skeleton';
 import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -29,7 +27,7 @@ const Avatar = dynamic(() => import('@graasp/ui').then((mod) => mod.Avatar), {
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    minWidth: 400,
+    // minWidth: 400,
     height: '100%',
     display: 'flex',
     aspectRatio: 1,
@@ -81,8 +79,7 @@ const useStyles = makeStyles((theme) => ({
 
 export const CollectionCard = ({ collection = {}, isLoading }) => {
   const { t } = useTranslation();
-  const { name, id, description, creator, views, voteScore, extra } =
-    collection;
+  const { name, id, creator, views, voteScore, extra } = collection;
   const classes = useStyles();
   const [actionsMenuAnchor, setActionsMenuAnchor] = React.useState(null);
   const { hooks } = useContext(QueryClientContext);
@@ -158,17 +155,6 @@ export const CollectionCard = ({ collection = {}, isLoading }) => {
         }}
       />
       <CardMedia link={link} name={name} itemId={id} />
-      <CardContent>
-        <Typography variant="body2" color="textSecondary" component="p">
-          <p
-            className={classes.description}
-            // eslint-disable-next-line react/no-danger
-            dangerouslySetInnerHTML={{
-              __html: description,
-            }}
-          />
-        </Typography>
-      </CardContent>
       <CardActions disableSpacing className={classes.actions}>
         <CopyButton id={id} />
         <CopyLinkButton id={id} extra={extra} />

@@ -1,16 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import Collapse from '@material-ui/core/Collapse';
-import IconButton from '@material-ui/core/IconButton';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import CardMedia from '../common/CardMediaComponent';
-import Text from '../common/Text';
 import CopyButton from './CopyButton';
 import CopyLinkButton from './CopyLinkButton';
 import DownloadButton from './DownloadButton';
@@ -19,20 +14,28 @@ import { buildCollectionRoute } from '../../config/routes';
 const useStyles = makeStyles((theme) => ({
   card: {
     width: '100%',
-    height: '100%',
+    aspectRatio: 1,
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
+    borderRadius: 35,
+    boxShadow:
+      '0px 2px 4px -1px rgb(0 0 0 / 30%), 0px 4px 5px 0px rgb(0 0 0 / 20%), 0px 1px 10px 0px rgb(0 0 0 / 12%)',
   },
-  cardDescription: { margin: 0, paddingTop: 0, paddingBottom: 0 },
+  cardDescription: {
+    margin: 0,
+    paddingTop: 0,
+    paddingBottom: 0,
+    maxHeight: '20%',
+  },
   cardDescriptionText: {
     '& p': {
       fontSize: 'large',
       fontFamily: theme.typography.fontFamily,
     },
   },
-  media: {
-    height: 300,
+  button: {
+    minHeight: '80%',
   },
   leftIcon: {
     marginRight: theme.spacing(),
@@ -50,12 +53,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const ChildrenCard = ({ item }) => {
-  const { description, name, id, extra } = item;
+  const { name, id, extra } = item;
   const classes = useStyles();
-  const [expanded, setExpanded] = React.useState(false);
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
 
   const link = buildCollectionRoute(id);
 
@@ -69,28 +68,10 @@ export const ChildrenCard = ({ item }) => {
         </Typography>
       </CardContent>
 
-      <Collapse disableSpacing in={expanded} timeout="auto" unmountOnExit>
-        <CardContent className={classes.cardDescription}>
-          <Text content={description} className={classes.cardDescriptionText} />
-        </CardContent>
-      </Collapse>
-
       <CardActions disableSpacing>
         <CopyButton id={id} />
         <CopyLinkButton id={id} extra={extra} />
         <DownloadButton id={id} />
-        {description && (
-          <IconButton
-            className={clsx(classes.expand, {
-              [classes.expandOpen]: expanded,
-            })}
-            onClick={handleExpandClick}
-            aria-expanded={expanded}
-            aria-label="Show more"
-          >
-            <ExpandMoreIcon />
-          </IconButton>
-        )}
       </CardActions>
     </Card>
   );
