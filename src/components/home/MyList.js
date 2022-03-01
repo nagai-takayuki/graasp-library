@@ -49,6 +49,9 @@ function MyList() {
   const likedCollections = collections?.filter((collection) =>
     likedItemsList?.includes(collection?.id),
   );
+  const ownCollections = collections?.filter(
+    (collection) => collection?.creator === member?.get('id'),
+  );
 
   const [tab, setTab] = useState(0);
 
@@ -85,7 +88,6 @@ function MyList() {
               label={t('My Publishments')}
               icon={<PublishIcon />}
               id={buildMyListNavigationTabId(2)}
-              disabled
             />
           </Tabs>
         </AppBar>
@@ -102,7 +104,7 @@ function MyList() {
           />
         </TabPanel>
         <TabPanel value={tab} index={2}>
-          <CollectionsGrid collections={collections} isLoading={isLoading} />
+          <CollectionsGrid collections={ownCollections} isLoading={isLoading} />
         </TabPanel>
       </main>
     </div>
