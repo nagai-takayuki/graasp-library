@@ -105,8 +105,11 @@ function Summary({
   const { data: likedItems } = hooks.useLikedItems(member?.get('id'));
 
   const { mutate: postFlagItem } = useMutation(MUTATION_KEYS.POST_ITEM_FLAG);
-  const { mutate: updateFavoriteItem } = useMutation(
-    MUTATION_KEYS.UPDATE_FAVORITE_ITEMS,
+  const { mutate: addFavoriteItem } = useMutation(
+    MUTATION_KEYS.ADD_FAVORITE_ITEM,
+  );
+  const { mutate: deleteFavoriteItem } = useMutation(
+    MUTATION_KEYS.DELETE_FAVORITE_ITEM,
   );
   const { mutate: postItemLike } = useMutation(MUTATION_KEYS.POST_ITEM_LIKE);
   const { mutate: deleteItemLike } = useMutation(
@@ -131,20 +134,18 @@ function Summary({
   };
 
   const handleFavorite = () => {
-    updateFavoriteItem({
+    addFavoriteItem({
       memberId: member.get('id'),
       extra: member?.get('extra'),
       itemId,
-      action: 'add',
     });
   };
 
   const handleUnfavorite = () => {
-    updateFavoriteItem({
+    deleteFavoriteItem({
       memberId: member.get('id'),
       extra: member?.get('extra'),
       itemId,
-      action: 'remove',
     });
   };
 
