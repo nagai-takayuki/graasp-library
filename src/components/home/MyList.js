@@ -1,92 +1,75 @@
-import { makeStyles } from '@material-ui/core';
-import Typography from '@material-ui/core/Typography';
-import React, { useContext } from 'react';
+import { makeStyles, Typography, Tab, AppBar, Tabs } from '@material-ui/core';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import Drawer from '@material-ui/core/Drawer';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
-import CollectionsGrid from '../collection/CollectionsGrid';
-import { QueryClientContext } from '../QueryClientContext';
-import { PUBLISHED_TAG_ID } from '../../config/env';
-import { PLACEHOLDER_COLLECTIONS } from '../../utils/collections';
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
+import PublishIcon from '@material-ui/icons/Publish';
 import {
-  LEFT_MENU_WIDTH,
-  MY_FAVORITES,
-  MY_UPLOADS,
-  SAVED_COLLECTIONS,
-} from '../../config/constants';
-import { TITLE_TEXT_ID } from '../../config/selectors';
+  TITLE_TEXT_ID,
+  buildMyListNavigationTabId,
+} from '../../config/selectors';
+import MyFavorites from './MyFavorites';
+import MyLikes from './MyLikes';
+import MyPublishments from './MyPublishments';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
   },
-  drawer: {
-    width: LEFT_MENU_WIDTH,
-    flexShrink: 0,
-    zIndex: theme.zIndex.appBar - 1,
-  },
-  drawerPaper: {
-    width: LEFT_MENU_WIDTH,
-  },
   content: {
     flexGrow: 1,
-    padding: theme.spacing.unit * 3,
   },
-  toolbar: theme.mixins.toolbar,
-  typographyMargin: {
-    margin: theme.spacing(1.5, 0),
-  },
-  link: {
-    marginTop: theme.spacing(2),
+  tabBar: {
+    marginBottom: theme.spacing(5),
+    boxShadow: 0,
   },
 }));
 
 function MyList() {
   const { t } = useTranslation();
   const classes = useStyles();
-  const { hooks } = useContext(QueryClientContext);
-  const { data: collections, isLoading } = hooks.usePublicItemsWithTag(
-    PUBLISHED_TAG_ID,
-    {
-      placeholderData: PLACEHOLDER_COLLECTIONS,
-    },
-  );
+
+  const [tab, setTab] = useState(0);
+
+  const handleChange = (event, newValue) => {
+    setTab(newValue);
+  };
 
   return (
     <div className={classes.root}>
-      <CssBaseline />
-      <Drawer
-        className={classes.drawer}
-        variant="permanent"
-        classes={{
-          paper: classes.drawerPaper,
-        }}
-      >
-        <div className={classes.toolbar} />
-        <List className={classes.link}>
-          {[MY_FAVORITES, MY_UPLOADS, SAVED_COLLECTIONS].map((text) => (
-            <ListItem button key={t(text)} disabled>
-              <ListItemIcon>
-                <StarBorderIcon />
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List>
-      </Drawer>
       <main className={classes.content}>
+        <AppBar position="static" color="default" className={classes.tabBar}>
+          <Tabs
+            value={tab}
+            onChange={handleChange}
+            variant="fullWidth"
+            indicatorColor="primary"
+            textColor="fff"
+            aria-label="navigation tabs"
+          >
+            <Tab
+              label={t('My Favorites')}
+              icon={<StarBorderIcon />}
+              id={buildMyListNavigationTabId(0)}
+            />
+            <Tab
+              label={t('My Likes')}
+              icon={<FavoriteBorderIcon />}
+              id={buildMyListNavigationTabId(1)}
+            />
+            <Tab
+              label={t('My Publishments')}
+              icon={<PublishIcon />}
+              id={buildMyListNavigationTabId(2)}
+            />
+          </Tabs>
+        </AppBar>
         <Typography variant="h3" align="center" id={TITLE_TEXT_ID}>
           {t('My Collections')}
         </Typography>
-        <Typography variant="h3" className={classes.typographyMargin}>
-          {t('Favorites')}
-        </Typography>
-        <CollectionsGrid collections={collections} isLoading={isLoading} />
+        <MyFavorites tab={tab} index={0} />
+        <MyLikes tab={tab} index={1} />
+        <MyPublishments tab={tab} index={2} />
       </main>
     </div>
   );

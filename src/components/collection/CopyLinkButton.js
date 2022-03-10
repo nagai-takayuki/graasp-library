@@ -36,8 +36,8 @@ const CopyLinkButton = ({ id, extra }) => {
   };
 
   return (
-    <Tooltip title={t('Copy')}>
-      <IconButton onClick={onClick} aria-label="copy">
+    <Tooltip title={t('Embed')}>
+      <IconButton onClick={onClick} aria-label="embed">
         <CodeIcon />
       </IconButton>
     </Tooltip>

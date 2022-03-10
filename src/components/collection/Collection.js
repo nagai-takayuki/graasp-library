@@ -43,6 +43,7 @@ const Collection = ({ id }) => {
     isError: memberIsError,
     isLoading: isLoadingMember,
   } = hooks.useMember(collection?.get('creator'));
+  const { data: likeCount } = hooks.useLikeCount(id);
 
   if (!id || !validate(id)) {
     return <Error code={ERROR_INVALID_COLLECTION_ID_CODE} />;
@@ -59,11 +60,11 @@ const Collection = ({ id }) => {
   const imageUrl = DEFAULT_ITEM_IMAGE_PATH;
 
   const parsedDescription = collection?.get('description') || '';
-  const tags = collection?.get('settings')?.tags || [];
+  const settings = collection?.get('settings');
 
-  // todo: views and likes don't exist
+  // todo: views don't exist
   const views = collection?.get('views');
-  const likes = collection?.get('likes');
+  const likes = likeCount;
   return (
     <ErrorBoundary>
       <Seo
@@ -78,7 +79,7 @@ const Collection = ({ id }) => {
           name={name}
           image={imageUrl}
           description={parsedDescription}
-          tags={tags}
+          settings={settings}
           creator={member}
           views={views}
           likes={likes}

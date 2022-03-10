@@ -56,9 +56,11 @@
     "Collections in Selected Categories": "Collections in Selected Categories",
     "Search collections using keywords and range options": "Search collections using keywords and range options",
     "My Favorites": "My Favorites",
-    "My Uploads": "My Uploads",
-    "Saved Collections": "Saved Collections",
+    "My Publishments": "My Publishments",
+    "My Likes": "My Likes",
     "Favorites": "Favorites",
-    "My Collections": "My Collections"
+    "My Collections": "My Collections",
+    "Creative Commons License": "Creative Commons License",
+    "Embed": "Embed"
   }
 }

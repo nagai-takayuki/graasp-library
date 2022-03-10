@@ -19,13 +19,31 @@ import {
 } from '../../config/constants';
 import { ITEM_SUMMARY_TITLE_ID } from '../../config/selectors';
 
-const { ItemFlagDialog, FlagItemButton } = {
+const {
+  ItemFlagDialog,
+  FlagItemButton,
+  FavoriteButton,
+  LikeButton,
+  CCLicenseIcon,
+} = {
   ItemFlagDialog: dynamic(
     () => import('@graasp/ui').then((mod) => mod.ItemFlagDialog),
     { ssr: false },
   ),
   FlagItemButton: dynamic(
     () => import('@graasp/ui').then((mod) => mod.FlagItemButton),
+    { ssr: false },
+  ),
+  FavoriteButton: dynamic(
+    () => import('@graasp/ui').then((mod) => mod.FavoriteButton),
+    { ssr: false },
+  ),
+  LikeButton: dynamic(
+    () => import('@graasp/ui').then((mod) => mod.LikeButton),
+    { ssr: false },
+  ),
+  CCLicenseIcon: dynamic(
+    () => import('@graasp/ui').then((mod) => mod.CCLicenseIcon),
     { ssr: false },
   ),
 };
@@ -52,6 +70,10 @@ const useStyles = makeStyles((theme) => ({
   reportButton: {
     display: 'flex',
   },
+  icon: {
+    marginTop: theme.spacing(1),
+    borderWidth: 0,
+  },
 }));
 
 function Summary({
@@ -59,7 +81,7 @@ function Summary({
   name,
   creator,
   description,
-  tags,
+  settings,
   contributors,
   likes,
   views,
@@ -69,6 +91,8 @@ function Summary({
     length: MAX_COLLECTION_NAME_LENGTH,
     separator: /,? +/,
   });
+  const tags = settings?.tags;
+  const ccLicenseAdaption = settings?.ccLicenseAdaption;
   const classes = useStyles();
   const { t } = useTranslation();
   const { hooks, useMutation } = useContext(QueryClientContext);
@@ -77,11 +101,29 @@ function Summary({
   const categoriesDisplayed = allCategories?.filter((category) =>
     categories?.map((entry) => entry.categoryId).includes(category.id),
   );
+  const { data: member } = hooks.useCurrentMember();
+  const { data: likedItems } = hooks.useLikedItems(member?.get('id'));
+
   const { mutate: postFlagItem } = useMutation(MUTATION_KEYS.POST_ITEM_FLAG);
+  const { mutate: addFavoriteItem } = useMutation(
+    MUTATION_KEYS.ADD_FAVORITE_ITEM,
+  );
+  const { mutate: deleteFavoriteItem } = useMutation(
+    MUTATION_KEYS.DELETE_FAVORITE_ITEM,
+  );
+  const { mutate: postItemLike } = useMutation(MUTATION_KEYS.POST_ITEM_LIKE);
+  const { mutate: deleteItemLike } = useMutation(
+    MUTATION_KEYS.DELETE_ITEM_LIKE,
+  );
+
   const [open, setOpen] = useState(false);
   const [selectedFlag, setSelectedFlag] = useState(false);
 
   const { data: flags } = hooks.useFlags();
+
+  const isFavorite = member?.get('extra')?.favoriteItems?.includes(itemId);
+
+  const likeEntry = likedItems?.find((itemLike) => itemLike?.itemId === itemId);
 
   const onFlag = () => {
     postFlagItem({
@@ -89,6 +131,37 @@ function Summary({
       itemId,
     });
     setOpen(false);
+  };
+
+  const handleFavorite = () => {
+    addFavoriteItem({
+      memberId: member.get('id'),
+      extra: member?.get('extra'),
+      itemId,
+    });
+  };
+
+  const handleUnfavorite = () => {
+    deleteFavoriteItem({
+      memberId: member.get('id'),
+      extra: member?.get('extra'),
+      itemId,
+    });
+  };
+
+  const handleLike = () => {
+    postItemLike({
+      itemId,
+      memberId: member.get('id'),
+    });
+  };
+
+  const handleUnlike = () => {
+    deleteItemLike({
+      id: likeEntry?.id,
+      itemId,
+      memberId: member.get('id'),
+    });
   };
 
   return (
@@ -132,6 +205,20 @@ function Summary({
               </Typography>
             </Grid>
             <Grid item className={classes.reportButton}>
+              <FavoriteButton
+                color="primary"
+                className={classes.favoriteButton}
+                isFavorite={isFavorite}
+                handleFavorite={handleFavorite}
+                handleUnfavorite={handleUnfavorite}
+              />
+              <LikeButton
+                color="primary"
+                className={classes.likeButton}
+                isLiked={Boolean(likeEntry)}
+                handleLike={handleLike}
+                handleUnlike={handleUnlike}
+              />
               <FlagItemButton setOpen={setOpen} />
             </Grid>
           </Grid>
@@ -181,6 +268,15 @@ function Summary({
               ))}
             </>
           )}
+          {ccLicenseAdaption && (
+            <Typography variant="h6">
+              {t('Creative Commons License')}
+            </Typography>
+          )}
+          <CCLicenseIcon
+            adaption={ccLicenseAdaption}
+            className={classes.icon}
+          />
         </Grid>
       </Grid>
     </div>
@@ -190,7 +286,10 @@ function Summary({
 Summary.propTypes = {
   name: PropTypes.string,
   description: PropTypes.string,
-  tags: PropTypes.arrayOf(PropTypes.string),
+  settings: PropTypes.shape({
+    tags: PropTypes.arrayOf(PropTypes.string),
+    ccLicenseAdaption: PropTypes.string,
+  }),
   creator: PropTypes.instanceOf(Map),
   contributors: PropTypes.arrayOf(
     PropTypes.shape({
@@ -211,7 +310,7 @@ Summary.propTypes = {
 Summary.defaultProps = {
   name: PropTypes.string,
   description: PropTypes.string,
-  tags: [],
+  settings: {},
   contributors: [],
   views: 0,
   likes: 0,
