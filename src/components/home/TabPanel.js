@@ -21,6 +21,6 @@ TabPanel.propTypes = {
 };
 
 TabPanel.defaultProps = {
-  children: {},
+  children: null,
 };
 export default TabPanel;
