@@ -24,7 +24,7 @@
     "cypress:run": "env-cmd -f ./.env.test cypress run --headless --browser chrome --spec \"cypress/**/home.spec.js\""
   },
   "dependencies": {
-    "@graasp/query-client": "github:graasp/graasp-query-client.git#124/fixArrayFallback",
+    "@graasp/query-client": "github:graasp/graasp-query-client.git",
     "@graasp/ui": "github:graasp/graasp-ui.git",
     "@material-ui/core": "4.12.3",
     "@material-ui/icons": "4.11.2",
