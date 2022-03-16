@@ -3,7 +3,7 @@ import isObject from 'lodash.isobject';
 import PropTypes from 'prop-types';
 import { List, Map } from 'immutable';
 import { configureQueryClient } from '@graasp/query-client';
-import { QUERY_CLIENT_OPTIONS } from '../config/constants';
+import { QUERY_CLIENT_OPTIONS } from '../config/queryClient';
 
 const QueryClientContext = React.createContext();
 

@@ -18,6 +18,10 @@ import {
   THUMBNAIL_SIZES,
 } from '../../config/constants';
 import { ITEM_SUMMARY_TITLE_ID } from '../../config/selectors';
+import {
+  SUMMARY_CATEGORIES_CONTAINER_ID,
+  SUMMARY_TAGS_CONTAINER_ID,
+} from '../../../cypress/support/selectors';
 
 const {
   ItemFlagDialog,
@@ -99,7 +103,7 @@ function Summary({
   const { data: categories } = hooks.useItemCategories(itemId);
   const { data: allCategories } = hooks.useCategories();
   const categoriesDisplayed = allCategories?.filter((category) =>
-    categories?.map((entry) => entry.categoryId).includes(category.id),
+    categories?.map((entry) => entry.categoryId)?.includes(category.id),
   );
   const { data: member } = hooks.useCurrentMember();
   const { data: likedItems } = hooks.useLikedItems(member?.get('id'));
@@ -253,20 +257,20 @@ function Summary({
             setSelectedFlag={setSelectedFlag}
           />
           {Boolean(categories?.size) && (
-            <>
-              <Typography variant="h6">{t('Category')}</Typography>
+            <div id={SUMMARY_CATEGORIES_CONTAINER_ID}>
+              <Typography variant="h6">{t('Categories')}</Typography>
               {categoriesDisplayed?.map((entry) => (
                 <Chip label={t(entry.name)} />
               ))}
-            </>
+            </div>
           )}
           {Boolean(tags?.length) && (
-            <>
+            <div id={SUMMARY_TAGS_CONTAINER_ID}>
               <Typography variant="h6">{t('Tags')}</Typography>
               {tags?.map((text) => (
                 <Chip label={text} />
               ))}
-            </>
+            </div>
           )}
           {ccLicenseAdaption && (
             <Typography variant="h6">

@@ -1,3 +1,4 @@
+import { ITEM_PUBLISHED_TAG } from '../fixtures/itemTags';
 import { UUID_LENGTH } from './constants';
 
 // use simple id format for tests
@@ -98,3 +99,11 @@ export const isRootItem = ({ path }) => path.length === UUID_LENGTH;
 
 export const getMemberById = (members, id) =>
   members.find(({ id: thisId }) => id === thisId);
+
+export const getRootPublishedItems = (items) =>
+  items.filter(({ path, tags }) =>
+    tags.find(
+      ({ tagId, itemPath }) =>
+        tagId === ITEM_PUBLISHED_TAG.id && itemPath === path,
+    ),
+  );

@@ -23,8 +23,8 @@ export const PUBLISHED_ITEMS = [
     id: 'ecafbd2a-5688-11eb-ae93-0242ac130002',
     name: 'parent public item',
     path: 'ecafbd2a_5688_11eb_ae93_0242ac130002',
-    extra: {
-      image: 'someimageurl',
+    settings: {
+      tags: ['one-tag', 'two-tag'],
     },
     tags: [
       {
@@ -46,23 +46,29 @@ export const PUBLISHED_ITEMS = [
       },
       {
         itemPath: 'fdf09f5a_5688_11eb_ae93_0242ac130002',
-        permission: PERMISSION_LEVELS.READ,
+        permission: PERMISSION_LEVELS.ADMIN,
         memberId: MEMBERS.BOB.id,
       },
     ],
-    categories: [SAMPLE_CATEGORIES[0].id],
+    categories: [
+      {
+        categoryId: SAMPLE_CATEGORIES[0].id,
+      },
+    ],
   },
   {
     ...DEFAULT_FOLDER_ITEM,
     id: 'bdf09f5a-5688-11eb-ae93-0242ac130004',
     name: 'child of public item1',
-    path:
-      'ecafbd2a_5688_11eb_ae93_0242ac130002.fdf09f5a_5688_11eb_ae93_0242ac130004.bdf09f5a_5688_11eb_ae93_0242ac130004',
+    path: 'ecafbd2a_5688_11eb_ae93_0242ac130002.fdf09f5a_5688_11eb_ae93_0242ac130004.bdf09f5a_5688_11eb_ae93_0242ac130004',
     tags: [
       {
         tagId: ITEM_PUBLISHED_TAG.id,
-        itemPath:
-          'ecafbd2a_5688_11eb_ae93_0242ac130002.fdf09f5a_5688_11eb_ae93_0242ac130004',
+        itemPath: 'ecafbd2a_5688_11eb_ae93_0242ac130002',
+      },
+      {
+        tagId: ITEM_PUBLIC_TAG.id,
+        itemPath: 'ecafbd2a_5688_11eb_ae93_0242ac130002',
       },
     ],
     memberships: [
@@ -73,22 +79,26 @@ export const PUBLISHED_ITEMS = [
         memberId: MEMBERS.ANNA.id,
       },
     ],
-    categories: [SAMPLE_CATEGORIES[1].id],
+    categories: [
+      {
+        categoryId: SAMPLE_CATEGORIES[1].id,
+      },
+    ],
   },
   {
     ...DEFAULT_FOLDER_ITEM,
     id: 'fdf09f5a-5688-11eb-ae93-0242ac130004',
     name: 'public item1',
-    path:
-      'ecafbd2a_5688_11eb_ae93_0242ac130002.fdf09f5a_5688_11eb_ae93_0242ac130004',
-    extra: {
-      image: 'someimageurl',
-    },
+    path: 'ecafbd2a_5688_11eb_ae93_0242ac130002.fdf09f5a_5688_11eb_ae93_0242ac130004',
+
     tags: [
       {
         tagId: ITEM_PUBLISHED_TAG.id,
-        itemPath:
-          'ecafbd2a_5688_11eb_ae93_0242ac130002.fdf09f5a_5688_11eb_ae93_0242ac130004',
+        itemPath: 'ecafbd2a_5688_11eb_ae93_0242ac130002',
+      },
+      {
+        tagId: ITEM_PUBLIC_TAG.id,
+        itemPath: 'ecafbd2a_5688_11eb_ae93_0242ac130002',
       },
     ],
     memberships: [
@@ -109,12 +119,14 @@ export const PUBLISHED_ITEMS = [
     id: 'egafbd2a-5688-11eb-ae93-0242ac130002',
     name: 'independant item',
     path: 'egafbd2a_5688_11eb_ae93_0242ac130002',
-    extra: {
-      image: 'someimageurl',
-    },
+
     tags: [
       {
         tagId: ITEM_PUBLISHED_TAG.id,
+        itemPath: 'egafbd2a_5688_11eb_ae93_0242ac130002',
+      },
+      {
+        tagId: ITEM_PUBLIC_TAG.id,
         itemPath: 'egafbd2a_5688_11eb_ae93_0242ac130002',
       },
     ],
@@ -123,11 +135,8 @@ export const PUBLISHED_ITEMS = [
     ...DEFAULT_FOLDER_ITEM,
     id: 'fdf09f5a-5688-11eb-ae93-0242ac130003',
     name: 'public item2',
-    path:
-      'ecafbd2a_5688_11eb_ae93_0242ac130002.fdf09f5a_5688_11eb_ae93_0242ac130003',
-    extra: {
-      image: 'someimageurl',
-    },
+    path: 'ecafbd2a_5688_11eb_ae93_0242ac130002.fdf09f5a_5688_11eb_ae93_0242ac130003',
+
     memberships: [
       {
         itemId: 'fdf09f5a-5688-11eb-ae93-0242ac130003',
@@ -136,5 +145,112 @@ export const PUBLISHED_ITEMS = [
         memberId: MEMBERS.ANNA.id,
       },
     ],
+    tags: [
+      {
+        tagId: ITEM_PUBLISHED_TAG.id,
+        itemPath: 'egafbd2a_5688_11eb_ae93_0242ac130002',
+      },
+      {
+        tagId: ITEM_PUBLIC_TAG.id,
+        itemPath: 'egafbd2a_5688_11eb_ae93_0242ac130002',
+      },
+    ],
+  },
+];
+
+export const GRAASPER_ITEMS = [
+  {
+    ...DEFAULT_FOLDER_ITEM,
+    creator: MEMBERS.GRAASPER.id,
+    id: 'edafbd2d-5688-11eb-ae93-0242ac130002',
+    name: 'graasper public item',
+    path: 'edafbd2d_5688_11eb_ae93_0242ac130002',
+    tags: [
+      {
+        id: 'ecbfbd23-5688-11eb-ae93-0242ac130002',
+        tagId: ITEM_PUBLIC_TAG.id,
+        itemPath: 'edafbd2d_5688_11eb_ae93_0242ac130002',
+      },
+      {
+        id: 'ecbfbd2a-5688-12eb-ae93-0242ac130002',
+        tagId: ITEM_PUBLISHED_TAG.id,
+        itemPath: 'edafbd2d_5688_11eb_ae93_0242ac130002',
+      },
+    ],
+    memberships: [
+      {
+        itemPath: 'edafbd2d_5688_11eb_ae93_0242ac130002',
+        permission: PERMISSION_LEVELS.ADMIN,
+        memberId: MEMBERS.ANNA.id,
+      },
+      {
+        itemPath: 'edafbd2d_5688_11eb_ae93_0242ac130002',
+        permission: PERMISSION_LEVELS.READ,
+        memberId: MEMBERS.BOB.id,
+      },
+    ],
+    categories: [
+      {
+        categoryId: SAMPLE_CATEGORIES[0].id,
+      },
+    ],
+  },
+  {
+    ...DEFAULT_FOLDER_ITEM,
+    creator: MEMBERS.GRAASPER.id,
+    id: 'ecafbd2d-5688-11eb-ae93-0242ac130002',
+    name: 'graasper public item 2',
+    path: 'ecafbd2d_5688_11eb_ae93_0242ac130002',
+    tags: [
+      {
+        id: 'ecbfbd23-5688-11eb-ae93-0242ac130002',
+        tagId: ITEM_PUBLIC_TAG.id,
+        itemPath: 'ecafbd2d_5688_11eb_ae93_0242ac130002',
+      },
+      {
+        id: 'ecbfbd2a-5688-12eb-ae93-0242ac130002',
+        tagId: ITEM_PUBLISHED_TAG.id,
+        itemPath: 'ecafbd2d_5688_11eb_ae93_0242ac130002',
+      },
+    ],
+    memberships: [
+      {
+        itemPath: 'ecafbd2d_5688_11eb_ae93_0242ac130002',
+        permission: PERMISSION_LEVELS.ADMIN,
+        memberId: MEMBERS.ANNA.id,
+      },
+      {
+        itemPath: 'ecafbd2d_5688_11eb_ae93_0242ac130002',
+        permission: PERMISSION_LEVELS.READ,
+        memberId: MEMBERS.BOB.id,
+      },
+    ],
+    categories: [{ categoryId: SAMPLE_CATEGORIES[0].id }],
+  },
+  {
+    ...DEFAULT_FOLDER_ITEM,
+    creator: MEMBERS.GRAASPER.id,
+    id: 'bdf09f5d-5688-11eb-ae93-0242ac130004',
+    name: 'child of public item1',
+    path: 'ecafbd2d_5688_11eb_ae93_0242ac130002.bdf09f5d_5688_11eb_ae93_0242ac130004.bdf09f5a_5688_11eb_ae93_0242ac130004',
+    tags: [
+      {
+        tagId: ITEM_PUBLISHED_TAG.id,
+        itemPath: 'ecafbd2d_5688_11eb_ae93_0242ac130002',
+      },
+      {
+        tagId: ITEM_PUBLIC_TAG.id,
+        itemPath: 'ecafbd2d_5688_11eb_ae93_0242ac130002',
+      },
+    ],
+    memberships: [
+      {
+        itemId: 'bdf09f5a-5688-11eb-ae93-0242ac130004',
+        itemPath: 'bdf09f5d_5688_11eb_ae93_0242ac130004',
+        permission: PERMISSION_LEVELS.ADMIN,
+        memberId: MEMBERS.ANNA.id,
+      },
+    ],
+    categories: [{ categoryId: SAMPLE_CATEGORIES[1].id }],
   },
 ];

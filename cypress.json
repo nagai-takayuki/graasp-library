@@ -4,5 +4,10 @@
   "retries": {
     "runMode": 2
   },
-  "chromeWebSecurity": false
+  "chromeWebSecurity": false,
+  "env": {
+    "codeCoverage": {
+      "url": "/api/__coverage__"
+    }
+  }
 }

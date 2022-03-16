@@ -1,8 +1,3 @@
-// routes
-export const HOME_ROUTE = '/';
-export const ALL_COLLECTIONS_ROUTE = '/all-collections';
-export const MY_LIST_ROUTE = '/my-list';
-
 // items
 export const ITEM_TYPES = {
   FOLDER: 'folder',
@@ -24,4 +19,6 @@ export const UUID_LENGTH = 36;
 
 export const THUMBNAIL_EXTENSION = 'image/jpeg';
 
-export const LOADING_TIME = 3000;
+export const HOME_PAGE_LOADING_TIME = 3000;
+export const ALL_COLLECTIONS_LOADING_TIME = 3000;
+export const COLLECTION_LOADING_TIME = 3000;

@@ -1,12 +1,8 @@
 import { makeStyles, Typography } from '@material-ui/core';
 import React, { useContext, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  APP_AUTHOR,
-  APP_DESCRIPTION,
-  APP_NAME,
-  RANGES,
-} from '../../config/constants';
+import { APP_AUTHOR, APP_DESCRIPTION, APP_NAME } from '../../config/constants';
+import { SEARCH_RANGES } from '../../enums/searchRanges';
 import { PUBLISHED_TAG_ID, NEXT_PUBLIC_GRAASPER_ID } from '../../config/env';
 import CollectionsGrid from '../collection/CollectionsGrid';
 import Seo from '../common/Seo';
@@ -18,7 +14,9 @@ import {
   TITLE_TEXT_ID,
   GRAASP_SELECTION_TITLE_ID,
   DISCOVER_SECTION_TITLE_ID,
+  COLLECTIONS_GRID_ID,
 } from '../../config/selectors';
+import { SEARCH_RESULTS_GRID_ID } from '../../../cypress/support/selectors';
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -52,7 +50,7 @@ function Home() {
   const classes = useStyles();
   const [searchResults, setSearchResults] = useState(null);
   const [searchInput, setSearchInput] = useState(null);
-  const [range, setRange] = useState(RANGES.ALL.value);
+  const [range, setRange] = useState(SEARCH_RANGES.ALL.value);
   const [keywords, setKeywords] = useState(null);
   const { hooks } = useContext(QueryClientContext);
   const { data: collections, isLoading } = hooks.usePublicItemsWithTag(
@@ -60,10 +58,6 @@ function Home() {
     {
       placeholderData: PLACEHOLDER_COLLECTIONS,
     },
-  );
-
-  const collectionsGraasper = collections?.filter(
-    (collection) => collection.creator === NEXT_PUBLIC_GRAASPER_ID,
   );
 
   const { data: resultCollections } = hooks.useKeywordSearch(range, keywords);
@@ -84,6 +78,32 @@ function Home() {
     setRange(event.target.value);
   };
 
+  const renderGraasperCollections = () => {
+    const collectionsGraasper = collections?.filter(
+      (collection) => collection.creator === NEXT_PUBLIC_GRAASPER_ID,
+    );
+
+    if (collectionsGraasper.isEmpty()) {
+      return null;
+    }
+
+    return (
+      <>
+        <Typography
+          variant="h3"
+          id={GRAASP_SELECTION_TITLE_ID}
+          className={classes.typographyMargin}
+        >
+          {t('Graasp Selection')}
+        </Typography>
+        <CollectionsGrid
+          collections={collectionsGraasper}
+          isLoading={isLoading}
+        />
+      </>
+    );
+  };
+
   const renderResults = () => {
     if (!searchResults) {
       return null;
@@ -94,7 +114,10 @@ function Home() {
           {t('Search Results')}
         </Typography>
         {searchResults.size > 0 ? (
-          <CollectionsGrid collections={searchResults} />
+          <CollectionsGrid
+            collections={searchResults}
+            id={SEARCH_RESULTS_GRID_ID}
+          />
         ) : (
           <Typography variant="body1" className={classes.typographyMargin}>
             {t('No results found.')}
@@ -119,17 +142,7 @@ function Home() {
           handleRangeChange={handleRangeChange}
         />
         {isLoading ? <Loader /> : renderResults()}
-        <Typography
-          variant="h3"
-          id={GRAASP_SELECTION_TITLE_ID}
-          className={classes.typographyMargin}
-        >
-          {t('Graasp Selection')}
-        </Typography>
-        <CollectionsGrid
-          collections={collectionsGraasper}
-          isLoading={isLoading}
-        />
+        {renderGraasperCollections()}
         <Typography
           variant="h3"
           id={DISCOVER_SECTION_TITLE_ID}
@@ -137,7 +150,11 @@ function Home() {
         >
           {t('Discover')}
         </Typography>
-        <CollectionsGrid collections={collections} isLoading={isLoading} />
+        <CollectionsGrid
+          id={COLLECTIONS_GRID_ID}
+          collections={collections}
+          isLoading={isLoading}
+        />
       </div>
     </>
   );

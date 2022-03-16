@@ -45,6 +45,7 @@ import {
   SUBTITLE_TEXT_ID,
   TITLE_TEXT_ID,
 } from '../../config/selectors';
+import { ALL_COLLECTIONS_GRID_ID } from '../../../cypress/support/selectors';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -338,6 +339,7 @@ function AllCollections() {
               <CollectionsGrid
                 collections={collections}
                 isLoading={isLoading}
+                id={ALL_COLLECTIONS_GRID_ID}
               />
             </>
           ) : (

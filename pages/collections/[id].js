@@ -2,11 +2,8 @@ import { configureQueryClient, Api } from '@graasp/query-client';
 import PropTypes from 'prop-types';
 
 import * as React from 'react';
-import {
-  buildCollectionKey,
-  buildMemberKey,
-  QUERY_CLIENT_OPTIONS,
-} from '../../src/config/constants';
+import { buildCollectionKey, buildMemberKey } from '../../src/config/constants';
+import { QUERY_CLIENT_OPTIONS } from '../../src/config/queryClient';
 import Collection from '../../src/components/collection/Collection';
 import Wrapper from '../../src/components/common/Wrapper';
 

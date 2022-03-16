@@ -62,7 +62,7 @@ export default function GraaspExplorerApp(props) {
           <CssBaseline />
           {/* eslint-disable-next-line react/jsx-props-no-spreading */}
           <Component {...pageProps} />
-          <ToastContainer />
+          <ToastContainer theme="colored" />
         </MuiThemeProvider>
       </I18nextProvider>
     </>
