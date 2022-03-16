@@ -16,6 +16,7 @@ import { openInNewTab } from '../../utils/helpers';
 import { buildPerformViewItemRoute } from '../../config/constants';
 import CopyButton from './CopyButton';
 import CopyLinkButton from './CopyLinkButton';
+import DownloadButton from './DownloadButton';
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -83,6 +84,7 @@ export const Item = ({ item }) => {
       <CardActions disableSpacing>
         <CopyButton id={id} />
         <CopyLinkButton id={id} extra={extra} />
+        <DownloadButton id={id} />
         {description && (
           <IconButton
             className={clsx(classes.expand, {
