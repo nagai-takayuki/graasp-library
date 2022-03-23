@@ -1,8 +1,9 @@
 import React, { useContext } from 'react';
 import { validate } from 'uuid';
 import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
-import { Divider, IconButton } from '@material-ui/core';
+import { Divider, Button } from '@material-ui/core';
 import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
 import { ErrorBoundary } from '@sentry/react';
 import Error from '../common/Error';
@@ -36,6 +37,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Collection = ({ id }) => {
   const classes = useStyles();
+  const { t } = useTranslation();
   const { hooks } = useContext(QueryClientContext);
   const {
     data: collection,
@@ -98,13 +100,23 @@ const Collection = ({ id }) => {
         />
         <Divider className={classes.divider} />
         {type === ITEM_TYPES.FOLDER ? (
-          <Items parentId={id} />
+          <>
+            <Items parentId={id} />
+            <Divider className={classes.divider} />
+          </>
         ) : (
-          <IconButton onClick={handlePlay} aria-label="play">
-            <PlayCircleOutlineIcon />
-          </IconButton>
+          <Button
+            onClick={handlePlay}
+            variant="outlined"
+            size="large"
+            color="primary"
+            aria-label="play"
+            title={t('play')}
+            endIcon={<PlayCircleOutlineIcon />}
+          >
+            {t('View item in player')}
+          </Button>
         )}
-        <Divider className={classes.divider} />
         {/* <Comments comments={comments} members={members} /> */}
       </div>
     </ErrorBoundary>
