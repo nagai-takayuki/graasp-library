@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
@@ -12,11 +11,10 @@ import IconButton from '@material-ui/core/IconButton';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import CardMedia from '../common/CardMediaComponent';
 import Text from '../common/Text';
-import { openInNewTab } from '../../utils/helpers';
-import { buildPerformViewItemRoute } from '../../config/constants';
 import CopyButton from './CopyButton';
 import CopyLinkButton from './CopyLinkButton';
 import DownloadButton from './DownloadButton';
+import { buildCollectionRoute } from '../../config/routes';
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -51,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const Item = ({ item }) => {
+export const ChildrenCard = ({ item }) => {
   const { description, name, id, extra } = item;
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
@@ -59,21 +57,17 @@ export const Item = ({ item }) => {
     setExpanded(!expanded);
   };
 
-  const handleItemClick = () => {
-    openInNewTab(buildPerformViewItemRoute(id));
-  };
+  const link = buildCollectionRoute(id);
 
   return (
     <Card id={id} className={classes.card}>
-      <CardActionArea onClick={handleItemClick}>
-        <CardMedia itemId={id} name={name} />
+      <CardMedia itemId={id} name={name} link={link} />
 
-        <CardContent>
-          <Typography variant="h6" component="h2">
-            {name}
-          </Typography>
-        </CardContent>
-      </CardActionArea>
+      <CardContent>
+        <Typography variant="h6" component="h2">
+          {name}
+        </Typography>
+      </CardContent>
 
       <Collapse disableSpacing in={expanded} timeout="auto" unmountOnExit>
         <CardContent className={classes.cardDescription}>
@@ -102,7 +96,7 @@ export const Item = ({ item }) => {
   );
 };
 
-Item.propTypes = {
+ChildrenCard.propTypes = {
   item: PropTypes.shape({
     description: PropTypes.string,
     id: PropTypes.string,
@@ -112,4 +106,4 @@ Item.propTypes = {
   }).isRequired,
 };
 
-export default Item;
+export default ChildrenCard;

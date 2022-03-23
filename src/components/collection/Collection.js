@@ -15,7 +15,11 @@ import {
 } from '../../config/messages';
 import { QueryClientContext } from '../QueryClientContext';
 import { PLACEHOLDER_COLLECTION } from '../../utils/collections';
-import { buildPerformViewItemRoute, DEFAULT_ITEM_IMAGE_PATH, ITEM_TYPES } from '../../config/constants';
+import {
+  buildPerformViewItemRoute,
+  DEFAULT_ITEM_IMAGE_PATH,
+  ITEM_TYPES,
+} from '../../config/constants';
 import { openInNewTab } from '../../utils/helpers';
 
 // todo: get similar collections in same call
@@ -93,11 +97,12 @@ const Collection = ({ id }) => {
           isLoading={isLoading}
         />
         <Divider className={classes.divider} />
-        { type === ITEM_TYPES.FOLDER ? 
-          <Items parentId={id} /> : (
-            <IconButton onClick={handlePlay} aria-label="play">
-              <PlayCircleOutlineIcon />
-            </IconButton>
+        {type === ITEM_TYPES.FOLDER ? (
+          <Items parentId={id} />
+        ) : (
+          <IconButton onClick={handlePlay} aria-label="play">
+            <PlayCircleOutlineIcon />
+          </IconButton>
         )}
         <Divider className={classes.divider} />
         {/* <Comments comments={comments} members={members} /> */}

@@ -16,9 +16,8 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import SimilarCollectionBadges from './SimilarCollectionBadges';
 import { buildCollectionRoute } from '../../config/routes';
-import { DEFAULT_MEMBER_THUMBNAIL, ITEM_TYPES } from '../../config/constants';
+import { DEFAULT_MEMBER_THUMBNAIL } from '../../config/constants';
 import { QueryClientContext } from '../QueryClientContext';
-import { buildPeformViewEndpoint } from '../../api/endpoints';
 import CopyButton from './CopyButton';
 import CardMedia from '../common/CardMediaComponent';
 import CopyLinkButton from './CopyLinkButton';
@@ -78,7 +77,7 @@ const useStyles = makeStyles((theme) => ({
 
 export const CollectionCard = ({ collection = {}, isLoading }) => {
   const { t } = useTranslation();
-  const { name, id, description, creator, views, voteScore, type, extra } =
+  const { name, id, description, creator, views, voteScore, extra } =
     collection;
   const classes = useStyles();
   const [actionsMenuAnchor, setActionsMenuAnchor] = React.useState(null);
@@ -137,7 +136,7 @@ export const CollectionCard = ({ collection = {}, isLoading }) => {
     </>
   );
 
-  const link = buildCollectionRoute(id)
+  const link = buildCollectionRoute(id);
 
   return (
     <Card className={classes.root}>
