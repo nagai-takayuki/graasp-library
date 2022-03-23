@@ -2,7 +2,8 @@ import React, { useContext } from 'react';
 import { validate } from 'uuid';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
-import { Divider } from '@material-ui/core';
+import { Divider, IconButton } from '@material-ui/core';
+import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
 import { ErrorBoundary } from '@sentry/react';
 import Error from '../common/Error';
 import Summary from './Summary';
@@ -14,7 +15,8 @@ import {
 } from '../../config/messages';
 import { QueryClientContext } from '../QueryClientContext';
 import { PLACEHOLDER_COLLECTION } from '../../utils/collections';
-import { DEFAULT_ITEM_IMAGE_PATH } from '../../config/constants';
+import { buildPerformViewItemRoute, DEFAULT_ITEM_IMAGE_PATH, ITEM_TYPES } from '../../config/constants';
+import { openInNewTab } from '../../utils/helpers';
 
 // todo: get similar collections in same call
 // import SimilarCollections from './SimilarCollections';
@@ -62,6 +64,11 @@ const Collection = ({ id }) => {
   const parsedDescription = collection?.get('description') || '';
   const settings = collection?.get('settings');
 
+  const type = collection?.get('type');
+  const handlePlay = () => {
+    openInNewTab(buildPerformViewItemRoute(id));
+  };
+
   // todo: views don't exist
   const views = collection?.get('views');
   const likes = likeCount;
@@ -86,7 +93,12 @@ const Collection = ({ id }) => {
           isLoading={isLoading}
         />
         <Divider className={classes.divider} />
-        <Items parentId={id} />
+        { type === ITEM_TYPES.FOLDER ? 
+          <Items parentId={id} /> : (
+            <IconButton onClick={handlePlay} aria-label="play">
+              <PlayCircleOutlineIcon />
+            </IconButton>
+        )}
         <Divider className={classes.divider} />
         {/* <Comments comments={comments} members={members} /> */}
       </div>

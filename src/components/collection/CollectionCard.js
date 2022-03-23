@@ -137,10 +137,7 @@ export const CollectionCard = ({ collection = {}, isLoading }) => {
     </>
   );
 
-  const link =
-    type === ITEM_TYPES.FOLDER
-      ? buildCollectionRoute(id)
-      : buildPeformViewEndpoint(id);
+  const link = buildCollectionRoute(id)
 
   return (
     <Card className={classes.root}>
