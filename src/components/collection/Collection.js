@@ -33,6 +33,11 @@ const useStyles = makeStyles((theme) => ({
   divider: {
     margin: theme.spacing(2, 0),
   },
+  playButton: {
+    display: 'flex',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+  },
 }));
 
 const Collection = ({ id }) => {
@@ -113,6 +118,7 @@ const Collection = ({ id }) => {
             aria-label="play"
             title={t('play')}
             endIcon={<PlayCircleOutlineIcon />}
+            className={classes.playButton}
           >
             {t('View item in player')}
           </Button>
