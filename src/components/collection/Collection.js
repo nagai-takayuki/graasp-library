@@ -17,7 +17,7 @@ import {
 import { QueryClientContext } from '../QueryClientContext';
 import { PLACEHOLDER_COLLECTION } from '../../utils/collections';
 import {
-  buildPerformViewItemRoute,
+  buildPlayerViewItemRoute,
   DEFAULT_ITEM_IMAGE_PATH,
   ITEM_TYPES,
 } from '../../config/constants';
@@ -77,7 +77,7 @@ const Collection = ({ id }) => {
 
   const type = collection?.get('type');
   const handlePlay = () => {
-    openInNewTab(buildPerformViewItemRoute(id));
+    openInNewTab(buildPlayerViewItemRoute(id));
   };
 
   // todo: views don't exist
@@ -104,24 +104,23 @@ const Collection = ({ id }) => {
           isLoading={isLoading}
         />
         <Divider className={classes.divider} />
-        {type === ITEM_TYPES.FOLDER ? (
+        <Button
+          onClick={handlePlay}
+          variant="outlined"
+          size="large"
+          color="primary"
+          aria-label="play"
+          title={t('play')}
+          endIcon={<PlayCircleOutlineIcon />}
+          className={classes.playButton}
+        >
+          {t('View item in player')}
+        </Button>
+        {type === ITEM_TYPES.FOLDER && (
           <>
-            <Items parentId={id} />
             <Divider className={classes.divider} />
+            <Items parentId={id} />
           </>
-        ) : (
-          <Button
-            onClick={handlePlay}
-            variant="outlined"
-            size="large"
-            color="primary"
-            aria-label="play"
-            title={t('play')}
-            endIcon={<PlayCircleOutlineIcon />}
-            className={classes.playButton}
-          >
-            {t('View item in player')}
-          </Button>
         )}
         {/* <Comments comments={comments} members={members} /> */}
       </div>

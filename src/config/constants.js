@@ -92,5 +92,5 @@ export const DEFAULT_THUMBNAIL_SIZE = THUMBNAIL_SIZES.MEDIUM;
 export const SIGN_IN_ROUTE = `${GRAASP_AUTH_HOST}/signIn`;
 export const SIGN_UP_ROUTE = `${GRAASP_AUTH_HOST}/signUp`;
 
-export const buildPerformViewItemRoute = (id = ':id') =>
+export const buildPlayerViewItemRoute = (id = ':id') =>
   `${GRAASP_PERFORM_HOST}/${id}`;

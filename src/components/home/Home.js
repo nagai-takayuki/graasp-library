@@ -83,7 +83,7 @@ function Home() {
       (collection) => collection.creator === NEXT_PUBLIC_GRAASPER_ID,
     );
 
-    if (collectionsGraasper?.isEmpty()) {
+    if (!collectionsGraasper || collectionsGraasper.isEmpty()) {
       return null;
     }
 
