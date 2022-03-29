@@ -17,6 +17,8 @@ const useStyles = makeStyles((theme) => ({
   },
   divider: {
     marginTop: theme.spacing(10),
+    // divider for placeholder at bottom to prevent item be covered by footer, set color to white
+    backgroundColor: '#FFF',
   },
 }));
 

@@ -5,7 +5,7 @@ import { List } from 'immutable';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
-import Item from './Item';
+import { ChildrenCard } from './ChildrenCard';
 import ItemsHeader from './ItemsHeader';
 import { QueryClientContext } from '../QueryClientContext';
 import { PLACEHOLDER_COLLECTION } from '../../utils/collections';
@@ -43,7 +43,7 @@ function Items({ parentId }) {
         <Grid container spacing={2} id={CHILDREN_ITEMS_GRID_ID}>
           {items.map((item) => (
             <Grid key={item.id} item xs={12} sm={4} md={3} lg={3} xl={2}>
-              <Item item={item} />
+              <ChildrenCard item={item} />
             </Grid>
           ))}
         </Grid>
