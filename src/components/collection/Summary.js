@@ -79,9 +79,15 @@ const useStyles = makeStyles((theme) => ({
   reportButton: {
     display: 'flex',
   },
+  favoriteButton: {
+    marginLeft: theme.spacing(0.5),
+  },
   icon: {
     marginTop: theme.spacing(1),
     borderWidth: 0,
+  },
+  description: {
+    minHeight: 100,
   },
 }));
 
@@ -211,16 +217,16 @@ function Summary({
                 id={ITEM_SUMMARY_TITLE_ID}
               >
                 {truncatedName}
+                <FavoriteButton
+                  color="primary"
+                  className={classes.favoriteButton}
+                  isFavorite={isFavorite}
+                  handleFavorite={handleFavorite}
+                  handleUnfavorite={handleUnfavorite}
+                />
               </Typography>
             </Grid>
             <Grid item className={classes.reportButton}>
-              <FavoriteButton
-                color="primary"
-                className={classes.favoriteButton}
-                isFavorite={isFavorite}
-                handleFavorite={handleFavorite}
-                handleUnfavorite={handleUnfavorite}
-              />
               <LikeButton
                 color="primary"
                 className={classes.likeButton}
@@ -237,7 +243,12 @@ function Summary({
             likes={likes}
             description={description}
           />
-          <Typography variant="body1" gutterBottom component="div">
+          <Typography
+            variant="body1"
+            gutterBottom
+            component="div"
+            className={classes.description}
+          >
             {isLoading ? (
               <Skeleton />
             ) : (

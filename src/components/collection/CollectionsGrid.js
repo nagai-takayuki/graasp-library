@@ -16,9 +16,9 @@ function CollectionsGrid({ collections, isLoading, id }) {
     </Typography>
   ) : (
     <Grid container spacing={4} alignItems="stretch" id={id}>
-      {collections.map((collection, index) => (
+      {collections?.map((collection, index) => (
         <Grid
-          key={collection.id}
+          key={collection?.id}
           item
           xs={12}
           sm={6}

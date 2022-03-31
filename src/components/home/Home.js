@@ -80,7 +80,7 @@ function Home() {
 
   const renderGraasperCollections = () => {
     const collectionsGraasper = collections?.filter(
-      (collection) => collection.creator === NEXT_PUBLIC_GRAASPER_ID,
+      (collection) => collection?.creator === NEXT_PUBLIC_GRAASPER_ID,
     );
 
     if (!collectionsGraasper || collectionsGraasper.isEmpty()) {

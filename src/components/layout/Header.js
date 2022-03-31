@@ -10,17 +10,18 @@ import {
   MY_LIST_ROUTE,
 } from '../../config/routes';
 import UserHeader from './UserHeader';
-import {
-  APP_NAME,
-  HEADER_HEIGHT,
-  HEADER_LOGO_HEIGHT,
-} from '../../config/constants';
+import { APP_NAME } from '../../config/constants';
 import {
   HEADER_ALL_COLLECTIONS_ID,
   HEADER_GRAASP_EXPLORER_ID,
   HEADER_MY_LIST_ID,
 } from '../../config/selectors';
 import { QueryClientContext } from '../QueryClientContext';
+import {
+  HEADER_HEIGHT,
+  HEADER_LOGO_HEIGHT,
+  HEADER_SHADOW_EFFECT,
+} from '../../config/cssStyles';
 
 const GraaspLogo = dynamic(
   () => import('@graasp/ui').then((mod) => mod.GraaspLogo),
@@ -40,8 +41,7 @@ const useStyles = makeStyles((theme) => ({
     height: HEADER_HEIGHT,
   },
   header: {
-    boxShadow:
-      '0px 2px 4px -1px rgb(0 0 0 / 30%), 0px 4px 5px 0px rgb(0 0 0 / 20%), 0px 1px 10px 0px rgb(0 0 0 / 12%)',
+    boxShadow: HEADER_SHADOW_EFFECT,
   },
   link: {
     textDecoration: 'none',
