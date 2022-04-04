@@ -82,10 +82,12 @@ const LoginModalProvider = ({ children }) => {
 
   const handleLogin = () => {
     openInNewTab(SIGN_IN_ROUTE);
+    setOpen(false);
   };
 
   const handleSignUp = () => {
     openInNewTab(SIGN_UP_ROUTE);
+    setOpen(false);
   };
 
   const renderModal = () => (
