@@ -23,7 +23,7 @@ import DownloadButton from './DownloadButton';
 import {
   COLLECTION_CARD_BORDER_RADIUS,
   COLLECTION_CARD_HEADER_SIZE,
-  COLLECTION_CARD_SHADOW_EFFECT,
+  DEFAULT_SHADOW_EFFECT,
 } from '../../config/cssStyles';
 
 const Avatar = dynamic(() => import('@graasp/ui').then((mod) => mod.Avatar), {
@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
     aspectRatio: 1,
     flexDirection: 'column',
     borderRadius: COLLECTION_CARD_BORDER_RADIUS,
-    boxShadow: COLLECTION_CARD_SHADOW_EFFECT,
+    boxShadow: DEFAULT_SHADOW_EFFECT,
   },
   header: {
     height: COLLECTION_CARD_HEADER_SIZE,

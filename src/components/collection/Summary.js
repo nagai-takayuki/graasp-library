@@ -22,6 +22,10 @@ import {
   SUMMARY_CATEGORIES_CONTAINER_ID,
   SUMMARY_TAGS_CONTAINER_ID,
 } from '../../../cypress/support/selectors';
+import {
+  ITEM_SUMMARY_DESCRIPTION_MIN_HEIGHT,
+  ITEM_SUMMARY_SHADOW_EFFECT,
+} from '../../config/cssStyles';
 
 const {
   ItemFlagDialog,
@@ -62,8 +66,7 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(2),
     borderRadius: 35,
     aspectRatio: 1,
-    boxShadow:
-      '0px 0px 2px 2px rgb(0 0 0 / 24%), 0px 0px 4px 6px rgb(0 0 0 / 18%), 0px 0px 8px 10px rgb(0 0 0 / 12%), 0px 0px 16px 16px rgb(0 0 0 / 8%)',
+    boxShadow: ITEM_SUMMARY_SHADOW_EFFECT,
   },
   image: {
     width: '100%',
@@ -87,7 +90,7 @@ const useStyles = makeStyles((theme) => ({
     borderWidth: 0,
   },
   description: {
-    minHeight: 100,
+    minHeight: ITEM_SUMMARY_DESCRIPTION_MIN_HEIGHT,
   },
 }));
 

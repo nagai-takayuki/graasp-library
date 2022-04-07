@@ -18,9 +18,10 @@ import {
 } from '../../config/selectors';
 import { QueryClientContext } from '../QueryClientContext';
 import {
+  COLOR_WHITE,
+  DEFAULT_SHADOW_EFFECT,
   HEADER_HEIGHT,
   HEADER_LOGO_HEIGHT,
-  HEADER_SHADOW_EFFECT,
 } from '../../config/cssStyles';
 
 const GraaspLogo = dynamic(
@@ -41,14 +42,13 @@ const useStyles = makeStyles((theme) => ({
     height: HEADER_HEIGHT,
   },
   header: {
-    boxShadow: HEADER_SHADOW_EFFECT,
+    boxShadow: DEFAULT_SHADOW_EFFECT,
   },
   link: {
     textDecoration: 'none',
-    color: '#fff',
+    color: COLOR_WHITE,
   },
   logo: {
-    fill: '#000',
     marginRight: theme.spacing(2),
   },
   title: {
@@ -91,7 +91,7 @@ function Header() {
   return (
     <>
       <header className={classes.header}>
-        <AppBar position="fixed" color="#ffffff">
+        <AppBar position="fixed" color={COLOR_WHITE}>
           <Toolbar className={classes.toolbar}>
             <div className={classes.headerLeft}>
               <GraaspLogo
