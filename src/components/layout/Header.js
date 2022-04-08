@@ -49,6 +49,7 @@ const useStyles = makeStyles((theme) => ({
     color: COLOR_WHITE,
   },
   logo: {
+    fill: theme.palette.primary.main,
     marginRight: theme.spacing(2),
   },
   title: {
