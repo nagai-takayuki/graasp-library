@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
+import dynamic from 'next/dynamic';
 import { AppBar, Typography, Toolbar } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
-import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { makeStyles } from '@material-ui/core/styles';
 import {
@@ -10,17 +10,19 @@ import {
   MY_LIST_ROUTE,
 } from '../../config/routes';
 import UserHeader from './UserHeader';
-import {
-  APP_NAME,
-  HEADER_HEIGHT,
-  HEADER_LOGO_HEIGHT,
-} from '../../config/constants';
+import { APP_NAME } from '../../config/constants';
 import {
   HEADER_ALL_COLLECTIONS_ID,
   HEADER_GRAASP_EXPLORER_ID,
   HEADER_MY_LIST_ID,
 } from '../../config/selectors';
 import { QueryClientContext } from '../QueryClientContext';
+import {
+  COLOR_WHITE,
+  DEFAULT_SHADOW_EFFECT,
+  HEADER_HEIGHT,
+  HEADER_LOGO_HEIGHT,
+} from '../../config/cssStyles';
 
 const GraaspLogo = dynamic(
   () => import('@graasp/ui').then((mod) => mod.GraaspLogo),
@@ -36,12 +38,19 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
   },
+  toolbar: {
+    height: HEADER_HEIGHT,
+  },
+  header: {
+    boxShadow: DEFAULT_SHADOW_EFFECT,
+  },
   link: {
     textDecoration: 'none',
-    color: '#fff',
+    color: COLOR_WHITE,
   },
   logo: {
-    fill: '#fff',
+    fill: theme.palette.primary.main,
+    marginRight: theme.spacing(2),
   },
   title: {
     marginLeft: theme.spacing(2),
@@ -82,9 +91,9 @@ function Header() {
 
   return (
     <>
-      <header>
-        <AppBar position="fixed">
-          <Toolbar>
+      <header className={classes.header}>
+        <AppBar position="fixed" color={COLOR_WHITE}>
+          <Toolbar className={classes.toolbar}>
             <div className={classes.headerLeft}>
               <GraaspLogo
                 height={HEADER_LOGO_HEIGHT}

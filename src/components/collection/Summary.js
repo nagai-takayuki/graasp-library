@@ -22,6 +22,10 @@ import {
   SUMMARY_CATEGORIES_CONTAINER_ID,
   SUMMARY_TAGS_CONTAINER_ID,
 } from '../../../cypress/support/selectors';
+import {
+  ITEM_SUMMARY_DESCRIPTION_MIN_HEIGHT,
+  ITEM_SUMMARY_SHADOW_EFFECT,
+} from '../../config/cssStyles';
 
 const {
   ItemFlagDialog,
@@ -59,10 +63,14 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
   },
   card: {
-    width: '100%',
     marginRight: theme.spacing(2),
+    borderRadius: 35,
+    aspectRatio: 1,
+    boxShadow: ITEM_SUMMARY_SHADOW_EFFECT,
   },
   image: {
+    width: '100%',
+    aspectRatio: 1,
     minHeight: '350px !important',
   },
   root: {
@@ -74,9 +82,15 @@ const useStyles = makeStyles((theme) => ({
   reportButton: {
     display: 'flex',
   },
+  favoriteButton: {
+    marginLeft: theme.spacing(0.5),
+  },
   icon: {
     marginTop: theme.spacing(1),
     borderWidth: 0,
+  },
+  description: {
+    minHeight: ITEM_SUMMARY_DESCRIPTION_MIN_HEIGHT,
   },
 }));
 
@@ -206,16 +220,16 @@ function Summary({
                 id={ITEM_SUMMARY_TITLE_ID}
               >
                 {truncatedName}
+                <FavoriteButton
+                  color="primary"
+                  className={classes.favoriteButton}
+                  isFavorite={isFavorite}
+                  handleFavorite={handleFavorite}
+                  handleUnfavorite={handleUnfavorite}
+                />
               </Typography>
             </Grid>
             <Grid item className={classes.reportButton}>
-              <FavoriteButton
-                color="primary"
-                className={classes.favoriteButton}
-                isFavorite={isFavorite}
-                handleFavorite={handleFavorite}
-                handleUnfavorite={handleUnfavorite}
-              />
               <LikeButton
                 color="primary"
                 className={classes.likeButton}
@@ -232,7 +246,12 @@ function Summary({
             likes={likes}
             description={description}
           />
-          <Typography variant="body1" gutterBottom component="div">
+          <Typography
+            variant="body1"
+            gutterBottom
+            component="div"
+            className={classes.description}
+          >
             {isLoading ? (
               <Skeleton />
             ) : (

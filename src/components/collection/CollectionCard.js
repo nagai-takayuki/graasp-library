@@ -1,19 +1,17 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import dynamic from 'next/dynamic';
-import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import { toast } from 'react-toastify';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
+import {
+  Typography,
+  Card,
+  CardHeader,
+  CardContent,
+  CardActions,
+  IconButton,
+} from '@material-ui/core';
 import Skeleton from '@material-ui/lab/Skeleton';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
+import InfoIcon from '@material-ui/icons/Info';
 import SimilarCollectionBadges from './SimilarCollectionBadges';
 import { buildCollectionRoute } from '../../config/routes';
 import { DEFAULT_MEMBER_THUMBNAIL } from '../../config/constants';
@@ -22,6 +20,11 @@ import CopyButton from './CopyButton';
 import CardMedia from '../common/CardMediaComponent';
 import CopyLinkButton from './CopyLinkButton';
 import DownloadButton from './DownloadButton';
+import {
+  COLLECTION_CARD_BORDER_RADIUS,
+  COLLECTION_CARD_HEADER_SIZE,
+  DEFAULT_SHADOW_EFFECT,
+} from '../../config/cssStyles';
 
 const Avatar = dynamic(() => import('@graasp/ui').then((mod) => mod.Avatar), {
   ssr: false,
@@ -29,13 +32,15 @@ const Avatar = dynamic(() => import('@graasp/ui').then((mod) => mod.Avatar), {
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: 345,
     height: '100%',
     display: 'flex',
+    aspectRatio: 1,
     flexDirection: 'column',
+    borderRadius: COLLECTION_CARD_BORDER_RADIUS,
+    boxShadow: DEFAULT_SHADOW_EFFECT,
   },
   header: {
-    height: 60,
+    height: COLLECTION_CARD_HEADER_SIZE,
     position: 'relative',
   },
   content: {
@@ -76,28 +81,17 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const CollectionCard = ({ collection = {}, isLoading }) => {
-  const { t } = useTranslation();
   const { name, id, description, creator, views, voteScore, extra } =
     collection;
+  const descriptionContent = description || 'This item has no description.';
   const classes = useStyles();
-  const [actionsMenuAnchor, setActionsMenuAnchor] = React.useState(null);
+  const [flipped, setFlipped] = React.useState(false);
   const { hooks } = useContext(QueryClientContext);
   const { data: author } = hooks.useMember(creator);
-  const handleClick = (event) => {
-    setActionsMenuAnchor(event.currentTarget);
-  };
-  const handleClose = () => {
-    setActionsMenuAnchor(null);
-  };
 
-  const handleCopyLink = () => {
-    // copy collection url to clipboard
-    const collectionUrl = `${window.location.hostname}${buildCollectionRoute(
-      id,
-    )}`;
-    navigator.clipboard.writeText(collectionUrl);
-    handleClose();
-    toast.success(t('Collection link is copied to your clipboard.'));
+  // toggle the value
+  const handleClick = () => {
+    setFlipped(!flipped);
   };
 
   const avatar = isLoading ? (
@@ -122,17 +116,8 @@ export const CollectionCard = ({ collection = {}, isLoading }) => {
   const action = (
     <>
       <IconButton aria-label="actions" onClick={handleClick}>
-        <MoreVertIcon />
+        <InfoIcon />
       </IconButton>
-      <Menu
-        id="actions-menu"
-        anchorEl={actionsMenuAnchor}
-        keepMounted
-        open={Boolean(actionsMenuAnchor)}
-        onClose={handleClose}
-      >
-        <MenuItem onClick={handleCopyLink}>{t('Copy Link')}</MenuItem>
-      </Menu>
     </>
   );
 
@@ -153,18 +138,21 @@ export const CollectionCard = ({ collection = {}, isLoading }) => {
           content: classes.content,
         }}
       />
-      <CardMedia link={link} name={name} itemId={id} />
-      <CardContent>
-        <Typography variant="body2" color="textSecondary" component="p">
-          <p
-            className={classes.description}
-            // eslint-disable-next-line react/no-danger
-            dangerouslySetInnerHTML={{
-              __html: description,
-            }}
-          />
-        </Typography>
-      </CardContent>
+      {flipped ? (
+        <CardContent>
+          <Typography variant="body2" color="textSecondary" component="p">
+            <p
+              className={classes.description}
+              // eslint-disable-next-line react/no-danger
+              dangerouslySetInnerHTML={{
+                __html: descriptionContent,
+              }}
+            />
+          </Typography>
+        </CardContent>
+      ) : (
+        <CardMedia link={link} name={name} itemId={id} />
+      )}
       <CardActions disableSpacing className={classes.actions}>
         <CopyButton id={id} />
         <CopyLinkButton id={id} extra={extra} />

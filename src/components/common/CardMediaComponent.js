@@ -27,7 +27,7 @@ const CardMediaComponent = ({
   const router = useRouter();
   const useStyles = makeStyles(() => ({
     media: {
-      minHeight: 200,
+      minHeight: '60%',
       // necessary to trigger content height 100%
       height: 0,
       '&:hover': {

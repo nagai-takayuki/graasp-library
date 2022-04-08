@@ -46,6 +46,7 @@ import {
   TITLE_TEXT_ID,
 } from '../../config/selectors';
 import { ALL_COLLECTIONS_GRID_ID } from '../../../cypress/support/selectors';
+import { HEADER_HEIGHT } from '../../config/cssStyles';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -89,7 +90,9 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     zIndex: theme.zIndex.appBar - 2,
   },
-  toolbar: theme.mixins.toolbar,
+  toolbar: {
+    height: HEADER_HEIGHT,
+  },
   iconButton: {
     padding: theme.spacing(1),
   },
