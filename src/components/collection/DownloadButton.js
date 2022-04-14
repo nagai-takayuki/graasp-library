@@ -28,7 +28,7 @@ const DownloadButton = ({ id }) => {
   }, [data, isSuccess]);
 
   const handleDownload = () => {
-    downloadItem(id);
+    downloadItem({ id });
   };
 
   return (
