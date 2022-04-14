@@ -1,4 +1,4 @@
-name: CI ECS caller workflow
+name: CI pipeline Graasp Explorer
 
 # Controls when the action will run.
 on:
@@ -15,7 +15,7 @@ on:
 
 jobs:
   call-reusable-workflow:
-    name: Graasp Explorer
+    name: Graasp Explorer Development
     uses: graasp/graasp-deploy/.github/workflows/cintegration-ecs.yml@b295c18e66bab6da41f5f75a9589444bfec16587
     with:
       ecs-task-definition: '.aws/task-definition-dev.json'
