@@ -9,7 +9,10 @@ import Seo from '../common/Seo';
 import Loader from '../common/Loader';
 import Search from './Search';
 import { QueryClientContext } from '../QueryClientContext';
-import { PLACEHOLDER_COLLECTIONS } from '../../utils/collections';
+import {
+  filterErrorItems,
+  PLACEHOLDER_COLLECTIONS,
+} from '../../utils/collections';
 import {
   TITLE_TEXT_ID,
   GRAASP_SELECTION_TITLE_ID,
@@ -59,6 +62,9 @@ function Home() {
       placeholderData: PLACEHOLDER_COLLECTIONS,
     },
   );
+  // remove errors
+  // todo: avoid getting errors from backend
+  const collectionsWithoutErrors = filterErrorItems(collections);
 
   const { data: resultCollections } = hooks.useKeywordSearch(range, keywords);
 
@@ -79,8 +85,8 @@ function Home() {
   };
 
   const renderGraasperCollections = () => {
-    const collectionsGraasper = collections?.filter(
-      (collection) => collection?.creator === NEXT_PUBLIC_GRAASPER_ID,
+    const collectionsGraasper = collectionsWithoutErrors?.filter(
+      (collection) => collection.creator === NEXT_PUBLIC_GRAASPER_ID,
     );
 
     if (!collectionsGraasper || collectionsGraasper.isEmpty()) {
@@ -152,7 +158,7 @@ function Home() {
         </Typography>
         <CollectionsGrid
           id={COLLECTIONS_GRID_ID}
-          collections={collections}
+          collections={collectionsWithoutErrors}
           isLoading={isLoading}
         />
       </div>

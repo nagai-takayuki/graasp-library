@@ -33,7 +33,10 @@ import {
 import CollectionsGrid from '../collection/CollectionsGrid';
 import { QueryClientContext } from '../QueryClientContext';
 import { PUBLISHED_TAG_ID } from '../../config/env';
-import { PLACEHOLDER_COLLECTIONS } from '../../utils/collections';
+import {
+  PLACEHOLDER_COLLECTIONS,
+  filterErrorItems,
+} from '../../utils/collections';
 import { compare } from '../../utils/helpers';
 import LevelCollectionsPage from './LevelCollectionsPage';
 import {
@@ -122,6 +125,7 @@ function AllCollections() {
       placeholderData: PLACEHOLDER_COLLECTIONS,
     },
   );
+  const collectionsWithoutErrors = filterErrorItems(collections);
 
   // get categories in each type
   const { data: categoryTypes } = hooks.useCategoryTypes();
@@ -337,10 +341,12 @@ function AllCollections() {
                 aligh="left"
                 id={SUBTITLE_TEXT_ID}
               >
-                {t('collectionsCount', { count: collections?.size })}
+                {t('collectionsCount', {
+                  count: collectionsWithoutErrors?.size,
+                })}
               </Typography>
               <CollectionsGrid
-                collections={collections}
+                collections={collectionsWithoutErrors}
                 isLoading={isLoading}
                 id={ALL_COLLECTIONS_GRID_ID}
               />

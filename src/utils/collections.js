@@ -14,3 +14,7 @@ export const PLACEHOLDER_COLLECTIONS = List(
     ...PLACEHOLDER_COLLECTION,
   })),
 );
+
+// todo: let the backend remove the errors
+export const filterErrorItems = (collections) =>
+  collections?.filter(({ statusCode }) => !statusCode);

@@ -1,19 +1,25 @@
-import GetAppIcon from '@material-ui/icons/GetApp';
-import IconButton from '@material-ui/core/IconButton';
 import React, { useContext, useEffect } from 'react';
+import dynamic from 'next/dynamic';
 import PropTypes from 'prop-types';
-import { Tooltip } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 import { MUTATION_KEYS } from '@graasp/query-client';
 import { QueryClientContext } from '../QueryClientContext';
+
+const { GraaspDownloadButton } = {
+  GraaspDownloadButton: dynamic(
+    () => import('@graasp/ui').then((mod) => mod.DownloadButton),
+    { ssr: false },
+  ),
+};
 
 const DownloadButton = ({ id }) => {
   const { t } = useTranslation();
   const { useMutation } = useContext(QueryClientContext);
   const {
-    mutate: downloadItem,
+    mutate: exportZip,
     data,
     isSuccess,
+    isLoading,
   } = useMutation(MUTATION_KEYS.EXPORT_ZIP);
 
   useEffect(() => {
@@ -28,15 +34,15 @@ const DownloadButton = ({ id }) => {
   }, [data, isSuccess]);
 
   const handleDownload = () => {
-    downloadItem({ id });
+    exportZip({ id });
   };
 
   return (
-    <Tooltip title={t('Download')}>
-      <IconButton onClick={handleDownload} aria-label="download">
-        <GetAppIcon />
-      </IconButton>
-    </Tooltip>
+    <GraaspDownloadButton
+      isLoading={isLoading}
+      handleDownload={handleDownload}
+      title={t('Download')}
+    />
   );
 };
 

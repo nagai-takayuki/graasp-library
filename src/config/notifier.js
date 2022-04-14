@@ -37,7 +37,7 @@ const notifier = ({ type, payload }) => {
     case COPY_RESOURCE_LINK_TO_CLIPBOARD.FAILURE:
       toast.error(i18n.t('An error occured while copying the resource link.'));
       break;
-    case routines.downloadItemRoutine.FAILURE:
+    case routines.exportItemRoutine.FAILURE:
       toast.error(
         i18n.t(
           'An error occured while downloading the item. Please try again later.',
