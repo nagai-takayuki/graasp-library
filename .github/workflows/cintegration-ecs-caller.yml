@@ -14,7 +14,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  call-reusable-workflow:
+  graasp-deploy-ecs-workflow:
     name: Graasp Explorer Development
     uses: graasp/graasp-deploy/.github/workflows/cintegration-ecs.yml@b295c18e66bab6da41f5f75a9589444bfec16587
     with:
