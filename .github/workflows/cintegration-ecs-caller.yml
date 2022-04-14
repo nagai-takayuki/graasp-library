@@ -1,0 +1,36 @@
+name: CI pipeline Graasp Explorer
+
+# Controls when the action will run.
+on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  push:
+    branches:
+    - main
+
+  pull_request:
+   branches: [main]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  graasp-deploy-ecs-workflow:
+    name: Graasp Explorer Development
+    uses: graasp/graasp-deploy/.github/workflows/cintegration-ecs.yml@b295c18e66bab6da41f5f75a9589444bfec16587
+    with:
+      ecs-task-definition: '.aws/task-definition-dev.json'
+    secrets:
+      aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_DEV }}
+      aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_DEV }}
+      aws-region: ${{ secrets.AWS_REGION_DEV }}
+      ecs-cluster: ${{ secrets.ECS_CLUSTER_GRAASP_EXPLORE_DEV }}
+      ecs-service: ${{ secrets.ECS_SERVICE_GRAASP_EXPLORE_DEV }}
+      container-name: ${{ secrets.CONTAINER_NAME_GRAASP_EXPLORE_DEV }}
+      ecr-repository: ${{ secrets.ECR_REPOSITORY_GRAASP_EXPLORE_DEV }}
+      next-public-api-host: ${{ secrets.NEXT_PUBLIC_API_HOST }}
+      next-public-google-analytics-id: ${{ secrets.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID }}
+      next-public-graasp-auth-host: ${{ secrets.NEXT_PUBLIC_GRAASP_AUTH_HOST }}
+      next-public-graasp-perform-host: ${{ secrets.NEXT_PUBLIC_GRAASP_PERFORM_HOST }}
+      next-public-graasper-id: ${{ secrets.NEXT_PUBLIC_GRAASPER_ID }}
+      next-public-published-tag-id: ${{ secrets.NEXT_PUBLIC_PUBLISHED_TAG_ID }}
+      port: ${{ secrets.PORT }}
