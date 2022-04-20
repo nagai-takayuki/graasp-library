@@ -4,7 +4,6 @@ import {
   Divider,
   Button,
   Drawer,
-  CssBaseline,
   List,
   ListItem,
   ListItemText,
@@ -70,6 +69,7 @@ const useStyles = makeStyles((theme) => ({
     // necessary for content to be below app bar
     ...theme.mixins.toolbar,
     justifyContent: 'flex-end',
+    marginTop: HEADER_HEIGHT,
   },
   content: {
     flexGrow: 1,
@@ -199,7 +199,6 @@ function AllCollections() {
 
   return (
     <div className={classes.root}>
-      <CssBaseline />
       <Drawer
         className={classes.drawer}
         variant="persistent"
@@ -209,7 +208,6 @@ function AllCollections() {
           paper: classes.drawerPaper,
         }}
       >
-        <div className={classes.toolbar} />
         <div className={classes.drawerHeader}>
           <Typography variant="h5" align="center" id={SIDEMENU_HEADING_ID}>
             {t('Categories')}
@@ -309,56 +307,54 @@ function AllCollections() {
         </Button>
         <Divider className={classes.divider} />
       </Drawer>
-      <div className={classes.mainWrapper}>
-        <main
-          className={clsx(classes.content, {
-            [classes.contentShift]: sideBarStatus,
-          })}
+      <main
+        className={clsx(classes.content, {
+          [classes.contentShift]: sideBarStatus,
+        })}
+      >
+        <IconButton
+          color="primary"
+          aria-label="open menu"
+          onClick={openSideBar}
+          id={OPEN_MENU_BUTTON_ID}
         >
-          <IconButton
-            color="primary"
-            aria-label="open menu"
-            onClick={openSideBar}
-            id={OPEN_MENU_BUTTON_ID}
-          >
-            <MenuOpenIcon />
-          </IconButton>
-          <Typography variant="body1" display="inline">
-            {t('Open Menu')}
-          </Typography>
-          <Seo
-            title={APP_NAME}
-            description={APP_DESCRIPTION}
-            author={APP_AUTHOR}
-          />
-          {selectedLevel?.length === 0 && selectedDiscipline?.length === 0 ? (
-            <>
-              <Typography variant="h3" align="center" id={TITLE_TEXT_ID}>
-                {t(`All Collections`)}
-              </Typography>
-              <Typography
-                variant="subtitle2"
-                aligh="left"
-                id={SUBTITLE_TEXT_ID}
-              >
-                {t('collectionsCount', {
-                  count: collectionsWithoutErrors?.size,
-                })}
-              </Typography>
-              <CollectionsGrid
-                collections={collectionsWithoutErrors}
-                isLoading={isLoading}
-                id={ALL_COLLECTIONS_GRID_ID}
-              />
-            </>
-          ) : (
-            <LevelCollectionsPage
-              selectedLevel={selectedLevel}
-              selectedDiscipline={selectedDiscipline}
+          <MenuOpenIcon />
+        </IconButton>
+        <Typography variant="body1" display="inline">
+          {t('Open Menu')}
+        </Typography>
+        <Seo
+          title={APP_NAME}
+          description={APP_DESCRIPTION}
+          author={APP_AUTHOR}
+        />
+        {selectedLevel?.length === 0 && selectedDiscipline?.length === 0 ? (
+          <>
+            <Typography variant="h3" align="center" id={TITLE_TEXT_ID}>
+              {t(`All Collections`)}
+            </Typography>
+            <Typography variant="subtitle2" aligh="left" id={SUBTITLE_TEXT_ID}>
+              {t('collectionsCount', {
+                count: collectionsWithoutErrors?.size,
+              })}
+            </Typography>
+            <CollectionsGrid
+              collections={collectionsWithoutErrors}
+              isLoading={isLoading}
+              id={ALL_COLLECTIONS_GRID_ID}
+              sm={8}
+              md={6}
+              lg={4}
+              xl={4}
             />
-          )}
-        </main>
-      </div>
+          </>
+        ) : (
+          <LevelCollectionsPage
+            selectedLevel={selectedLevel}
+            selectedDiscipline={selectedDiscipline}
+          />
+        )}
+      </main>
     </div>
   );
 }

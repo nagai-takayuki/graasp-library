@@ -7,7 +7,7 @@ import Grid from '@material-ui/core/Grid';
 import CollectionCard from './CollectionCard';
 import { buildCollectionCardGridId } from '../../config/selectors';
 
-function CollectionsGrid({ collections, isLoading, id }) {
+function CollectionsGrid({ collections, isLoading, id, sm, md, lg, xl }) {
   const { t } = useTranslation();
 
   return !collections?.size ? (
@@ -15,16 +15,22 @@ function CollectionsGrid({ collections, isLoading, id }) {
       {t('There are no collections available.')}
     </Typography>
   ) : (
-    <Grid container spacing={4} alignItems="stretch" id={id}>
+    <Grid
+      container
+      spacing={4}
+      alignItems="center"
+      justifyContent="flex-start"
+      id={id}
+    >
       {collections?.map((collection, index) => (
         <Grid
           key={collection?.id}
           item
           xs={12}
-          sm={6}
-          md={4}
-          lg={3}
-          xl={3}
+          sm={sm}
+          md={md}
+          lg={lg}
+          xl={xl}
           id={buildCollectionCardGridId(id, index)}
         >
           <CollectionCard collection={collection} isLoading={isLoading} />
@@ -38,11 +44,19 @@ CollectionsGrid.propTypes = {
   id: PropTypes.string,
   collections: PropTypes.instanceOf(List),
   isLoading: PropTypes.bool.isRequired,
+  sm: PropTypes.instanceOf(Number),
+  md: PropTypes.instanceOf(Number),
+  lg: PropTypes.instanceOf(Number),
+  xl: PropTypes.instanceOf(Number),
 };
 
 CollectionsGrid.defaultProps = {
   id: '',
   collections: [],
+  sm: 6,
+  md: 4,
+  lg: 3,
+  xl: 3,
 };
 
 export default CollectionsGrid;
