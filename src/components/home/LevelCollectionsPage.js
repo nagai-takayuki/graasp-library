@@ -6,7 +6,11 @@ import CollectionsGrid from '../collection/CollectionsGrid';
 import { QueryClientContext } from '../QueryClientContext';
 import { ALL_COLLECTIONS_GRID_ID } from '../../../cypress/support/selectors';
 
-const LevelCollectionsPage = ({ selectedLevel, selectedDiscipline }) => {
+const LevelCollectionsPage = ({
+  selectedLevel,
+  selectedDiscipline,
+  gridParams,
+}) => {
   const { t } = useTranslation();
   const { hooks } = useContext(QueryClientContext);
 
@@ -31,6 +35,10 @@ const LevelCollectionsPage = ({ selectedLevel, selectedDiscipline }) => {
         id={ALL_COLLECTIONS_GRID_ID}
         collections={collections}
         isLoading={isLoading}
+        sm={gridParams?.sm}
+        md={gridParams?.md}
+        lg={gridParams?.lg}
+        xl={gridParams?.xl}
       />
     </>
   );
@@ -39,6 +47,12 @@ const LevelCollectionsPage = ({ selectedLevel, selectedDiscipline }) => {
 LevelCollectionsPage.propTypes = {
   selectedLevel: PropTypes.arrayOf(PropTypes.string).isRequired,
   selectedDiscipline: PropTypes.arrayOf(PropTypes.string).isRequired,
+  gridParams: PropTypes.shape({
+    sm: PropTypes.number,
+    md: PropTypes.number,
+    lg: PropTypes.number,
+    xl: PropTypes.number,
+  }).isRequired,
 };
 
 export default LevelCollectionsPage;
