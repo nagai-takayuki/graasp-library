@@ -56,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
   },
   drawer: {
     width: LEFT_MENU_WIDTH,
-    // flexShrink: 0,
+    minWidth: 200,
     zIndex: theme.zIndex.appBar - 2,
   },
   drawerPaper: {
@@ -78,7 +78,7 @@ const useStyles = makeStyles((theme) => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
-    marginLeft: `calc(-${LEFT_MENU_WIDTH})`,
+    marginLeft: -LEFT_MENU_WIDTH,
     marginRight: theme.spacing(5),
   },
   contentShift: {

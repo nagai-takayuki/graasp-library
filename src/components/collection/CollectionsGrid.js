@@ -44,10 +44,10 @@ CollectionsGrid.propTypes = {
   id: PropTypes.string,
   collections: PropTypes.instanceOf(List),
   isLoading: PropTypes.bool.isRequired,
-  sm: PropTypes.instanceOf(Number),
-  md: PropTypes.instanceOf(Number),
-  lg: PropTypes.instanceOf(Number),
-  xl: PropTypes.instanceOf(Number),
+  sm: PropTypes.number,
+  md: PropTypes.number,
+  lg: PropTypes.number,
+  xl: PropTypes.number,
 };
 
 CollectionsGrid.defaultProps = {

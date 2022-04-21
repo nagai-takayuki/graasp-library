@@ -44,7 +44,7 @@ export const TREE_VIEW_MIN_WIDTH = 350;
 export const TWITTER_MESSAGE_MAX_LENGTH = 270;
 export const MAIL_BREAK_LINE = '%0D%0A';
 
-export const LEFT_MENU_WIDTH = '18%';
+export const LEFT_MENU_WIDTH = 300;
 
 export const GRAASP_BUILDER_URL = 'https://builder.graasp.org';
 
