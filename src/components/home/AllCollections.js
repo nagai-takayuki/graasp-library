@@ -4,7 +4,6 @@ import {
   Divider,
   Button,
   Drawer,
-  CssBaseline,
   List,
   ListItem,
   ListItemText,
@@ -57,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
   },
   drawer: {
     width: LEFT_MENU_WIDTH,
-    flexShrink: 0,
+    minWidth: 200,
     zIndex: theme.zIndex.appBar - 2,
   },
   drawerPaper: {
@@ -70,6 +69,7 @@ const useStyles = makeStyles((theme) => ({
     // necessary for content to be below app bar
     ...theme.mixins.toolbar,
     justifyContent: 'flex-end',
+    marginTop: HEADER_HEIGHT,
   },
   content: {
     flexGrow: 1,
@@ -78,7 +78,8 @@ const useStyles = makeStyles((theme) => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
-    marginLeft: theme.spacing(5) - LEFT_MENU_WIDTH,
+    marginLeft: -LEFT_MENU_WIDTH,
+    marginRight: theme.spacing(5),
   },
   contentShift: {
     transition: theme.transitions.create('margin', {
@@ -88,7 +89,7 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: theme.spacing(5),
   },
   mainWrapper: {
-    marginLeft: theme.spacing(5),
+    marginLeft: theme.spacing(3),
     marginBottom: theme.spacing(6),
     width: '100%',
     zIndex: theme.zIndex.appBar - 2,
@@ -111,6 +112,9 @@ const useStyles = makeStyles((theme) => ({
   },
   divider: {
     marginBottom: theme.spacing(10),
+  },
+  subtitle: {
+    marginBottom: theme.spacing(1),
   },
 }));
 
@@ -148,12 +152,15 @@ function AllCollections() {
 
   // state variable to control the side menu
   const [sideBarStatus, setSideBarStatus] = useState(true);
+  const [gridParams, setGridParams] = useState({ sm: 12, md: 6, lg: 4, xl: 4 });
 
   const closeSideBar = () => {
     setSideBarStatus(false);
+    setGridParams(null);
   };
   const openSideBar = () => {
     setSideBarStatus(true);
+    setGridParams({ sm: 12, md: 6, lg: 4, xl: 4 });
   };
 
   const clearSelection = (type) => () => {
@@ -199,7 +206,6 @@ function AllCollections() {
 
   return (
     <div className={classes.root}>
-      <CssBaseline />
       <Drawer
         className={classes.drawer}
         variant="persistent"
@@ -209,7 +215,6 @@ function AllCollections() {
           paper: classes.drawerPaper,
         }}
       >
-        <div className={classes.toolbar} />
         <div className={classes.drawerHeader}>
           <Typography variant="h5" align="center" id={SIDEMENU_HEADING_ID}>
             {t('Categories')}
@@ -340,6 +345,7 @@ function AllCollections() {
                 variant="subtitle2"
                 aligh="left"
                 id={SUBTITLE_TEXT_ID}
+                className={classes.subtitle}
               >
                 {t('collectionsCount', {
                   count: collectionsWithoutErrors?.size,
@@ -349,12 +355,17 @@ function AllCollections() {
                 collections={collectionsWithoutErrors}
                 isLoading={isLoading}
                 id={ALL_COLLECTIONS_GRID_ID}
+                sm={gridParams?.sm}
+                md={gridParams?.md}
+                lg={gridParams?.lg}
+                xl={gridParams?.xl}
               />
             </>
           ) : (
             <LevelCollectionsPage
               selectedLevel={selectedLevel}
               selectedDiscipline={selectedDiscipline}
+              gridParams={gridParams}
             />
           )}
         </main>

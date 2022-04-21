@@ -4,7 +4,7 @@ export const DEFAULT_SHADOW_EFFECT =
 
 // header
 export const HEADER_LOGO_HEIGHT = 60;
-export const HEADER_HEIGHT = 100;
+export const HEADER_HEIGHT = 90;
 
 // collectionCard
 export const COLLECTION_CARD_BORDER_RADIUS = 35;
