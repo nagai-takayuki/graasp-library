@@ -27,3 +27,4 @@ export const HOME_SEARCH_BUTTON_ID = 'homeSearchButton';
 export const ALL_COLLECTIONS_GRID_ID = 'allCollectionsGrid';
 export const SEARCH_RESULTS_GRID_ID = 'searchResultsGrid';
 export const buildSearchRangeOptionId = (value) => `searchRangeOption-${value}`;
+export const MY_FAVORITES_COLLECTIONS_GRID = `#${ID.MY_FAVORITES_COLLECTIONS_ID}`; 
