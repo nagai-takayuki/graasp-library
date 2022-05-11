@@ -28,3 +28,4 @@ export const ALL_COLLECTIONS_GRID_ID = 'allCollectionsGrid';
 export const SEARCH_RESULTS_GRID_ID = 'searchResultsGrid';
 export const buildSearchRangeOptionId = (value) => `searchRangeOption-${value}`;
 export const MY_FAVORITES_COLLECTIONS_GRID = `#${ID.MY_FAVORITES_COLLECTIONS_ID}`; 
+export const MY_LIKED_COLLECTIONS_GRID = `#${ID.MY_LIKES_COLLECTIONS_ID}`; 

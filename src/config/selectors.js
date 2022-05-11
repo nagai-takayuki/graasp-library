@@ -19,4 +19,5 @@ export const DISCOVER_SECTION_TITLE_ID = 'discoverSectionTitleId';
 
 export const buildMyListNavigationTabId = (index) => `nav-tab-${index}`;
 
-export const MY_FAVORITES_COLLECTIONS_ID = 'favoriteCoolectionsGrid';
+export const MY_FAVORITES_COLLECTIONS_ID = 'favoriteCollectionsGrid';
+export const MY_LIKES_COLLECTIONS_ID = 'likedCollectionsGrid';
