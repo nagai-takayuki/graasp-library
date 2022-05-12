@@ -20,6 +20,7 @@ import {
 import { ITEM_SUMMARY_TITLE_ID } from '../../config/selectors';
 import {
   SUMMARY_CATEGORIES_CONTAINER_ID,
+  SUMMARY_CC_LICENSE_CONTAINER_ID,
   SUMMARY_TAGS_CONTAINER_ID,
 } from '../../../cypress/support/selectors';
 import {
@@ -292,14 +293,16 @@ function Summary({
             </div>
           )}
           {ccLicenseAdaption && (
-            <Typography variant="h6">
-              {t('Creative Commons License')}
-            </Typography>
+            <div id={SUMMARY_CC_LICENSE_CONTAINER_ID}>
+              <Typography variant="h6">
+                {t('Creative Commons License')}
+              </Typography>
+              <CCLicenseIcon
+                adaption={ccLicenseAdaption}
+                className={classes.icon}
+              />
+            </div>
           )}
-          <CCLicenseIcon
-            adaption={ccLicenseAdaption}
-            className={classes.icon}
-          />
         </Grid>
       </Grid>
     </div>

@@ -22,6 +22,7 @@ export const SUMMARY_AUTHOR_CONTAINER_ID = `summaryAuthorContainer`;
 export const buildContributorId = (id) => `contributor-${id}`;
 export const SUMMARY_CATEGORIES_CONTAINER_ID = 'summaryCategoriesContainer';
 export const SUMMARY_TAGS_CONTAINER_ID = 'summaryTagsContainer';
+export const SUMMARY_CC_LICENSE_CONTAINER_ID = 'summaryCCLicenseContainer';
 export const HOME_SEARCH_ID = 'homeSearch';
 export const HOME_SEARCH_BUTTON_ID = 'homeSearchButton';
 export const ALL_COLLECTIONS_GRID_ID = 'allCollectionsGrid';

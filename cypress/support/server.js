@@ -698,7 +698,7 @@ export const mockGetLikedItems = (
       }
 
       const currentUserId = url.slice(API_HOST.length).split('/')[2];
-      const results = itemLikes.find(({ memberId }) => memberId === currentUserId);
+      const results = itemLikes.filter(({ memberId }) => memberId === currentUserId);
 
       return reply(results || []);
     },
