@@ -25,7 +25,7 @@ describe('My Favorite Items', () => {
     });
   });
   describe('Favorite items include non-exist items', () => {
-    it('display favorite items', () => {
+    it('does not throw error', () => {
       const nonExistItemIds = ['non-exist-id'];
       cy.setUpApi({
         currentMember: buildMemberWithFavorites(
@@ -43,28 +43,6 @@ describe('My Favorite Items', () => {
       cy.get(`#${MY_FAVORITES_COLLECTIONS_ID}`)
         .children()
         .should('have.length', favoriteItems.length);
-    });
-  });
-});
-
-describe('Favorite Items include non-exist item', () => {
-  const favoriteItems = ['non-exist-id'];
-  describe('Should not throw error', () => {
-    it('display favorite items', () => {
-      cy.setUpApi({
-        currentMember: buildMemberWithFavorites(favoriteItems),
-        items: PUBLISHED_ITEMS,
-      });
-      cy.visit(MY_LIST_ROUTE);
-
-      // verify item cards are displayed
-      cy.wait('@getPublicItemsWithTags').then(({ request: { url } }) => {
-        expect(url).to.contain(ITEM_PUBLISHED_TAG.id);
-      });
-      cy.wait('@getCurrentMember');
-      cy.get(`#${MY_FAVORITES_COLLECTIONS_ID}`)
-        .children()
-        .should('have.length', favoriteItems.length - 1);
     });
   });
 });

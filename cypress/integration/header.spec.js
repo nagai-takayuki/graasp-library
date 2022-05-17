@@ -25,7 +25,7 @@ describe('Header', () => {
       cy.visit(HOME_ROUTE);
     });
 
-    it.only('Do not show My List if signed out', () => {
+    it('Do not show My List if signed out', () => {
       cy.get(`#${HEADER_ALL_COLLECTIONS_ID}`).should('be.visible');
       cy.get(`#${HEADER_MY_LIST_ID}`).should('not.exist');
     });
