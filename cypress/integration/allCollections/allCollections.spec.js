@@ -1,18 +1,17 @@
 import { ALL_COLLECTIONS_ROUTE } from '../../../src/config/routes';
+import {
+  ALL_COLLECTIONS_GRID_ID,
+  buildEducationLevelOptionSelector,
+  CLEAR_EDUCATION_LEVEL_SELECTION_ID,
+  CLOSE_MENU_BUTTON_ID,
+  OPEN_MENU_BUTTON_ID,
+  SIDEMENU_HEADING_ID,
+  SUBTITLE_TEXT_ID,
+  TITLE_TEXT_ID,
+} from '../../../src/config/selectors';
 import { SAMPLE_CATEGORIES } from '../../fixtures/categories';
 import { buildPublicAndPrivateEnvironments } from '../../fixtures/environment';
 import { PUBLISHED_ITEMS } from '../../fixtures/items';
-
-import {
-  SUBTITLE_TEXT_SELECTOR,
-  SIDEMENU_HEADING_SELECTOR,
-  CLEAR_EDUCATION_LEVEL_SELECTION_SELECTOR,
-  OPEN_MENU_BUTTON_SELECTOR,
-  CLOSE_MENU_BUTTON_SELECTOR,
-  TITLE_TEXT_SELECTOR,
-  buildEducationLevelOptionSelector,
-  ALL_COLLECTIONS_GRID_ID,
-} from '../../support/selectors';
 import { getRootPublishedItems } from '../../support/utils';
 
 const beforeEach = (environment) => {
@@ -26,9 +25,9 @@ buildPublicAndPrivateEnvironments(PUBLISHED_ITEMS).forEach((environment) => {
     it('Layout', () => {
       beforeEach(environment);
 
-      cy.get(TITLE_TEXT_SELECTOR).should('have.text', 'All Collections');
+      cy.get(`#${TITLE_TEXT_ID}`).should('have.text', 'All Collections');
 
-      cy.get(SUBTITLE_TEXT_SELECTOR).should(
+      cy.get(`#${SUBTITLE_TEXT_ID}`).should(
         'have.text',
         `${
           getRootPublishedItems(PUBLISHED_ITEMS).length
@@ -36,7 +35,7 @@ buildPublicAndPrivateEnvironments(PUBLISHED_ITEMS).forEach((environment) => {
       );
 
       // side menu heading
-      cy.get(SIDEMENU_HEADING_SELECTOR).should('have.text', 'Categories');
+      cy.get(`#${SIDEMENU_HEADING_ID}`).should('have.text', 'Categories');
 
       // verify 5 item cards are displayed
       const itemGrids = cy.get(`#${ALL_COLLECTIONS_GRID_ID}`);
@@ -56,10 +55,10 @@ buildPublicAndPrivateEnvironments(PUBLISHED_ITEMS).forEach((environment) => {
 
     it('close side menu and reopen', () => {
       beforeEach(environment);
-      cy.get(CLOSE_MENU_BUTTON_SELECTOR).click();
-      cy.get(SIDEMENU_HEADING_SELECTOR).should('not.be.visible');
-      cy.get(OPEN_MENU_BUTTON_SELECTOR).click();
-      cy.get(SIDEMENU_HEADING_SELECTOR).should('have.text', 'Categories');
+      cy.get(`#${CLOSE_MENU_BUTTON_ID}`).click();
+      cy.get(`#${SIDEMENU_HEADING_ID}`).should('not.be.visible');
+      cy.get(`#${OPEN_MENU_BUTTON_ID}`).click();
+      cy.get(`#${SIDEMENU_HEADING_ID}`).should('have.text', 'Categories');
     });
 
     it('select/unselect categories', () => {
@@ -75,7 +74,7 @@ buildPublicAndPrivateEnvironments(PUBLISHED_ITEMS).forEach((environment) => {
       );
 
       // clear selection
-      cy.get(CLEAR_EDUCATION_LEVEL_SELECTION_SELECTOR).click();
+      cy.get(`#${CLEAR_EDUCATION_LEVEL_SELECTION_ID}`).click();
 
       // check default display
       cy.get(`#${ALL_COLLECTIONS_GRID_ID}`)

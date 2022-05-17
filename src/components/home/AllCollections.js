@@ -39,6 +39,7 @@ import {
 import { compare } from '../../utils/helpers';
 import LevelCollectionsPage from './LevelCollectionsPage';
 import {
+  ALL_COLLECTIONS_GRID_ID,
   buildEducationLevelOptionId,
   CLEAR_EDUCATION_LEVEL_SELECTION_ID,
   CLOSE_MENU_BUTTON_ID,
@@ -47,7 +48,6 @@ import {
   SUBTITLE_TEXT_ID,
   TITLE_TEXT_ID,
 } from '../../config/selectors';
-import { ALL_COLLECTIONS_GRID_ID } from '../../../cypress/support/selectors';
 import { HEADER_HEIGHT } from '../../config/cssStyles';
 
 const useStyles = makeStyles((theme) => ({

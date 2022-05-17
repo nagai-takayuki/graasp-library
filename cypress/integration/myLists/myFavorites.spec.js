@@ -1,16 +1,17 @@
 import { MY_LIST_ROUTE } from '../../../src/config/routes';
+import { MY_FAVORITES_COLLECTIONS_ID } from '../../../src/config/selectors';
 import { PUBLISHED_ITEMS } from '../../fixtures/items';
-import {
-  MY_FAVORITES_COLLECTIONS_GRID,
-} from '../../support/selectors';
 import { ITEM_PUBLISHED_TAG } from '../../fixtures/itemTags';
-import { buildMemberWithFavorites, FAVORITE_ITEMS } from '../../fixtures/members';
+import { buildMemberWithFavorites } from '../../fixtures/members';
 
 describe('My Favorite Items', () => {
+  const favoriteItems = [PUBLISHED_ITEMS[0].id, PUBLISHED_ITEMS[3].id];
   describe('Current user', () => {
-    // check if title and headings are displayed correctly
     it('display favorite items', () => {
-      cy.setUpApi({currentMember: buildMemberWithFavorites(FAVORITE_ITEMS), items: PUBLISHED_ITEMS});
+      cy.setUpApi({
+        currentMember: buildMemberWithFavorites(favoriteItems),
+        items: PUBLISHED_ITEMS,
+      });
       cy.visit(MY_LIST_ROUTE);
 
       // verify item cards are displayed
@@ -18,12 +19,52 @@ describe('My Favorite Items', () => {
         expect(url).to.contain(ITEM_PUBLISHED_TAG.id);
       });
       cy.wait('@getCurrentMember');
-      cy.get(MY_FAVORITES_COLLECTIONS_GRID)
-      .children()
-      .should(
-        'have.length',
-        FAVORITE_ITEMS.length,
-      );
+      cy.get(`#${MY_FAVORITES_COLLECTIONS_ID}`)
+        .children()
+        .should('have.length', favoriteItems.length);
+    });
+  });
+  describe('Favorite items include non-exist items', () => {
+    it('display favorite items', () => {
+      const nonExistItemIds = ['non-exist-id'];
+      cy.setUpApi({
+        currentMember: buildMemberWithFavorites(
+          favoriteItems.concat(nonExistItemIds),
+        ),
+        items: PUBLISHED_ITEMS,
+      });
+      cy.visit(MY_LIST_ROUTE);
+
+      // verify item cards are displayed
+      cy.wait('@getPublicItemsWithTags').then(({ request: { url } }) => {
+        expect(url).to.contain(ITEM_PUBLISHED_TAG.id);
+      });
+      cy.wait('@getCurrentMember');
+      cy.get(`#${MY_FAVORITES_COLLECTIONS_ID}`)
+        .children()
+        .should('have.length', favoriteItems.length);
+    });
+  });
+});
+
+describe('Favorite Items include non-exist item', () => {
+  const favoriteItems = ['non-exist-id'];
+  describe('Should not throw error', () => {
+    it('display favorite items', () => {
+      cy.setUpApi({
+        currentMember: buildMemberWithFavorites(favoriteItems),
+        items: PUBLISHED_ITEMS,
+      });
+      cy.visit(MY_LIST_ROUTE);
+
+      // verify item cards are displayed
+      cy.wait('@getPublicItemsWithTags').then(({ request: { url } }) => {
+        expect(url).to.contain(ITEM_PUBLISHED_TAG.id);
+      });
+      cy.wait('@getCurrentMember');
+      cy.get(`#${MY_FAVORITES_COLLECTIONS_ID}`)
+        .children()
+        .should('have.length', favoriteItems.length - 1);
     });
   });
 });

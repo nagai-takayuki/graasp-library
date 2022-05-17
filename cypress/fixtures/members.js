@@ -65,6 +65,3 @@ export const buildMemberWithFavorites = (favoriteItems) => ({
   ...CURRENT_USER,
   extra: { ...CURRENT_USER.extra, favoriteItems },
 });
-
-// directly use id instead import from item fixtures here to avoid loop in export
-export const FAVORITE_ITEMS = ['ecafbd2a-5688-11eb-ae93-0242ac130002', 'egafbd2a-5688-11eb-ae93-0242ac130002'];

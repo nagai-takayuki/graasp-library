@@ -25,7 +25,7 @@ export const PUBLISHED_ITEMS = [
     path: 'ecafbd2a_5688_11eb_ae93_0242ac130002',
     settings: {
       tags: ['one-tag', 'two-tag'],
-      ccLicenseAdaption: 'allow'
+      ccLicenseAdaption: 'allow',
     },
     tags: [
       {
@@ -256,4 +256,7 @@ export const GRAASPER_ITEMS = [
   },
 ];
 
-export const getNumberOfOwnPublishedItems = (memberId) => PUBLISHED_ITEMS.filter(({path, creator}) => path.split('.').length === 1 && creator === memberId).length
+export const getNumberOfOwnPublishedItems = (memberId) =>
+  PUBLISHED_ITEMS.filter(
+    ({ path, creator }) => !path.includes('.') && creator === memberId,
+  ).length;

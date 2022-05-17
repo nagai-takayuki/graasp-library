@@ -9,6 +9,10 @@ export const CLOSE_MENU_BUTTON_ID = 'closeMenuButton';
 export const OPEN_MENU_BUTTON_ID = 'openMenuButton';
 export const buildCollectionCardGridId = (collectionsGridId, index) =>
   `${collectionsGridId}-collection-${index}`;
+export const buildEducationLevelOptionSelector = (index) =>
+  `#${buildEducationLevelOptionId(index)}`;
+export const buildItemInGridSelector = (index) =>
+  `#${buildCollectionCardGridId(COLLECTIONS_GRID_ID, index)}`;
 export const ITEM_SUMMARY_TITLE_ID = 'summaryTitle';
 export const CHILDREN_ITEMS_GRID_ID = 'childrenItemsGrid';
 export const HEADER_ALL_COLLECTIONS_ID = 'headerAllCollections';
@@ -17,7 +21,19 @@ export const HEADER_MY_LIST_ID = 'headerMyList';
 export const GRAASP_SELECTION_TITLE_ID = 'graaspSelectionTitleId';
 export const DISCOVER_SECTION_TITLE_ID = 'discoverSectionTitleId';
 
+export const SUMMARY_AUTHOR_CONTAINER_ID = `summaryAuthorContainer`;
+export const buildContributorId = (id) => `contributor-${id}`;
+export const SUMMARY_CATEGORIES_CONTAINER_ID = 'summaryCategoriesContainer';
+export const SUMMARY_TAGS_CONTAINER_ID = 'summaryTagsContainer';
+export const SUMMARY_CC_LICENSE_CONTAINER_ID = 'summaryCCLicenseContainer';
+export const HOME_SEARCH_ID = 'homeSearch';
+export const HOME_SEARCH_BUTTON_ID = 'homeSearchButton';
+export const ALL_COLLECTIONS_GRID_ID = 'allCollectionsGrid';
+export const SEARCH_RESULTS_GRID_ID = 'searchResultsGrid';
+export const buildSearchRangeOptionId = (value) => `searchRangeOption-${value}`;
+
 export const buildMyListNavigationTabId = (index) => `nav-tab-${index}`;
 
 export const MY_FAVORITES_COLLECTIONS_ID = 'favoriteCollectionsGrid';
 export const MY_LIKES_COLLECTIONS_ID = 'likedCollectionsGrid';
+export const MY_PUBLISHMENTS_COLLECTIONS_ID = 'publishmentCollectionsGrid';

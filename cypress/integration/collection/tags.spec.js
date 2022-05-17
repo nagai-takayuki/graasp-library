@@ -1,8 +1,8 @@
 import { PUBLISHED_ITEMS } from '../../fixtures/items';
 import { buildCollectionRoute } from '../../../src/config/routes';
 import { COLLECTION_LOADING_TIME } from '../../support/constants';
-import { SUMMARY_TAGS_CONTAINER_ID } from '../../support/selectors';
 import { buildPublicAndPrivateEnvironments } from '../../fixtures/environment';
+import { SUMMARY_TAGS_CONTAINER_ID } from '../../../src/config/selectors';
 
 describe('Tags in Summary', () => {
   buildPublicAndPrivateEnvironments().forEach((environment) => {

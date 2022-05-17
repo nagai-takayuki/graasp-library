@@ -683,10 +683,7 @@ export const mockSearch = ({ searchResultItems }, shouldThrowError) => {
   ).as('search');
 };
 
-export const mockGetLikedItems = (
-  { itemLikes },
-  shouldThrowError,
-) => {
+export const mockGetLikedItems = ({ itemLikes }, shouldThrowError) => {
   cy.intercept(
     {
       method: DEFAULT_GET.method,
@@ -698,7 +695,9 @@ export const mockGetLikedItems = (
       }
 
       const currentUserId = url.slice(API_HOST.length).split('/')[2];
-      const results = itemLikes.filter(({ memberId }) => memberId === currentUserId);
+      const results = itemLikes.filter(
+        ({ memberId }) => memberId === currentUserId,
+      );
 
       return reply(results || []);
     },
