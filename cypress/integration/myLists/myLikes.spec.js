@@ -6,8 +6,8 @@ import {
   buildMyListNavigationTabId,
   MY_LIKES_COLLECTIONS_ID,
 } from '../../../src/config/selectors';
-import { MY_LIST_TABS } from '../../support/constants';
 import { ITEM_LIKES } from '../../fixtures/itemLikes';
+import { MY_LIST_TAB_NAMES } from '../../../src/config/constants';
 
 describe('My Favorite Items', () => {
   describe('Current user', () => {
@@ -17,8 +17,11 @@ describe('My Favorite Items', () => {
       cy.visit(MY_LIST_ROUTE);
 
       // click my likes tab
-      cy.get(`#${buildMyListNavigationTabId(MY_LIST_TABS.MY_LIKES)}`).click();
+      cy.get(
+        `#${buildMyListNavigationTabId(MY_LIST_TAB_NAMES.MY_LIKES)}`,
+      ).click();
 
+      // liked items query both item-like table and published items
       cy.wait('@getPublicItemsWithTags').then(({ request: { url } }) => {
         expect(url).to.contain(ITEM_PUBLISHED_TAG.id);
       });

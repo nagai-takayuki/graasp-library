@@ -32,7 +32,7 @@ export const ALL_COLLECTIONS_GRID_ID = 'allCollectionsGrid';
 export const SEARCH_RESULTS_GRID_ID = 'searchResultsGrid';
 export const buildSearchRangeOptionId = (value) => `searchRangeOption-${value}`;
 
-export const buildMyListNavigationTabId = (index) => `nav-tab-${index}`;
+export const buildMyListNavigationTabId = (name) => `nav-tab-${name}`;
 
 export const MY_FAVORITES_COLLECTIONS_ID = 'favoriteCollectionsGrid';
 export const MY_LIKES_COLLECTIONS_ID = 'likedCollectionsGrid';

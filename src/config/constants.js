@@ -91,3 +91,9 @@ export const SIGN_UP_ROUTE = `${GRAASP_AUTH_HOST}/signUp`;
 
 export const buildPlayerViewItemRoute = (id = ':id') =>
   `${GRAASP_PERFORM_HOST}/${id}`;
+
+export const MY_LIST_TAB_NAMES = {
+  MY_LIKES: 'myLikes',
+  MY_FAVORITES: 'myFavorites',
+  MY_PUBLISHMENTS: 'myPublishments',
+};
