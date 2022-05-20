@@ -7,9 +7,8 @@ import {
   MY_LIKES_COLLECTIONS_ID,
 } from '../../../src/config/selectors';
 import { ITEM_LIKES } from '../../fixtures/itemLikes';
-import { MY_LIST_TAB_NAMES } from '../../../src/config/constants';
 
-describe('My Favorite Items', () => {
+describe('My Liked Items', () => {
   describe('Current user', () => {
     // check if title and headings are displayed correctly
     it('display liked items', () => {
@@ -18,7 +17,7 @@ describe('My Favorite Items', () => {
 
       // click my likes tab
       cy.get(
-        `#${buildMyListNavigationTabId(MY_LIST_TAB_NAMES.MY_LIKES)}`,
+        `#${buildMyListNavigationTabId('myLikes')}`,
       ).click();
 
       // liked items query both item-like table and published items

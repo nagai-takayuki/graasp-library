@@ -9,7 +9,6 @@ import {
   buildMyListNavigationTabId,
   MY_PUBLISHMENTS_COLLECTIONS_ID,
 } from '../../../src/config/selectors';
-import { MY_LIST_TAB_NAMES } from '../../../src/config/constants';
 
 describe('My Published Items', () => {
   describe('Current user', () => {
@@ -20,7 +19,7 @@ describe('My Published Items', () => {
 
       // click my publishment tab
       cy.get(
-        `#${buildMyListNavigationTabId(MY_LIST_TAB_NAMES.MY_PUBLISHMENTS)}`,
+        `#${buildMyListNavigationTabId('myPublishments')}`,
       ).click();
 
       cy.wait('@getPublicItemsWithTags').then(({ request: { url } }) => {
