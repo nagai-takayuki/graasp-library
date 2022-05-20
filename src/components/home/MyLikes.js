@@ -5,6 +5,7 @@ import { QueryClientContext } from '../QueryClientContext';
 import { PUBLISHED_TAG_ID } from '../../config/env';
 import { PLACEHOLDER_COLLECTIONS } from '../../utils/collections';
 import TabPanel from './TabPanel';
+import { MY_LIKES_COLLECTIONS_ID } from '../../config/selectors';
 
 function MyLikes({ tab, index }) {
   const { hooks } = useContext(QueryClientContext);
@@ -23,7 +24,11 @@ function MyLikes({ tab, index }) {
 
   return (
     <TabPanel value={tab} index={index}>
-      <CollectionsGrid collections={likedCollections} isLoading={isLoading} />
+      <CollectionsGrid
+        id={MY_LIKES_COLLECTIONS_ID}
+        collections={likedCollections}
+        isLoading={isLoading}
+      />
     </TabPanel>
   );
 }

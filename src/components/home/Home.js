@@ -18,8 +18,8 @@ import {
   GRAASP_SELECTION_TITLE_ID,
   DISCOVER_SECTION_TITLE_ID,
   COLLECTIONS_GRID_ID,
+  SEARCH_RESULTS_GRID_ID,
 } from '../../config/selectors';
-import { SEARCH_RESULTS_GRID_ID } from '../../../cypress/support/selectors';
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {

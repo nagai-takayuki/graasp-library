@@ -19,7 +19,7 @@ import {
   buildSearchRangeOptionId,
   HOME_SEARCH_BUTTON_ID,
   HOME_SEARCH_ID,
-} from '../../../cypress/support/selectors';
+} from '../../config/selectors';
 
 const useStyles = makeStyles((theme) => ({
   root: {

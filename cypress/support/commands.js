@@ -23,6 +23,7 @@ import {
   mockGetFlags,
   mockGetPublicItemsWithTags,
   mockSearch,
+  mockGetLikedItems,
 } from './server';
 import { MEMBERS } from '../fixtures/members';
 import {
@@ -31,6 +32,7 @@ import {
 } from '../fixtures/categories';
 import { SAMPLE_FLAGS } from '../fixtures/flags';
 import { PUBLISHED_ITEMS } from '../fixtures/items';
+import { ITEM_LIKES } from '../fixtures/itemLikes';
 
 Cypress.Commands.add(
   'setUpApi',
@@ -46,6 +48,8 @@ Cypress.Commands.add(
     flags = SAMPLE_FLAGS,
     searchResultItems = PUBLISHED_ITEMS,
     searchError = false,
+    itemLikes = ITEM_LIKES,
+    getLikedItemsError = false,
   } = {}) => {
     const cachedMembers = JSON.parse(JSON.stringify(members));
 
@@ -91,6 +95,8 @@ Cypress.Commands.add(
 
     mockGetFlags({ flags, currentMember });
     mockSearch({ searchResultItems }, searchError);
+
+    mockGetLikedItems({ itemLikes }, getLikedItemsError);
   },
 );
 

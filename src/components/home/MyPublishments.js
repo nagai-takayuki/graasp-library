@@ -5,6 +5,7 @@ import { QueryClientContext } from '../QueryClientContext';
 import { PUBLISHED_TAG_ID } from '../../config/env';
 import { PLACEHOLDER_COLLECTIONS } from '../../utils/collections';
 import TabPanel from './TabPanel';
+import { MY_PUBLISHMENTS_COLLECTIONS_ID } from '../../config/selectors';
 
 function MyPublishments({ tab, index }) {
   const { hooks } = useContext(QueryClientContext);
@@ -21,7 +22,11 @@ function MyPublishments({ tab, index }) {
 
   return (
     <TabPanel value={tab} index={index}>
-      <CollectionsGrid collections={ownCollections} isLoading={isLoading} />
+      <CollectionsGrid
+        id={MY_PUBLISHMENTS_COLLECTIONS_ID}
+        collections={ownCollections}
+        isLoading={isLoading}
+      />
     </TabPanel>
   );
 }

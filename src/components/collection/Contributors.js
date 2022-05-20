@@ -5,7 +5,7 @@ import AvatarGroup from '@material-ui/lab/AvatarGroup';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { getAvatar } from '../../utils/layout';
-import { buildContributorId } from '../../../cypress/support/selectors';
+import { buildContributorId } from '../../config/selectors';
 
 function Contributors({ contributors }) {
   const { t } = useTranslation();

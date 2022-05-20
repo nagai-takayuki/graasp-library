@@ -1,9 +1,9 @@
 import { PUBLISHED_ITEMS } from '../../fixtures/items';
 import { buildCollectionRoute } from '../../../src/config/routes';
 import { COLLECTION_LOADING_TIME } from '../../support/constants';
-import { SUMMARY_CATEGORIES_CONTAINER_ID } from '../../support/selectors';
 import { SAMPLE_CATEGORIES } from '../../fixtures/categories';
 import { buildPublicAndPrivateEnvironments } from '../../fixtures/environment';
+import { SUMMARY_CATEGORIES_CONTAINER_ID } from '../../../src/config/selectors';
 
 describe('Categories in Summary', () => {
   buildPublicAndPrivateEnvironments().forEach((environment) => {

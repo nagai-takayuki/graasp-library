@@ -1,14 +1,14 @@
 import { HOME_ROUTE } from '../../../src/config/routes';
 import { GRAASPER_ITEMS, PUBLISHED_ITEMS } from '../../fixtures/items';
 import { buildPublicAndPrivateEnvironments } from '../../fixtures/environment';
-import {
-  DISCOVER_SECTION_TITLE_SELECTOR,
-  GRAASP_SELECTION_TITLE_SELECTOR,
-  ITEM_GRIDS_SELECTOR,
-  TITLE_TEXT_SELECTOR,
-} from '../../support/selectors';
 import { getRootPublishedItems } from '../../support/utils';
 import { ITEM_PUBLISHED_TAG } from '../../fixtures/itemTags';
+import {
+  COLLECTIONS_GRID_ID,
+  DISCOVER_SECTION_TITLE_ID,
+  GRAASP_SELECTION_TITLE_ID,
+  TITLE_TEXT_ID,
+} from '../../../src/config/selectors';
 
 describe('Home Page', () => {
   buildPublicAndPrivateEnvironments().forEach((environment) => {
@@ -18,18 +18,18 @@ describe('Home Page', () => {
         cy.setUpApi(environment);
         cy.visit(HOME_ROUTE);
 
-        cy.get(TITLE_TEXT_SELECTOR).should(
+        cy.get(`#${TITLE_TEXT_ID}`).should(
           'have.text',
           'Browse Open Educational Resources',
         );
-        cy.get(DISCOVER_SECTION_TITLE_SELECTOR)
+        cy.get(`#${DISCOVER_SECTION_TITLE_ID}`)
           .last()
           .should('have.text', 'Discover');
 
         // verify item cards are displayed
         cy.wait('@getPublicItemsWithTags').then(({ request: { url } }) => {
           expect(url).to.contain(ITEM_PUBLISHED_TAG.id);
-          cy.get(ITEM_GRIDS_SELECTOR)
+          cy.get(`#${COLLECTIONS_GRID_ID}`)
             .children()
             .should(
               'have.length',
@@ -46,7 +46,7 @@ describe('Home Page', () => {
           // section should not be displayed
           cy.wait('@getPublicItemsWithTags').then(({ request: { url } }) => {
             expect(url).to.contain(ITEM_PUBLISHED_TAG.id);
-            cy.get(GRAASP_SELECTION_TITLE_SELECTOR).should('not.exist');
+            cy.get(`#${GRAASP_SELECTION_TITLE_ID}`).should('not.exist');
           });
         });
         it('Display graasper items', () => {
@@ -63,12 +63,12 @@ describe('Home Page', () => {
           cy.wait('@getPublicItemsWithTags').then(
             ({ request: { url }, response: { body } }) => {
               expect(url).to.contain(ITEM_PUBLISHED_TAG.id);
-              cy.get(GRAASP_SELECTION_TITLE_SELECTOR).should(
+              cy.get(`#${GRAASP_SELECTION_TITLE_ID}`).should(
                 'have.text',
                 'Graasp Selection',
               );
 
-              cy.get(ITEM_GRIDS_SELECTOR)
+              cy.get(`#${COLLECTIONS_GRID_ID}`)
                 .children()
                 .should('have.length', body.length);
             },

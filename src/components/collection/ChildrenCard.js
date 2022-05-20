@@ -11,7 +11,7 @@ import CopyLinkButton from './CopyLinkButton';
 import DownloadButton from './DownloadButton';
 import { buildCollectionRoute } from '../../config/routes';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   card: {
     width: '100%',
     aspectRatio: 1,
@@ -22,33 +22,19 @@ const useStyles = makeStyles((theme) => ({
     boxShadow:
       '0px 2px 4px -1px rgb(0 0 0 / 30%), 0px 4px 5px 0px rgb(0 0 0 / 20%), 0px 1px 10px 0px rgb(0 0 0 / 12%)',
   },
-  cardDescription: {
-    margin: 0,
-    paddingTop: 0,
-    paddingBottom: 0,
-    maxHeight: '20%',
+  thumbnail: {
+    maxHeight: '60%',
   },
-  cardDescriptionText: {
-    '& p': {
-      fontSize: 'large',
-      fontFamily: theme.typography.fontFamily,
-    },
+  title: {
+    maxHeight: '100%',
+    overflow: 'hidden',
+    'text-overflow': 'ellipsis',
   },
-  button: {
-    minHeight: '80%',
+  actions: {
+    height: '15%',
   },
-  leftIcon: {
-    marginRight: theme.spacing(),
-  },
-  expand: {
-    transform: 'rotate(0deg)',
-    marginLeft: 'auto',
-    transition: theme.transitions.create('transform', {
-      duration: theme.transitions.duration.shortest,
-    }),
-  },
-  expandOpen: {
-    transform: 'rotate(180deg)',
+  content: {
+    maxHeight: '25%',
   },
 }));
 
@@ -60,15 +46,20 @@ export const ChildrenCard = ({ item }) => {
 
   return (
     <Card id={id} className={classes.card}>
-      <CardMedia itemId={id} name={name} link={link} />
+      <CardMedia
+        itemId={id}
+        name={name}
+        link={link}
+        className={classes.thumbnail}
+      />
 
-      <CardContent>
-        <Typography variant="h6" component="h2">
+      <CardContent className={classes.content}>
+        <Typography variant="h6" component="h2" className={classes.title}>
           {name}
         </Typography>
       </CardContent>
 
-      <CardActions disableSpacing>
+      <CardActions disableSpacing className={classes.actions}>
         <CopyButton id={id} />
         <CopyLinkButton id={id} extra={extra} />
         <DownloadButton id={id} />

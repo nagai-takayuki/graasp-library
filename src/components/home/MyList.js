@@ -11,6 +11,7 @@ import {
 import MyFavorites from './MyFavorites';
 import MyLikes from './MyLikes';
 import MyPublishments from './MyPublishments';
+import { MY_LIST_TAB_NAMES } from '../../config/constants';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -50,17 +51,17 @@ function MyList() {
             <Tab
               label={t('My Favorites')}
               icon={<StarBorderIcon />}
-              id={buildMyListNavigationTabId(0)}
+              id={buildMyListNavigationTabId(MY_LIST_TAB_NAMES.MY_FAVORITES)}
             />
             <Tab
               label={t('My Likes')}
               icon={<FavoriteBorderIcon />}
-              id={buildMyListNavigationTabId(1)}
+              id={buildMyListNavigationTabId(MY_LIST_TAB_NAMES.MY_LIKES)}
             />
             <Tab
               label={t('My Publishments')}
               icon={<PublishIcon />}
-              id={buildMyListNavigationTabId(2)}
+              id={buildMyListNavigationTabId(MY_LIST_TAB_NAMES.MY_PUBLISHMENTS)}
             />
           </Tabs>
         </AppBar>

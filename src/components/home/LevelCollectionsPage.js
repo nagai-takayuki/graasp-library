@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import CollectionsGrid from '../collection/CollectionsGrid';
 import { QueryClientContext } from '../QueryClientContext';
-import { ALL_COLLECTIONS_GRID_ID } from '../../../cypress/support/selectors';
+import { ALL_COLLECTIONS_GRID_ID } from '../../config/selectors';
 
 const LevelCollectionsPage = ({
   selectedLevel,

@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 import Contributors from './Contributors';
 import { QueryClientContext } from '../QueryClientContext';
 import { DEFAULT_MEMBER_THUMBNAIL } from '../../config/constants';
-import { SUMMARY_AUTHOR_CONTAINER_ID } from '../../../cypress/support/selectors';
+import { SUMMARY_AUTHOR_CONTAINER_ID } from '../../config/selectors';
 
 const Avatar = dynamic(() => import('@graasp/ui').then((mod) => mod.Avatar), {
   ssr: false,

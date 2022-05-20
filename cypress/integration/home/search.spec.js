@@ -6,7 +6,7 @@ import {
   HOME_SEARCH_ID,
   SEARCH_RESULTS_GRID_ID,
   buildSearchRangeOptionId,
-} from '../../support/selectors';
+} from '../../../src/config/selectors';
 import { SEARCH_RANGES } from '../../../src/enums/searchRanges';
 
 const search = (text, range) => {
