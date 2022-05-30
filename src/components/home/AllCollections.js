@@ -145,10 +145,14 @@ function AllCollections() {
         ?.id,
     )
     ?.sort(compare);
+  const languageList = allCategories?.get(
+    categoryTypes?.find((type) => type.name === CATEGORY_TYPES.LANGUAGE)?.id,
+  );
 
   // state variable to record selected options
   const [selectedLevel, setSelectedLevel] = useState([]);
   const [selectedDiscipline, setSelectedDiscipline] = useState([]);
+  const [selectedLanguage, setSelectedLangauge] = useState([]);
 
   // state variable to control the side menu
   const [sideBarStatus, setSideBarStatus] = useState(true);
@@ -171,6 +175,10 @@ function AllCollections() {
       }
       case CATEGORY_TYPES.DISCIPLINE: {
         setSelectedDiscipline([]);
+        break;
+      }
+      case CATEGORY_TYPES.LANGUAGE: {
+        setSelectedLangauge([]);
         break;
       }
       default: {
@@ -199,6 +207,10 @@ function AllCollections() {
     setSelectedDiscipline,
   );
   const handleClickForLevel = buildHandleClick(selectedLevel, setSelectedLevel);
+  const handleClickForLanguage = buildHandleClick(
+    selectedLanguage,
+    setSelectedLangauge,
+  );
 
   const redirectToCompose = () => {
     window.location.href = GRAASP_BUILDER_URL;
@@ -312,6 +324,40 @@ function AllCollections() {
         >
           {t('Clear Selection')}
         </Button>
+        <Divider />
+        <Typography
+          variant="subtitle1"
+          align="center"
+          color="primary"
+          className={classes.sectionHeader}
+        >
+          {t('Language')}
+        </Typography>
+        {isCategoriesLoading ? (
+          <Skeleton height="10%" />
+        ) : (
+          <List dense className={classes.list}>
+            {languageList?.map((entry) => (
+              <ListItem
+                button
+                key={entry.id}
+                onClick={handleClickForLanguage(entry.id)}
+                selected={selectedLanguage.indexOf(entry.id) !== -1}
+              >
+                <ListItemText primary={t(entry.name)} />
+              </ListItem>
+            ))}
+          </List>
+        )}
+        <Button
+          variant="text"
+          color="default"
+          size="small"
+          startIcon={<HighlightOffIcon />}
+          onClick={clearSelection(CATEGORY_TYPES.LANGUAGE)}
+        >
+          {t('Clear Selection')}
+        </Button>
         <Divider className={classes.divider} />
       </Drawer>
       <div className={classes.mainWrapper}>
@@ -336,7 +382,9 @@ function AllCollections() {
             description={APP_DESCRIPTION}
             author={APP_AUTHOR}
           />
-          {selectedLevel?.length === 0 && selectedDiscipline?.length === 0 ? (
+          {selectedLevel?.length === 0 &&
+          selectedDiscipline?.length === 0 &&
+          selectedLanguage?.length === 0 ? (
             <>
               <Typography variant="h3" align="center" id={TITLE_TEXT_ID}>
                 {t(`All Collections`)}
@@ -365,6 +413,7 @@ function AllCollections() {
             <LevelCollectionsPage
               selectedLevel={selectedLevel}
               selectedDiscipline={selectedDiscipline}
+              selectedLanguage={selectedLanguage}
               gridParams={gridParams}
             />
           )}

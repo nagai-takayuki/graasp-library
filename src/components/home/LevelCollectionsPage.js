@@ -9,6 +9,7 @@ import { ALL_COLLECTIONS_GRID_ID } from '../../config/selectors';
 const LevelCollectionsPage = ({
   selectedLevel,
   selectedDiscipline,
+  selectedLanguage,
   gridParams,
 }) => {
   const { t } = useTranslation();
@@ -18,6 +19,7 @@ const LevelCollectionsPage = ({
   const categoryIds = [
     selectedDiscipline.join(','),
     selectedLevel.join(','),
+    selectedLanguage.join(','),
   ].filter(Boolean);
   const { data: collections, isLoading } =
     hooks.useItemsInCategories(categoryIds);
@@ -47,6 +49,7 @@ const LevelCollectionsPage = ({
 LevelCollectionsPage.propTypes = {
   selectedLevel: PropTypes.arrayOf(PropTypes.string).isRequired,
   selectedDiscipline: PropTypes.arrayOf(PropTypes.string).isRequired,
+  selectedLanguage: PropTypes.arrayOf(PropTypes.string).isRequired,
   gridParams: PropTypes.shape({
     sm: PropTypes.number,
     md: PropTypes.number,
