@@ -297,7 +297,7 @@ function Summary({
             selectedFlag={selectedFlag}
             setSelectedFlag={setSelectedFlag}
           />
-          {Boolean(categories?.size) && (
+          {Boolean(languages?.length) && (
             <div id={SUMMARY_LANGUAGES_CONTAINER_ID}>
               <Typography variant="h6">{t('Languages')}</Typography>
               {languages?.map((entry) => (
@@ -305,7 +305,7 @@ function Summary({
               ))}
             </div>
           )}
-          {Boolean(categories?.size) && (
+          {(levels || disciplines) && (
             <div id={SUMMARY_CATEGORIES_CONTAINER_ID}>
               <Typography variant="h6">{t('Categories')}</Typography>
               {levels?.map((entry) => (
