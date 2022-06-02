@@ -14,6 +14,7 @@ import { QueryClientContext } from '../QueryClientContext';
 import Authorship from './Authorship';
 import Badges from './Badges';
 import {
+  CATEGORY_TYPES,
   MAX_COLLECTION_NAME_LENGTH,
   THUMBNAIL_SIZES,
 } from '../../config/constants';
@@ -22,11 +23,13 @@ import {
   SUMMARY_CC_LICENSE_CONTAINER_ID,
   SUMMARY_TAGS_CONTAINER_ID,
   ITEM_SUMMARY_TITLE_ID,
+  SUMMARY_LANGUAGES_CONTAINER_ID,
 } from '../../config/selectors';
 import {
   ITEM_SUMMARY_DESCRIPTION_MIN_HEIGHT,
   ITEM_SUMMARY_SHADOW_EFFECT,
 } from '../../config/cssStyles';
+import { compare } from '../../utils/helpers';
 
 const {
   ItemFlagDialog,
@@ -93,6 +96,9 @@ const useStyles = makeStyles((theme) => ({
   description: {
     minHeight: ITEM_SUMMARY_DESCRIPTION_MIN_HEIGHT,
   },
+  chip: {
+    marginRight: theme.spacing(0.5),
+  },
 }));
 
 function Summary({
@@ -115,10 +121,25 @@ function Summary({
   const classes = useStyles();
   const { t } = useTranslation();
   const { hooks, useMutation } = useContext(QueryClientContext);
-  const { data: categories } = hooks.useItemCategories(itemId);
-  const { data: allCategories } = hooks.useCategories();
-  const categoriesDisplayed = allCategories?.filter((category) =>
-    categories?.map((entry) => entry.categoryId)?.includes(category.id),
+  const { data: categoryTypes } = hooks.useCategoryTypes();
+  const { data: itemCategories } = hooks.useItemCategories(itemId);
+  const { data: categories } = hooks.useCategories();
+  const selectedCategories = categories
+    ?.filter((category) =>
+      itemCategories?.map((entry) => entry.categoryId)?.includes(category.id),
+    )
+    ?.groupBy((entry) => entry.type);
+  const levels = selectedCategories?.get(
+    categoryTypes?.find((type) => type.name === CATEGORY_TYPES.LEVEL)?.id,
+  );
+  const disciplines = selectedCategories
+    ?.get(
+      categoryTypes?.find((type) => type.name === CATEGORY_TYPES.DISCIPLINE)
+        ?.id,
+    )
+    ?.sort(compare);
+  const languages = selectedCategories?.get(
+    categoryTypes?.find((type) => type.name === CATEGORY_TYPES.LANGUAGE)?.id,
   );
   const { data: member } = hooks.useCurrentMember();
   const { data: likedItems } = hooks.useLikedItems(member?.get('id'));
@@ -277,10 +298,31 @@ function Summary({
             setSelectedFlag={setSelectedFlag}
           />
           {Boolean(categories?.size) && (
+            <div id={SUMMARY_LANGUAGES_CONTAINER_ID}>
+              <Typography variant="h6">{t('Languages')}</Typography>
+              {languages?.map((entry) => (
+                <Chip label={t(entry.name)} />
+              ))}
+            </div>
+          )}
+          {Boolean(categories?.size) && (
             <div id={SUMMARY_CATEGORIES_CONTAINER_ID}>
               <Typography variant="h6">{t('Categories')}</Typography>
-              {categoriesDisplayed?.map((entry) => (
-                <Chip label={t(entry.name)} />
+              {levels?.map((entry) => (
+                <Chip
+                  label={t(entry.name)}
+                  color="primary"
+                  variant="outlined"
+                  className={classes.chip}
+                />
+              ))}
+              {disciplines?.map((entry) => (
+                <Chip
+                  label={t(entry.name)}
+                  color="secondary"
+                  variant="outlined"
+                  className={classes.chip}
+                />
               ))}
             </div>
           )}
@@ -288,7 +330,7 @@ function Summary({
             <div id={SUMMARY_TAGS_CONTAINER_ID}>
               <Typography variant="h6">{t('Tags')}</Typography>
               {tags?.map((text) => (
-                <Chip label={text} />
+                <Chip label={text} className={classes.chip} />
               ))}
             </div>
           )}

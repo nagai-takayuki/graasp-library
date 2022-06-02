@@ -4,9 +4,6 @@ import {
   Divider,
   Button,
   Drawer,
-  List,
-  ListItem,
-  ListItemText,
 } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import React, { useContext, useState } from 'react';
@@ -17,9 +14,7 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import MenuOpenIcon from '@material-ui/icons/MenuOpen';
 import BookmarkIcon from '@material-ui/icons/Bookmark';
-import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
-import Skeleton from '@material-ui/lab/Skeleton';
 import Seo from '../common/Seo';
 import {
   APP_AUTHOR,
@@ -49,6 +44,7 @@ import {
   TITLE_TEXT_ID,
 } from '../../config/selectors';
 import { HEADER_HEIGHT } from '../../config/cssStyles';
+import CategorySelection from './CategorySelection';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -103,13 +99,6 @@ const useStyles = makeStyles((theme) => ({
   typographyMargin: {
     margin: theme.spacing(1.5, 0),
   },
-  list: {
-    marginTop: theme.spacing(0),
-    marginBottom: theme.spacing(0),
-  },
-  sectionHeader: {
-    marginTop: theme.spacing(2),
-  },
   divider: {
     marginBottom: theme.spacing(10),
   },
@@ -150,9 +139,9 @@ function AllCollections() {
   );
 
   // state variable to record selected options
-  const [selectedLevel, setSelectedLevel] = useState([]);
-  const [selectedDiscipline, setSelectedDiscipline] = useState([]);
-  const [selectedLanguage, setSelectedLangauge] = useState([]);
+  const [selectedLevels, setSelectedLevels] = useState([]);
+  const [selectedDisciplines, setSelectedDisciplines] = useState([]);
+  const [selectedLanguages, setSelectedLangauges] = useState([]);
 
   // state variable to control the side menu
   const [sideBarStatus, setSideBarStatus] = useState(true);
@@ -170,20 +159,20 @@ function AllCollections() {
   const clearSelection = (type) => () => {
     switch (type) {
       case CATEGORY_TYPES.LEVEL: {
-        setSelectedLevel([]);
+        setSelectedLevels([]);
         break;
       }
       case CATEGORY_TYPES.DISCIPLINE: {
-        setSelectedDiscipline([]);
+        setSelectedDisciplines([]);
         break;
       }
       case CATEGORY_TYPES.LANGUAGE: {
-        setSelectedLangauge([]);
+        setSelectedLangauges([]);
         break;
       }
       default: {
-        setSelectedLevel([]);
-        setSelectedDiscipline([]);
+        setSelectedLevels([]);
+        setSelectedDisciplines([]);
         break;
       }
     }
@@ -203,13 +192,16 @@ function AllCollections() {
   };
 
   const handleClickForDiscipline = buildHandleClick(
-    selectedDiscipline,
-    setSelectedDiscipline,
+    selectedDisciplines,
+    setSelectedDisciplines,
   );
-  const handleClickForLevel = buildHandleClick(selectedLevel, setSelectedLevel);
+  const handleClickForLevel = buildHandleClick(
+    selectedLevels,
+    setSelectedLevels,
+  );
   const handleClickForLanguage = buildHandleClick(
-    selectedLanguage,
-    setSelectedLangauge,
+    selectedLanguages,
+    setSelectedLangauges,
   );
 
   const redirectToCompose = () => {
@@ -255,109 +247,37 @@ function AllCollections() {
         >
           {t('Create Your Own')}
         </Button>
-        <Typography
-          variant="subtitle1"
-          align="center"
-          color="primary"
-          className={classes.sectionHeader}
-        >
-          {t('Education Level')}
-        </Typography>
-        {isCategoriesLoading ? (
-          <Skeleton height="10%" />
-        ) : (
-          <List dense className={classes.list}>
-            {levelList?.map((entry, index) => (
-              <ListItem
-                button
-                key={entry.id}
-                onClick={handleClickForLevel(entry.id)}
-                selected={selectedLevel.indexOf(entry.id) !== -1}
-                id={buildEducationLevelOptionId(index)}
-              >
-                <ListItemText primary={t(entry.name)} />
-              </ListItem>
-            ))}
-          </List>
-        )}
-        <Button
-          variant="text"
-          color="default"
-          size="small"
-          startIcon={<HighlightOffIcon />}
-          onClick={clearSelection(CATEGORY_TYPES.LEVEL)}
-          id={CLEAR_EDUCATION_LEVEL_SELECTION_ID}
-        >
-          {t('Clear Selection')}
-        </Button>
+        <CategorySelection
+          title={t('Education Level')}
+          selectedValues={selectedLevels}
+          valueList={levelList}
+          handleClick={handleClickForLevel}
+          isLoading={isCategoriesLoading}
+          buildOptionIndex={buildEducationLevelOptionId}
+          clearSelection={clearSelection}
+          categoryType={CATEGORY_TYPES.LEVEL}
+          buttonId={CLEAR_EDUCATION_LEVEL_SELECTION_ID}
+        />
         <Divider />
-        <Typography
-          variant="subtitle1"
-          align="center"
-          color="primary"
-          className={classes.sectionHeader}
-        >
-          {t('Discipline')}
-        </Typography>
-        {isCategoriesLoading ? (
-          <Skeleton height="10%" />
-        ) : (
-          <List dense className={classes.list}>
-            {disciplineList?.map((entry) => (
-              <ListItem
-                button
-                key={entry.id}
-                onClick={handleClickForDiscipline(entry.id)}
-                selected={selectedDiscipline.indexOf(entry.id) !== -1}
-              >
-                <ListItemText primary={t(entry.name)} />
-              </ListItem>
-            ))}
-          </List>
-        )}
-        <Button
-          variant="text"
-          color="default"
-          size="small"
-          startIcon={<HighlightOffIcon />}
-          onClick={clearSelection(CATEGORY_TYPES.DISCIPLINE)}
-        >
-          {t('Clear Selection')}
-        </Button>
+        <CategorySelection
+          title={t('Discipline')}
+          selectedValues={selectedDisciplines}
+          valueList={disciplineList}
+          handleClick={handleClickForDiscipline}
+          isLoading={isCategoriesLoading}
+          clearSelection={clearSelection}
+          categoryType={CATEGORY_TYPES.DISCIPLINE}
+        />
         <Divider />
-        <Typography
-          variant="subtitle1"
-          align="center"
-          color="primary"
-          className={classes.sectionHeader}
-        >
-          {t('Language')}
-        </Typography>
-        {isCategoriesLoading ? (
-          <Skeleton height="10%" />
-        ) : (
-          <List dense className={classes.list}>
-            {languageList?.map((entry) => (
-              <ListItem
-                button
-                key={entry.id}
-                onClick={handleClickForLanguage(entry.id)}
-                selected={selectedLanguage.indexOf(entry.id) !== -1}
-              >
-                <ListItemText primary={t(entry.name)} />
-              </ListItem>
-            ))}
-          </List>
-        )}
-        <Button
-          variant="text"
-          color="default"
-          size="small"
-          startIcon={<HighlightOffIcon />}
-          onClick={clearSelection(CATEGORY_TYPES.LANGUAGE)}
-        >
-          {t('Clear Selection')}
-        </Button>
+        <CategorySelection
+          title={t('Language')}
+          selectedValues={selectedLanguages}
+          valueList={languageList}
+          handleClick={handleClickForLanguage}
+          isLoading={isCategoriesLoading}
+          clearSelection={clearSelection}
+          categoryType={CATEGORY_TYPES.LANGUAGE}
+        />
         <Divider className={classes.divider} />
       </Drawer>
       <div className={classes.mainWrapper}>
@@ -382,9 +302,9 @@ function AllCollections() {
             description={APP_DESCRIPTION}
             author={APP_AUTHOR}
           />
-          {selectedLevel?.length === 0 &&
-          selectedDiscipline?.length === 0 &&
-          selectedLanguage?.length === 0 ? (
+          {selectedLevels?.length === 0 &&
+          selectedDisciplines?.length === 0 &&
+          selectedLanguages?.length === 0 ? (
             <>
               <Typography variant="h3" align="center" id={TITLE_TEXT_ID}>
                 {t(`All Collections`)}
@@ -411,9 +331,9 @@ function AllCollections() {
             </>
           ) : (
             <LevelCollectionsPage
-              selectedLevel={selectedLevel}
-              selectedDiscipline={selectedDiscipline}
-              selectedLanguage={selectedLanguage}
+              selectedLevels={selectedLevels}
+              selectedDisciplines={selectedDisciplines}
+              selectedLanguages={selectedLanguages}
               gridParams={gridParams}
             />
           )}
