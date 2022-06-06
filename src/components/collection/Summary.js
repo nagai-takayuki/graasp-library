@@ -297,7 +297,7 @@ function Summary({
             selectedFlag={selectedFlag}
             setSelectedFlag={setSelectedFlag}
           />
-          {Boolean(languages?.length) && (
+          {languages && (
             <div id={SUMMARY_LANGUAGES_CONTAINER_ID}>
               <Typography variant="h6">{t('Languages')}</Typography>
               {languages?.map((entry) => (
@@ -319,7 +319,7 @@ function Summary({
               {disciplines?.map((entry) => (
                 <Chip
                   label={t(entry.name)}
-                  color="secondary"
+                  color="default"
                   variant="outlined"
                   className={classes.chip}
                 />

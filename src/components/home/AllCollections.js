@@ -141,7 +141,7 @@ function AllCollections() {
   // state variable to record selected options
   const [selectedLevels, setSelectedLevels] = useState([]);
   const [selectedDisciplines, setSelectedDisciplines] = useState([]);
-  const [selectedLanguages, setSelectedLangauges] = useState([]);
+  const [selectedLanguages, setSelectedLanguages] = useState([]);
 
   // state variable to control the side menu
   const [sideBarStatus, setSideBarStatus] = useState(true);
@@ -167,7 +167,7 @@ function AllCollections() {
         break;
       }
       case CATEGORY_TYPES.LANGUAGE: {
-        setSelectedLangauges([]);
+        setSelectedLanguages([]);
         break;
       }
       default: {
@@ -201,7 +201,7 @@ function AllCollections() {
   );
   const handleClickForLanguage = buildHandleClick(
     selectedLanguages,
-    setSelectedLangauges,
+    setSelectedLanguages,
   );
 
   const redirectToCompose = () => {

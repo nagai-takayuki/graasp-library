@@ -53,7 +53,10 @@ export const PUBLISHED_ITEMS = [
     ],
     categories: [
       {
-        categoryId: SAMPLE_CATEGORIES[0].id,
+        categoryId: SAMPLE_CATEGORIES[1].id,
+      },
+      {
+        categoryId: SAMPLE_CATEGORIES[2].id,
       },
     ],
   },
@@ -145,6 +148,11 @@ export const PUBLISHED_ITEMS = [
         permission: PERMISSION_LEVELS.ADMIN,
         memberId: MEMBERS.ANNA.id,
       },
+    ],
+    categories: [
+      {
+        categoryId: SAMPLE_CATEGORIES[0].id,
+      }
     ],
     tags: [
       {
