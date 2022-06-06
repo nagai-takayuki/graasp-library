@@ -56,7 +56,7 @@ export const PUBLISHED_ITEMS = [
         categoryId: SAMPLE_CATEGORIES[1].id,
       },
       {
-        categoryId: SAMPLE_CATEGORIES[2].id,
+        categoryId: SAMPLE_CATEGORIES[0].id,
       },
     ],
   },
@@ -151,7 +151,7 @@ export const PUBLISHED_ITEMS = [
     ],
     categories: [
       {
-        categoryId: SAMPLE_CATEGORIES[0].id,
+        categoryId: SAMPLE_CATEGORIES[2].id,
       }
     ],
     tags: [

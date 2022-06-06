@@ -319,7 +319,7 @@ function Summary({
               {disciplines?.map((entry) => (
                 <Chip
                   label={t(entry.name)}
-                  color="default"
+                  color="secondary"
                   variant="outlined"
                   className={classes.chip}
                 />
