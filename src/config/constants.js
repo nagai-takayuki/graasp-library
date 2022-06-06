@@ -51,6 +51,7 @@ export const GRAASP_BUILDER_URL = 'https://builder.graasp.org';
 export const CATEGORY_TYPES = {
   LEVEL: 'level',
   DISCIPLINE: 'discipline',
+  LANGUAGE: 'language',
 };
 
 export const MY_FAVORITES = 'My Favorites';

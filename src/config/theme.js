@@ -1,12 +1,12 @@
 import { createTheme, responsiveFontSizes } from '@material-ui/core/styles';
-import { grey, orange, pink } from '@material-ui/core/colors';
+import { blue, grey, orange } from '@material-ui/core/colors';
 
 const theme = createTheme({
   palette: {
     primary: {
       main: '#5050d2',
     },
-    secondary: pink,
+    secondary: blue,
     default: grey,
     background: {
       paper: '#fff',
