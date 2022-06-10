@@ -1,4 +1,4 @@
-name: CI pipeline Graasp Explorer
+name: Deploy Graasp Explorer to development environment
 
 # Controls when the action will run.
 on:
@@ -15,7 +15,8 @@ on:
 
 jobs:
   graasp-deploy-ecs-workflow:
-    name: Graasp Explorer Development
+    name: Graasp Explorer
+    # Reference reusable workflow file. Using the commit SHA is the safest for stability and security
     uses: graasp/graasp-deploy/.github/workflows/cintegration-ecs.yml@4fd0614311aa9cc8f38dc92deedf3bc927180912
     with:
       ecs-task-definition: '.aws/task-definition-dev.json'
@@ -25,8 +26,8 @@ jobs:
       aws-region: ${{ secrets.AWS_REGION_DEV }}
       ecs-cluster: ${{ secrets.ECS_CLUSTER_GRAASP_EXPLORE_DEV }}
       ecs-service: ${{ secrets.ECS_SERVICE_GRAASP_EXPLORE_DEV }}
-      container-name: ${{ secrets.CONTAINER_NAME_GRAASP_EXPLORE_DEV }}
       ecr-repository: ${{ secrets.ECR_REPOSITORY_GRAASP_EXPLORE_DEV }}
+      container-name-explorer: ${{ secrets.CONTAINER_NAME_GRAASP_EXPLORE_DEV }}
       next-public-api-host: ${{ secrets.NEXT_PUBLIC_API_HOST }}
       next-public-google-analytics-id: ${{ secrets.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID }}
       next-public-graasp-auth-host: ${{ secrets.NEXT_PUBLIC_GRAASP_AUTH_HOST }}
