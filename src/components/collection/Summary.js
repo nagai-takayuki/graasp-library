@@ -107,7 +107,6 @@ function Summary({
   creator,
   description,
   settings,
-  contributors,
   likes,
   views,
   isLoading,
@@ -141,6 +140,7 @@ function Summary({
   const languages = selectedCategories?.get(
     categoryTypes?.find((type) => type.name === CATEGORY_TYPES.LANGUAGE)?.id,
   );
+
   const { data: member } = hooks.useCurrentMember();
   const { data: likedItems } = hooks.useLikedItems(member?.get('id'));
 
@@ -283,12 +283,7 @@ function Summary({
               />
             )}
           </Typography>
-          <Authorship
-            itemId={itemId}
-            author={creator}
-            contributors={contributors}
-            isLoading={isLoading}
-          />
+          <Authorship itemId={itemId} author={creator} isLoading={isLoading} />
           <ItemFlagDialog
             flags={flags}
             onFlag={onFlag}
@@ -359,12 +354,6 @@ Summary.propTypes = {
     ccLicenseAdaption: PropTypes.string,
   }),
   creator: PropTypes.instanceOf(Map),
-  contributors: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string,
-      avatar: PropTypes.string,
-    }),
-  ),
   likes: PropTypes.number,
   views: PropTypes.number,
   rating: PropTypes.shape({
@@ -379,7 +368,6 @@ Summary.defaultProps = {
   name: PropTypes.string,
   description: PropTypes.string,
   settings: {},
-  contributors: [],
   views: 0,
   likes: 0,
   rating: {

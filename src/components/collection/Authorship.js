@@ -30,7 +30,7 @@ const Authorship = ({ itemId, author, isLoading }) => {
   const classes = useStyles();
   const { hooks } = useContext(QueryClientContext);
   const { data: item, isLoading: isLoadingItem } = hooks.useItem(itemId);
-  const { data: memberships } = hooks.useItemMemberships([item?.get('id')]);
+  const { data: memberships } = hooks.useItemMemberships([itemId]);
 
   const memberIds = [
     ...new Set(
@@ -98,7 +98,10 @@ const Authorship = ({ itemId, author, isLoading }) => {
           </Grid>
         </Grid>
         <Grid item xs={12} sm={6}>
-          <Contributors contributors={contributors} />
+          <Contributors
+            contributors={contributors}
+            displayContributors={item?.get('settings')?.displayCoEditors}
+          />
         </Grid>
       </Grid>
     </div>
