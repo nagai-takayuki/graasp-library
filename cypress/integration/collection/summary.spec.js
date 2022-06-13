@@ -47,5 +47,28 @@ describe('Collection Summary', () => {
         cy.get(`#${buildContributorId(memberId)}`).should('exist');
       });
     });
+
+    it('Hide co-editor', () => {
+      cy.setUpApi(environment);
+
+      const item = PUBLISHED_ITEMS[1];
+      cy.visit(buildCollectionRoute(item.id));
+      cy.wait(COLLECTION_LOADING_TIME);
+
+      // author
+      const authorName = Object.values(MEMBERS).find(
+        ({ id }) => id === item.creator,
+      )?.name;
+      cy.get(`#${SUMMARY_AUTHOR_CONTAINER_ID}`).should('contain', authorName);
+
+      // contributors
+      const contributors = item.memberships.filter(
+        ({ permission, memberId }) =>
+          permission === PERMISSION_LEVELS.ADMIN && memberId !== item.creator,
+      );
+      contributors.forEach(({ memberId }) => {
+        cy.get(`#${buildContributorId(memberId)}`).should('not.exist');
+      });
+    });
   });
 });
