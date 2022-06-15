@@ -26,7 +26,7 @@ export const PUBLISHED_ITEMS = [
     settings: {
       tags: ['one-tag', 'two-tag'],
       ccLicenseAdaption: 'allow',
-      displayCoEditors: 'yes',
+      displayCoEditors: true,
     },
     tags: [
       {

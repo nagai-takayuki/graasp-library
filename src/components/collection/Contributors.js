@@ -14,7 +14,7 @@ function Contributors({ contributors, displayContributors }) {
     return null;
   }
 
-  if (displayContributors !== 'yes') {
+  if (!displayContributors) {
     return null;
   }
 
