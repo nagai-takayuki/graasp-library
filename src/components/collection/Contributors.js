@@ -1,5 +1,5 @@
 import React from 'react';
-import { Avatar, Typography } from '@material-ui/core';
+import { Avatar, Typography, Tooltip } from '@material-ui/core';
 import { List } from 'immutable';
 import AvatarGroup from '@material-ui/lab/AvatarGroup';
 import { useTranslation } from 'react-i18next';
@@ -7,10 +7,14 @@ import PropTypes from 'prop-types';
 import { getAvatar } from '../../utils/layout';
 import { buildContributorId } from '../../config/selectors';
 
-function Contributors({ contributors }) {
+function Contributors({ contributors, displayContributors }) {
   const { t } = useTranslation();
 
   if (!contributors || contributors.isEmpty()) {
+    return null;
+  }
+
+  if (!displayContributors) {
     return null;
   }
 
@@ -28,12 +32,14 @@ function Contributors({ contributors }) {
           } = contributor;
           const avatar = getAvatar(contributorAvatar);
           return (
-            <Avatar
-              key={contributorName}
-              alt={contributorName}
-              src={avatar}
-              id={buildContributorId(id)}
-            />
+            <Tooltip title={contributorName}>
+              <Avatar
+                key={contributorName}
+                alt={contributorName}
+                src={avatar}
+                id={buildContributorId(id)}
+              />
+            </Tooltip>
           );
         })}
       </AvatarGroup>
@@ -43,6 +49,7 @@ function Contributors({ contributors }) {
 
 Contributors.propTypes = {
   contributors: PropTypes.instanceOf(List),
+  displayContributors: PropTypes.bool.isRequired,
 };
 
 Contributors.defaultProps = {
