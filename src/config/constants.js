@@ -1,4 +1,5 @@
-import { PUBLISHED_TAG_ID, GRAASP_PERFORM_HOST, GRAASP_AUTH_HOST } from './env';
+import { Context } from '@graasp/utils';
+import { PUBLISHED_TAG_ID, GRAASP_PERFORM_HOST, GRAASP_AUTH_HOST, GRAASP_BUILDER_HOST } from './env';
 import i18n from './i18n';
 
 export const APP_NAME = 'Graasp Explorer';
@@ -97,4 +98,10 @@ export const MY_LIST_TAB_NAMES = {
   MY_LIKES: 'myLikes',
   MY_FAVORITES: 'myFavorites',
   MY_PUBLISHMENTS: 'myPublishments',
+};
+
+export const HOST_MAP = {
+  [Context.BUILDER]: GRAASP_BUILDER_HOST,
+  [Context.EXPLORER]: '/',
+  [Context.PLAYER]: GRAASP_PERFORM_HOST,
 };
