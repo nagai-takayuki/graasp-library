@@ -13,7 +13,7 @@ export const GRAASP_AUTH_HOST =
 export const GRAASP_API_HOST = publicRuntimeConfig.NEXT_PUBLIC_API_HOST;
 export const GRAASP_PERFORM_HOST =
   publicRuntimeConfig.NEXT_PUBLIC_GRAASP_PERFORM_HOST;
-  export const GRAASP_BUILDER_HOST =
+export const GRAASP_BUILDER_HOST =
   publicRuntimeConfig.NEXT_PUBLIC_GRAASP_BUILDER_HOST;
 export const APP_VERSION = publicRuntimeConfig.APP_VERSION;
 export const NODE_ENV = publicRuntimeConfig.NODE_ENV;

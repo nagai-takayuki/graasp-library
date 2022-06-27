@@ -115,7 +115,11 @@ function Header() {
                   {t(APP_NAME)}
                 </Typography>
               </Link>
-              <Navigation id={APP_NAVIGATION_DROP_DOWN_ID} currentValue={Context.EXPLORER} hostMap={HOST_MAP} />
+              <Navigation
+                id={APP_NAVIGATION_DROP_DOWN_ID}
+                currentValue={Context.EXPLORER}
+                hostMap={HOST_MAP}
+              />
               <Link href={ALL_COLLECTIONS_ROUTE} className={classes.link}>
                 <Typography
                   variant="h6"
