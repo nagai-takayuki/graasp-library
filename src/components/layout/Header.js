@@ -11,7 +11,7 @@ import {
   MY_LIST_ROUTE,
 } from '../../config/routes';
 import UserHeader from './UserHeader';
-import { APP_NAME, HOST_MAP } from '../../config/constants';
+import { HOST_MAP } from '../../config/constants';
 import {
   APP_NAVIGATION_DROP_DOWN_ID,
   HEADER_ALL_COLLECTIONS_ID,
@@ -68,6 +68,20 @@ const useStyles = makeStyles((theme) => ({
   spacing: {
     height: HEADER_HEIGHT,
   },
+  button: {
+    textTransform: 'capitalize',
+    fontSize: theme.typography.fontSize,
+    color: '#5050d2',
+  },
+  triangle: {
+    width: 0,
+    height: 0,
+    borderLeft: '5px solid transparent',
+    borderRight: '5px solid transparent',
+    borderTop: '5px solid #5050d2',
+    display: 'inline',
+    marginLeft: theme.spacing(1),
+  },
 }));
 
 function Header() {
@@ -112,13 +126,16 @@ function Header() {
                   className={classes.title}
                   id={HEADER_GRAASP_EXPLORER_ID}
                 >
-                  {t(APP_NAME)}
+                  Graasp
                 </Typography>
               </Link>
               <Navigation
                 id={APP_NAVIGATION_DROP_DOWN_ID}
                 currentValue={Context.EXPLORER}
                 hostMap={HOST_MAP}
+                buttonColor="primary"
+                buttonStyle={classes.button}
+                triangleStyle={classes.triangle}
               />
               <Link href={ALL_COLLECTIONS_ROUTE} className={classes.link}>
                 <Typography
