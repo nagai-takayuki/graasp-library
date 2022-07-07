@@ -1782,16 +1782,16 @@ __metadata:
 
 "@graasp/translations@github:graasp/graasp-translations.git":
   version: 0.1.0
-  resolution: "@graasp/translations@https://github.com/graasp/graasp-translations.git#commit=f6042354f3c929a0d35cf6478ddb6a3fe994f6e4"
+  resolution: "@graasp/translations@https://github.com/graasp/graasp-translations.git#commit=aaebdfe8eafc095accf0ae8592554a22d15b9316"
   dependencies:
     i18next: 21.6.11
-  checksum: c91e9050a9e386b19dc04a24322c9df3c7fb5f747ade55d0c55d450f6ac78defa8c9e35df77856ec0783a6bd308da2778ae4b7209c6654126d4af8157fda0b09
+  checksum: b3b11ed0099405ed191ff147a12aaaeb18f026483fd46ac267f2f24cfe12301f695b55277bc0bdc83bd2915737d38a79df254ebe5e97d4dd644e13c2d4b17763
   languageName: node
   linkType: hard
 
 "@graasp/ui@github:graasp/graasp-ui.git#145/navigationProps":
   version: 0.2.0
-  resolution: "@graasp/ui@https://github.com/graasp/graasp-ui.git#commit=c7387700bc08257946871c60d307e6b59152135d"
+  resolution: "@graasp/ui@https://github.com/graasp/graasp-ui.git#commit=ce56171c5179734803213185193dc8488989594a"
   dependencies:
     "@graasp/utils": "github:graasp/graasp-utils.git"
     clsx: 1.1.1
@@ -1821,17 +1821,17 @@ __metadata:
       optional: true
     ag-grid-react:
       optional: true
-  checksum: 76d4344baf7f489ef45d8679b7e43504f8acee0dae67313f82a1a86473c62d14056a40c02d6cc650ece79011262b2eb93fa6245731a8f266f1c04e97dc652a35
+  checksum: facdc8cb31ed1f7b932f1e1ee7b02d3b1e9ab72a04fb2e6e6222d0141f598dae78662199618db031030738fe906c90a5ae95ea5af6042fd596ae492984356b4e
   languageName: node
   linkType: hard
 
 "@graasp/utils@github:graasp/graasp-utils.git":
   version: 0.1.0
-  resolution: "@graasp/utils@https://github.com/graasp/graasp-utils.git#commit=f53d68bf0fd32b4e64c896df595e1172c3a97334"
+  resolution: "@graasp/utils@https://github.com/graasp/graasp-utils.git#commit=f6c9e08e68d6e9a5b9480b8facdfb2f4cc474716"
   dependencies:
     js-cookie: 3.0.1
     qs: 6.10.3
-  checksum: a7b3abb3b3c457117f09c792ab41ba7d101c5fae3e82e06cd6124a87155414b23759a0501716a20cb397c645c32e293a368a3366130cd275ae2a4e90c8218b6b
+  checksum: d6558ef72834eb65fa873d7a51e1e554437721377e7c487171c38b002b925dc04621abf99fa1ea4b29cc8c0c7842929e7cc1065af2e0514ad0bee3fe32bfc351
   languageName: node
   linkType: hard
 
@@ -1927,9 +1927,9 @@ __metadata:
   linkType: hard
 
 "@jridgewell/resolve-uri@npm:^3.0.3":
-  version: 3.0.8
-  resolution: "@jridgewell/resolve-uri@npm:3.0.8"
-  checksum: 28d739f49b4a52a95843b15669dcb2daaab48f0eaef8f457b9aacd0bdebeb60468d0684f73244f613b786e9d871c25abdbe6f55991bba36814cdadc399dbb3a8
+  version: 3.1.0
+  resolution: "@jridgewell/resolve-uri@npm:3.1.0"
+  checksum: b5ceaaf9a110fcb2780d1d8f8d4a0bfd216702f31c988d8042e5f8fbe353c55d9b0f55a1733afdc64806f8e79c485d2464680ac48a0d9fcadb9548ee6b81d267
   languageName: node
   linkType: hard
 
@@ -2509,9 +2509,9 @@ __metadata:
   linkType: hard
 
 "@types/node@npm:*, @types/node@npm:>=12":
-  version: 18.0.1
-  resolution: "@types/node@npm:18.0.1"
-  checksum: be14b251c54cc2b4ca78ac6eadf2fe5e831e487f2e17848f21d576295945b538271dcc674d0bba582b3f8d95b84f6826e99b6ba4710c76f165a8bdd4d4f0618e
+  version: 18.0.3
+  resolution: "@types/node@npm:18.0.3"
+  checksum: 5dec59fbbc1186c808b53df1ca717dad034dbd6a901c75f5b052c845618b531b05f27217122c6254db99529a68618e4cfc534ae3dbf4e88754e9e572df80defa
   languageName: node
   linkType: hard
 
@@ -2553,11 +2553,11 @@ __metadata:
   linkType: hard
 
 "@types/react-dom@npm:*":
-  version: 18.0.5
-  resolution: "@types/react-dom@npm:18.0.5"
+  version: 18.0.6
+  resolution: "@types/react-dom@npm:18.0.6"
   dependencies:
     "@types/react": "*"
-  checksum: cd48b81950f499b52a3f0c08261f00046f9b7c96699fa249c9664e257e820daf6ecac815cd1028cebc9d105094adc39d047d1efd79214394b8b2d515574c0787
+  checksum: db571047af1a567631758700b9f7d143e566df939cfe5fbf7535347cc0c726a1cdbb5e3f8566d076e54cf708b6c1166689de194a9ba09ee35efc9e1d45911685
   languageName: node
   linkType: hard
 
@@ -2571,13 +2571,13 @@ __metadata:
   linkType: hard
 
 "@types/react@npm:*":
-  version: 18.0.14
-  resolution: "@types/react@npm:18.0.14"
+  version: 18.0.15
+  resolution: "@types/react@npm:18.0.15"
   dependencies:
     "@types/prop-types": "*"
     "@types/scheduler": "*"
     csstype: ^3.0.2
-  checksum: 608eb57a383eedc54c79949673e5e8314f6b0c61542bff58721c8c47a18c23e2832e77c656050c2c2c004b62cf25582136c7c56fe1b6263a285c065fae31dbcf
+  checksum: e22cc388d1c145aa184787e44dc28db4789976c704cd5db475c170bb76a560eb81def5f346cfe750949bb3d43ad88822b8cbb9f19b1286e3795892a8263e7715
   languageName: node
   linkType: hard
 
@@ -3902,9 +3902,9 @@ __metadata:
   linkType: hard
 
 "clsx@npm:^1.0.4, clsx@npm:^1.1.1":
-  version: 1.2.0
-  resolution: "clsx@npm:1.2.0"
-  checksum: 551a0b4f182270cf9ab26b5f4f93d3b01a663b66adeaff58e4c51bc5170a2bfaed03779513925c63d2d31d748c5bc4f1cbad7d3e76a051f5a9301754563ff43a
+  version: 1.2.1
+  resolution: "clsx@npm:1.2.1"
+  checksum: 30befca8019b2eb7dbad38cff6266cf543091dae2825c856a62a8ccf2c3ab9c2907c4d12b288b73101196767f66812365400a227581484a05f968b0307cfaf12
   languageName: node
   linkType: hard
 
@@ -5033,9 +5033,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.4.172":
-  version: 1.4.177
-  resolution: "electron-to-chromium@npm:1.4.177"
-  checksum: e373df9b001c9a77a33b78ab4b8dbe6ee4175eb630c7d8dbe3671eb50be62a91c220cec71d56c2da3c532679ee692fe34715b915b900dec0962c08a983d06a86
+  version: 1.4.182
+  resolution: "electron-to-chromium@npm:1.4.182"
+  checksum: 8c35474b6ec0ead74246eb0783e10c9c15bc41307aa86324a21ef7aecb02450080263d5a44f1bd843b689e4d65ea5c0d8e204b87dfcb990bbf816909eb49401d
   languageName: node
   linkType: hard
 
@@ -5548,13 +5548,6 @@ __metadata:
   bin:
     eslint: bin/eslint.js
   checksum: cc85af9985a3a11085c011f3d27abe8111006d34cc274291b3c4d7bea51a4e2ff6135780249becd919ba7f6d6d1ecc38a6b73dacb6a7be08d38453b344dc8d37
-  languageName: node
-  linkType: hard
-
-"esm@npm:3.2.25":
-  version: 3.2.25
-  resolution: "esm@npm:3.2.25"
-  checksum: 978aabe2de83541c105605a6d60a26ed8e627ef6bb0a7605fe15a95bbdea6b8348bd045255cb22219c054dd09a81a94823df00843d9e97f42419c92015ce3a64
   languageName: node
   linkType: hard
 
@@ -6311,11 +6304,11 @@ __metadata:
   linkType: hard
 
 "globals@npm:^13.6.0, globals@npm:^13.9.0":
-  version: 13.15.0
-  resolution: "globals@npm:13.15.0"
+  version: 13.16.0
+  resolution: "globals@npm:13.16.0"
   dependencies:
     type-fest: ^0.20.2
-  checksum: 383ade0873b2ab29ce6d143466c203ed960491575bc97406395e5c8434026fb02472ab2dfff5bc16689b8460269b18fda1047975295cd0183904385c51258bae
+  checksum: e571b28462b8922a29ac78c8df89848cfd5dc9bdd5d8077440c022864f512a4aae82e7561a2f366337daa86fd4b366aec16fd3f08686de387e4089b01be6cb14
   languageName: node
   linkType: hard
 
@@ -6371,7 +6364,6 @@ __metadata:
     eslint-plugin-jsx-a11y: 6.5.1
     eslint-plugin-react: 7.28.0
     eslint-plugin-react-app: 6.2.2
-    esm: 3.2.25
     http-status-codes: 2.2.0
     husky: ^7.0.4
     i18next: 21.6.14
@@ -7586,12 +7578,12 @@ __metadata:
   linkType: hard
 
 "jsx-ast-utils@npm:^2.4.1 || ^3.0.0, jsx-ast-utils@npm:^3.2.1, jsx-ast-utils@npm:^3.3.1":
-  version: 3.3.1
-  resolution: "jsx-ast-utils@npm:3.3.1"
+  version: 3.3.2
+  resolution: "jsx-ast-utils@npm:3.3.2"
   dependencies:
     array-includes: ^3.1.5
     object.assign: ^4.1.2
-  checksum: 1d4b32fd24bbba561d5ca5c8d6ea095be646f83fc357d6f0cd2752f97f3ba0e0ffabc2f54b37a9d98258fc8ec0e1286cb7723cc1c9dc7af402d74fff72ae0a2b
+  checksum: 61d4596d44480afc03ae0a7ebb272aa6603dc4c3645805dea0fc8d9f0693542cd0959f3ba7c0c9b16c13dd5a900c7c4310108bada273132a8355efe3fed22064
   languageName: node
   linkType: hard
 
@@ -7624,9 +7616,9 @@ __metadata:
   linkType: hard
 
 "language-subtag-registry@npm:~0.3.2":
-  version: 0.3.21
-  resolution: "language-subtag-registry@npm:0.3.21"
-  checksum: 5f794525a5bfcefeea155a681af1c03365b60e115b688952a53c6e0b9532b09163f57f1fcb69d6150e0e805ec0350644a4cb35da98f4902562915be9f89572a1
+  version: 0.3.22
+  resolution: "language-subtag-registry@npm:0.3.22"
+  checksum: 8ab70a7e0e055fe977ac16ea4c261faec7205ac43db5e806f72e5b59606939a3b972c4bd1e10e323b35d6ffa97c3e1c4c99f6553069dad2dfdd22020fa3eb56a
   languageName: node
   linkType: hard
 

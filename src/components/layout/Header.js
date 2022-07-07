@@ -71,7 +71,7 @@ const useStyles = makeStyles((theme) => ({
   button: {
     textTransform: 'capitalize',
     fontSize: theme.typography.fontSize,
-    color: '#5050d2',
+    color: theme.palette.primary.main,
   },
   triangle: {
     width: 0,
@@ -134,8 +134,8 @@ function Header() {
                 currentValue={Context.EXPLORER}
                 hostMap={HOST_MAP}
                 buttonColor="primary"
-                buttonStyle={classes.button}
-                triangleStyle={classes.triangle}
+                buttonClassname={classes.button}
+                triangleClassname={classes.triangle}
               />
               <Link href={ALL_COLLECTIONS_ROUTE} className={classes.link}>
                 <Typography
