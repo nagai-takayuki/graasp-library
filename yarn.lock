@@ -1789,9 +1789,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@graasp/ui@github:graasp/graasp-ui.git#145/navigationProps":
+"@graasp/ui@github:graasp/graasp-ui.git":
   version: 0.2.0
-  resolution: "@graasp/ui@https://github.com/graasp/graasp-ui.git#commit=ce56171c5179734803213185193dc8488989594a"
+  resolution: "@graasp/ui@https://github.com/graasp/graasp-ui.git#commit=bd471f27b5f96d1cc35ab0d12ac732b6b3c2920c"
   dependencies:
     "@graasp/utils": "github:graasp/graasp-utils.git"
     clsx: 1.1.1
@@ -6340,7 +6340,7 @@ __metadata:
     "@commitlint/config-conventional": 16.2.1
     "@cypress/code-coverage": 3.9.12
     "@graasp/query-client": "github:graasp/graasp-query-client.git"
-    "@graasp/ui": "github:graasp/graasp-ui.git#145/navigationProps"
+    "@graasp/ui": "github:graasp/graasp-ui.git"
     "@graasp/utils": "github:graasp/graasp-utils.git"
     "@material-ui/core": 4.12.3
     "@material-ui/icons": 4.11.2
