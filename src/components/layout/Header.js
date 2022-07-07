@@ -4,14 +4,16 @@ import { AppBar, Typography, Toolbar } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 import Link from 'next/link';
 import { makeStyles } from '@material-ui/core/styles';
+import { Context } from '@graasp/utils';
 import {
   ALL_COLLECTIONS_ROUTE,
   HOME_ROUTE,
   MY_LIST_ROUTE,
 } from '../../config/routes';
 import UserHeader from './UserHeader';
-import { APP_NAME } from '../../config/constants';
+import { HOST_MAP } from '../../config/constants';
 import {
+  APP_NAVIGATION_DROP_DOWN_ID,
   HEADER_ALL_COLLECTIONS_ID,
   HEADER_GRAASP_EXPLORER_ID,
   HEADER_MY_LIST_ID,
@@ -26,6 +28,10 @@ import {
 
 const GraaspLogo = dynamic(
   () => import('@graasp/ui').then((mod) => mod.GraaspLogo),
+  { ssr: false },
+);
+const Navigation = dynamic(
+  () => import('@graasp/ui').then((mod) => mod.Navigation),
   { ssr: false },
 );
 
@@ -61,6 +67,20 @@ const useStyles = makeStyles((theme) => ({
   },
   spacing: {
     height: HEADER_HEIGHT,
+  },
+  button: {
+    textTransform: 'capitalize',
+    fontSize: theme.typography.fontSize,
+    color: theme.palette.primary.main,
+  },
+  triangle: {
+    width: 0,
+    height: 0,
+    borderLeft: '5px solid transparent',
+    borderRight: '5px solid transparent',
+    borderTop: '5px solid #5050d2',
+    display: 'inline',
+    marginLeft: theme.spacing(1),
   },
 }));
 
@@ -106,9 +126,17 @@ function Header() {
                   className={classes.title}
                   id={HEADER_GRAASP_EXPLORER_ID}
                 >
-                  {t(APP_NAME)}
+                  Graasp
                 </Typography>
               </Link>
+              <Navigation
+                id={APP_NAVIGATION_DROP_DOWN_ID}
+                currentValue={Context.EXPLORER}
+                hostMap={HOST_MAP}
+                buttonColor="primary"
+                buttonClassname={classes.button}
+                triangleClassname={classes.triangle}
+              />
               <Link href={ALL_COLLECTIONS_ROUTE} className={classes.link}>
                 <Typography
                   variant="h6"
