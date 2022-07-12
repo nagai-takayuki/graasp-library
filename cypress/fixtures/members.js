@@ -2,7 +2,7 @@ export const SIGNED_OUT_MEMBER = {
   name: 'signed out user',
 };
 
-const GRAASPER_ID = "e890a236-3d45-4042-8a95-c91120f4db73";
+const GRAASPER_ID = Cypress.env('GRAASPER_ID');
 
 export const MEMBERS = {
   ANNA: {
