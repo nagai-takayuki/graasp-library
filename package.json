@@ -24,8 +24,8 @@
     "cypress:run": "env-cmd -f ./.env.test cypress run --headless --browser chrome --spec \"cypress/**/*.spec.js\""
   },
   "dependencies": {
-    "@graasp/query-client": "github:graasp/graasp-query-client.git",
-    "@graasp/ui": "github:graasp/graasp-ui.git",
+    "@graasp/query-client": "github:graasp/graasp-query-client.git#bugFix",
+    "@graasp/ui": "github:graasp/graasp-ui.git#145/navigationProps",
     "@graasp/utils": "github:graasp/graasp-utils.git",
     "@material-ui/core": "4.12.3",
     "@material-ui/icons": "4.11.2",

@@ -69,18 +69,10 @@ const useStyles = makeStyles((theme) => ({
     height: HEADER_HEIGHT,
   },
   button: {
-    textTransform: 'capitalize',
-    fontSize: theme.typography.fontSize,
-    color: theme.palette.primary.main,
+    color: `${theme.palette.primary.main} !important`,
   },
   triangle: {
-    width: 0,
-    height: 0,
-    borderLeft: '5px solid transparent',
-    borderRight: '5px solid transparent',
-    borderTop: '5px solid #5050d2',
-    display: 'inline',
-    marginLeft: theme.spacing(1),
+    borderTop: '5px solid #5050d2 !important',
   },
 }));
 

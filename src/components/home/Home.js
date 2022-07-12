@@ -65,6 +65,9 @@ function Home() {
   // remove errors
   // todo: avoid getting errors from backend
   const collectionsWithoutErrors = filterErrorItems(collections);
+  const collectionsToDisplay = collectionsWithoutErrors?.filter(
+    (collection) => collection?.creator !== NEXT_PUBLIC_GRAASPER_ID,
+  );
 
   const { data: resultCollections } = hooks.useKeywordSearch(range, keywords);
 
@@ -158,7 +161,7 @@ function Home() {
         </Typography>
         <CollectionsGrid
           id={COLLECTIONS_GRID_ID}
-          collections={collectionsWithoutErrors}
+          collections={collectionsToDisplay}
           isLoading={isLoading}
         />
       </div>

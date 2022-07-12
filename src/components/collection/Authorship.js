@@ -35,7 +35,6 @@ const Authorship = ({ itemId, author, isLoading }) => {
   const memberIds = [
     ...new Set(
       memberships
-        ?.first()
         ?.filter(
           ({ permission, memberId }) =>
             (permission === 'write' || permission === 'admin') &&

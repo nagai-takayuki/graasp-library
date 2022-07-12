@@ -67,15 +67,14 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
   },
   card: {
-    marginRight: theme.spacing(2),
+    width: '100%',
+    marginRight: theme.spacing(5),
     borderRadius: 35,
-    aspectRatio: 1,
     boxShadow: ITEM_SUMMARY_SHADOW_EFFECT,
   },
   image: {
     width: '100%',
-    aspectRatio: 1,
-    minHeight: '350px !important',
+    minHeight: '450px !important',
   },
   root: {
     flexGrow: 1,
