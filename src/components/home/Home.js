@@ -20,6 +20,7 @@ import {
   COLLECTIONS_GRID_ID,
   SEARCH_RESULTS_GRID_ID,
 } from '../../config/selectors';
+import { dateComparator } from '../../utils/helpers';
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -65,9 +66,9 @@ function Home() {
   // remove errors
   // todo: avoid getting errors from backend
   const collectionsWithoutErrors = filterErrorItems(collections);
-  const collectionsToDisplay = collectionsWithoutErrors?.filter(
-    (collection) => collection?.creator !== NEXT_PUBLIC_GRAASPER_ID,
-  );
+  const collectionsToDisplay = collectionsWithoutErrors
+    ?.filter((collection) => collection?.creator !== NEXT_PUBLIC_GRAASPER_ID)
+    ?.sort(dateComparator);
 
   const { data: resultCollections } = hooks.useKeywordSearch(range, keywords);
 
