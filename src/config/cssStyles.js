@@ -4,13 +4,11 @@ export const DEFAULT_SHADOW_EFFECT =
 
 // header
 export const HEADER_LOGO_HEIGHT = 60;
-export const HEADER_HEIGHT = 90;
+export const HEADER_HEIGHT = 80;
 
 // collectionCard
 export const COLLECTION_CARD_BORDER_RADIUS = 35;
 export const COLLECTION_CARD_HEADER_SIZE = '20%';
 
 // item summary
-export const ITEM_SUMMARY_SHADOW_EFFECT =
-  '0px 0px 2px 2px rgb(0 0 0 / 24%), 0px 0px 4px 6px rgb(0 0 0 / 18%), 0px 0px 8px 10px rgb(0 0 0 / 12%), 0px 0px 16px 16px rgb(0 0 0 / 8%)';
 export const ITEM_SUMMARY_DESCRIPTION_MIN_HEIGHT = 100;

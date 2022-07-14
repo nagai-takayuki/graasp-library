@@ -25,10 +25,7 @@ import {
   ITEM_SUMMARY_TITLE_ID,
   SUMMARY_LANGUAGES_CONTAINER_ID,
 } from '../../config/selectors';
-import {
-  ITEM_SUMMARY_DESCRIPTION_MIN_HEIGHT,
-  ITEM_SUMMARY_SHADOW_EFFECT,
-} from '../../config/cssStyles';
+import { ITEM_SUMMARY_DESCRIPTION_MIN_HEIGHT } from '../../config/cssStyles';
 import { compare } from '../../utils/helpers';
 
 const {
@@ -67,15 +64,14 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
   },
   card: {
-    marginRight: theme.spacing(2),
-    borderRadius: 35,
+    width: 'auto',
     aspectRatio: 1,
-    boxShadow: ITEM_SUMMARY_SHADOW_EFFECT,
+    marginRight: theme.spacing(5),
+    borderRadius: 30,
   },
   image: {
     width: '100%',
-    aspectRatio: 1,
-    minHeight: '350px !important',
+    height: '500px !important',
   },
   root: {
     flexGrow: 1,

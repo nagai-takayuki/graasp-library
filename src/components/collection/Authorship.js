@@ -30,12 +30,11 @@ const Authorship = ({ itemId, author, isLoading }) => {
   const classes = useStyles();
   const { hooks } = useContext(QueryClientContext);
   const { data: item, isLoading: isLoadingItem } = hooks.useItem(itemId);
-  const { data: memberships } = hooks.useItemMemberships([itemId]);
+  const { data: memberships } = hooks.useItemMemberships(itemId);
 
   const memberIds = [
     ...new Set(
       memberships
-        ?.first()
         ?.filter(
           ({ permission, memberId }) =>
             (permission === 'write' || permission === 'admin') &&

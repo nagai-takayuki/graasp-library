@@ -17,4 +17,7 @@ const compare = (a, b) => {
   return 0;
 };
 
+export const dateComparator = (a, b) =>
+  new Date(b.createdAt) - new Date(a.createdAt);
+
 export { openInNewTab, openContentInNewTab, compare };

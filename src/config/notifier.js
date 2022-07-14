@@ -19,7 +19,7 @@ const notifier = ({ type, payload }) => {
     case routines.copyItemRoutine.SUCCESS:
       toast.success(
         <ToastrWithLink
-          link={buildPlayerViewItemRoute(payload.id)}
+          link={buildPlayerViewItemRoute(payload?.newItem?.id)}
           text={i18n.t('The item was copied successfully')}
           linkText={i18n.t('Click here to open the item on Graasp.')}
         />,
