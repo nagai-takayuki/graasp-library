@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.1](https://github.com/graasp/graasp-explore/compare/v0.1.0...v0.1.1) (2022-08-05)
+
+
+### Bug Fixes
+
+* update workflow sha ref ([1de5e42](https://github.com/graasp/graasp-explore/commit/1de5e42a0fd2e04e3c59d5fc1c9ca0f85cfff2af))
+* update workflow sha ref ([f7683ab](https://github.com/graasp/graasp-explore/commit/f7683ab8430e0e5f02946bede7c6d01ef07bb4f6))
+
 ## 0.1.0 (2022-07-21)
 
 
