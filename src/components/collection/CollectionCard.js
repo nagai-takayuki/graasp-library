@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import dynamic from 'next/dynamic';
+import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
 import {
   Typography,
@@ -16,6 +17,7 @@ import SimilarCollectionBadges from './SimilarCollectionBadges';
 import { buildCollectionRoute } from '../../config/routes';
 import { DEFAULT_MEMBER_THUMBNAIL } from '../../config/constants';
 import { QueryClientContext } from '../QueryClientContext';
+import ViewButton from './ViewButton';
 import CopyButton from './CopyButton';
 import CardMedia from '../common/CardMediaComponent';
 import CopyLinkButton from './CopyLinkButton';
@@ -83,6 +85,7 @@ const useStyles = makeStyles((theme) => ({
 export const CollectionCard = ({ collection = {}, isLoading }) => {
   const { name, id, description, creator, views, voteScore, extra } =
     collection;
+  const { t } = useTranslation();
   const descriptionContent = description || 'This item has no description.';
   const classes = useStyles();
   const [flipped, setFlipped] = React.useState(false);
@@ -101,7 +104,7 @@ export const CollectionCard = ({ collection = {}, isLoading }) => {
   ) : (
     <Avatar
       useAvatar={hooks.useAvatar}
-      alt={author?.get('name')}
+      alt={t(`someone's avatar`, { name: author?.get('name') })}
       className={classes.avatar}
       defaultImage={DEFAULT_MEMBER_THUMBNAIL}
       id={creator}
@@ -115,7 +118,7 @@ export const CollectionCard = ({ collection = {}, isLoading }) => {
 
   const action = (
     <>
-      <IconButton aria-label="actions" onClick={handleClick}>
+      <IconButton aria-label={t('Actions')} onClick={handleClick}>
         <InfoIcon />
       </IconButton>
     </>
@@ -154,6 +157,7 @@ export const CollectionCard = ({ collection = {}, isLoading }) => {
         <CardMedia link={link} name={name} itemId={id} />
       )}
       <CardActions disableSpacing className={classes.actions}>
+        <ViewButton id={id} />
         <CopyButton id={id} />
         <CopyLinkButton id={id} extra={extra} />
         <DownloadButton id={id} />
