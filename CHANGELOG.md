@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.10 (2022-12-12)
+
+
+### Bug Fixes
+
+* copy dialog modal should not show expanded tree ([#209](https://github.com/graasp/graasp-library/issues/209)) ([f3025b5](https://github.com/graasp/graasp-library/commit/f3025b527121d061caf1e21c8f92dc44df20e523))
+
 ### 0.1.9 (2022-11-21)
 
 ### 0.1.8 (2022-11-21)
