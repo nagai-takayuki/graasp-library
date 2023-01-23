@@ -1,12 +1,11 @@
-import clsx from 'clsx';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
 
 import React, { useContext } from 'react';
 
-import CardMedia from '@material-ui/core/CardMedia';
-import { makeStyles } from '@material-ui/core/styles';
+import { styled } from '@mui/material';
+import CardMedia from '@mui/material/CardMedia';
 
 import {
   DEFAULT_ITEM_IMAGE_PATH,
@@ -19,28 +18,22 @@ const Thumbnail = dynamic(
   { ssr: false },
 );
 
-const CardMediaComponent = ({ className, name, link, itemId, size }) => {
+const StyledCardMedia = styled(CardMedia)(({ sx, link }) => ({
+  minHeight: '60%',
+  '&:hover': {
+    cursor: link ? 'pointer' : 'mouse',
+  },
+  ...sx,
+}));
+
+const CardMediaComponent = ({ sx, name, link, itemId, size }) => {
   const router = useRouter();
-  const useStyles = makeStyles(() => ({
-    media: {
-      minHeight: '60%',
-      // necessary to trigger content height 100%
-      height: 0,
-      '&:hover': {
-        cursor: link ? 'pointer' : 'mouse',
-      },
-    },
-    image: {
-      width: '100%',
-      objectFit: 'cover',
-    },
-  }));
   const { hooks } = useContext(QueryClientContext);
 
-  const classes = useStyles();
   return (
-    <CardMedia
-      className={clsx(classes.media, className)}
+    <StyledCardMedia
+      sx={sx}
+      link={link}
       title={name}
       onClick={() => {
         router.push(link);
@@ -52,6 +45,7 @@ const CardMediaComponent = ({ className, name, link, itemId, size }) => {
           width: '100%',
           height: '100%',
           overflow: 'hidden',
+          lineHeight: 0,
         }}
       >
         <Thumbnail
@@ -60,17 +54,17 @@ const CardMediaComponent = ({ className, name, link, itemId, size }) => {
           useThumbnail={hooks.useItemThumbnail}
           id={itemId}
           thumbnailSrc={DEFAULT_ITEM_IMAGE_PATH}
-          className={classes.image}
+          sx={{ width: '100%', objectFit: 'cover' }}
           size={size}
         />
       </div>
-    </CardMedia>
+    </StyledCardMedia>
   );
 };
 
 CardMediaComponent.propTypes = {
   itemId: PropTypes.string.isRequired,
-  className: PropTypes.string,
+  sx: PropTypes.shape({}),
   name: PropTypes.string.isRequired,
   link: PropTypes.string,
   itemExtra: PropTypes.shape({}),
@@ -78,7 +72,7 @@ CardMediaComponent.propTypes = {
 };
 
 CardMediaComponent.defaultProps = {
-  className: '',
+  sx: {},
   link: null,
   itemExtra: null,
   size: DEFAULT_THUMBNAIL_SIZE,

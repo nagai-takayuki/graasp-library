@@ -1,30 +1,18 @@
+import dynamic from 'next/dynamic';
 import PropTypes from 'prop-types';
 
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import {
-  Button,
-  List,
-  ListItem,
-  ListItemText,
-  Typography,
-  makeStyles,
-} from '@material-ui/core';
-import HighlightOffIcon from '@material-ui/icons/HighlightOff';
-import Skeleton from '@material-ui/lab/Skeleton';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import { List, ListItem, ListItemText, Typography } from '@mui/material';
+import Skeleton from '@mui/material/Skeleton';
 
 import { LIBRARY, namespaces } from '@graasp/translations';
 
-const useStyles = makeStyles((theme) => ({
-  sectionHeader: {
-    marginTop: theme.spacing(2),
-  },
-  list: {
-    marginTop: theme.spacing(0),
-    marginBottom: theme.spacing(0),
-  },
-}));
+const Button = dynamic(() => import('@graasp/ui').then((mod) => mod.Button), {
+  ssr: false,
+});
 
 const CategorySelection = ({
   title,
@@ -39,22 +27,16 @@ const CategorySelection = ({
 }) => {
   const { t: translateCategories } = useTranslation(namespaces.categories);
   const { t } = useTranslation();
-  const classes = useStyles();
 
   return (
     <>
-      <Typography
-        variant="subtitle1"
-        align="center"
-        color="primary"
-        className={classes.sectionHeader}
-      >
+      <Typography variant="subtitle1" align="center" color="primary" mt={2}>
         {title}
       </Typography>
       {isLoading ? (
         <Skeleton height="10%" />
       ) : (
-        <List dense className={classes.list}>
+        <List dense my={0}>
           {valueList?.map((entry, index) => (
             <ListItem
               button
@@ -70,7 +52,6 @@ const CategorySelection = ({
       )}
       <Button
         variant="text"
-        color="default"
         size="small"
         startIcon={<HighlightOffIcon />}
         onClick={clearSelection(categoryType)}
@@ -84,19 +65,20 @@ const CategorySelection = ({
 
 CategorySelection.propTypes = {
   title: PropTypes.string.isRequired,
-  selectedValues: PropTypes.instanceOf(Array).isRequired,
-  valueList: PropTypes.instanceOf(Array).isRequired,
-  handleClick: PropTypes.instanceOf(Function).isRequired,
-  clearSelection: PropTypes.instanceOf(Function).isRequired,
+  selectedValues: PropTypes.arrayOf(PropTypes.string).isRequired,
+  valueList: PropTypes.arrayOf({}),
+  handleClick: PropTypes.func.isRequired,
+  clearSelection: PropTypes.func.isRequired,
   categoryType: PropTypes.string.isRequired,
   isLoading: PropTypes.bool.isRequired,
   buttonId: PropTypes.string,
-  buildOptionIndex: PropTypes.instanceOf(Function),
+  buildOptionIndex: PropTypes.func,
 };
 
 CategorySelection.defaultProps = {
   buttonId: '',
   buildOptionIndex: () => null,
+  valueList: [],
 };
 
 export default CategorySelection;

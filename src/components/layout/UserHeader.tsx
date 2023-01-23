@@ -1,12 +1,11 @@
 import dynamic from 'next/dynamic';
 
-import React, { useContext } from 'react';
+import React, { FC, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { Typography, makeStyles } from '@material-ui/core';
-import IconButton from '@material-ui/core/IconButton';
-import { grey } from '@material-ui/core/colors';
-import { AccountCircle } from '@material-ui/icons';
+import { AccountCircle } from '@mui/icons-material';
+import { Grid, Typography } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
 
 import { LIBRARY } from '@graasp/translations';
 
@@ -18,28 +17,21 @@ const Avatar = dynamic(() => import('@graasp/ui').then((mod) => mod.Avatar), {
   ssr: false,
 });
 
-const useStyles = makeStyles((theme) => ({
-  username: {
-    marginLeft: theme.spacing(1),
-  },
-  avatar: {
-    color: theme.palette.primary.main,
-    backgroundColor: grey[200],
-  },
-}));
-
-const UserHeader = () => {
+const UserHeader: FC = () => {
   const { t } = useTranslation();
   const { hooks } = useContext(QueryClientContext);
   const { data: user, isLoading, isError } = hooks.useCurrentMember();
-  const classes = useStyles();
   const { setOpen: openLoginModal } = useContext(LoginModalContext);
+
+  const { data: avatarBlob, avatarIsLoading } = hooks.useAvatar({
+    id: user?.id,
+  });
 
   const onSignedOutIconClick = () => {
     openLoginModal(true);
   };
 
-  if (isLoading || isError || !user?.id) {
+  if (isLoading || isError || !user?.id || avatarIsLoading) {
     return (
       <IconButton
         edge="end"
@@ -55,20 +47,21 @@ const UserHeader = () => {
 
   const username = user.name;
   return (
-    <>
-      <Avatar
-        useAvatar={hooks.useAvatar}
-        alt={t(LIBRARY.AVATAR_ALT, { name: username })}
-        className={classes.avatar}
-        defaultImage={DEFAULT_MEMBER_THUMBNAIL}
-        id={user.id}
-        extra={user.extra}
-        component="avatar"
-      />
-      <Typography className={classes.username} variant="body2">
-        {username}
-      </Typography>
-    </>
+    <Grid container alignItems="center">
+      <Grid item>
+        <Avatar
+          blob={avatarBlob}
+          alt={t(LIBRARY.AVATAR_ALT, { name: username })}
+          defaultImage={DEFAULT_MEMBER_THUMBNAIL}
+          component="avatar"
+        />
+      </Grid>
+      <Grid item>
+        <Typography ml={1} variant="body2">
+          {username}
+        </Typography>
+      </Grid>
+    </Grid>
   );
 };
 

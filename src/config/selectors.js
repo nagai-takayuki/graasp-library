@@ -5,7 +5,7 @@ export const COLLECTIONS_GRID_ID = 'collectionsGrid';
 export const buildEducationLevelOptionId = (index) =>
   `educationLevelOption-${index}`;
 export const CLEAR_EDUCATION_LEVEL_SELECTION_ID = 'clearEducationLevelButton';
-export const CLOSE_MENU_BUTTON_ID = 'closeMenuButton';
+export const MENU_BUTTON_ID = 'menuButton';
 export const OPEN_MENU_BUTTON_ID = 'openMenuButton';
 export const buildCollectionCardGridId = (collectionsGridId, index) =>
   `${collectionsGridId}-collection-${index}`;
@@ -21,7 +21,7 @@ export const HEADER_MY_LIST_ID = 'headerMyList';
 export const GRAASP_SELECTION_TITLE_ID = 'graaspSelectionTitleId';
 export const DISCOVER_SECTION_TITLE_ID = 'discoverSectionTitleId';
 
-export const SUMMARY_AUTHOR_CONTAINER_ID = `summaryAuthorContainer`;
+export const SUMMARY_AUTHOR_CONTAINER_ID = 'summaryAuthorContainer';
 export const buildContributorId = (id) => `contributor-${id}`;
 export const SUMMARY_LANGUAGES_CONTAINER_ID = 'summaryLanguagesContainer';
 export const SUMMARY_CATEGORIES_CONTAINER_ID = 'summaryCategoriesContainer';

@@ -1,7 +1,9 @@
+import dynamic from 'next/dynamic';
+
 import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { Typography, makeStyles } from '@material-ui/core';
+import { Box, Typography } from '@mui/material';
 
 import { LIBRARY } from '@graasp/translations';
 
@@ -22,43 +24,23 @@ import {
 import { dateComparator } from '../../utils/helpers';
 import { QueryClientContext } from '../QueryClientContext';
 import CollectionsGrid from '../collection/CollectionsGrid';
-import Loader from '../common/Loader';
 import Seo from '../common/Seo';
+import useHeader from '../layout/useHeader';
 import CreateButton from './CreateButton';
 import Search from './Search';
 
-const useStyles = makeStyles((theme) => ({
-  wrapper: {
-    padding: '4vw',
-  },
-  root: {
-    padding: theme.spacing(0.25, 0.5),
-    margin: theme.spacing(12.5, 0),
-    display: 'flex',
-    alignItems: 'center',
-    width: '100%',
-  },
-  input: {
-    marginLeft: theme.spacing(2.5),
-    flex: 6,
-  },
-  iconButton: {
-    padding: 10,
-  },
-  divider: {
-    height: 28,
-    margin: theme.spacing(0.5),
-  },
-  typographyMargin: {
-    margin: theme.spacing(1.5, 0),
-  },
-}));
+const { Loader, Main } = {
+  Loader: dynamic(() => import('@graasp/ui').then((mod) => mod.Loader), {
+    ssr: false,
+  }),
+  Main: dynamic(() => import('@graasp/ui').then((mod) => mod.Main), {
+    ssr: false,
+  }),
+};
 
 function Home() {
   const { t } = useTranslation();
-  const classes = useStyles();
   const [searchResults, setSearchResults] = useState(null);
-  const [searchInput, setSearchInput] = useState(null);
   const [range, setRange] = useState(SEARCH_RANGES.ALL.value);
   const [keywords, setKeywords] = useState(null);
   const { hooks } = useContext(QueryClientContext);
@@ -68,6 +50,7 @@ function Home() {
       placeholderData: PLACEHOLDER_COLLECTIONS,
     },
   );
+  const { leftContent, rightContent } = useHeader();
 
   // remove errors
   // todo: avoid getting errors from backend
@@ -81,14 +64,6 @@ function Home() {
   useEffect(() => {
     setSearchResults(resultCollections);
   }, [resultCollections]);
-
-  const handleKeywordInput = (event) => {
-    setSearchInput(event.target.value.trim().toLowerCase());
-  };
-
-  const handleClick = () => {
-    setKeywords(searchInput);
-  };
 
   const handleRangeChange = (event) => {
     setRange(event.target.value);
@@ -105,11 +80,7 @@ function Home() {
 
     return (
       <>
-        <Typography
-          variant="h3"
-          id={GRAASP_SELECTION_TITLE_ID}
-          className={classes.typographyMargin}
-        >
+        <Typography variant="h3" id={GRAASP_SELECTION_TITLE_ID} my={2}>
           {t(LIBRARY.HOME_GRAASPER_COLLECTIONS_TITLE)}
         </Typography>
         <CollectionsGrid
@@ -126,7 +97,7 @@ function Home() {
     }
     return (
       <>
-        <Typography variant="h3" className={classes.typographyMargin}>
+        <Typography variant="h3" my={2}>
           {t(LIBRARY.SEARCH_RESULTS_TITLE)}
         </Typography>
         {searchResults.size > 0 ? (
@@ -135,7 +106,7 @@ function Home() {
             id={SEARCH_RESULTS_GRID_ID}
           />
         ) : (
-          <Typography variant="body1" className={classes.typographyMargin}>
+          <Typography variant="body1" my={2}>
             {t(LIBRARY.SEARCH_NO_RESULT_MESSAGE)}
           </Typography>
         )}
@@ -150,34 +121,32 @@ function Home() {
         description={t(LIBRARY.GRAASP_LIBRARY_DESCRIPTION)}
         author={APP_AUTHOR}
       />
-      <div className={classes.wrapper}>
-        <Typography variant="h2" align="center" id={TITLE_TEXT_ID}>
-          {t(LIBRARY.HOME_TITLE)}
-        </Typography>
 
-        <Search
-          handleSearch={handleKeywordInput}
-          handleClick={handleClick}
-          isLoading={isLoading}
-          range={range}
-          handleRangeChange={handleRangeChange}
-        />
-        {isLoading ? <Loader /> : renderResults()}
-        {renderGraasperCollections()}
-        <Typography
-          variant="h3"
-          id={DISCOVER_SECTION_TITLE_ID}
-          className={classes.typographyMargin}
-        >
-          {t(LIBRARY.HOME_MORE_COLLECTIONS_TITLE)}
-          <CreateButton />
-        </Typography>
-        <CollectionsGrid
-          id={COLLECTIONS_GRID_ID}
-          collections={collectionsToDisplay}
-          isLoading={isLoading}
-        />
-      </div>
+      <Main headerLeftContent={leftContent} headerRightContent={rightContent}>
+        <Box p={4}>
+          <Typography variant="h2" align="center" id={TITLE_TEXT_ID}>
+            {t(LIBRARY.HOME_TITLE)}
+          </Typography>
+
+          <Search
+            handleClick={setKeywords}
+            isLoading={isLoading}
+            range={range}
+            handleRangeChange={handleRangeChange}
+          />
+          {isLoading ? <Loader /> : renderResults()}
+          {renderGraasperCollections()}
+          <Typography variant="h3" id={DISCOVER_SECTION_TITLE_ID} my={2}>
+            {t(LIBRARY.HOME_MORE_COLLECTIONS_TITLE)}
+            <CreateButton />
+          </Typography>
+          <CollectionsGrid
+            id={COLLECTIONS_GRID_ID}
+            collections={collectionsToDisplay}
+            isLoading={isLoading}
+          />
+        </Box>
+      </Main>
     </>
   );
 }
