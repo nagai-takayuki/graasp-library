@@ -6,12 +6,11 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import 'react-toastify/dist/ReactToastify.css';
 
-import { Divider, ThemeProvider } from '@mui/material';
+import { Divider, ThemeProvider, createTheme } from '@mui/material';
 
 import { LIBRARY } from '@graasp/translations';
 import '@graasp/ui/dist/bundle.css';
 
-import defaultTheme from '../../config/theme';
 import { QueryClientProvider } from '../QueryClientContext';
 import Footer from '../layout/Footer';
 import { LoginModalProvider } from './SignInModalContext';
@@ -37,7 +36,7 @@ Content.propTypes = {
 };
 
 const Wrapper = ({ dehydratedState, children }) => {
-  const [theme, setTheme] = useState(defaultTheme);
+  const [theme, setTheme] = useState(createTheme());
 
   React.useEffect(async () => {
     if (typeof window !== 'undefined') {
