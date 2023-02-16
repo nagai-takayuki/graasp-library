@@ -7,7 +7,7 @@ import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
-import { Box, Button, Divider } from '@mui/material';
+import { Alert, Box, Button, Divider } from '@mui/material';
 
 import { LIBRARY } from '@graasp/translations';
 
@@ -16,6 +16,7 @@ import {
   ITEM_TYPES,
   buildPlayerViewItemRoute,
 } from '../../config/constants';
+import { PUBLISHED_TAG_ID } from '../../config/env';
 import {
   ERROR_INVALID_COLLECTION_ID_CODE,
   ERROR_UNEXPECTED_ERROR_CODE,
@@ -37,6 +38,11 @@ const { Main } = {
     ssr: false,
   }),
 };
+const { BuildIcon } = {
+  BuildIcon: dynamic(() => import('@graasp/ui').then((mod) => mod.BuildIcon), {
+    ssr: false,
+  }),
+};
 
 const Collection = ({ id }) => {
   const { t } = useTranslation();
@@ -53,15 +59,37 @@ const Collection = ({ id }) => {
     isError: memberIsError,
     isLoading: isLoadingMember,
   } = hooks.useMember(collection?.creator);
+  const { data: currentMember } = hooks.useCurrentMember();
   const { data: likeCount } = hooks.useLikeCount(id);
-  const { leftContent, rightContent } = useHeader();
+  const { data: tags } = hooks.useItemTags(id);
+  const { leftContent, rightContent } = useHeader(id);
+
+  // if tags could be fetched then user has at least read access
+  const canRead = Boolean(tags);
+
+  const canPublish =
+    collection && currentMember && collection.creator === currentMember.id;
+
+  const isPublished = tags?.some((tag) => tag.tagId === PUBLISHED_TAG_ID);
 
   if (!id || !validate(id)) {
-    return <Error code={ERROR_INVALID_COLLECTION_ID_CODE} />;
+    return (
+      <Main headerLeftContent={leftContent} headerRightContent={rightContent}>
+        <Box id={id} p={5}>
+          <Error code={ERROR_INVALID_COLLECTION_ID_CODE} />
+        </Box>
+      </Main>
+    );
   }
 
   if (isError || memberIsError) {
-    return <Error code={ERROR_UNEXPECTED_ERROR_CODE} />;
+    return (
+      <Main headerLeftContent={leftContent} headerRightContent={rightContent}>
+        <Box id={id} p={5}>
+          <Error code={ERROR_UNEXPECTED_ERROR_CODE} />
+        </Box>
+      </Main>
+    );
   }
 
   const isLoading = isLoadingItem || isLoadingMember;
@@ -90,6 +118,32 @@ const Collection = ({ id }) => {
         image={imageUrl}
       />
       <Main headerLeftContent={leftContent} headerRightContent={rightContent}>
+        {
+          // show alert only if 1. user is logged in, 2. it has at least read access and 3. item is not published
+          currentMember?.id && canRead && !isPublished && (
+            <Alert severity="warning">
+              You are viewing this item in Library preview mode. It cannot be
+              viewed publicly.
+              {
+                // if the user is the admin of the item, also suggest publishing from Builder
+                canPublish && (
+                  <>
+                    <br />
+                    If you&apos;d like to share this collection with everyone,
+                    you can publish this item in
+                    <BuildIcon
+                      size={18}
+                      sx={{ verticalAlign: 'middle', mr: 0.3 }}
+                      primaryOpacity={0}
+                      secondaryColor="rgb(102, 60, 0)"
+                    />
+                    Builder.
+                  </>
+                )
+              }
+            </Alert>
+          )
+        }
         <Box id={id} p={5}>
           <Summary
             itemId={id}

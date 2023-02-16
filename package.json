@@ -25,17 +25,17 @@
     "pre-commit": "yarn prettier:check && yarn lint",
     "cypress:open": "env-cmd -f ./.env.test cypress open",
     "cypress": "concurrently \"yarn start:test\" \"wait-on http://localhost:3005 && yarn cypress:run\"",
-    "cypress:run": "env-cmd -f ./.env.test cypress run --headless --browser chrome --spec \"cypress/**/*.spec.js\""
+    "cypress:run": "env-cmd -f ./.env.test cypress run --headless --browser chrome --spec \"cypress/**/*.(spec|cy).js\""
   },
   "dependencies": {
     "@emotion/cache": "11.10.5",
     "@emotion/react": "11.10.5",
     "@emotion/server": "11.10.0",
     "@emotion/styled": "11.10.5",
-    "@graasp/query-client": "github:graasp/graasp-query-client.git",
-    "@graasp/sdk": "github:graasp/graasp-sdk.git",
-    "@graasp/translations": "github:graasp/graasp-translations.git",
-    "@graasp/ui": "github:graasp/graasp-ui.git#v0.4.1",
+    "@graasp/query-client": "0.1.5",
+    "@graasp/sdk": "0.4.1",
+    "@graasp/translations": "1.4.0",
+    "@graasp/ui": "0.11.1",
     "@mui/icons-material": "5.10.9",
     "@mui/lab": "5.0.0-alpha.104",
     "@mui/material": "5.10.12",
