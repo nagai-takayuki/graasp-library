@@ -1,5 +1,6 @@
 import { Map } from 'immutable';
 import truncate from 'lodash.truncate';
+import { DateTime } from 'luxon';
 import dynamic from 'next/dynamic';
 import PropTypes from 'prop-types';
 
@@ -23,7 +24,9 @@ import {
   ITEM_SUMMARY_TITLE_ID,
   SUMMARY_CATEGORIES_CONTAINER_ID,
   SUMMARY_CC_LICENSE_CONTAINER_ID,
+  SUMMARY_CREATED_AT_CONTAINER_ID,
   SUMMARY_LANGUAGES_CONTAINER_ID,
+  SUMMARY_LAST_UPDATE_CONTAINER_ID,
   SUMMARY_TAGS_CONTAINER_ID,
 } from '../../config/selectors';
 import { compare } from '../../utils/helpers';
@@ -76,6 +79,8 @@ function Summary({
   likes,
   views,
   isLoading,
+  createdAt,
+  lastUpdate,
 }) {
   const truncatedName = truncate(name, {
     length: MAX_COLLECTION_NAME_LENGTH,
@@ -240,6 +245,33 @@ function Summary({
             )}
           </Typography>
           <Authorship itemId={itemId} author={creator} isLoading={isLoading} />
+          {createdAt && (
+            <div id={SUMMARY_CREATED_AT_CONTAINER_ID}>
+              <Typography variant="h6" gutterBottom>
+                Created At
+              </Typography>
+              <Typography variant="p" gutterBottom>
+                {DateTime.fromISO(createdAt).toLocaleString(
+                  DateTime.DATE_FULL,
+                  { locale: member?.extra?.lang },
+                )}
+              </Typography>
+            </div>
+          )}
+          {lastUpdate && (
+            <div id={SUMMARY_LAST_UPDATE_CONTAINER_ID}>
+              <Typography variant="h6" gutterBottom>
+                Last Update
+              </Typography>
+              <Typography variant="p" gutterBottom>
+                {DateTime.fromISO(lastUpdate).toLocaleString(
+                  DateTime.DATE_FULL,
+                  { locale: member?.extra?.lang },
+                )}
+              </Typography>
+            </div>
+          )}
+
           <ItemFlagDialog
             flags={flags}
             onFlag={onFlag}
@@ -331,6 +363,8 @@ Summary.propTypes = {
   }),
   isLoading: PropTypes.bool.isRequired,
   itemId: PropTypes.string.isRequired,
+  createdAt: PropTypes.string.isRequired,
+  lastUpdate: PropTypes.string.isRequired,
 };
 
 Summary.defaultProps = {

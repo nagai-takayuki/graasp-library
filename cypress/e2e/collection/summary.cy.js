@@ -1,4 +1,5 @@
 import { isChildOf } from '@graasp/sdk';
+import { DateTime } from 'luxon';
 import { PUBLISHED_ITEMS } from '../../fixtures/items';
 import { buildCollectionRoute } from '../../../src/config/routes';
 import {
@@ -13,6 +14,8 @@ import {
   CHILDREN_ITEMS_GRID_ID,
   ITEM_SUMMARY_TITLE_ID,
   SUMMARY_AUTHOR_CONTAINER_ID,
+  SUMMARY_CREATED_AT_CONTAINER_ID,
+  SUMMARY_LAST_UPDATE_CONTAINER_ID,
 } from '../../../src/config/selectors';
 
 describe('Collection Summary', () => {
@@ -23,6 +26,11 @@ describe('Collection Summary', () => {
       const item = PUBLISHED_ITEMS[0];
       cy.visit(buildCollectionRoute(item.id));
       cy.wait(COLLECTION_LOADING_TIME);
+
+      // current member
+      const member = Object.values(MEMBERS).find(
+        ({ name }) => name === environment.currentMember.name,
+      );
 
       // name
       cy.get(`#${ITEM_SUMMARY_TITLE_ID}`).should('have.text', item.name);
@@ -40,6 +48,18 @@ describe('Collection Summary', () => {
         ({ id }) => id === item.creator,
       )?.name;
       cy.get(`#${SUMMARY_AUTHOR_CONTAINER_ID}`).should('contain', authorName);
+
+      // created at
+      if (item.createdAt) {
+        cy.get(`#${SUMMARY_CREATED_AT_CONTAINER_ID}`).should('contain', 
+            DateTime.fromISO(item.createdAt).toLocaleString(DateTime.DATE_FULL, { locale: member?.extra?.lang }));
+      }
+
+      // last update
+      if (item.updatedAt) {
+        cy.get(`#${SUMMARY_LAST_UPDATE_CONTAINER_ID}`).should('contain', 
+            DateTime.fromISO(item.updatedAt).toLocaleString(DateTime.DATE_FULL, { locale: member?.extra?.lang }));
+      }
 
       // contributors
       const contributors = item.memberships.filter(
