@@ -62,6 +62,7 @@ export const CATEGORY_TYPES = {
   LEVEL: 'level',
   DISCIPLINE: 'discipline',
   LANGUAGE: 'language',
+  LICENSE: 'license',
 } as const;
 
 export const PICTURE_QUALITIES = {
@@ -131,12 +132,13 @@ export const TREE_VIEW_MAX_WIDTH = 400;
 
 // values of CATEGORY_TYPES = "level", "discipline", etc
 type Keys = keyof typeof CATEGORY_TYPES;
-type Values = typeof CATEGORY_TYPES[Keys];
+type Values = (typeof CATEGORY_TYPES)[Keys];
 
 export const CATEGORY_COLORS: Record<Values, string> = {
   [CATEGORY_TYPES.DISCIPLINE]: '#4997DE',
   [CATEGORY_TYPES.LANGUAGE]: '#9A49DE',
   [CATEGORY_TYPES.LEVEL]: '#5050d2',
+  [CATEGORY_TYPES.LICENSE]: '#5050d2',
 };
 
 export const MEMBER_PROFILE_PATH = `${GRAASP_BUILDER_HOST}/profile`;

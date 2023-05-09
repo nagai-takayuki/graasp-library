@@ -16,8 +16,7 @@ const { GraaspDownloadButton } = {
   ),
 };
 
-const DownloadButton = ({ id }) => {
-  const { t } = useTranslation();
+export const useDownloadAction = (itemId) => {
   const { useMutation } = useContext(QueryClientContext);
   const {
     mutate: exportZip,
@@ -31,20 +30,32 @@ const DownloadButton = ({ id }) => {
       const url = window.URL.createObjectURL(new Blob([data]));
       const link = document.createElement('a');
       link.href = url;
-      link.setAttribute('download', `${id}.zip`);
+      link.setAttribute('download', `${itemId}.zip`);
       document.body.appendChild(link);
       link.click();
     }
   }, [data, isSuccess]);
 
-  const handleDownload = () => {
-    exportZip({ id });
+  const startDownload = () => {
+    exportZip({ id: itemId });
   };
+
+  return {
+    startDownload,
+    isDownloading: isLoading,
+  };
+};
+
+const DownloadButton = ({ id }) => {
+  const { t } = useTranslation();
+
+  const { isDownloading, startDownload } = useDownloadAction(id);
 
   return (
     <GraaspDownloadButton
-      isLoading={isLoading}
-      handleDownload={handleDownload}
+      onClick={(e) => e.stopPropagation()}
+      isLoading={isDownloading}
+      handleDownload={startDownload}
       title={t(LIBRARY.DOWNLOAD_BUTTON_TOOLTIP)}
     />
   );

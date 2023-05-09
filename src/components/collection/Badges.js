@@ -1,3 +1,4 @@
+import { useTheme } from '@emotion/react';
 import truncate from 'lodash.truncate';
 import PropTypes from 'prop-types';
 
@@ -5,7 +6,7 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Email, Facebook, Twitter } from '@mui/icons-material';
-import { Grid, IconButton } from '@mui/material';
+import { Grid, IconButton, useMediaQuery } from '@mui/material';
 
 import { LIBRARY } from '@graasp/translations';
 
@@ -19,7 +20,7 @@ import BadgeContainer from '../common/BadgeContainer';
 import FavoriteBadge from '../common/FavoriteBadge';
 import VisibilityBadge from '../common/VisibilityBadge';
 
-function Badges({ views, likes, name, description }) {
+const Badges = ({ views, likes, name, description }) => {
   const { t } = useTranslation();
   const [pageLocation, setPageLocation] = useState(null);
   const parsedDescription = removeTagsFromString(description);
@@ -49,41 +50,45 @@ function Badges({ views, likes, name, description }) {
   })} ${pageLocation}${MAIL_BREAK_LINE}${MAIL_BREAK_LINE}${parsedDescription}`;
   const mailString = `mailto:?subject=${subject}&body=${message}`;
 
+  const shouldShowLikesAndViews = likes !== undefined || views !== undefined;
+
+  const theme = useTheme();
+  const isSm = useMediaQuery(theme.breakpoints.down('sm'));
+
+  const iconSize = isSm ? 'medium' : 'large';
+
   return (
     <Grid container justify="space-between" alignItems="center" mb={1}>
-      <Grid item>
-        <BadgeContainer>
-          <FavoriteBadge likes={likes} />
-          <VisibilityBadge views={views} />
-        </BadgeContainer>
-      </Grid>
+      {shouldShowLikesAndViews && (
+        <Grid item>
+          <BadgeContainer>
+            <FavoriteBadge likes={likes.toString()} />
+            <VisibilityBadge views={views.toString()} />
+          </BadgeContainer>
+        </Grid>
+      )}
       <Grid item>
         <IconButton color="primary" onClick={shareOnFacebook}>
-          <Facebook fontSize="large" />
+          <Facebook fontSize={iconSize} />
         </IconButton>
         <IconButton color="primary" onClick={shareOnTwitter}>
-          <Twitter fontSize="large" />
+          <Twitter fontSize={iconSize} />
         </IconButton>
         <a href={mailString}>
           <IconButton color="primary">
-            <Email fontSize="large" />
+            <Email fontSize={iconSize} />
           </IconButton>
         </a>
       </Grid>
     </Grid>
   );
-}
+};
 
 Badges.propTypes = {
   views: PropTypes.number,
   likes: PropTypes.number,
   name: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
-};
-
-Badges.defaultProps = {
-  views: 0,
-  likes: 0,
 };
 
 export default Badges;

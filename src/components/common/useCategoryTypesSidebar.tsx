@@ -154,7 +154,7 @@ const useCategoryTypesSidebar = () => {
         clearSelection={clearSelection}
         categoryType={CATEGORY_TYPES.LANGUAGE}
       />
-      <Divider sx={{ mb: 10 }} />
+      <Divider />
     </>
   );
 

@@ -7,8 +7,8 @@ export const buildEducationLevelOptionId = (index) =>
 export const CLEAR_EDUCATION_LEVEL_SELECTION_ID = 'clearEducationLevelButton';
 export const MENU_BUTTON_ID = 'menuButton';
 export const OPEN_MENU_BUTTON_ID = 'openMenuButton';
-export const buildCollectionCardGridId = (collectionsGridId, index) =>
-  `${collectionsGridId}-collection-${index}`;
+export const buildCollectionCardGridId = (collectionId) =>
+  `collection-${collectionId}`;
 export const buildEducationLevelOptionSelector = (index) =>
   `#${buildEducationLevelOptionId(index)}`;
 export const buildItemInGridSelector = (index) =>
@@ -27,6 +27,7 @@ export const SUMMARY_LANGUAGES_CONTAINER_ID = 'summaryLanguagesContainer';
 export const SUMMARY_CATEGORIES_CONTAINER_ID = 'summaryCategoriesContainer';
 export const SUMMARY_TAGS_CONTAINER_ID = 'summaryTagsContainer';
 export const SUMMARY_CC_LICENSE_CONTAINER_ID = 'summaryCCLicenseContainer';
+export const SUMMARY_CC_LICENSE_NO_LICENSE_ID = 'summaryCCLicenseEmpty';
 export const SUMMARY_CREATED_AT_CONTAINER_ID = 'summaryCreatedAtContainer';
 export const SUMMARY_LAST_UPDATE_CONTAINER_ID = 'summaryLastUpdateContainer';
 export const HOME_SEARCH_ID = 'homeSearch';

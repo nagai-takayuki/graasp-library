@@ -27,7 +27,7 @@ export const PUBLISHED_ITEMS = [
     updatedAt: '2023-02-28T18:20:09.732Z',
     settings: {
       tags: ['one-tag', 'two-tag'],
-      ccLicenseAdaption: 'allow',
+      ccLicenseAdaption: 'CC BY-NC-ND',
       displayCoEditors: true,
     },
     tags: [
@@ -124,6 +124,14 @@ export const PUBLISHED_ITEMS = [
         memberId: MEMBERS.BOB.id,
       },
     ],
+    categories: [
+      {
+        categoryId: SAMPLE_CATEGORIES[1].id,
+      },
+      {
+        categoryId: SAMPLE_CATEGORIES[0].id,
+      },
+    ],
   },
   {
     ...DEFAULT_FOLDER_ITEM,
@@ -171,6 +179,40 @@ export const PUBLISHED_ITEMS = [
       {
         tagId: ITEM_PUBLIC_TAG.id,
         itemPath: 'egafbd2a_5688_11eb_ae93_0242ac130002',
+      },
+    ],
+  },
+  {
+    ...DEFAULT_FOLDER_ITEM,
+    id: 'ecafcc2c-5688-11eb-ae93-0242ac130002',
+    name: 'Item Without Licence',
+    path: 'ecafcc2c_5688_11eb_ae93_0242ac130002',
+    createdAt: '2023-02-27T18:20:09.732Z',
+    updatedAt: '2023-02-28T18:20:09.732Z',
+    creator: MEMBERS.BOB.id,
+    settings: {
+      tags: ['one-tag', 'two-tag'],
+      displayCoEditors: true,
+    },
+    tags: [],
+    memberships: [
+      {
+        itemPath: 'fdf09f5a_5688_11eb_ae93_0242ac130002',
+        permission: PERMISSION_LEVELS.ADMIN,
+        memberId: MEMBERS.ANNA.id,
+      },
+      {
+        itemPath: 'fdf09f5a_5688_11eb_ae93_0242ac130002',
+        permission: PERMISSION_LEVELS.ADMIN,
+        memberId: MEMBERS.BOB.id,
+      },
+    ],
+    categories: [
+      {
+        categoryId: SAMPLE_CATEGORIES[1].id,
+      },
+      {
+        categoryId: SAMPLE_CATEGORIES[0].id,
       },
     ],
   },
@@ -250,7 +292,7 @@ export const GRAASPER_ITEMS = [
     creator: MEMBERS.GRAASPER.id,
     id: 'bdf09f5d-5688-11eb-ae93-0242ac130004',
     name: 'child of public item1',
-    path: 'ecafbd2d_5688_11eb_ae93_0242ac130002.bdf09f5d_5688_11eb_ae93_0242ac130004.bdf09f5a_5688_11eb_ae93_0242ac130004',
+    path: 'ecafbd2d_5688_11eb_ae93_0242ac130002.bdf09f5a_5688_11eb_ae93_0242ac130004.bdf09f5d_5688_11eb_ae93_0242ac130004',
     tags: [
       {
         tagId: ITEM_PUBLISHED_TAG.id,
