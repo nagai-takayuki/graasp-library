@@ -52,7 +52,7 @@ export const useCopyAction = (itemId) => {
     });
   };
 
-  const treeModal = user?.id && (
+  const treeModal = user?.id && itemId && (
     <TreeModal
       title={t(LIBRARY.COPY_BUTTON_MODAL_TITLE)}
       open={showTreeModal}
@@ -76,11 +76,17 @@ const CopyButton = ({ id }) => {
 
   const renderButton = () => {
     if (isCopying) {
-      return <CircularProgress color="primary" size={10} />;
+      return (
+        <CircularProgress
+          id="copyButtonInsideLoader"
+          color="primary"
+          size={10}
+        />
+      );
     }
 
     return (
-      <Tooltip title={t(LIBRARY.COPY_BUTTON_TOOLTIP)}>
+      <Tooltip title={t(LIBRARY.COPY_BUTTON_TOOLTIP)} placement="top">
         <IconButton
           onClick={startCopy}
           aria-label={t(LIBRARY.COPY_BUTTON_TOOLTIP)}

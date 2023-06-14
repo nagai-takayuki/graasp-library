@@ -1,5 +1,7 @@
 module.exports = {
-  experimental: { newNextLinkBehavior: true },
+  experimental: {
+    newNextLinkBehavior: true,
+  },
   productionBrowserSourceMaps: true,
   publicRuntimeConfig: {
     NEXT_PUBLIC_API_HOST: process.env.NEXT_PUBLIC_API_HOST,

@@ -1,24 +1,24 @@
 import getConfig from 'next/config';
-import PropTypes from 'prop-types';
 
 import * as React from 'react';
+import { DehydratedState } from 'react-query';
 
 import { Api, configureQueryClient } from '@graasp/query-client';
 
 import Wrapper from '../src/components/common/Wrapper';
-import Home from '../src/components/home/Home';
-import { PUBLISHED_ITEMS_KEY } from '../src/config/constants';
+import Home from '../src/components/home/NewHome';
 import { QUERY_CLIENT_OPTIONS } from '../src/config/queryClient';
+import { PUBLISHED_ITEMS_KEY } from '../src/config/queryKeys';
 
-const HomePage = ({ dehydratedState }) => (
+const HomePage = ({
+  dehydratedState,
+}: {
+  dehydratedState: DehydratedState;
+}) => (
   <Wrapper dehydratedState={dehydratedState}>
     <Home />
   </Wrapper>
 );
-
-HomePage.propTypes = {
-  dehydratedState: PropTypes.shape({}).isRequired,
-};
 
 export async function getServerSideProps() {
   const { publicRuntimeConfig } = getConfig();
