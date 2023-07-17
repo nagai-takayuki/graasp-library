@@ -1,3 +1,4 @@
+import { DateTime } from 'luxon';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 
@@ -25,8 +26,6 @@ import { QueryClientContext } from '../QueryClientContext';
 import CopyButton from './CopyButton';
 import CopyLinkButton from './CopyLinkButton';
 import DownloadButton from './DownloadButton';
-
-const { DateTime } = require('luxon');
 
 const Thumbnail = dynamic(
   () => import('@graasp/ui').then((mod) => mod.Thumbnail),
@@ -144,7 +143,7 @@ export const FileChildrenCard: React.FC<FileChildrenCardProps> = ({
 }) => {
   const { t } = useTranslation();
 
-  const { name, id } = item;
+  const { name } = item;
 
   const { hooks } = useContext(QueryClientContext);
 
@@ -155,7 +154,7 @@ export const FileChildrenCard: React.FC<FileChildrenCardProps> = ({
 
   const subtext = item.updatedAt
     ? t(LIBRARY.SUMMARY_BROWSE_FILE_UPDATED, {
-        date: DateTime.fromISO(item.updatedAt).toLocaleString(
+        date: DateTime.fromMillis(item.updatedAt.getTime()).toLocaleString(
           DateTime.DATE_FULL,
           { locale: lang },
         ),
@@ -167,7 +166,7 @@ export const FileChildrenCard: React.FC<FileChildrenCardProps> = ({
       thumbnailUrl ? (
         <Thumbnail
           alt={name}
-          id={id}
+          id={item.id}
           url={thumbnailUrl}
           sx={{
             objectFit: 'cover',
