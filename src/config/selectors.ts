@@ -4,7 +4,7 @@ export const SIDEMENU_HEADING_ID = 'sidemenuHeading';
 export const GRAASPER_COLLECTIONS_GRID_ID = 'graasperCollectionsGrid';
 export const buildCategoryOptionId = (index: number) =>
   `categoryOption-${index}`;
-export const CLEAR_EDUCATION_LEVEL_SELECTION_ID = 'clearEducationLevelButton';
+export const CLEAR_FILTER_POPPER_BUTTON_ID = 'clearFilterPopperButton';
 export const MENU_BUTTON_ID = 'menuButton';
 export const OPEN_MENU_BUTTON_ID = 'openMenuButton';
 export const buildCollectionCardGridId = (collectionId: string) =>
@@ -54,7 +54,7 @@ export const buildMyListNavigationTabId = (name: string) => `nav-tab-${name}`;
 
 export const MY_FAVORITES_COLLECTIONS_ID = 'favoriteCollectionsGrid';
 export const MY_LIKES_COLLECTIONS_ID = 'likedCollectionsGrid';
-export const MY_PUBLISHMENTS_COLLECTIONS_ID = 'publishmentCollectionsGrid';
+export const MY_PUBLISHED_COLLECTIONS_ID = 'publishedCollectionsGrid';
 
 export const APP_NAVIGATION_DROP_DOWN_ID = 'appNavigationDropDown';
 

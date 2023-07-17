@@ -2,25 +2,23 @@ import { ErrorBoundary } from '@sentry/react';
 import dynamic from 'next/dynamic';
 import { validate } from 'uuid';
 
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 
 import { Box } from '@mui/material';
 
-import { Context, convertJs } from '@graasp/sdk';
+import { Context } from '@graasp/sdk';
 
 import { DEFAULT_ITEM_IMAGE_PATH } from '../../config/constants';
-import { PUBLISHED_TAG_ID } from '../../config/env';
 import {
   ERROR_INVALID_COLLECTION_ID_CODE,
   ERROR_UNEXPECTED_ERROR_CODE,
 } from '../../config/messages';
-import { PLACEHOLDER_COLLECTION } from '../../utils/collections';
 import { QueryClientContext } from '../QueryClientContext';
 import Error from '../common/Error';
 import Seo from '../common/Seo';
 import useHeader from '../layout/useHeader';
-import Summary from './Summary';
 import UnpublishedItemAlert from './UnpublishedItemAlert';
+import Summary from './summary/Summary';
 
 // todo: get similar collections in same call
 // import SimilarCollections from './SimilarCollections';
@@ -40,33 +38,28 @@ const Collection = ({ id }: Props) => {
     data: collection,
     isLoading: isLoadingItem,
     isError,
-  } = hooks.useItem(id, {
-    placeholderData: convertJs(PLACEHOLDER_COLLECTION),
-  });
-  const {
-    data: member,
-    isError: memberIsError,
-    isLoading: isLoadingMember,
-  } = hooks.useMember(collection?.creator);
+  } = hooks.useItem(id);
   const { data: currentMember } = hooks.useCurrentMember();
-  const { data: likeCount } = hooks.useLikeCount(id || '');
   const { data: tags } = hooks.useItemTags(id);
   const { leftContent, rightContent } = useHeader(id);
+  // get item published
+  const { data: itemPublishEntry } = hooks.useItemPublishedInformation({
+    itemId: id || '',
+  });
 
   // if tags could be fetched then user has at least read access
   const canRead = Boolean(tags);
 
   const canPublish =
-    (collection && currentMember && collection.creator === currentMember.id) ||
+    (collection &&
+      currentMember &&
+      collection.creator?.id === currentMember.id) ||
     false;
-
-  const isPublished =
-    tags?.some((tag) => tag.tagId === PUBLISHED_TAG_ID) || false;
 
   if (!id || !validate(id)) {
     return (
       <Main
-        context={Context.LIBRARY}
+        context={Context.Library}
         headerLeftContent={leftContent}
         headerRightContent={rightContent}
       >
@@ -77,10 +70,10 @@ const Collection = ({ id }: Props) => {
     );
   }
 
-  if (isError || memberIsError) {
+  if (isError) {
     return (
       <Main
-        context={Context.LIBRARY}
+        context={Context.Library}
         headerLeftContent={leftContent}
         headerRightContent={rightContent}
       >
@@ -91,34 +84,31 @@ const Collection = ({ id }: Props) => {
     );
   }
 
-  const isLoading = isLoadingItem || isLoadingMember;
+  const isLoading = isLoadingItem;
 
   const name = collection?.name || '';
+  const parsedDescription = collection?.description || '';
+  const author = collection?.creator?.name || '';
   // todo: handle image
   const imageUrl = DEFAULT_ITEM_IMAGE_PATH;
-
-  const parsedDescription = collection?.description || '';
-
-  // todo: views don't exist
-  const likes = likeCount;
 
   return (
     <ErrorBoundary>
       <Seo
         title={name}
         description={parsedDescription}
-        author={member?.name ?? ''}
+        author={author}
         image={imageUrl}
       />
       <Main
-        context={Context.LIBRARY}
+        context={Context.Library}
         headerLeftContent={leftContent}
         headerRightContent={rightContent}
       >
         <UnpublishedItemAlert
           canRead={canRead}
           canPublish={canPublish}
-          isPublished={isPublished}
+          isPublished={!!itemPublishEntry}
           currentMember={currentMember}
         />
         <Box
@@ -130,11 +120,7 @@ const Collection = ({ id }: Props) => {
           }}
           py={5}
         >
-          <Summary
-            collection={collection}
-            likes={likes}
-            isLoading={isLoading}
-          />
+          <Summary collection={collection} isLoading={isLoading} />
           {/* <Comments comments={comments} members={members} /> */}
         </Box>
       </Main>

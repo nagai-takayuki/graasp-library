@@ -3,16 +3,15 @@ import { useTranslation } from 'react-i18next';
 
 import { Add, Remove } from '@mui/icons-material';
 import { Button, Grow, useMediaQuery, useTheme } from '@mui/material';
-import Box from '@mui/material/Box/Box';
+import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 
+import { ItemType } from '@graasp/sdk';
 import { ItemRecord } from '@graasp/sdk/frontend';
 import { LIBRARY } from '@graasp/translations';
 
-import { ITEM_TYPES } from '../../config/constants';
 import { CHILDREN_ITEMS_GRID_ID } from '../../config/selectors';
-import { PLACEHOLDER_COLLECTIONS } from '../../utils/collections';
 import { QueryClientContext } from '../QueryClientContext';
 import { FileChildrenCard, FolderChildrenCard } from './ChildrenCard';
 
@@ -92,9 +91,8 @@ type ItemsProps = {
 const Items: React.FC<ItemsProps> = ({ parentId, lang, isTopLevel }) => {
   const { t } = useTranslation();
   const { hooks } = useContext(QueryClientContext);
-  const { data: items } = hooks.useChildren(parentId, {
-    placeholderData: PLACEHOLDER_COLLECTIONS,
-  });
+  const { data: items, isLoading: isLoadingChildren } =
+    hooks.useChildren(parentId);
 
   const theme = useTheme();
 
@@ -123,6 +121,8 @@ const Items: React.FC<ItemsProps> = ({ parentId, lang, isTopLevel }) => {
     ? t(LIBRARY.COLLECTION_ITEMS_EMPTY_MESSAGE)
     : t(LIBRARY.COLLECTION_ITEMS_EMPTY_FOLDER_MESSAGE);
 
+  const loadingMessage = t('Loading');
+
   return (
     <div style={{ flexGrow: 1 }}>
       <Typography variant="h6" fontWeight="bold">
@@ -132,14 +132,14 @@ const Items: React.FC<ItemsProps> = ({ parentId, lang, isTopLevel }) => {
       {!items?.size ? (
         <div className="Main">
           <Typography variant="body1" mx={1} color="inherit">
-            {emptyMessage}
+            {isLoadingChildren ? loadingMessage : emptyMessage}
           </Typography>
         </div>
       ) : (
         items.size > 0 && (
           <CollapsibleItemCategory defaultItemCount={itemToShow} items={items}>
             {(item) =>
-              item.type === ITEM_TYPES.FOLDER ? (
+              item.type === ItemType.FOLDER ? (
                 <FolderChildrenCard key={item.id} item={item} />
               ) : (
                 <FileChildrenCard key={item.id} item={item} lang={lang} />

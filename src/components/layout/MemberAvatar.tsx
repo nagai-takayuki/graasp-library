@@ -1,17 +1,17 @@
 import dynamic from 'next/dynamic';
 
 import React, { useContext } from 'react';
+import { useTranslation } from 'react-i18next';
 
-import { Box } from '@mui/material';
+import { Box, SxProps } from '@mui/material';
 
-import { COMMON } from '@graasp/translations';
+import { ThumbnailSize } from '@graasp/sdk';
+import { LIBRARY } from '@graasp/translations';
 
 import {
-  AVATAR_ICON_HEIGHT,
   DEFAULT_MEMBER_THUMBNAIL,
-  THUMBNAIL_SIZES,
+  SMALL_AVATAR_ICON_SIZE,
 } from '../../config/constants';
-import { useCommonTranslation } from '../../config/i18n';
 import { QueryClientContext } from '../QueryClientContext';
 
 const { Avatar } = {
@@ -22,36 +22,48 @@ const { Avatar } = {
 
 type Props = {
   id?: string;
+  memberId?: string;
+  size?: number;
+  sx?: SxProps;
 };
 
 const MemberAvatar = React.forwardRef<HTMLDivElement, Props>(
-  ({ id, ...otherProps }, ref): JSX.Element => {
+  (
+    { id, memberId, size = SMALL_AVATAR_ICON_SIZE, ...otherProps },
+    ref,
+  ): JSX.Element => {
     const { hooks } = useContext(QueryClientContext);
-    const { t } = useCommonTranslation();
+    const { t } = useTranslation();
     const { data: member, isLoading, isFetching } = hooks.useMember(id);
     const {
-      data: thumbnailBlob,
+      data: avatarUrl,
       isLoading: isLoadingAvatar,
       isFetching: isFetchingAvatar,
-    } = hooks.useAvatar({
-      id,
-      size: THUMBNAIL_SIZES.SMALL,
+    } = hooks.useAvatarUrl({
+      id: memberId,
+      size: ThumbnailSize.Small,
     });
 
     return (
       // eslint-disable-next-line react/jsx-props-no-spreading
-      <Box ref={ref} {...otherProps}>
+      <Box id={id} ref={ref} {...otherProps}>
         <Avatar
           isLoading={
             isLoading || isLoadingAvatar || isFetchingAvatar || isFetching
           }
-          alt={member?.name || t(COMMON.AVATAR_DEFAULT_ALT)}
-          defaultImage={DEFAULT_MEMBER_THUMBNAIL}
+          url={avatarUrl ?? DEFAULT_MEMBER_THUMBNAIL}
+          alt={
+            member && avatarUrl
+              ? t(LIBRARY.AVATAR_ALT, { name: member?.name })
+              : ''
+          }
           component="avatar"
-          maxWidth={AVATAR_ICON_HEIGHT}
-          maxHeight={AVATAR_ICON_HEIGHT}
-          blob={thumbnailBlob}
-          sx={{ mx: 1 }}
+          maxWidth={size}
+          maxHeight={size}
+          sx={{
+            maxWidth: size,
+            maxHeight: size,
+          }}
         />
       </Box>
     );
