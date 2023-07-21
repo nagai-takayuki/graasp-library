@@ -57,7 +57,7 @@ jobs:
           tag_name: ${{ steps.release.outputs.tag_name }}
 
   sentry-release:
-    if: ${{ needs.release-please.result == "success" }}
+    if: needs.release-please.result == 'success'
     needs: release-please
     runs-on: ubuntu-latest
     steps:
