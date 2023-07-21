@@ -21,6 +21,7 @@ const GraaspLibraryDocument = ({ emotionStyleTags }: MyDocumentProps) => {
   return (
     <Html lang={DEFAULT_LANG}>
       <Head>
+        <link rel="icon" type="image/svg+xml" href="/graasp.svg" />
         <meta name="theme-color" />
         <link rel="stylesheet" />
         {emotionStyleTags}
@@ -71,7 +72,7 @@ GraaspLibraryDocument.getInitialProps = async (ctx: DocumentContext) => {
       ) =>
         function EnhanceApp(props) {
           // eslint-disable-next-line react/jsx-props-no-spreading
-          return <App {...props} />;
+          return <App emotionCache={cache} {...props} />;
         },
     });
 
