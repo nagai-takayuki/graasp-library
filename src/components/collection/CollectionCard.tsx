@@ -37,7 +37,7 @@ type Props = {
   collection: ItemRecord;
 };
 
-const StyledItemTag = styled(Box)<{ tagColor: string }>(({ tagColor }) => ({
+const StyledItemTag = styled(Box)(({ tagColor }: { tagColor: string }) => ({
   position: 'absolute',
   right: 10,
   top: 10,
@@ -63,6 +63,7 @@ type ItemTagProps = {
 };
 
 const ItemTag: React.FC<ItemTagProps> = ({ createdAt, updatedAt }) => {
+  const { t } = useTranslation();
   const MS_PER_DAY = 1000 * 60 * 60 * 24;
 
   const recentlyUpdated =
@@ -71,7 +72,9 @@ const ItemTag: React.FC<ItemTagProps> = ({ createdAt, updatedAt }) => {
     Date.now() - createdAt.getTime() < RECENT_DAYS * MS_PER_DAY;
 
   const color = recentlyCreated ? '#84F05E' : '#F08D55';
-  const text = recentlyCreated ? 'NEW' : 'UPDATED';
+  const text = recentlyCreated
+    ? t(LIBRARY.COLLECTION_CARD_TAG_NEW)
+    : t(LIBRARY.COLLECTION_CARD_TAG_UPDATED);
 
   if (recentlyCreated || recentlyUpdated) {
     return (

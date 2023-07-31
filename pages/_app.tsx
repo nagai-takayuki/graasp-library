@@ -8,12 +8,13 @@ import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 import ReactGA from 'react-ga4';
 import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import CssBaseline from '@mui/material/CssBaseline';
 
 import { hasAcceptedCookies } from '@graasp/sdk';
 
-import { ENV } from '../src/config/constants';
+import { ENV, UrlSearch } from '../src/config/constants';
 import createEmotionCache from '../src/config/createEmotionCache';
 import { GA_MEASUREMENT_ID, NODE_ENV, SENTRY_DSN } from '../src/config/env';
 import WHITELISTED_ERRORS from '../src/config/errors';
@@ -65,6 +66,14 @@ const GraaspLibraryApp = (props: MyAppProps) => {
     };
 
     router.events.on('routeChangeComplete', handleRouteChange);
+
+    // remove cross domain tracking query params
+    const { pathname, query } = router;
+    const params = new URLSearchParams(query as Record<string, string>);
+    params.delete(UrlSearch.GACrossDomainKey);
+    router.replace({ pathname, query: params.toString() }, undefined, {
+      shallow: true,
+    });
 
     // If the component is unmounted, unsubscribe
     // from the event with the `off` method:

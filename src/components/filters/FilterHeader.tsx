@@ -17,7 +17,7 @@ import {
 
 import { CategoryType } from '@graasp/sdk';
 import { CategoryRecord } from '@graasp/sdk/frontend';
-import { CATEGORIES, LIBRARY, namespaces } from '@graasp/translations';
+import { LIBRARY, namespaces } from '@graasp/translations';
 
 import { GRAASP_COLOR } from '../../config/constants';
 import {
@@ -50,6 +50,7 @@ const Filter: React.FC<FilterProps> = ({
   selectedOptions,
   isLoading,
 }) => {
+  const { t } = useTranslation();
   const [showPopper, setShowPopper] = useState<boolean>(false);
 
   const togglePopper = () => {
@@ -84,7 +85,7 @@ const Filter: React.FC<FilterProps> = ({
       options
         ?.filter((it) => selectedOptions.includes(it.id))
         .map((it) => it.name)
-        .get(0) ?? 'No filter...';
+        .get(0) ?? t(LIBRARY.FILTER_DROPDOWN_NO_FILTER);
     return optionsStr;
   }, [selectedOptions, options]);
 
@@ -162,7 +163,7 @@ const Filter: React.FC<FilterProps> = ({
         ref={popper}
         open={showPopper}
         anchorEl={popperAnchor.current}
-        options={options ?? List()}
+        options={options}
         selectedOptions={selectedOptions}
         onOptionChange={onOptionChange}
         onClearOptions={onClearOptions}
@@ -206,15 +207,19 @@ type Category = {
 
 type FilterHeaderProps = {
   onFiltersChanged: (selectedFilters: string[]) => void;
+  onChangeSearch?: (searchKeywords: string) => void;
   onSearch: (searchKeywords: string) => void;
   searchPreset?: string;
+  categoryPreset?: string[];
   isLoadingResults: boolean;
 };
 
 const FilterHeader: FC<FilterHeaderProps> = ({
   onFiltersChanged,
+  onChangeSearch,
   onSearch,
   searchPreset,
+  categoryPreset,
   isLoadingResults,
 }) => {
   const { t: translateCategories } = useTranslation(namespaces.categories);
@@ -254,6 +259,12 @@ const FilterHeader: FC<FilterHeaderProps> = ({
   //     type: '3f811e5f-5221-4d22-a20c-1086af809bd0',
   //   },
   // ]);
+
+  useEffect(() => {
+    setSelectedFilters(
+      categoryPreset ? categoryPreset.map((f) => f.split(',')).flat() : [],
+    );
+  }, [categoryPreset]);
 
   const groupedByCategories = (filters: string[]): string[] => {
     if (allCategories) {
@@ -322,7 +333,7 @@ const FilterHeader: FC<FilterHeaderProps> = ({
     <Filter
       key={CategoryType.Level}
       category={CategoryType.Level}
-      title={translateCategories(CATEGORIES.EDUCATION_LEVEL)}
+      title={translateCategories(CategoryType.Level)}
       options={levelList}
       selectedOptions={selectedFilters}
       onOptionChange={onFilterChanged}
@@ -332,7 +343,7 @@ const FilterHeader: FC<FilterHeaderProps> = ({
     <Filter
       key={CategoryType.Discipline}
       category={CategoryType.Discipline}
-      title={translateCategories(CATEGORIES.DISCIPLINE)}
+      title={translateCategories(CategoryType.Discipline)}
       options={disciplineList}
       selectedOptions={selectedFilters}
       onOptionChange={onFilterChanged}
@@ -342,7 +353,7 @@ const FilterHeader: FC<FilterHeaderProps> = ({
     <Filter
       key={CategoryType.Language}
       category={CategoryType.Language}
-      title={translateCategories(CATEGORIES.LANGUAGE)}
+      title={translateCategories(CategoryType.Language)}
       options={languageList}
       selectedOptions={selectedFilters}
       onOptionChange={onFilterChanged}
@@ -397,6 +408,7 @@ const FilterHeader: FC<FilterHeaderProps> = ({
         </Typography>
         <Search
           isLoading={isLoadingResults}
+          onChange={onChangeSearch}
           handleClick={onSearch}
           searchPreset={searchPreset}
         />
