@@ -24,7 +24,7 @@
     "postinstall": "husky install",
     "post-commit": "git status",
     "pre-commit": "yarn check",
-    "cypress:open": "env-cmd -f ./.env.test cypress open",
+    "cypress:open": "env-cmd -f ./.env.local cypress open",
     "cypress": "concurrently -k -s first \"yarn start:test\" \"wait-on http://localhost:3005 && yarn cypress:run\"",
     "cypress:run": "env-cmd -f ./.env.test cypress run --headless --browser chrome --spec \"cypress/**/*.(spec|cy).js\""
   },
@@ -35,7 +35,7 @@
     "@emotion/styled": "11.11.0",
     "@graasp/query-client": "1.3.2",
     "@graasp/sdk": "1.1.3",
-    "@graasp/translations": "1.17.2",
+    "@graasp/translations": "1.18.1",
     "@graasp/ui": "3.2.6",
     "@mui/icons-material": "5.14.1",
     "@mui/lab": "5.0.0-alpha.137",
