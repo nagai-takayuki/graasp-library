@@ -99,6 +99,7 @@ export const APP_NAVIGATION_PLATFORM_SWITCH_BUTTON_IDS = {
 export const platformsHostsMap = defaultHostsMapper({
   [Platform.Builder]: HOST_MAP.builder,
   [Platform.Player]: HOST_MAP.player,
+  [Platform.Analytics]: HOST_MAP.analytics,
 });
 
 const StyledLink = styled(Link)(({ theme }) => ({
@@ -129,10 +130,11 @@ export const HeaderNavigation = ({
     },
     [Platform.Library]: {
       id: APP_NAVIGATION_PLATFORM_SWITCH_BUTTON_IDS[Platform.Library],
+      href: '/',
     },
     [Platform.Analytics]: {
       id: APP_NAVIGATION_PLATFORM_SWITCH_BUTTON_IDS[Platform.Analytics],
-      disabled: true,
+      ...getNavigationEvents(Platform.Analytics),
     },
   };
   const theme = useTheme();
