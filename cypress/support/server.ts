@@ -4,6 +4,7 @@ import { v4 } from 'uuid';
 import { API_ROUTES } from '@graasp/query-client';
 import {
   Category,
+  HttpMethod,
   ItemTagType,
   PermissionLevel,
   buildPathFromIds,
@@ -11,6 +12,7 @@ import {
 } from '@graasp/sdk';
 import { FAILURE_MESSAGES } from '@graasp/translations';
 
+import { builderMeilisearchResults } from '../fixtures/items';
 import {
   MockItem,
   MockItemCategory,
@@ -39,7 +41,7 @@ const {
   buildGetMembersRoute,
   buildGetCategoriesRoute,
   GET_OWN_ITEMS_ROUTE,
-  buildGetItemsByKeywordRoute,
+  SEARCH_PUBLISHED_ITEMS_ROUTE,
 } = API_ROUTES;
 
 const API_HOST = Cypress.env('API_HOST');
@@ -65,38 +67,6 @@ export const redirectionReply = {
   headers: { 'content-type': 'application/json' },
   statusCode: StatusCodes.OK,
   body: null,
-};
-
-export const mockGetAllPublishedItems = (
-  { items }: { items: MockItem[] },
-  shouldThrowError: boolean,
-) => {
-  cy.intercept(
-    {
-      method: DEFAULT_GET.method,
-      url: new RegExp(`${API_HOST}/${ITEMS_ROUTE}/collections`),
-    },
-    ({ reply, url }) => {
-      if (shouldThrowError) {
-        return reply({ statusCode: StatusCodes.BAD_REQUEST, body: null });
-      }
-      const categoryIds = new URLSearchParams(new URL(url).search).getAll(
-        'categoryId',
-      );
-
-      // this does not account for the OR and AND syntax
-      const publishedItems = getRootPublishedItems(items);
-      const result = publishedItems.filter(({ categories }) => {
-        if (categoryIds.length) {
-          return categories?.some(({ category }) =>
-            categoryIds.includes(category.id),
-          );
-        }
-        return true;
-      });
-      return reply(result);
-    },
-  ).as('getAllPublishedItems');
 };
 
 export const mockGetOwnItems = ({
@@ -221,10 +191,7 @@ export const mockGetItem = (
   ).as('getItem');
 };
 
-export const mockGetItemTags = (
-  { tags }: { tags: any[] },
-  shouldThrowError: boolean,
-) => {
+export const mockGetItemTags = (shouldThrowError: boolean) => {
   cy.intercept(
     {
       method: DEFAULT_GET.method,
@@ -235,8 +202,13 @@ export const mockGetItemTags = (
         return reply({ statusCode: StatusCodes.UNAUTHORIZED, body: null });
       }
 
+      const ITEM_PUBLIC_TAG = {
+        id: 'public-tag-id',
+        name: 'public-item',
+      };
+
       return reply({
-        body: tags,
+        body: [ITEM_PUBLIC_TAG],
         statusCode: StatusCodes.OK,
       });
     },
@@ -545,18 +517,23 @@ export const mockSearch = (
 ) => {
   cy.intercept(
     {
-      method: DEFAULT_GET.method,
-      url: new RegExp(`${API_HOST}/${buildGetItemsByKeywordRoute({})}`),
+      method: HttpMethod.POST,
+      url: new RegExp(`${API_HOST}/${SEARCH_PUBLISHED_ITEMS_ROUTE}`),
     },
-    ({ reply }) => {
+    ({ reply, body }) => {
       if (shouldThrowError) {
         return reply({
           statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
           body: null,
         });
       }
+      if (body.queries[0].filter?.includes('isPublishedRoot = true')) {
+        return reply(
+          builderMeilisearchResults(getRootPublishedItems(searchResultItems)),
+        );
+      }
 
-      return reply(searchResultItems);
+      return reply(builderMeilisearchResults(searchResultItems));
     },
   ).as('search');
 };

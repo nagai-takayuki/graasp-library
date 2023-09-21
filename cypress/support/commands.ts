@@ -1,10 +1,8 @@
 import { SAMPLE_CATEGORIES } from '../fixtures/categories';
 import { ITEM_LIKES } from '../fixtures/itemLikes';
-import { DEFAULT_TAGS } from '../fixtures/itemTags';
 import { PUBLISHED_ITEMS } from '../fixtures/items';
 import { MEMBERS } from '../fixtures/members';
 import {
-  mockGetAllPublishedItems,
   mockGetAvatarUrl,
   mockGetCategories,
   mockGetChildren,
@@ -40,12 +38,8 @@ Cypress.Commands.add(
     getItemError = false,
     getTagsError = false,
     getItemThumbnailError = false,
-    getPublishedItemsInCategoriesError = false,
-    tags = DEFAULT_TAGS,
   } = {}) => {
     const cachedMembers = JSON.parse(JSON.stringify(members));
-
-    mockGetAllPublishedItems({ items }, getPublishedItemsInCategoriesError);
 
     mockGetOwnItems({ items, currentMember });
 
@@ -59,7 +53,7 @@ Cypress.Commands.add(
 
     mockGetItem({ items, currentMember }, getItemError);
 
-    mockGetItemTags({ tags }, getTagsError);
+    mockGetItemTags(getTagsError);
 
     mockGetAvatarUrl({ members, currentMember });
 

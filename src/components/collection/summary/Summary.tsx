@@ -1,7 +1,6 @@
 import truncate from 'lodash.truncate';
 
 import React, { useContext } from 'react';
-import { useTranslation } from 'react-i18next';
 
 import { Stack, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
@@ -15,6 +14,7 @@ import {
   ITEM_TYPES,
   MAX_COLLECTION_NAME_LENGTH,
 } from '../../../config/constants';
+import { useLibraryTranslation } from '../../../config/i18n';
 import { QueryClientContext } from '../../QueryClientContext';
 import BackButton from '../../common/BackButton';
 import ItemBreadcrumb from '../ItemBreadcrumb';
@@ -50,15 +50,10 @@ export const getParentsIdsFromPath = (
 type SummaryProps = {
   collection?: ItemRecord;
   isLoading: boolean;
-  views?: number;
 };
 
-const Summary: React.FC<SummaryProps> = ({
-  collection,
-  views = 0,
-  isLoading,
-}) => {
-  const { t } = useTranslation();
+const Summary: React.FC<SummaryProps> = ({ collection, isLoading }) => {
+  const { t } = useLibraryTranslation();
   const { hooks } = useContext(QueryClientContext);
   const { data: member } = hooks.useCurrentMember();
 
@@ -103,7 +98,6 @@ const Summary: React.FC<SummaryProps> = ({
         isLoading={isLoading}
         tags={collection?.settings?.tags}
         truncatedName={truncatedName}
-        views={views}
       />
       {collection?.type === ITEM_TYPES.FOLDER && (
         <>

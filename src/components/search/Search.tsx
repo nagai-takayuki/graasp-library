@@ -1,27 +1,27 @@
 import React, { forwardRef, useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 
 import SearchIcon from '@mui/icons-material/Search';
 import { Divider, IconButton, InputBase, Paper } from '@mui/material';
 
-import { LIBRARY } from '@graasp/translations';
-
+import { useLibraryTranslation } from '../../config/i18n';
 import { HOME_SEARCH_BUTTON_ID, HOME_SEARCH_ID } from '../../config/selectors';
+import LIBRARY from '../../langs/constants';
 
 type SearchProps = {
   searchPreset?: string;
   onChange?: (input: string) => void;
   handleClick: (input: string) => void;
   isLoading: boolean;
+  setIsFocused?: (value: boolean) => void;
 };
 
 const Search = forwardRef<HTMLDivElement, SearchProps>(function Search(
-  { searchPreset, onChange, handleClick, isLoading },
+  { searchPreset, onChange, handleClick, isLoading, setIsFocused },
   ref,
 ) {
   const [searchInput, setSearchInput] = useState(searchPreset || '');
 
-  const { t } = useTranslation();
+  const { t } = useLibraryTranslation();
 
   useEffect(() => {
     if (searchPreset !== undefined) {
@@ -34,7 +34,7 @@ const Search = forwardRef<HTMLDivElement, SearchProps>(function Search(
   ) => {
     const newValue = event.target.value;
     setSearchInput(newValue);
-    onChange?.(newValue);
+    onChange?.(newValue.trim().toLowerCase());
   };
 
   const handleSearch = () => {
@@ -45,7 +45,7 @@ const Search = forwardRef<HTMLDivElement, SearchProps>(function Search(
     event: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     if (event.code === 'Enter') {
-      handleClick(searchInput);
+      handleClick(searchInput.trim().toLowerCase());
     }
   };
 
@@ -67,11 +67,9 @@ const Search = forwardRef<HTMLDivElement, SearchProps>(function Search(
           boxShadow: '0px 0px 30px 2px #5050d230',
         },
       }}
-      ref={ref}
     >
       <InputBase
         // search on click
-        // onKeyUp={handleSearch}
         value={searchInput}
         id={HOME_SEARCH_ID}
         disabled={isLoading}
@@ -82,8 +80,10 @@ const Search = forwardRef<HTMLDivElement, SearchProps>(function Search(
         inputProps={{
           'aria-label': LIBRARY.SEARCH_ARIA_LABEL,
         }}
+        ref={ref}
         onChange={handleChange}
         onKeyDown={handleSearchOnClick}
+        onFocus={() => setIsFocused?.(true)}
       />
       <Divider sx={{ m: 1 }} orientation="vertical" />
       <IconButton

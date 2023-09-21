@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useTranslation } from 'react-i18next';
 
 import { Code, CopyAll, Download, MoreVert } from '@mui/icons-material';
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
@@ -14,9 +13,10 @@ import {
 } from '@mui/material';
 
 import { ItemRecord } from '@graasp/sdk/frontend';
-import { LIBRARY } from '@graasp/translations';
 
+import { useLibraryTranslation } from '../../../config/i18n';
 import { buildPlayerViewItemRoute } from '../../../config/paths';
+import LIBRARY from '../../../langs/constants';
 import { openInNewTab } from '../../../utils/helpers';
 import { useCopyAction } from '../CopyButton';
 import { useEmbedAction } from '../CopyLinkButton';
@@ -36,13 +36,13 @@ const SummaryActionButtons: React.FC<SummaryActionButtonsProps> = ({
   item,
   isLogged,
 }) => {
-  const { t } = useTranslation();
+  const { t } = useLibraryTranslation();
 
   const { isCopying, startCopy, treeModal } = useCopyAction(item?.id);
 
   const { startDownload } = useDownloadAction(item?.id);
 
-  const { startEmbed } = useEmbedAction(item);
+  const { startEmbed } = useEmbedAction(item?.id);
 
   const [open, setOpen] = useState(false);
   const anchorRef = React.useRef<HTMLDivElement>(null);
