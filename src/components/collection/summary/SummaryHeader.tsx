@@ -2,7 +2,7 @@ import dynamic from 'next/dynamic';
 
 import React, { useContext } from 'react';
 
-import { Favorite } from '@mui/icons-material';
+import { Favorite, Visibility } from '@mui/icons-material';
 import { Skeleton } from '@mui/lab';
 import {
   Alert,
@@ -19,7 +19,6 @@ import {
 import { ThumbnailSize } from '@graasp/sdk';
 import { ItemLikeRecord, ItemRecord } from '@graasp/sdk/frontend';
 
-import { GRAASP_COLOR } from '../../../config/constants';
 import { useLibraryTranslation } from '../../../config/i18n';
 import {
   ITEM_SUMMARY_TITLE_ID,
@@ -48,6 +47,7 @@ type SummaryHeaderProps = {
   truncatedName: string;
   tags: Immutable.List<string> | undefined;
   isLogged: boolean;
+  totalViews: number;
 };
 
 const SummaryHeader: React.FC<SummaryHeaderProps> = ({
@@ -56,6 +56,7 @@ const SummaryHeader: React.FC<SummaryHeaderProps> = ({
   isLoading,
   truncatedName,
   tags,
+  totalViews,
 }) => {
   const { t } = useLibraryTranslation();
 
@@ -211,30 +212,28 @@ const SummaryHeader: React.FC<SummaryHeaderProps> = ({
               divider={
                 <Divider
                   flexItem
-                  sx={{
-                    alignSelf: 'center',
-                    color: GRAASP_COLOR,
-                    fontWeight: 'bold',
-                  }}
-                >
-                  {String.fromCharCode(183)}
-                </Divider>
+                  variant="middle"
+                  orientation="vertical"
+                  sx={{ margin: 1 }}
+                />
               }
             >
-              {/* turn on again when endpoint exists */}
-              {/* <Tooltip title="Views" arrow placement="bottom">
-                <Stack direction="row" alignItems="center">
-                  <Typography
-                    fontWeight="bold"
-                    display="flex"
-                    alignItems="center"
-                    color="primary"
-                  >
-                    {views}
-                  </Typography>
-                  <Visibility color="primary" style={{ marginLeft: 5 }} />
-                </Stack>
-              </Tooltip> */}
+              {/* display only when there's a views */}
+              {totalViews ? (
+                <Tooltip title="Views" arrow placement="bottom">
+                  <Stack direction="row" alignItems="center">
+                    <Typography
+                      fontWeight="bold"
+                      display="flex"
+                      alignItems="center"
+                      color="primary"
+                    >
+                      {totalViews}
+                    </Typography>
+                    <Visibility color="primary" style={{ marginLeft: 5 }} />
+                  </Stack>
+                </Tooltip>
+              ) : null}
               <Tooltip title="Likes" arrow placement="bottom">
                 <Stack direction="row" alignItems="center">
                   <Typography
