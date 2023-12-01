@@ -4,3 +4,5 @@ export const HOME_ROUTE = '/';
 export const ALL_COLLECTIONS_ROUTE = '/all-collections';
 export const MY_LIKED_ITEMS_ROUTE = '/liked';
 export const ERROR_ROUTE = '/error';
+
+export const buildMemberRoute = (id = ':id') => `/members/${id}`;

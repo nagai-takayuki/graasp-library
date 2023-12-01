@@ -1,4 +1,5 @@
 import dynamic from 'next/dynamic';
+import Link from 'next/link';
 
 import React, { useContext } from 'react';
 
@@ -9,6 +10,7 @@ import { DiscriminatedItem, PermissionLevel, ThumbnailSize } from '@graasp/sdk';
 
 import { DEFAULT_MEMBER_THUMBNAIL } from '../../config/constants';
 import { useLibraryTranslation } from '../../config/i18n';
+import { buildMemberRoute } from '../../config/routes';
 import { SUMMARY_AUTHOR_CONTAINER_ID } from '../../config/selectors';
 import LIBRARY from '../../langs/constants';
 import { QueryClientContext } from '../QueryClientContext';
@@ -63,7 +65,13 @@ const Authorship = ({ itemId, author, displayCoEditors }: Props) => {
               variant="circular"
               sx={{ maxWidth: 30, maxHeight: 30 }}
             />
-            <Typography variant="body1">{author?.name}</Typography>
+            <Typography
+              component={Link}
+              href={buildMemberRoute(author.id)}
+              variant="body1"
+            >
+              {author?.name}
+            </Typography>
           </>
         )}
       </Stack>
