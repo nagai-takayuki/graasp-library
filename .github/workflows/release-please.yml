@@ -1,11 +1,10 @@
 # Automate releases of new app versions
-name: release-please
+name: Release new app version
 
 on:
   push:
     branches:
       - main
-      - master
 
 jobs:
   release-please:
@@ -13,26 +12,16 @@ jobs:
     outputs:
       tag_name: ${{ steps.release.outputs.tag_name }}
     steps:
-      - uses: google-github-actions/release-please-action@v3
+      - uses: google-github-actions/release-please-action@v4
         id: release
         with:
           release-type: node
-          package-name: graasp-library
-          changelog-types: '[{"type":"feat","section":"Features","hidden":false},{"type":"fix","section":"Bug Fixes","hidden":false},{"type":"docs","section":"Documentation","hidden":false},{"type":"test","section":"Tests","hidden":false}]'
 
-      - uses: actions/checkout@v3
-
-      # creates minor and major tags that follow the latest release
-      - name: Tag major and minor versions
-        uses: jacobsvante/tag-major-minor-action@v0.1
-        if: ${{ steps.release.outputs.releases_created }}
-        with:
-          major: ${{ steps.release.outputs.major }}
-          minor: ${{ steps.release.outputs.minor }}
+      - uses: actions/checkout@v4
 
       # put created tag in an env variable to be sent to the dispatch
       - name: Set tag
-        if: ${{ steps.release.outputs.releases_created }}
+        if: ${{ steps.release.outputs.releases_created == "true" }}
         id: set-tag
         run: |
           REPOSITORY=$(echo '${{ github.repository }}')
@@ -42,7 +31,7 @@ jobs:
 
       # Trigger an 'on: repository_dispatch' workflow to run in graasp-deploy repository
       - name: Push tag to Graasp Deploy (Staging)
-        if: ${{ steps.release.outputs.releases_created }}
+        if: ${{ steps.release.outputs.releases_created == "true" }}
         uses: peter-evans/repository-dispatch@v2
         with:
           token: ${{ secrets.REPO_ACCESS_TOKEN }}
@@ -57,7 +46,7 @@ jobs:
           tag_name: ${{ steps.release.outputs.tag_name }}
 
   sentry-release:
-    if: needs.release-please.result == 'success'
+    if: needs.release-please.result == 'success' && needs.release-please.outputs.tag_name != ''
     needs: release-please
     runs-on: ubuntu-latest
     steps:
