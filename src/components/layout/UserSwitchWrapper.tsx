@@ -3,13 +3,14 @@ import dynamic from 'next/dynamic';
 import { FC, useContext } from 'react';
 
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import LocalLibraryIcon from '@mui/icons-material/LocalLibrary';
 import Box from '@mui/material/Box';
 
 import { MEMBER_AVATAR_ICON_SIZE } from '../../config/constants';
 import { GRAASP_ACCOUNT_HOST } from '../../config/env';
 import { useLibraryTranslation } from '../../config/i18n';
 import { SIGN_IN_ROUTE } from '../../config/paths';
-import { MY_LIKED_ITEMS_ROUTE } from '../../config/routes';
+import { MY_LIKED_ITEMS_ROUTE, buildMemberRoute } from '../../config/routes';
 import LIBRARY from '../../langs/constants';
 import { QueryClientContext } from '../QueryClientContext';
 import MemberAvatar from './MemberAvatar';
@@ -32,6 +33,11 @@ const UserSwitchWrapper: FC<Props> = ({ ButtonContent }) => {
   const { t } = useLibraryTranslation();
 
   const userItems = [
+    {
+      icon: <LocalLibraryIcon fontSize="large" />,
+      text: t(LIBRARY.PUBLIC_PROFILE),
+      redirect_path: buildMemberRoute(member?.id),
+    },
     {
       icon: <FavoriteIcon fontSize="large" />,
       text: t(LIBRARY.LIKED_ITEMS),
