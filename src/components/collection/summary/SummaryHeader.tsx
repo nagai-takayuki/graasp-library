@@ -1,16 +1,16 @@
-import dynamic from 'next/dynamic';
+import truncate from 'lodash.truncate';
 import Link from 'next/link';
 
 import React, { useContext } from 'react';
 
 import { Favorite, Visibility } from '@mui/icons-material';
-import { Skeleton } from '@mui/lab';
 import {
   Alert,
   Box,
   Chip,
   Container,
   Divider,
+  Skeleton,
   Snackbar,
   Stack,
   Tooltip,
@@ -18,8 +18,12 @@ import {
 } from '@mui/material';
 
 import { DiscriminatedItem, ThumbnailSize } from '@graasp/sdk';
+import { LikeButton } from '@graasp/ui';
 
-import { UrlSearch } from '../../../config/constants';
+import {
+  MAX_COLLECTION_NAME_LENGTH,
+  UrlSearch,
+} from '../../../config/constants';
 import { useLibraryTranslation } from '../../../config/i18n';
 import { ALL_COLLECTIONS_ROUTE } from '../../../config/routes';
 import {
@@ -36,17 +40,9 @@ import Badges from '../Badges';
 import SummaryActionButtons from './SummaryActionButtons';
 import Description from './SummaryDescription';
 
-const { LikeButton } = {
-  LikeButton: dynamic(
-    () => import('@graasp/ui').then((mod) => mod.LikeButton),
-    { ssr: false },
-  ),
-};
-
 type SummaryHeaderProps = {
   collection?: DiscriminatedItem;
   isLoading: boolean;
-  truncatedName: string;
   tags?: string[];
   isLogged: boolean;
   totalViews: number;
@@ -56,7 +52,6 @@ const SummaryHeader: React.FC<SummaryHeaderProps> = ({
   collection,
   isLogged,
   isLoading,
-  truncatedName,
   tags,
   totalViews,
 }) => {
@@ -83,7 +78,7 @@ const SummaryHeader: React.FC<SummaryHeaderProps> = ({
   };
 
   const handleCloseSnackBarMessage = (
-    event: React.SyntheticEvent | Event,
+    _event: React.SyntheticEvent | Event,
     reason?: string,
   ) => {
     if (reason === 'clickaway') {
@@ -121,6 +116,11 @@ const SummaryHeader: React.FC<SummaryHeaderProps> = ({
       memberId: member.id,
     });
   };
+
+  const truncatedName = truncate(collection?.name, {
+    length: MAX_COLLECTION_NAME_LENGTH,
+    separator: /,? +/,
+  });
 
   return (
     <Container maxWidth="lg">
@@ -162,20 +162,30 @@ const SummaryHeader: React.FC<SummaryHeaderProps> = ({
           >
             <Stack direction="row" alignItems="center" spacing={1} minWidth={0}>
               <Typography
-                variant="h1"
+                variant="h3"
+                component="h1"
                 noWrap
-                fontSize={{ xs: '1.7em', sm: '2em' }}
                 id={ITEM_SUMMARY_TITLE_ID}
               >
-                {truncatedName}
+                {isLoading ? <Skeleton width="10ch" /> : truncatedName}
               </Typography>
-              <LikeButton
-                ariaLabel="like"
-                color="primary"
-                isLiked={Boolean(likeEntry)}
-                handleLike={handleLike}
-                handleUnlike={handleUnlike}
-              />
+              {isLoading ? (
+                <Skeleton variant="circular">
+                  <LikeButton
+                    ariaLabel=""
+                    handleLike={() => null}
+                    handleUnlike={() => null}
+                  />
+                </Skeleton>
+              ) : (
+                <LikeButton
+                  ariaLabel="like"
+                  color="primary"
+                  isLiked={Boolean(likeEntry)}
+                  handleLike={handleLike}
+                  handleUnlike={handleUnlike}
+                />
+              )}
             </Stack>
             <SummaryActionButtons item={collection} isLogged={isLogged} />
           </Stack>
