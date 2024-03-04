@@ -16,13 +16,19 @@ export const ITEM_SUMMARY_TITLE_ID = 'summaryTitle';
 export const CHILDREN_ITEMS_GRID_ID = 'childrenItemsGrid';
 export const ALL_COLLECTIONS_HEADER_ID = 'allCollectionsHeader';
 export const ALL_COLLECTIONS_TITLE_ID = 'allCollectionsTitle';
+export const MEMBER_COLLECTION_ID = 'memberCollectionId';
+
+export const HEADER_GRAASP_LOGO_LINK_ID = 'headerGraaspLogo';
 export const HEADER_GRAASP_LIBRARY_ID = 'headerGraaspLibrary';
 export const HEADER_MY_LIST_ID = 'headerMyList';
+export const HEADER_NAVIGATION_PLATFORM_SWITCH_ID =
+  'headerNavigationPlatformSwitch';
+
+export const USER_SWITCH_BUTTON_ID = 'userSwitch';
 
 export const SECTION_TITLE_ID = 'sectionTitleId';
 export const GRAASP_SELECTION_TITLE_ID = 'graaspSelectionTitleId';
-export const DISCOVER_SECTION_TITLE_ID = 'discoverSectionTitleId';
-export const POPULAR_THIS_WEEK_TITLE_ID = 'popularSectionTitleId';
+export const RECENT_PUBLICATIONS_TITLE_ID = 'recentSectionTitleId';
 export const MOST_LIKED_TITLE_ID = 'mostLikedSectionTitleId';
 export const WRAPPER_SCROLLABLE_PAGE_BODY_ID = 'wrapperContentPageBody';
 
@@ -71,3 +77,14 @@ export const SEARCH_RESULTS_SHOW_MORE_BUTTON = 'searchResultsShowMoreButton';
 export const SEARCH_ERROR_MESSAGE_ID = 'searchErrorMessage';
 
 export const LIKE_COLLECTION_NOT_LOGGED_ID = 'likeCollectionLoginMessage';
+
+export const SEARCH_ALL_COLLECTIONS_DRAWER_ITEM_ID =
+  'searchAllCollectionsDrawerItemId';
+export const GRAASPER_SELECTION_DRAWER_ITEM_ID =
+  'graasperSelectionDrawerItemId';
+export const MOST_LIKED_COLLECTIONS_DRAWER_ITEM_ID =
+  'mostLikedCollectionsDrawerItemId';
+export const RECENT_COLLECTIONS_DRAWER_ITEM_ID =
+  'recentCollectionsDrawerItemId';
+export const MY_PUBLICATIONS_DRAWER_ITEM_ID = 'myPublicationsDrawerItemId';
+export const LIKED_COLLECTIONS_DRAWER_ITEM_ID = 'likedCollectionsDrawerItemId';
