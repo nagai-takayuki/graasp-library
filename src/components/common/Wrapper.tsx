@@ -8,11 +8,11 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import { Box, Stack, SxProps } from '@mui/material';
 
+import { BACKGROUND_COLOR } from '../../config/constants';
 import { useLibraryTranslation } from '../../config/i18n';
 import { WRAPPER_SCROLLABLE_PAGE_BODY_ID } from '../../config/selectors';
 import LIBRARY from '../../langs/constants';
 import { QueryClientProvider } from '../QueryClientContext';
-import Footer from '../layout/Footer';
 import TranslationWrapper from './TranslationWrapper';
 
 const Content = ({ children }: { children: JSX.Element }) => {
@@ -31,7 +31,7 @@ const Wrapper = ({
   dehydratedState,
   children,
   sx,
-  bgcolor = 'rgb(248, 247, 254)',
+  bgcolor = BACKGROUND_COLOR,
 }: {
   children: JSX.Element;
   dehydratedState: DehydratedState;
@@ -50,7 +50,6 @@ const Wrapper = ({
           <Box flexGrow={1} bgcolor={bgcolor} sx={sx}>
             <Content>{children}</Content>
           </Box>
-          <Footer />
         </TranslationWrapper>
       </QueryClientProvider>
     </Stack>
