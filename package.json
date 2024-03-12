@@ -33,10 +33,10 @@
     "@emotion/react": "11.11.4",
     "@emotion/server": "11.11.0",
     "@emotion/styled": "11.11.0",
-    "@graasp/query-client": "github:graasp/graasp-query-client#allow-undefined-in-published-info-hook",
+    "@graasp/query-client": "2.9.0",
     "@graasp/sdk": "4.1.0",
     "@graasp/translations": "1.25.2",
-    "@graasp/ui": "4.9.1",
+    "@graasp/ui": "4.9.2",
     "@mui/icons-material": "5.15.12",
     "@mui/lab": "5.0.0-alpha.140",
     "@mui/material": "5.15.12",
@@ -70,8 +70,8 @@
     "uuid": "9.0.1"
   },
   "devDependencies": {
-    "@commitlint/cli": "19.0.3",
-    "@commitlint/config-conventional": "19.0.3",
+    "@commitlint/cli": "19.1.0",
+    "@commitlint/config-conventional": "19.1.0",
     "@cypress/code-coverage": "3.12.29",
     "@types/katex": "^0.16.7",
     "@types/lodash.groupby": "4.6.9",
