@@ -30,7 +30,8 @@ jobs:
       aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_DEV }}
       aws-region: ${{ secrets.AWS_REGION_DEV }}
       aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_DEV }}
-      container-name-library: ${{ secrets.CONTAINER_NAME_GRAASP_EXPLORE_DEV }}
+#      container-name-library: ${{ secrets.CONTAINER_NAME_GRAASP_EXPLORE_DEV }}
+      container-name-library: graasp-library
       ecr-repository: ${{ secrets.ECR_REPOSITORY_GRAASP_EXPLORE_DEV }}
       ecs-cluster: ${{ secrets.ECS_CLUSTER_GRAASP_EXPLORE_DEV }}
       ecs-service: ${{ secrets.ECS_SERVICE_GRAASP_EXPLORE_DEV }}
